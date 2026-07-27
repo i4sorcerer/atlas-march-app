@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>双语航天科普资源库 · 参考素材清单</title>
+  <link rel="stylesheet" href="resources.css">
+</head>
+<body>
+
+  <!-- 火箭分类统一顶部导航 -->
+  <header class="site-head">
+    <div class="catnav">
+      <div class="brand">🚀 火箭</div>
+      <div class="links">
+        <a href="cz10.html">🛰 长征十号</a>
+        <a href="resources.html" class="active">📚 参考资源库</a>
+      </div>
+    </div>
+    <nav class="topnav">
+      <div class="nav-tabs" id="navTabs">
+        <button class="tab-btn active" data-tab="videos">🎬 视频创作者</button>
+        <button class="tab-btn" data-tab="docs">🎞 纪录片</button>
+        <button class="tab-btn" data-tab="podcasts">🎧 播客</button>
+        <button class="tab-btn" data-tab="guide">🧭 选用指引</button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1>🚀 双语航天科普资源清单</h1>
+    <p class="subtitle">火箭 / 航天器拆解相关 · 仅收录自带中英字幕、术语标准的优质素材</p>
+    <div class="hero-stat" id="heroStat"><!-- JS 注入 --></div>
+  </header>
+
+  <!-- 搜索 -->
+  <div class="search-wrap">
+    <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜索名称 / 标签 / 主题，如：长征、可回收、SLS…">
+  </div>
+
+  <main class="container">
+
+    <!-- 一、视频创作者 -->
+    <section class="section" id="sec-videos" data-tab-panel="videos">
+      <div class="section-head">
+        <h2>🎬 双语视频创作者</h2>
+        <span class="section-tag">B站 + YouTube · 自带中英字幕</span>
+      </div>
+      <p class="section-intro">深度拆解火箭结构、发动机与发射流程，术语标准，适合作为 App 双语文案与可视化设计的参考源。</p>
+      <div class="grid" id="grid-videos"><!-- JS 注入 --></div>
+    </section>
+
+    <!-- 二、纪录片 -->
+    <section class="section hidden" id="sec-docs" data-tab-panel="docs">
+      <div class="section-head">
+        <h2>🎞 双语航天纪录片</h2>
+        <span class="section-tag">官方中英字幕</span>
+      </div>
+      <p class="section-intro">对标重型 / 可回收火箭与探月工程，实拍与动画结合，数据权威。</p>
+
+      <div class="subgroup">
+        <div class="subgroup-title">🇨🇳 国产（长征 / 天宫 / 探月专题）</div>
+        <div class="grid" id="grid-docs-domestic"><!-- JS 注入 --></div>
+      </div>
+      <div class="subgroup">
+        <div class="subgroup-title">🌍 海外（双语译制 · 对标重型/可回收火箭）</div>
+        <div class="grid" id="grid-docs-overseas"><!-- JS 注入 --></div>
+      </div>
+    </section>
+
+    <!-- 三、播客 -->
+    <section class="section hidden" id="sec-podcasts" data-tab-panel="podcasts">
+      <div class="section-head">
+        <h2>🎧 播客资源</h2>
+        <span class="section-tag">分国内中文 / 海外英文</span>
+      </div>
+      <p class="section-intro">适配双语对照学习，积累航天标准英文词汇与叙事素材。</p>
+
+      <div class="subgroup">
+        <div class="subgroup-title">🇨🇳 国内中文（文稿附航天英文词汇注释）</div>
+        <div class="grid" id="grid-podcasts-cn"><!-- JS 注入 --></div>
+      </div>
+      <div class="subgroup">
+        <div class="subgroup-title">🌍 海外英文（Spotify / Apple Podcast）</div>
+        <div class="grid" id="grid-podcasts-en"><!-- JS 注入 --></div>
+      </div>
+    </section>
+
+    <!-- 四、选用指引 -->
+    <section class="section hidden" id="sec-guide" data-tab-panel="guide">
+      <div class="section-head">
+        <h2>🧭 资源选用指引</h2>
+        <span class="section-tag">按场景快速定位</span>
+      </div>
+      <p class="section-intro">不同需求该优先翻哪份素材，一图速查。</p>
+      <div class="guide-list" id="guide-list"><!-- JS 注入 --></div>
+    </section>
+
+    <div class="empty hidden" id="emptyState">🛰️ 没有匹配的资源，换个关键词试试～</div>
+
+  </main>
+
+  <footer class="footer">
+    <p>🚀 双语航天科普资源库 · 参考素材清单</p>
+    <p>数据基于公开平台整理 <span class="sep">|</span> 维护方式：编辑 resources-data.js 后刷新页面</p>
+  </footer>
+
+  <script src="resources-data.js"></script>
+  <script src="resources.js"></script>
+</body>
+</html>

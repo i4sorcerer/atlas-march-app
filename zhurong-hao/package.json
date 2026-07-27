@@ -1,0 +1,12 @@
+{
+  "name": "zhurong-hao",
+  "version": "1.0.0",
+  "description": "给5岁小朋友的祝融号火星车科普互动网站（可爱画风 + 动态模拟）",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["kids", "science", "mars", "zhurong", "education"],
+  "license": "MIT"
+}

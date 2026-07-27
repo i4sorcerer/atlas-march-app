@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>祝融号小火星车 · 给小朋友的太空探险</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka+One&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- 星空背景 Canvas -->
+  <canvas id="starfield"></canvas>
+
+  <!-- 顶部小导航 -->
+  <nav class="topbar">
+    <span class="logo">🔥 祝融号</span>
+    <div class="nav-links">
+      <a href="#hero">出发</a>
+      <a href="#who">它是谁</a>
+      <a href="#journey">去火星</a>
+      <a href="#explore">拆开看</a>
+      <a href="#drive">开一开</a>
+      <a href="#quiz">小问答</a>
+    </div>
+  </nav>
+
+  <!-- 1. Hero 区 -->
+  <header id="hero" class="hero">
+    <div class="hero-inner">
+      <div class="hero-rover" id="heroRover">🛸</div>
+      <h1 class="hero-title">祝融号<br /><span class="hl">小火星车</span></h1>
+      <p class="hero-sub">一部给 5 岁小朋友的火星探险故事书</p>
+      <button class="btn btn-big" id="startBtn">🚀 出发去火星！</button>
+    </div>
+    <div class="scroll-hint">👇 往下滚，故事开始啦</div>
+  </header>
+
+  <!-- 2. 它是谁 -->
+  <section id="who" class="section">
+    <h2 class="section-title">🌟 祝融号是谁呀？</h2>
+    <div class="cards">
+      <div class="card pop" data-delay="0">
+        <div class="card-emoji">🔥</div>
+        <h3>名字的来历</h3>
+        <p>祝融，是中国古代神话里管火的神。火星红红的像火，所以我们的火星车就叫"祝融号"啦！</p>
+      </div>
+      <div class="card pop" data-delay="1">
+        <div class="card-emoji">🤖</div>
+        <h3>它长什么样</h3>
+        <p>它是一只圆滚滚的小车车，有 4 个会转的轮子，身上背着大太阳板，像一只展翅的小蝴蝶！</p>
+      </div>
+      <div class="card pop" data-delay="2">
+        <div class="card-emoji">🇨🇳</div>
+        <h3>中国的骄傲</h3>
+        <p>2021 年，它跟着天问一号飞到火星，是中国第一辆开在火星上的小车车！</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 去火星的旅程（时间线） -->
+  <section id="journey" class="section">
+    <h2 class="section-title">🚀 祝融号的前世今生</h2>
+    <p class="section-desc">点一点下面的小星球，看看它一路上发生了什么！</p>
+    <div class="timeline" id="timeline">
+      <!-- 由 JS 动态生成 -->
+    </div>
+    <div class="timeline-detail" id="timelineDetail">
+      <span class="hint">👆 点一颗小星球看看故事吧～</span>
+    </div>
+  </section>
+
+  <!-- 4. 拆开看看（可交互爆炸图） -->
+  <section id="explore" class="section">
+    <h2 class="section-title">🔧 把祝融号拆开看看！</h2>
+    <p class="section-desc">点"拆开看看"，看看小车车肚子里藏着什么宝贝～</p>
+    <div class="explore-wrap">
+      <div class="rover-stage" id="roverStage">
+        <!-- 各部件由 JS 渲染 -->
+      </div>
+      <div class="explore-side">
+        <button class="btn" id="explodeBtn">🔧 拆开看看</button>
+        <button class="btn btn-ghost" id="assembleBtn">🧩 装回去</button>
+        <div class="part-info" id="partInfo">
+          <span class="hint">👈 点车车上的小零件，听听它是干嘛的</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 开一开（驾驶模拟） -->
+  <section id="drive" class="section">
+    <h2 class="section-title">🕹️ 你来当小司机！</h2>
+    <p class="section-desc">祝融号要在火星上开动啦，用按钮指挥它走走看～</p>
+    <div class="drive-wrap">
+      <div class="mars-scene" id="marsScene">
+        <div class="mars-ground"></div>
+        <div class="rover-player" id="roverPlayer">🛸</div>
+        <div class="rock" style="left:30%">🪨</div>
+        <div class="rock" style="left:65%">🌋</div>
+        <div class="flag" id="driveFlag" style="left:88%">🚩</div>
+      </div>
+      <div class="drive-controls">
+        <button class="btn btn-round" id="leftBtn">⬅️</button>
+        <button class="btn btn-round" id="rightBtn">➡️</button>
+        <button class="btn btn-round" id="digBtn">⛏️ 挖一挖</button>
+      </div>
+      <div class="drive-meter">
+        <span>走了 <b id="stepCount">0</b> 步 · 找到 <b id="findCount">0</b> 个火星秘密</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 小问答 -->
+  <section id="quiz" class="section">
+    <h2 class="section-title">🎈 考考你！</h2>
+    <div class="quiz" id="quiz"></div>
+    <div class="quiz-result" id="quizResult"></div>
+  </section>
+
+  <!-- 7. 尾声 -->
+  <footer class="footer">
+    <h2 class="footer-title">🌈 你也能去火星吗？</h2>
+    <p>祝融号在火星上替我们看一看红红的远方。说不定有一天，开着小车车的，就是你！</p>
+    <p class="footer-sign">—— 给喜欢星星的你 💫</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>手搓小车 · 参考资源库（教程 / 开源项目 / 社群 / 飞控进阶）</title>
+  <link rel="stylesheet" href="resources.css">
+</head>
+<body>
+
+  <!-- 手搓小车分类统一顶部导航 -->
+  <header class="site-head">
+    <div class="catnav">
+      <div class="brand">🛠️ 手搓小车</div>
+      <div class="links">
+        <a href="index.html">⚖️ 平衡小车计划</a>
+        <a href="resources.html" class="active">📚 参考资源库</a>
+      </div>
+    </div>
+    <nav class="topnav">
+      <div class="nav-tabs" id="navTabs"><!-- JS 按数据自动生成 tab --></div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <header class="hero">
+    <h1>🛠️ 手搓小车参考资源库</h1>
+    <p class="subtitle">平衡小车 / 创客小车专题 · 教程视频 · 开源项目 · 活跃社群 · 飞控进阶</p>
+    <div class="hero-stat" id="heroStat"><!-- JS 注入 --></div>
+  </header>
+
+  <!-- 搜索 -->
+  <div class="search-wrap">
+    <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜索名称 / 标签，如：PID、卡尔曼、ESP32、飞控…">
+  </div>
+
+  <main class="container" id="mainBox">
+    <!-- 分类区块由 JS 按 resources-data.js 自动生成 -->
+    <div class="empty hidden" id="emptyState">🔧 没有匹配的资源，换个关键词试试～</div>
+  </main>
+
+  <footer class="footer">
+    <p>🛠️ 手搓小车 · 参考资源库</p>
+    <p>数据基于公开平台整理 <span class="sep">|</span> 维护方式：编辑 resources-data.js 后刷新页面 <span class="sep">|</span> 项目规划见 <a href="index.html">平衡小车计划</a></p>
+  </footer>
+
+  <script src="resources-data.js"></script>
+  <script src="resources.js"></script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>手搓平衡小车计划 · 方案 / 路线图 / 采购清单</title>
+<style>
+:root{
+  --bg:#151109; --bg-2:#241a0e;
+  --panel:rgba(255,255,255,.045); --panel-hover:rgba(255,255,255,.09);
+  --border:rgba(255,255,255,.11);
+  --text:#fff3e2; --text-dim:#c2ab8d;
+  --accent:#ff9f43;   /* 创客橙 */
+  --accent-2:#5ec8ff; /* 电路蓝 */
+  --accent-3:#b388ff; /* 紫 */
+  --good:#4ade80; --warn:#ff6b6b;
+  --radius:16px; --shadow:0 10px 30px rgba(0,0,0,.35);
+  --font:"PingFang SC","Microsoft YaHei","Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:var(--font);color:var(--text);line-height:1.65;min-height:100vh;
+  background:
+    radial-gradient(1100px 550px at 85% -10%,rgba(255,159,67,.13),transparent 60%),
+    radial-gradient(900px 500px at 0% 12%,rgba(94,200,255,.10),transparent 55%),
+    linear-gradient(180deg,var(--bg) 0%,var(--bg-2) 100%);
+  background-attachment:fixed;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.28;
+  background-image:
+    radial-gradient(1.5px 1.5px at 22% 28%,#ffd9a0,transparent),
+    radial-gradient(1px 1px at 68% 62%,#fff,transparent),
+    radial-gradient(1.5px 1.5px at 42% 82%,#ffd9a0,transparent),
+    radial-gradient(1px 1px at 88% 18%,#fff,transparent);
+  background-size:420px 420px,340px 340px,300px 300px,260px 260px;}
+.container{width:min(1080px,93vw);margin:0 auto;position:relative;z-index:1}
+
+/* ---- 手搓小车分类统一顶部导航 ---- */
+.catnav{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:10px 16px;background:rgba(21,17,9,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+.catnav .brand{font-weight:800;font-size:17px;white-space:nowrap}
+.catnav .links{display:flex;gap:8px;flex-wrap:wrap;margin-left:auto}
+.catnav a{color:var(--text-dim);text-decoration:none;font-size:14px;font-weight:700;
+  padding:7px 15px;border-radius:999px;border:1px solid var(--border);background:var(--panel);transition:.15s}
+.catnav a:hover{color:var(--text);background:var(--panel-hover)}
+.catnav a.active{color:#1c1207;background:linear-gradient(135deg,var(--accent),#ffd089);border-color:transparent}
+
+/* ---- Hero ---- */
+.hero{text-align:center;padding:54px 16px 26px;position:relative;z-index:1}
+.hero h1{font-size:clamp(28px,5vw,44px);font-weight:900;letter-spacing:1px;
+  background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{color:var(--text-dim);margin-top:12px;font-size:16px;max-width:640px;margin-inline:auto}
+.hero-stat{display:flex;justify-content:center;gap:clamp(16px,4vw,44px);margin-top:26px;flex-wrap:wrap}
+.stat .n{font-size:28px;font-weight:900;color:var(--accent);text-align:center}
+.stat .l{font-size:13px;color:var(--text-dim);text-align:center}
+
+/* ---- 区块 ---- */
+.section{padding:30px 0 6px}
+.section h2{font-size:clamp(20px,3vw,26px);font-weight:800;margin-bottom:6px}
+.section .intro{color:var(--text-dim);margin-bottom:18px;max-width:760px}
+.cards3{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px;box-shadow:var(--shadow)}
+.card h3{font-size:16px;margin-bottom:8px}
+.card p{font-size:14px;color:var(--text-dim)}
+.card .big{font-size:26px;margin-bottom:6px}
+
+/* ---- 表格 ---- */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:rgba(255,159,67,.10);color:var(--accent);font-weight:700;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td b{color:var(--accent)}
+.pick{background:rgba(74,222,128,.07)}
+.pick td:first-child::before{content:"✅ "}
+.sum td{font-weight:800;color:var(--accent);background:rgba(255,159,67,.06)}
+
+/* ---- 硬件架构 ---- */
+.arch{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;justify-content:center;margin:6px 0 10px}
+.chip{flex:1 1 150px;max-width:210px;text-align:center;background:var(--panel);border:1px solid var(--border);
+  border-radius:14px;padding:14px 10px}
+.chip .e{font-size:26px}.chip .t{font-weight:800;font-size:14px;margin-top:4px}
+.chip .d{font-size:12px;color:var(--text-dim)}
+.chip.core{border-color:rgba(255,159,67,.55);background:rgba(255,159,67,.08)}
+.arrow{align-self:center;color:var(--accent);font-size:20px}
+
+/* ---- 路线图 ---- */
+.timeline{display:flex;flex-direction:column;gap:12px}
+.phase{display:flex;gap:14px;background:var(--panel);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 18px}
+.phase .no{flex:0 0 auto;width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:15px;background:linear-gradient(135deg,var(--accent),#ffd089);color:#1c1207}
+.phase .body{flex:1}
+.phase h3{font-size:16px;display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.phase .goal{font-size:12px;color:var(--good);border:1px solid rgba(74,222,128,.35);padding:1px 9px;border-radius:999px}
+.phase .time{font-size:12px;color:var(--text-dim)}
+.phase p{font-size:14px;color:var(--text-dim);margin-top:5px}
+.phase .kid{margin-top:7px;font-size:13px;color:var(--accent-2);background:rgba(94,200,255,.08);
+  border-left:3px solid var(--accent-2);padding:6px 10px;border-radius:8px}
+
+/* ---- 分工 ---- */
+.duty{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.duty .card ul{margin:6px 0 0 18px;font-size:14px;color:var(--text-dim)}
+.duty .card ul li{margin-bottom:4px}
+.safety{margin-top:14px;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.35);
+  border-radius:var(--radius);padding:14px 18px;font-size:14px}
+.safety b{color:var(--warn)}
+
+/* ---- 页脚 ---- */
+.footer{text-align:center;color:var(--text-dim);font-size:13px;padding:44px 16px 30px;position:relative;z-index:1}
+.footer a{color:var(--accent)}
+.badge{font-size:12px;padding:2px 9px;border-radius:999px;background:rgba(94,200,255,.14);
+  color:var(--accent-2);border:1px solid rgba(94,200,255,.3);white-space:nowrap}
+@media(max-width:600px){.phase{flex-direction:column}.phase .no{width:38px;height:38px}}
+</style>
+</head>
+<body>
+
+<header class="catnav">
+  <div class="brand">🛠️ 手搓小车</div>
+  <div class="links">
+    <a href="index.html" class="active">⚖️ 平衡小车计划</a>
+    <a href="resources.html">📚 参考资源库</a>
+  </div>
+</header>
+
+<header class="hero">
+  <h1>⚖️ 手搓平衡小车计划</h1>
+  <p class="sub">下班不刷短剧，带着儿子每晚 30 分钟，搓一台会自己站稳的小车 ——
+  再沿着 PID → 卡尔曼 → 四元数一路升级，通向飞控的星辰大海。</p>
+  <div class="hero-stat">
+    <div class="stat"><div class="n">≈¥239</div><div class="l">散件总预算</div></div>
+    <div class="stat"><div class="n">5</div><div class="l">迭代阶段 P0–P4</div></div>
+    <div class="stat"><div class="n">30min</div><div class="l">每晚车库时间</div></div>
+    <div class="stat"><div class="n">2</div><div class="l">工程师（父子档）</div></div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- 为什么 -->
+  <section class="section">
+    <h2>🎯 为什么是平衡小车</h2>
+    <div class="cards3">
+      <div class="card"><div class="big">🧲</div><h3>起步不难，成就感来得快</h3>
+        <p>ESP32 + MPU6050 是全网资料最多的组合，第一阶段只求"站稳 30 秒"，几周内就有一个看得见摸得着的作品。</p></div>
+      <div class="card"><div class="big">🔁</div><h3>天生的迭代平台</h3>
+        <p>同一台车能不断升级：加编码器、加遥控、换滤波算法、上 Web 调参面板、加避障循迹 —— 硬件不推倒重来。</p></div>
+      <div class="card"><div class="big">🚁</div><h3>飞控的地面训练场</h3>
+        <p>平衡车与四轴飞控共用同一套核心：IMU 姿态解算 + 串级 PID。在地上调稳了，再上天就不慌。</p></div>
+    </div>
+  </section>
+
+  <!-- 方案选型 -->
+  <section class="section">
+    <h2>🧠 主控选型：ESP32</h2>
+    <p class="intro">对比三条常见路线，综合"上手难度 / 迭代空间 / 通向飞控"选择 ESP32。</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>方案</th><th>上手难度</th><th>迭代空间</th><th>通向飞控</th><th>结论</th></tr>
+      <tr class="pick"><td><b>ESP32 DevKit</b></td><td>★★☆ Arduino IDE 即写即刷</td>
+        <td>WiFi/蓝牙内置，Web 调参、手机遥控零成本</td><td>与乐鑫官方开源四轴 ESP-Drone 同生态</td><td><b>选它</b></td></tr>
+      <tr><td>STM32F103</td><td>★★★ 需 Keil / CubeIDE</td><td>工业主流，可学到寄存器级</td>
+        <td>主流学习型飞控多用 STM32</td><td>P3 之后可平移</td></tr>
+      <tr><td>Arduino UNO</td><td>★☆☆ 最简单</td><td>算力吃紧，浮点慢</td><td>弱</td><td>不选</td></tr>
+      <tr><td>micro:bit 图形化</td><td>★☆☆ 孩子友好</td><td>算法深度不够</td><td>弱</td><td>只作孩子遥控端</td></tr>
+    </table></div>
+  </section>
+
+  <!-- 硬件架构 -->
+  <section class="section">
+    <h2>🔩 硬件架构</h2>
+    <p class="intro">五个核心模块，杜邦线即可连通，起步阶段完全不用烙铁。</p>
+    <div class="arch">
+      <div class="chip"><div class="e">📐</div><div class="t">MPU6050</div><div class="d">六轴 IMU · 测倾角</div></div>
+      <div class="arrow">→</div>
+      <div class="chip core"><div class="e">🧠</div><div class="t">ESP32</div><div class="d">姿态解算 + PID<br>WiFi / 蓝牙</div></div>
+      <div class="arrow">→</div>
+      <div class="chip"><div class="e">⚡</div><div class="t">TB6612</div><div class="d">双路电机驱动</div></div>
+      <div class="arrow">→</div>
+      <div class="chip"><div class="e">⚙️</div><div class="t">N20 编码器电机 ×2</div><div class="d">动力 + 测速反馈</div></div>
+    </div>
+    <div class="arch">
+      <div class="chip"><div class="e">🔋</div><div class="t">18650 ×2 (7.4V)</div><div class="d">供电 · 带开关电池盒</div></div>
+      <div class="chip"><div class="e">🖥️</div><div class="t">OLED 0.96"（可选）</div><div class="d">实时显示角度 / 参数</div></div>
+      <div class="chip"><div class="e">📱</div><div class="t">手机（P2 起）</div><div class="d">蓝牙遥控 · Web 调参</div></div>
+    </div>
+  </section>
+
+  <!-- 路线图 -->
+  <section class="section">
+    <h2>🗺️ 迭代路线图 P0 → P4</h2>
+    <div class="timeline">
+      <div class="phase"><div class="no">P0</div><div class="body">
+        <h3>准备周 <span class="goal">里程碑：板子点灯 + 读出角度</span> <span class="time">1~2 个晚上</span></h3>
+        <p>装 Arduino IDE → ESP32 点灯 → 接 MPU6050 读原始数据，用串口绘图仪画角度曲线。</p>
+        <div class="kid">👦 儿子任务：拆快递、认零件（"这是小车的耳朵/大脑"）、给轮子装橡胶胎。</div>
+      </div></div>
+      <div class="phase"><div class="no">P1</div><div class="body">
+        <h3>站起来 <span class="goal">里程碑：静止直立 ≥30 秒</span> <span class="time">2~4 周</span></h3>
+        <p>装配车架 → 互补滤波求倾角 → 直立环 PD 调参（先 P 后 D，先抖再稳）。</p>
+        <div class="kid">👦 儿子任务：扶车发射员、喊 3-2-1 倒计时、掐秒表记录站立时间破纪录。</div>
+      </div></div>
+      <div class="phase"><div class="no">P2</div><div class="body">
+        <h3>动起来 <span class="goal">里程碑：遥控行走 + 原地转圈</span> <span class="time">+2~4 周</span></h3>
+        <p>编码器测速 → 速度环 PI 与直立环串级 → 转向环 → 手机蓝牙遥控。</p>
+        <div class="kid">👦 儿子任务：首席司机，客厅遥控绕桩。</div>
+      </div></div>
+      <div class="phase"><div class="no">P3</div><div class="body">
+        <h3>聪明起来 <span class="goal">里程碑：抗干扰 + 自动化</span> <span class="time">+1~2 个月</span></h3>
+        <p>一阶卡尔曼替换互补滤波并画曲线对比 → ESP32 起热点做 Web 调参面板 → 超声波避障 / 循迹。</p>
+        <div class="kid">👦 儿子任务：用积木摆障碍赛道，给小车"出考题"。</div>
+      </div></div>
+      <div class="phase"><div class="no">P4</div><div class="body">
+        <h3>通向天空 <span class="goal">里程碑：飞控预研</span> <span class="time">长期</span></h3>
+        <p>Mahony / Madgwick 四元数姿态解算 → 研读 ESP-Drone、Crazyflie 源码 → 下一台作品：ESP32 四轴飞行器。</p>
+        <div class="kid">👦 儿子任务：给会飞的下一台起名字。</div>
+      </div></div>
+    </div>
+  </section>
+
+  <!-- BOM -->
+  <section class="section">
+    <h2>🛒 材料采购清单（BOM）</h2>
+    <p class="intro">两条路线：<b>路线 B 散件自购为主线</b>（乐趣与理解都在选型里），路线 A 整套套件当"参考答案"。
+    渠道：淘宝「平衡小车之家 / 亚博智能 / TELESKY / 优信电子」，凑单可上立创商城。模块都买焊好排针的版本。</p>
+
+    <h3 style="margin:6px 0 8px;font-size:16px">路线 B · 散件清单（主线，≈¥239）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>#</th><th>物料</th><th>数量</th><th>参考价</th><th>小计</th><th>备注</th></tr>
+      <tr><td>1</td><td>ESP32 DevKit V1（WROOM-32, 30pin）</td><td>2</td><td>¥22</td><td>¥44</td><td>买 2 块防手滑烧板</td></tr>
+      <tr><td>2</td><td>GY-521（MPU6050）模块</td><td>1</td><td>¥8</td><td>¥8</td><td>小车的"内耳"</td></tr>
+      <tr><td>3</td><td>TB6612FNG 电机驱动</td><td>1</td><td>¥10</td><td>¥10</td><td>优于 L298N</td></tr>
+      <tr><td>4</td><td>GA12-N20 带霍尔编码器电机 6V 300rpm</td><td>2</td><td>¥28</td><td>¥56</td><td><b>关键件别省</b>，速度环必需</td></tr>
+      <tr><td>5</td><td>N20 支架 + 联轴器 + 43mm 橡胶轮</td><td>2 套</td><td>¥8</td><td>¥16</td><td>与电机同店配套买</td></tr>
+      <tr><td>6</td><td>18650 电池（带保护板）</td><td>2</td><td>¥12</td><td>¥24</td><td>正规品牌</td></tr>
+      <tr><td>7</td><td>18650 双节电池盒（带开关）</td><td>1</td><td>¥6</td><td>¥6</td><td>串联输出 7.4V</td></tr>
+      <tr><td>8</td><td>18650 独立座充</td><td>1</td><td>¥15</td><td>¥15</td><td>安全第一</td></tr>
+      <tr><td>9</td><td>亚克力两层车架 + M3 铜柱螺丝包</td><td>1</td><td>¥20</td><td>¥20</td><td>后期可 3D 打印替换</td></tr>
+      <tr><td>10</td><td>杜邦线两排 + 面包板</td><td>1</td><td>¥12</td><td>¥12</td><td></td></tr>
+      <tr><td>11</td><td>0.96" OLED（SSD1306, I2C）</td><td>1</td><td>¥13</td><td>¥13</td><td>可选，调试利器</td></tr>
+      <tr><td>12</td><td>小螺丝刀套装 + 扎带 + 3M 胶</td><td>1</td><td>¥15</td><td>¥15</td><td>儿子的主力工具</td></tr>
+      <tr class="sum"><td colspan="4">合计</td><td>≈¥239</td><td>P3 扩展包另计 ≈¥50（超声波/循迹/蜂鸣器/烙铁）</td></tr>
+    </table></div>
+
+    <h3 style="margin:14px 0 8px;font-size:16px">路线 A · 整套套件（省心备选）</h3>
+    <div class="tbl-wrap"><table>
+      <tr><th>套件</th><th>参考价</th><th>特点</th></tr>
+      <tr><td>平衡小车之家 MiniBalance</td><td>¥200~400</td><td>老牌，原理图+源码+视频最全，QQ 群答疑</td></tr>
+      <tr><td>亚博智能 / 幼锋 ESP32 平衡车</td><td>¥150~300</td><td>ESP32 生态，配套 App 遥控</td></tr>
+      <tr><td>微雪 / DFRobot 套件</td><td>¥250~450</td><td>做工好，文档规范</td></tr>
+    </table></div>
+  </section>
+
+  <!-- 分工 -->
+  <section class="section">
+    <h2>👨‍👦 亲子分工</h2>
+    <div class="duty">
+      <div class="card"><h3>👦 儿子 · 首席装配官 & 测试工程师</h3><ul>
+        <li>拧螺丝装车架、装轮子</li><li>照爸爸指的位置插杜邦线（USB 5V 低压）</li>
+        <li>给小车起名、贴贴纸涂装</li><li>发射倒计时、掐秒表记录"站立纪录"</li>
+        <li>P2 起当司机，P3 摆障碍赛道</li></ul></div>
+      <div class="card"><h3>👨 爸爸 · 首席工程师</h3><ul>
+        <li>电路设计与上电前检查</li><li>写代码、调 PID 参数</li>
+        <li>一切带电焊接操作</li><li>锂电池充放电管理</li>
+        <li>每阶段拍视频存档，儿子出镜讲解</li></ul></div>
+    </div>
+    <div class="safety"><b>⚠️ 安全红线：</b>锂电池充电必须有人在场；孩子不碰烙铁、剪线钳、电池本体；
+    所有孩子上手环节均在断电或 USB 5V 低压状态下进行。</div>
+  </section>
+
+  <!-- 飞控映射 -->
+  <section class="section">
+    <h2>🚁 平衡车 → 飞控 知识映射</h2>
+    <p class="intro">这台车上学到的每一样东西，都能在飞控里找到对应位置。</p>
+    <div class="tbl-wrap"><table>
+      <tr><th>平衡车里学到的</th><th>飞控里对应的</th><th>迁移程度</th></tr>
+      <tr><td>MPU6050 读数 + 零偏校准</td><td>同类 IMU（ICM-42688 等）</td><td><span class="badge">✅ 完全一致</span></td></tr>
+      <tr><td>互补滤波 / 卡尔曼求倾角</td><td>姿态解算（Mahony / Madgwick / EKF）</td><td><span class="badge">✅ 直接升级</span></td></tr>
+      <tr><td>直立环（角度 PD）</td><td>角度环 Angle Mode</td><td><span class="badge">✅ 同构</span></td></tr>
+      <tr><td>速度环（编码器 PI）</td><td>角速度环 Rate Mode</td><td><span class="badge">✅ 串级思想相同</span></td></tr>
+      <tr><td>两轮差速转向</td><td>四电机混控 Mixer</td><td><span class="badge">⚙️ 思想相通</span></td></tr>
+      <tr><td>PWM 驱动有刷电机</td><td>DSHOT 驱动电调 + 无刷</td><td><span class="badge">⚙️ 协议不同原理同</span></td></tr>
+      <tr><td>串口 / 蓝牙调参</td><td>地面站（Betaflight Configurator）</td><td><span class="badge">✅ 概念一致</span></td></tr>
+    </table></div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>🛠️ 手搓平衡小车计划 · 父子车库项目</p>
+  <p>教程 / 开源项目 / 社群 都在 <a href="resources.html">📚 参考资源库</a> · 完整文档见 SPEC.md</p>
+</footer>
+
+</body>
+</html>

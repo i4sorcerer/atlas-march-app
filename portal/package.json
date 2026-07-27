@@ -1,0 +1,15 @@
+{
+  "name": "curiosity-planet-portal",
+  "version": "1.0.0",
+  "description": "好奇星球 · 全科启蒙统一门户（三级分类 + iframe 嵌入 + node:sqlite 探索记录，零依赖）",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "keywords": ["kids", "science", "education", "portal", "启蒙"],
+  "license": "MIT"
+}

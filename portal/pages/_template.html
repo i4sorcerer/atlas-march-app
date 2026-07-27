@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+  ============ 知识点内容页模板 ============
+  复制这个文件到具体知识点，例如 portal/pages/planets.html，
+  然后：
+   1. 改标题、emoji、正文内容；
+   2. 在 portal/data/categories.js 里把对应 topic 的
+      url 改成 "pages/xxx.html"、ready 改成 true；
+   3. 如果做了小测验，测验完成后调用页面底部的 reportQuiz(score, total)
+      即可把成绩上报给门户，记录进 SQLite。
+  =========================================
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>知识点标题 · 好奇星球</title>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Fredoka+One&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'ZCOOL KuaiLe', sans-serif;
+    background: linear-gradient(180deg, #a8e0ff, #ffe3f1);
+    color: #2b2d5b;
+    min-height: 100vh;
+    padding: 30px 18px 60px;
+    line-height: 1.9;
+  }
+  .wrap { max-width: 760px; margin: 0 auto; }
+  .hero {
+    text-align: center;
+    background: #fff;
+    border-radius: 26px;
+    padding: 36px 24px;
+    box-shadow: 0 12px 32px rgba(70,80,160,.18);
+    margin-bottom: 24px;
+  }
+  .hero .big-emoji { font-size: 84px; }
+  .hero h1 { font-size: 34px; margin: 10px 0; }
+  .hero p { color: #6a6f9c; font-size: 18px; }
+  .card {
+    background: #fff;
+    border-radius: 22px;
+    padding: 24px;
+    box-shadow: 0 10px 28px rgba(70,80,160,.14);
+    margin-bottom: 20px;
+  }
+  .card h2 { font-size: 24px; margin-bottom: 10px; color: #5b7cfa; }
+  .card p { font-size: 17px; }
+  .soon {
+    text-align: center;
+    color: #6a6f9c;
+    font-size: 18px;
+    padding: 20px;
+  }
+  .quiz-btn {
+    display: block;
+    margin: 10px auto 0;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 18px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    color: #fff;
+    background: linear-gradient(135deg, #ffd166, #ff6f91);
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div class="big-emoji">✨</div>
+    <h1>知识点标题</h1>
+    <p>一句话有趣简介放这里～</p>
+  </div>
+
+  <div class="card">
+    <h2>🌟 这是什么？</h2>
+    <p>在这里用小朋友能懂的话，介绍这个知识点。</p>
+  </div>
+
+  <div class="card">
+    <h2>🎮 小测验</h2>
+    <p class="soon">测验做好后，答完题调用 reportQuiz(得分, 总分) 即可记录成绩。</p>
+    <button class="quiz-btn" onclick="reportQuiz(3, 3)">示例：上报满分 3/3</button>
+  </div>
+</div>
+
+<script>
+  // 把测验成绩上报给门户（父页面），会被记录进 SQLite / localStorage
+  function reportQuiz(score, total) {
+    const payload = {
+      type: "quiz-result",
+      topicId: "REPLACE_ME_topic_id",  // 改成 categories.js 里对应的 topic id
+      title: document.title.split(" · ")[0],
+      emoji: "🎯",
+      score: score,
+      total: total
+    };
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage(payload, "*");
+    }
+    alert("太棒啦！得分 " + score + "/" + total + " 已记录 🏅");
+  }
+</script>
+</body>
+</html>

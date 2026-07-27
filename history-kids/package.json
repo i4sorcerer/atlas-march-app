@@ -1,0 +1,12 @@
+{
+  "name": "history-kids",
+  "version": "1.0.0",
+  "description": "中华历史朝代 · 儿童互动百科",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+}

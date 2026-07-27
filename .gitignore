@@ -1,0 +1,15 @@
+# macOS 系统文件
+.DS_Store
+
+# 本地 agent / 工具状态（非项目源码，含本地记忆）
+.workbuddy/
+
+# 运行时数据（门户探索记录 SQLite）
+*.db
+
+# 依赖
+node_modules/
+
+# 缓存
+.cache/
+__pycache__/

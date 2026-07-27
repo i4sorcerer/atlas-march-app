@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中华历史朝代 · 儿童互动百科</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<!-- 顶部导航 -->
+<nav class="topnav">
+  <div class="brand">
+    <span class="logo">🐉</span>
+    <span class="title">中华历史朝代</span>
+  </div>
+  <div class="nav-links">
+    <a href="#hero" class="nav-link">首页</a>
+    <a href="#timeline" class="nav-link">时间线</a>
+    <a href="#eras" class="nav-link">朝代</a>
+    <a href="#kings" class="nav-link">皇帝/人物</a>
+    <a href="#events" class="nav-link">大事件</a>
+    <a href="#quiz" class="nav-link">小测验</a>
+  </div>
+  <div class="region-switcher">
+    <button class="region-btn active" data-region="china">🇨🇳 中国</button>
+    <button class="region-btn" data-region="world">🌍 世界</button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero" class="hero">
+  <div class="hero-content">
+    <h1>穿越<span class="highlight">五千年</span>中华历史</h1>
+    <p class="subtitle">从夏商周到现代中国 · 点一点、拖一拖、玩着学</p>
+
+    <div class="hero-cta">
+      <a href="#timeline" class="btn btn-primary">🕰 开启时间之旅</a>
+      <a href="#quiz" class="btn btn-ghost">🎮 玩个小测验</a>
+    </div>
+
+    <div class="hero-stat">
+      <div class="stat-item">
+        <div class="stat-num" data-target="20">0</div>
+        <div class="stat-label">个朝代</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="16">0</div>
+        <div class="stat-label">位著名人物</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="38">0</div>
+        <div class="stat-label">个历史事件</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-target="5000">0</div>
+        <div class="stat-label">年历史</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-decoration">
+    <div class="deco-icon" style="--i:1">🐉</div>
+    <div class="deco-icon" style="--i:2">🏯</div>
+    <div class="deco-icon" style="--i:3">⚔️</div>
+    <div class="deco-icon" style="--i:4">📜</div>
+    <div class="deco-icon" style="--i:5">🏺</div>
+    <div class="deco-icon" style="--i:6">👑</div>
+    <div class="deco-icon" style="--i:7">🪶</div>
+    <div class="deco-icon" style="--i:8">🧱</div>
+  </div>
+</section>
+
+<!-- 朝代歌 -->
+<section id="song" class="module alt">
+  <div class="container">
+    <div class="module-head">
+      <span class="module-tag">🎵 先背首朝代歌</span>
+      <h2>三皇五帝始，尧舜禹相传</h2>
+      <p>跟着儿歌记朝代，简单又有趣！</p>
+    </div>
+
+    <div class="song-card">
+      <pre class="song-text">
+夏商与西周，东周分两段。
+春秋和战国，一统秦两汉。
+三分魏蜀吴，二晋前后延。
+南北朝并立，隋唐五代传。
+宋元明清后，皇朝至此完。</pre>
+      <div class="song-actions">
+        <button class="btn btn-primary" id="singBtn">🎤 跟我念</button>
+        <button class="btn btn-ghost" id="copyBtn">📋 抄下来</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 主时间线 -->
+<section id="timeline" class="module">
+  <div class="container">
+    <div class="module-head">
+      <span class="module-tag">🕰 时间线</span>
+      <h2>一图看遍 5000 年</h2>
+      <p>横线是时间，朝代越长方块越大。点朝代看故事！</p>
+    </div>
+
+    <div class="timeline-controls">
+      <button class="tl-btn active" data-zoom="all">全部</button>
+      <button class="tl-btn" data-zoom="ancient">古代</button>
+      <button class="tl-btn" data-zoom="medieval">中古</button>
+      <button class="tl-btn" data-zoom="modern">近代</button>
+      <button class="tl-btn" data-zoom="today">现代</button>
+    </div>
+
+    <div class="timeline-wrap" id="timelineWrap">
+      <!-- JS 注入 -->
+    </div>
+
+    <div class="timeline-help">
+      💡 提示：把鼠标停在色块上看详情，点一下看完整故事；上方按钮可切换年代段
+    </div>
+  </div>
+</section>
+
+<!-- 朝代卡片网格 -->
+<section id="eras" class="module alt">
+  <div class="container">
+    <div class="module-head">
+      <span class="module-tag">👑 朝代</span>
+      <h2>每个朝代都讲个故事</h2>
+      <p>点开看看每个朝代发生了什么</p>
+    </div>
+
+    <div class="era-grid" id="eraGrid">
+      <!-- JS 注入 -->
+    </div>
+  </div>
+</section>
+
+<!-- 朝代详情弹层 -->
+<div class="era-modal" id="eraModal">
+  <div class="modal-content" id="modalContent">
+    <!-- JS 注入 -->
+  </div>
+</div>
+
+<!-- 皇帝/人物 -->
+<section id="kings" class="module">
+  <div class="container">
+    <div class="module-head">
+      <span class="module-tag">👤 人物</span>
+      <h2>皇帝和名人们</h2>
+      <p>16 位影响历史的大人物，点开看他们的故事</p>
+    </div>
+
+    <div class="king-filters" id="kingFilters">
+      <!-- 筛选按钮由 js/kings.js 根据当前地区数据动态生成 -->
+    </div>
+
+    <div class="king-grid" id="kingGrid">
+      <!-- JS 注入 -->
+    </div>
+  </div>
+</section>
+
+<!-- 重大事件 -->
+<section id="events" class="module alt">
+  <div class="container">
+    <div class="module-head">
+      <span class="module-tag">📅 重大事件</span>
+      <h2>改变历史的大事件</h2>
+      <p>38 个关键时刻，点开看细节</p>
+    </div>
+
+    <div class="events-grid" id="eventsGrid">
+      <!-- JS 注入 -->
+    </div>
+  </div>
+</section>
+
+<!-- 小测验 -->
+<section id="quiz" class="module">
+  <div class="container">
+    <div class="module-head">
+      <span class="module-tag">🎮 小测验</span>
+      <h2>测一测你学会了没？</h2>
+      <p>从题库里随机抽 5 题，看你能答对几个</p>
+    </div>
+
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-start" id="quizStart">
+        <div class="quiz-icon">🧠</div>
+        <h3>准备好了吗？</h3>
+        <p>5 道选择题，答完看分数</p>
+        <button class="btn btn-primary" id="startQuizBtn">开始挑战 →</button>
+      </div>
+
+      <div class="quiz-playing" id="quizPlaying" style="display:none">
+        <div class="quiz-progress">
+          <div class="quiz-bar" id="quizBar"></div>
+          <div class="quiz-counter">第 <span id="quizCurrent">1</span> / 5 题</div>
+        </div>
+        <div class="quiz-question" id="quizQuestion"></div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+      </div>
+
+      <div class="quiz-result" id="quizResult" style="display:none">
+        <div class="quiz-icon-big" id="resultIcon">🏆</div>
+        <h3 id="resultTitle">太棒了！</h3>
+        <p id="resultText">你答对了 X/5 题</p>
+        <button class="btn btn-primary" id="retryQuizBtn">再来一次 🔄</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>🐉 中华历史朝代 · 儿童互动百科 v1.0</p>
+  <p class="footer-sub">面向 6-12 岁儿童 · 由 Mavis 整理</p>
+  <p class="footer-sub">数据基于公开资料整理 · 不替代专业教材</p>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/timeline.js"></script>
+<script src="js/eras.js"></script>
+<script src="js/kings.js"></script>
+<script src="js/events.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/hero.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

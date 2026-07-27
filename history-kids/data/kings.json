@@ -1,0 +1,20 @@
+{
+  "kings": [
+    { "id": "yu", "name": "大禹", "eraId": "xia", "role": "夏朝奠基者", "birth": -2277, "death": -2070, "reignStart": null, "reignEnd": null, "temple": "—", "summary": "治水英雄，三过家门而不入", "kidsFact": "大禹治水 13 年，三次路过自己的家门都没进去。", "icon": "👷" },
+    { "id": "qi_xia", "name": "启", "eraId": "xia", "role": "夏朝开国君主", "birth": null, "death": null, "reignStart": -2070, "reignEnd": -2050, "temple": "—", "summary": "禹的儿子，结束了禅让制", "kidsFact": "启是第一个把王位传给自己儿子的人！", "icon": "👑" },
+    { "id": "tang_shang", "name": "商汤", "eraId": "shang", "role": "商朝开国君主", "birth": null, "death": null, "reignStart": -1600, "reignEnd": -1587, "temple": "武王", "summary": "灭夏桀，建立商朝", "kidsFact": "商汤特别勤俭，洗澡的时候看到自己身上的布都打补丁！", "icon": "⚔️" },
+    { "id": "pan_geng", "name": "盘庚", "eraId": "shang", "role": "商朝国王", "birth": null, "death": null, "reignStart": -1300, "reignEnd": -1280, "temple": "—", "summary": "把都城迁到殷", "kidsFact": "盘庚说服大家搬家，让商朝重新强大起来！", "icon": "🏛️" },
+    { "id": "wu_wang", "name": "周武王", "eraId": "zhou_west", "role": "西周开国君主", "birth": -1150, "death": -1043, "reignStart": -1046, "reignEnd": -1043, "temple": "武王", "summary": "伐纣灭商，建立周朝", "kidsFact": "在牧野之战中，周武王打败了商纣王！", "icon": "🤴" },
+    { "id": "confucius", "name": "孔子", "eraId": "spring_autumn", "role": "伟大的思想家", "birth": -551, "death": -479, "reignStart": null, "reignEnd": null, "temple": "—", "summary": "儒家学派创始人", "kidsFact": "孔子 72 个学生，每个学生都有自己的特长！", "icon": "📚" },
+    { "id": "qin_shi_huang", "name": "秦始皇", "eraId": "qin", "role": "中国第一个皇帝", "birth": -259, "death": -210, "reignStart": -221, "reignEnd": -210, "temple": "始皇帝", "summary": "统一六国，统一度量衡", "kidsFact": "他叫自己\"始皇帝\"，希望子子孙孙永远当皇帝！", "icon": "👑" },
+    { "id": "liu_bang", "name": "汉高祖刘邦", "eraId": "han_west", "role": "西汉开国皇帝", "birth": -256, "death": -195, "reignStart": -202, "reignEnd": -195, "temple": "高祖", "summary": "打败项羽，建立汉朝", "kidsFact": "刘邦原来是个亭长（类似村长），后来成了皇帝！", "icon": "⚔️" },
+    { "id": "wu_di", "name": "汉武帝", "eraId": "han_west", "role": "西汉第七位皇帝", "birth": -156, "death": -87, "reignStart": -141, "reignEnd": -87, "temple": "武帝", "summary": "西汉鼎盛时期的皇帝", "kidsFact": "汉武帝在位 54 年，是西汉在位时间最长的皇帝！", "icon": "🌟" },
+    { "id": "wu_zetian", "name": "武则天", "eraId": "tang", "role": "中国唯一的女皇", "birth": 624, "death": 705, "reignStart": 690, "reignEnd": 705, "temple": "—", "summary": "建立了武周王朝", "kidsFact": "她是中国历史上唯一的女皇帝！还创造了\"曌\"这个字！", "icon": "👸" },
+    { "id": "li_bai", "name": "李白", "eraId": "tang", "role": "诗仙", "birth": 701, "death": 762, "reignStart": null, "reignEnd": null, "temple": "—", "summary": "唐代大诗人", "kidsFact": "李白特别喜欢喝酒，写了好多诗都在说他喝酒！", "icon": "🍶" },
+    { "id": "taizong", "name": "唐太宗", "eraId": "tang", "role": "唐朝第二位皇帝", "birth": 598, "death": 649, "reignStart": 626, "reignEnd": 649, "temple": "太宗", "summary": "开创了\"贞观之治\"", "kidsFact": "唐太宗把魏征当成镜子，魏征死后他很伤心！", "icon": "👑" },
+    { "id": "zhao_kuangyin", "name": "宋太祖赵匡胤", "eraId": "song", "role": "宋朝开国皇帝", "birth": 927, "death": 976, "reignStart": 960, "reignEnd": 976, "temple": "太祖", "summary": "陈桥兵变，黄袍加身", "kidsFact": "赵匡胤是士兵们给他披上黄袍才当上皇帝的！", "icon": "👑" },
+    { "id": "kangxi", "name": "康熙皇帝", "eraId": "qing", "role": "清朝第四位皇帝", "birth": 1654, "death": 1722, "reignStart": 1661, "reignEnd": 1722, "temple": "圣祖", "summary": "在位 61 年，开创康乾盛世", "kidsFact": "康熙 8 岁就当皇帝，是中国历史上在位时间最长的皇帝！", "icon": "👶" },
+    { "id": "qianlong", "name": "乾隆皇帝", "eraId": "qing", "role": "清朝第六位皇帝", "birth": 1711, "death": 1799, "reignStart": 1735, "reignEnd": 1796, "temple": "高宗", "summary": "写了 4 万多首诗", "kidsFact": "乾隆是中国写诗最多的皇帝，一共写了 4 万多首！", "icon": "🖋️" },
+    { "id": "zhu_yuanzhang", "name": "明太祖朱元璋", "eraId": "ming", "role": "明朝开国皇帝", "birth": 1328, "death": 1398, "reignStart": 1368, "reignEnd": 1398, "temple": "太祖", "summary": "从放牛娃到皇帝", "kidsFact": "朱元璋小时候家里穷，给地主放过牛、当过和尚！", "icon": "👑" }
+  ]
+}

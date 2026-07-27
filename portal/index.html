@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🌈 好奇星球 · 全科启蒙探索乐园</title>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/portal/css/portal.css" />
+</head>
+<body>
+
+<!-- 漂浮装饰 -->
+<div class="floaties" aria-hidden="true">
+  <span>⭐</span><span>🚀</span><span>🪐</span><span>🌈</span><span>🦖</span>
+  <span>🐋</span><span>🔬</span><span>💡</span><span>☁️</span><span>🌟</span>
+</div>
+
+<!-- 顶部栏 -->
+<header class="topbar">
+  <a class="brand" href="#" id="homeBtn">
+    <span class="brand-logo">🌈</span>
+    <span class="brand-text">好奇星球</span>
+  </a>
+  <p class="brand-slogan">全科启蒙 · 一起探索世界的奥秘！</p>
+  <button class="history-btn" id="historyBtn">🏅 我的探索记录</button>
+</header>
+
+<!-- 面包屑（三级路径） -->
+<nav class="crumbs" id="crumbs" aria-label="分类路径"></nav>
+
+<!-- 主内容区：分类浏览 -->
+<main id="browse" class="browse">
+  <!-- 由 JS 渲染 -->
+</main>
+
+<!-- 内容查看区：iframe 嵌入 -->
+<section id="viewer" class="viewer hidden">
+  <div class="viewer-bar">
+    <button class="back-btn" id="backBtn">← 返回目录</button>
+    <span class="viewer-title" id="viewerTitle"></span>
+    <a class="open-new" id="openNew" target="_blank" rel="noopener">↗ 新窗口打开</a>
+  </div>
+  <div class="viewer-frame-wrap">
+    <iframe id="viewerFrame" class="viewer-frame" title="科普内容" src="about:blank"></iframe>
+  </div>
+</section>
+
+<!-- 探索记录弹层 -->
+<div id="historyModal" class="modal hidden">
+  <div class="modal-card">
+    <button class="modal-close" id="historyClose">✕</button>
+    <h2>🏅 我的探索记录</h2>
+    <div id="historyBody" class="history-body"></div>
+  </div>
+</div>
+
+<footer class="portal-footer">
+  <p>🌟 好奇星球 · 给小朋友的全科启蒙探索乐园　|　勇敢提问，快乐探索！</p>
+</footer>
+
+<script src="/portal/data/categories.js"></script>
+<script src="/portal/js/portal.js"></script>
+</body>
+</html>

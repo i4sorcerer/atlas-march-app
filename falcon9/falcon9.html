@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🚀 猎鹰9号 - 小小太空探险家</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800;900&family=ZCOOL+KuaiLe&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --space-dark: #0D1B2A;
+      --space-purple: #1B0033;
+      --star-gold: #FFD166;
+      --rocket-red: #EF476F;
+      --star-white: #E8F1FF;
+      --tech-green: #06D6A0;
+      --card-bg: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'ZCOOL KuaiLe', 'Nunito', sans-serif;
+      background: linear-gradient(135deg, var(--space-purple) 0%, var(--space-dark) 60%, #0a1628 100%);
+      color: var(--star-white);
+      overflow-x: hidden;
+      line-height: 1.8;
+    }
+
+    /* ========== STARFIELD CANVAS ========== */
+    #starfield {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ========== NAV ========== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(13,27,42,0.7);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,209,102,0.1);
+      transition: all 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(13,27,42,0.95);
+    }
+    .nav-logo {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      color: var(--star-gold);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--star-white);
+      text-decoration: none;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      opacity: 0.85;
+    }
+    .nav-links a:hover {
+      background: rgba(255,209,102,0.15);
+      color: var(--star-gold);
+      opacity: 1;
+    }
+
+    /* ========== SECTIONS ========== */
+    section {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      padding: 80px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      text-align: center;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--star-gold), #FFF0A0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .section-subtitle {
+      font-size: 1.1rem;
+      text-align: center;
+      opacity: 0.7;
+      max-width: 600px;
+      margin-bottom: 48px;
+      line-height: 2;
+    }
+
+    /* ========== HERO ========== */
+    #hero {
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-rocket-container {
+      position: relative;
+      width: 200px;
+      height: 500px;
+      margin: 0 auto 32px;
+    }
+
+    .hero-rocket {
+      position: absolute;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      animation: rocketFlyIn 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      filter: drop-shadow(0 0 30px rgba(255, 209, 102, 0.3));
+    }
+
+    @keyframes rocketFlyIn {
+      0% { bottom: -200px; opacity: 0; transform: translateX(-50%) scale(0.5); }
+      60% { opacity: 1; }
+      100% { bottom: 50px; transform: translateX(-50%) scale(1); }
+    }
+
+    .hero-flame {
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 60px;
+      background: radial-gradient(ellipse at top, #fff 0%, #FFD166 30%, #EF476F 60%, transparent 100%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: flameFlicker 0.15s infinite alternate;
+      opacity: 0;
+      animation: flameFlicker 0.15s infinite alternate, flameAppear 0.5s 2s forwards;
+    }
+
+    @keyframes flameFlicker {
+      0% { transform: translateX(-50%) scaleY(0.9) scaleX(0.95); }
+      100% { transform: translateX(-50%) scaleY(1.1) scaleX(1.05); }
+    }
+
+    @keyframes flameAppear {
+      to { opacity: 1; }
+    }
+
+    .hero-title {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      background: linear-gradient(135deg, #fff 0%, var(--star-gold) 50%, #FFF0A0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleAppear 1s 0.5s both;
+      text-shadow: none;
+      margin-bottom: 16px;
+    }
+
+    @keyframes titleAppear {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 3vw, 1.3rem);
+      opacity: 0;
+      animation: fadeUp 0.8s 1.2s forwards;
+      margin-bottom: 40px;
+      color: rgba(232,241,255,0.8);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 40px;
+      background: linear-gradient(135deg, var(--rocket-red), #ff6b8a);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-family: 'ZCOOL KuaiLe', sans-serif;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeUp 0.8s 1.8s forwards;
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+      box-shadow: 0 8px 30px rgba(239, 71, 111, 0.4);
+      text-decoration: none;
+    }
+
+    .hero-cta:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 12px 40px rgba(239, 71, 111, 0.6);
+    }
+
+    .hero-cta:active {
+      transform: scale(0.97);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      animation: fadeUp 0.8s 2.5s forwards;
+      text-align: center;
+    }
+
+    .scroll-hint span {
+      display: block;
+      font-size: 0.85rem;
+      opacity: 0.5;
+      margin-bottom: 8px;
+    }
+
+    .scroll-arrow {
+      width: 24px;
+      height: 24px;
+      border-right: 2px solid var(--star-gold);
+      border-bottom: 2px solid var(--star-gold);
+      transform: rotate(45deg);
+      margin: 0 auto;
+      animation: scrollBounce 1.5s infinite;
+      opacity: 0.6;
+    }
+
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50% { transform: rotate(45deg) translateY(8px); }
+    }
+
+    /* ========== INTRO SECTION ========== */
+    #intro {
+      background: linear-gradient(180deg, transparent, rgba(27,0,51,0.3), transparent);
+    }
+
+    .intro-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .intro-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      cursor: default;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .intro-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .intro-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(255,209,102,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .intro-card .emoji {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .intro-card h3 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      color: var(--star-gold);
+      margin-bottom: 12px;
+    }
+
+    .intro-card p {
+      font-size: 0.95rem;
+      opacity: 0.75;
+      line-height: 1.9;
+    }
+
+    /* ========== ROCKET EXPLODED VIEW ========== */
+    #exploded { min-height: auto; padding: 100px 24px; }
+
+    .exploded-container {
+      max-width: 900px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .exploded-stage {
+      position: relative;
+      height: 560px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rocket-assembly {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .rocket-assembly.exploded .rocket-part {
+      animation: explodeOut 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    .rocket-assembly.exploded .part-payload { transform: translateY(-140px) rotate(-5deg); }
+    .rocket-assembly.exploded .part-second { transform: translateY(-60px) rotate(3deg); }
+    .rocket-assembly.exploded .part-interstage { transform: translateY(-5px); }
+    .rocket-assembly.exploded .part-first { transform: translateY(50px) rotate(-2deg); }
+    .rocket-assembly.exploded .part-grid { transform: translateY(130px) rotate(4deg); }
+    .rocket-assembly.exploded .part-legs { transform: translateY(180px) rotate(-3deg); }
+
+    .rocket-part {
+      position: relative;
+      cursor: pointer;
+      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rocket-part:hover .part-glow {
+      opacity: 1;
+    }
+
+    .part-glow {
+      position: absolute;
+      inset: -8px;
+      border-radius: 16px;
+      background: radial-gradient(ellipse, rgba(255,209,102,0.2), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    .part-label {
+      position: absolute;
+      white-space: nowrap;
+      background: rgba(13,27,42,0.9);
+      border: 1px solid var(--star-gold);
+      border-radius: 12px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      color: var(--star-gold);
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+      z-index: 10;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .rocket-part:hover .part-label { opacity: 1; }
+
+    .exploded .part-label { opacity: 0.8 !important; }
+
+    .part-label.top { top: -40px; }
+    .part-label.bottom { bottom: -40px; }
+
+    .explode-btn {
+      display: block;
+      margin: 32px auto 0;
+      padding: 16px 48px;
+      background: linear-gradient(135deg, var(--star-gold), #e6b800);
+      border: none;
+      border-radius: 50px;
+      color: var(--space-dark);
+      font-family: 'ZCOOL KuaiLe', sans-serif;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 24px rgba(255,209,102,0.3);
+    }
+
+    .explode-btn:hover {
+      transform: scale(1.07) translateY(-2px);
+      box-shadow: 0 12px 32px rgba(255,209,102,0.5);
+    }
+
+    .explode-btn:active { transform: scale(0.97); }
+
+    /* Detail Modal */
+    .detail-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .detail-modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .detail-card {
+      background: linear-gradient(135deg, #1a1a3e, #0d1b2a);
+      border: 1px solid rgba(255,209,102,0.3);
+      border-radius: 28px;
+      padding: 40px;
+      max-width: 480px;
+      width: 90%;
+      transform: scale(0.8) translateY(30px);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      text-align: center;
+    }
+
+    .detail-modal.open .detail-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .detail-card .emoji { font-size: 4rem; margin-bottom: 16px; display: block; }
+    .detail-card h3 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.8rem;
+      color: var(--star-gold);
+      margin-bottom: 16px;
+    }
+    .detail-card p {
+      font-size: 1rem;
+      opacity: 0.8;
+      line-height: 2;
+      margin-bottom: 24px;
+    }
+
+    .detail-close {
+      padding: 12px 32px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50px;
+      color: white;
+      font-family: 'ZCOOL KuaiLe', sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .detail-close:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ========== LAUNCH SIMULATOR ========== */
+    #launch { min-height: 100vh; }
+
+    .launch-area {
+      position: relative;
+      width: 100%;
+      max-width: 700px;
+      height: 500px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, #000510 0%, #0a1628 100%);
+      margin-bottom: 32px;
+    }
+
+    #launchCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .countdown-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .countdown-number {
+      font-family: 'Fredoka One', cursive;
+      font-size: 8rem;
+      color: var(--star-gold);
+      text-shadow: 0 0 60px rgba(255,209,102,0.5);
+      animation: countPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+    }
+
+    .countdown-number.active {
+      opacity: 1;
+    }
+
+    @keyframes countPop {
+      0% { transform: scale(2); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .launch-status {
+      text-align: center;
+      font-size: 1.3rem;
+      min-height: 2em;
+      color: var(--star-gold);
+      font-family: 'Fredoka One', cursive;
+    }
+
+    .launch-controls {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .launch-btn {
+      padding: 14px 36px;
+      border: none;
+      border-radius: 50px;
+      font-family: 'ZCOOL KuaiLe', sans-serif;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .launch-btn.primary {
+      background: linear-gradient(135deg, var(--rocket-red), #ff6b8a);
+      color: white;
+      box-shadow: 0 8px 24px rgba(239,71,111,0.4);
+    }
+
+    .launch-btn.secondary {
+      background: rgba(255,255,255,0.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .launch-btn:hover {
+      transform: scale(1.07) translateY(-2px);
+    }
+    .launch-btn:active { transform: scale(0.97); }
+    .launch-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ========== STATS ========== */
+    #stats { background: linear-gradient(180deg, transparent, rgba(27,0,51,0.3), transparent); }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    .stat-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-6px) scale(1.03);
+      border-color: rgba(6, 214, 160, 0.3);
+      box-shadow: 0 16px 48px rgba(6,214,160,0.1);
+    }
+
+    .stat-emoji { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+    .stat-value {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.8rem;
+      color: var(--tech-green);
+      display: block;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    /* ========== QUIZ ========== */
+    #quiz { min-height: auto; }
+
+    .quiz-container {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .quiz-progress {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .quiz-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transition: all 0.3s;
+    }
+    .quiz-dot.active { background: var(--star-gold); transform: scale(1.3); }
+    .quiz-dot.correct { background: var(--tech-green); }
+    .quiz-dot.wrong { background: var(--rocket-red); }
+
+    .quiz-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 28px;
+      padding: 40px 32px;
+      text-align: center;
+      transition: all 0.5s;
+    }
+
+    .quiz-card h3 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.5rem;
+      color: var(--star-gold);
+      margin-bottom: 24px;
+    }
+
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .quiz-option {
+      padding: 18px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      color: white;
+      font-family: 'ZCOOL KuaiLe', sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .quiz-option:hover:not(:disabled) {
+      border-color: var(--star-gold);
+      background: rgba(255,209,102,0.1);
+      transform: scale(1.04);
+    }
+
+    .quiz-option.correct {
+      border-color: var(--tech-green);
+      background: rgba(6,214,160,0.15);
+      animation: correctPulse 0.5s;
+    }
+
+    .quiz-option.wrong {
+      border-color: var(--rocket-red);
+      background: rgba(239,71,111,0.15);
+      animation: wrongShake 0.4s;
+    }
+
+    @keyframes correctPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    @keyframes wrongShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .quiz-feedback {
+      margin-top: 20px;
+      font-size: 1rem;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .quiz-feedback.show { opacity: 1; }
+
+    .quiz-next-btn {
+      margin-top: 20px;
+      padding: 12px 32px;
+      background: linear-gradient(135deg, var(--star-gold), #e6b800);
+      border: none;
+      border-radius: 50px;
+      color: var(--space-dark);
+      font-family: 'ZCOOL KuaiLe', sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: none;
+    }
+
+    .quiz-next-btn.show { display: inline-block; }
+
+    .quiz-next-btn:hover {
+      transform: scale(1.05);
+    }
+
+    /* ========== OUTRO ========== */
+    #outro {
+      min-height: 70vh;
+      text-align: center;
+    }
+
+    .outro-content {
+      max-width: 600px;
+    }
+
+    .outro-emoji {
+      font-size: 5rem;
+      margin-bottom: 24px;
+      display: block;
+      animation: floatEmoji 3s ease-in-out infinite;
+    }
+
+    @keyframes floatEmoji {
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50% { transform: translateY(-16px) rotate(3deg); }
+    }
+
+    .outro-content h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.5rem;
+      color: var(--star-gold);
+      margin-bottom: 20px;
+    }
+
+    .outro-content p {
+      font-size: 1.1rem;
+      opacity: 0.75;
+      line-height: 2;
+      margin-bottom: 32px;
+    }
+
+    .dream-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 16px 40px;
+      background: linear-gradient(135deg, var(--tech-green), #05b88a);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-family: 'ZCOOL KuaiLe', sans-serif;
+      font-size: 1.15rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 8px 24px rgba(6,214,160,0.3);
+    }
+
+    .dream-btn:hover {
+      transform: scale(1.07) translateY(-2px);
+      box-shadow: 0 12px 32px rgba(6,214,160,0.5);
+    }
+
+    /* ========== FLOATING DECORATIONS ========== */
+    .floating-planet {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.15;
+    }
+
+    .planet-1 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle at 30% 30%, #6B4EFF, #1B0033);
+      top: 10%; right: -80px;
+      animation: planetFloat 8s ease-in-out infinite;
+    }
+
+    .planet-2 {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle at 30% 30%, #FF6B8A, #7B1133);
+      bottom: 20%; left: -50px;
+      animation: planetFloat 10s ease-in-out infinite reverse;
+    }
+
+    .planet-3 {
+      width: 150px; height: 150px;
+      background: radial-gradient(circle at 30% 30%, #06D6A0, #02735E);
+      top: 50%; right: 5%;
+      animation: planetFloat 12s ease-in-out infinite 2s;
+    }
+
+    @keyframes planetFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    /* ========== CELEBRATION ========== */
+    .celebration {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      animation: confettiFall 3s ease-in forwards;
+    }
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ========== SCROLL ANIMATIONS ========== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      nav { padding: 12px 16px; }
+      .nav-links { display: none; }
+      section { padding: 60px 16px; }
+      .exploded-stage { height: 700px; }
+      .quiz-options { grid-template-columns: 1fr; }
+      .hero-rocket-container { height: 400px; }
+      .rocket-assembly.exploded .part-payload { transform: translateY(-100px) rotate(-5deg); }
+      .rocket-assembly.exploded .part-second { transform: translateY(-40px) rotate(3deg); }
+      .rocket-assembly.exploded .part-first { transform: translateY(30px) rotate(-2deg); }
+      .rocket-assembly.exploded .part-grid { transform: translateY(90px) rotate(4deg); }
+      .rocket-assembly.exploded .part-legs { transform: translateY(130px) rotate(-3deg); }
+    }
+
+    /* ========== SCROLLBAR ========== */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--space-dark); }
+    ::-webkit-scrollbar-thumb { background: rgba(255,209,102,0.3); border-radius: 8px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,209,102,0.5); }
+
+    /* ========== SELECTION ========== */
+    ::selection { background: rgba(255,209,102,0.3); color: white; }
+  </style>
+</head>
+<body>
+
+<!-- Starfield -->
+<canvas id="starfield"></canvas>
+
+<!-- Floating Planets -->
+<div class="floating-planet planet-1"></div>
+<div class="floating-planet planet-2"></div>
+<div class="floating-planet planet-3"></div>
+
+<!-- Navigation -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">🚀 猎鹰9号</a>
+  <ul class="nav-links">
+    <li><a href="#intro">认识它</a></li>
+    <li><a href="#exploded">拆拆看</a></li>
+    <li><a href="#launch">发射!</a></li>
+    <li><a href="#stats">有多厉害</a></li>
+    <li><a href="#quiz">小测验</a></li>
+  </ul>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section id="hero">
+  <div class="hero-rocket-container">
+    <div class="hero-flame"></div>
+    <svg class="hero-rocket" viewBox="0 0 80 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Payload fairing -->
+      <path d="M40 0 C20 0 15 20 15 50 L15 80 C15 90 25 95 40 95 C55 95 65 90 65 80 L65 50 C65 20 60 0 40 0Z" fill="#E8F1FF" stroke="#ccc" stroke-width="1"/>
+      <path d="M25 50 L40 25 L55 50" fill="none" stroke="#FFD166" stroke-width="2" opacity="0.5"/>
+      <!-- Second stage -->
+      <rect x="20" y="95" width="40" height="130" rx="6" fill="url(#grad2)"/>
+      <rect x="28" y="110" width="24" height="30" rx="4" fill="rgba(255,255,255,0.08)"/>
+      <text x="40" y="200" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="8" font-family="monospace">SECOND STAGE</text>
+      <!-- Interstage -->
+      <rect x="18" y="225" width="44" height="20" rx="3" fill="#2a2a4a"/>
+      <line x1="20" y1="235" x2="60" y2="235" stroke="#FFD166" stroke-width="1" opacity="0.3"/>
+      <!-- First stage -->
+      <rect x="18" y="245" width="44" height="140" rx="6" fill="url(#grad1)"/>
+      <!-- Grid fins -->
+      <rect x="5" y="250" width="13" height="30" rx="2" fill="#555" transform="rotate(-5 5 250)"/>
+      <rect x="62" y="250" width="13" height="30" rx="2" fill="#555" transform="rotate(5 70 250)"/>
+      <!-- Landing legs -->
+      <path d="M18 380 L-5 410 L10 415 L25 390Z" fill="#666"/>
+      <path d="M62 380 L87 410 L72 415 L55 390Z" fill="#666"/>
+      <!-- Engines -->
+      <ellipse cx="28" cy="390" rx="6" ry="4" fill="#333"/>
+      <ellipse cx="40" cy="390" rx="6" ry="4" fill="#333"/>
+      <ellipse cx="52" cy="390" rx="6" ry="4" fill="#333"/>
+      <!-- Gradients -->
+      <defs>
+        <linearGradient id="grad1" x1="18" y1="245" x2="62" y2="245" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#1a1a3e"/>
+          <stop offset="50%" stop-color="#2d2d5e"/>
+          <stop offset="100%" stop-color="#1a1a3e"/>
+        </linearGradient>
+        <linearGradient id="grad2" x1="20" y1="95" x2="60" y2="95" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#1a1a3e"/>
+          <stop offset="50%" stop-color="#252550"/>
+          <stop offset="100%" stop-color="#1a1a3e"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+  <h1 class="hero-title">猎鹰 9 号 🚀</h1>
+  <p class="hero-subtitle">世界上最厉害的太空火箭之一<br>它可以飞上太空，然后再飞回来！</p>
+  <a href="#intro" class="hero-cta">🌟 一起探索太空吧！</a>
+  <div class="scroll-hint">
+    <span>往下滚动</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ========== INTRO ========== -->
+<section id="intro">
+  <h2 class="section-title reveal">猎鹰9号是什么？</h2>
+  <p class="section-subtitle reveal">它是美国SpaceX公司制造的超厉害火箭，可以把人造卫星和宇宙飞船送到太空！</p>
+  <div class="intro-cards">
+    <div class="intro-card">
+      <span class="emoji">🏢</span>
+      <h3>谁制造的？</h3>
+      <p>SpaceX公司，由一个叫埃隆·马斯克的超级聪明叔叔创办，他们还制造特斯拉汽车呢！</p>
+    </div>
+    <div class="intro-card">
+      <span class="emoji">🎯</span>
+      <h3>它能做什么？</h3>
+      <p>把卫星、太空船、宇航员叔叔阿姨们送进太空！它还能把货物送到国际空间站。</p>
+    </div>
+    <div class="intro-card">
+      <span class="emoji">♻️</span>
+      <h3>超厉害的地方</h3>
+      <p>它可以自己飞回来降落，像搭电梯一样！这样火箭就可以反复使用啦，超级省钱！</p>
+    </div>
+    <div class="intro-card">
+      <span class="emoji">📅</span>
+      <h3>第一次飞是什么时候？</h3>
+      <p>2010年6月4日第一次飞上天空，到现在已经执行了超过200次任务啦！</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== EXPLODED VIEW ========== -->
+<section id="exploded">
+  <h2 class="section-title reveal">🔧 火箭大拆解</h2>
+  <p class="section-subtitle reveal">点"拆开看看"，把火箭的每个部分都看清楚！</p>
+  <div class="exploded-container">
+    <div class="exploded-stage">
+      <div class="rocket-assembly" id="rocketAssembly">
+
+        <!-- Payload Fairing -->
+        <div class="rocket-part part-payload" data-part="payload" onclick="showPartDetail('payload')">
+          <div class="part-glow"></div>
+          <svg width="120" height="100" viewBox="0 0 120 100">
+            <path d="M60 0 C30 0 20 25 20 55 L20 82 C20 90 35 95 60 95 C85 95 100 90 100 82 L100 55 C100 25 90 0 60 0Z" fill="#E8F1FF" stroke="#FFD166" stroke-width="2"/>
+            <path d="M30 50 L60 20 L90 50" fill="none" stroke="#FFD166" stroke-width="1.5" opacity="0.4"/>
+            <circle cx="60" cy="55" r="12" fill="rgba(255,209,102,0.15)" stroke="#FFD166" stroke-width="1"/>
+            <text x="60" y="85" text-anchor="middle" fill="#FFD166" font-size="8" font-family="sans-serif">整流罩</text>
+          </svg>
+          <span class="part-label top">🚀 整流罩</span>
+        </div>
+
+        <!-- Second Stage -->
+        <div class="rocket-part part-second" data-part="second" onclick="showPartDetail('second')">
+          <div class="part-glow"></div>
+          <svg width="90" height="140" viewBox="0 0 90 140">
+            <rect x="10" y="0" width="70" height="130" rx="8" fill="url(#eg2)"/>
+            <rect x="22" y="15" width="46" height="40" rx="6" fill="rgba(255,255,255,0.06)"/>
+            <text x="45" y="105" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-size="7" font-family="monospace">SECOND STAGE</text>
+            <text x="45" y="120" text-anchor="middle" fill="#FFD166" font-size="8">二级助推器</text>
+            <defs>
+              <linearGradient id="eg2" x1="10" y1="0" x2="80" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1a1a3e"/>
+                <stop offset="50%" stop-color="#2d2d5e"/>
+                <stop offset="100%" stop-color="#1a1a3e"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="part-label top">🛸 二级助推器</span>
+        </div>
+
+        <!-- Interstage -->
+        <div class="rocket-part part-interstage" data-part="interstage" onclick="showPartDetail('interstage')">
+          <div class="part-glow"></div>
+          <svg width="84" height="28" viewBox="0 0 84 28">
+            <rect x="2" y="0" width="80" height="28" rx="4" fill="#2a2a4a"/>
+            <line x1="4" y1="14" x2="80" y2="14" stroke="#FFD166" stroke-width="1" opacity="0.4"/>
+            <text x="42" y="20" text-anchor="middle" fill="#FFD166" font-size="8">级间段</text>
+          </svg>
+          <span class="part-label top">🔗 级间段</span>
+        </div>
+
+        <!-- First Stage -->
+        <div class="rocket-part part-first" data-part="first" onclick="showPartDetail('first')">
+          <div class="part-glow"></div>
+          <svg width="84" height="170" viewBox="0 0 84 170">
+            <rect x="2" y="0" width="80" height="160" rx="8" fill="url(#eg1)"/>
+            <rect x="16" y="20" width="52" height="80" rx="6" fill="rgba(255,255,255,0.04)"/>
+            <text x="42" y="130" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-size="7" font-family="monospace">FIRST STAGE</text>
+            <text x="42" y="148" text-anchor="middle" fill="#FFD166" font-size="8">一级助推器</text>
+            <rect x="0" y="28" width="16" height="50" rx="3" fill="#444" transform="rotate(-4 0 28)"/>
+            <rect x="68" y="28" width="16" height="50" rx="3" fill="#444" transform="rotate(4 84 28)"/>
+            <defs>
+              <linearGradient id="eg1" x1="2" y1="0" x2="82" y2="0" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#1a1a3e"/>
+                <stop offset="50%" stop-color="#2d2d5e"/>
+                <stop offset="100%" stop-color="#1a1a3e"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <span class="part-label top">🔥 一级助推器</span>
+        </div>
+
+        <!-- Grid Fins -->
+        <div class="rocket-part part-grid" data-part="grid" onclick="showPartDetail('grid')">
+          <div class="part-glow"></div>
+          <svg width="160" height="50" viewBox="0 0 160 50">
+            <rect x="0" y="5" width="22" height="40" rx="4" fill="#555" stroke="#666" stroke-width="1"/>
+            <rect x="138" y="5" width="22" height="40" rx="4" fill="#555" stroke="#666" stroke-width="1"/>
+            <!-- grid lines -->
+            <line x1="3" y1="15" x2="19" y2="15" stroke="#888" stroke-width="0.5"/>
+            <line x1="3" y1="25" x2="19" y2="25" stroke="#888" stroke-width="0.5"/>
+            <line x1="3" y1="35" x2="19" y2="35" stroke="#888" stroke-width="0.5"/>
+            <line x1="141" y1="15" x2="157" y2="15" stroke="#888" stroke-width="0.5"/>
+            <line x1="141" y1="25" x2="157" y2="25" stroke="#888" stroke-width="0.5"/>
+            <line x1="141" y1="35" x2="157" y2="35" stroke="#888" stroke-width="0.5"/>
+            <text x="80" y="20" text-anchor="middle" fill="#FFD166" font-size="8">栅格翼</text>
+            <text x="80" y="36" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">帮助火箭控制方向</text>
+          </svg>
+          <span class="part-label bottom">� fins 栅格翼</span>
+        </div>
+
+        <!-- Landing Legs -->
+        <div class="rocket-part part-legs" data-part="legs" onclick="showPartDetail('legs')">
+          <div class="part-glow"></div>
+          <svg width="160" height="60" viewBox="0 0 160 60">
+            <path d="M40 0 L5 55 L25 58 L50 10Z" fill="#666" stroke="#555" stroke-width="1"/>
+            <path d="M120 0 L155 55 L135 58 L110 10Z" fill="#666" stroke="#555" stroke-width="1"/>
+            <text x="80" y="20" text-anchor="middle" fill="#FFD166" font-size="8">着陆腿</text>
+            <text x="80" y="36" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="7">像八爪鱼的脚</text>
+          </svg>
+          <span class="part-label bottom">🦵 着陆腿</span>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="explode-btn" id="explodeBtn" onclick="toggleExplode()">
+      🔍 拆开看看！
+    </button>
+  </div>
+</section>
+
+<!-- Detail Modal -->
+<div class="detail-modal" id="detailModal" onclick="closeModal(event)">
+  <div class="detail-card" onclick="event.stopPropagation()">
+    <span class="emoji" id="modalEmoji">🚀</span>
+    <h3 id="modalTitle">部分名称</h3>
+    <p id="modalDesc">描述内容</p>
+    <button class="detail-close" onclick="closeModal()">知道了！✨</button>
+  </div>
+</div>
+
+<!-- ========== LAUNCH SIMULATOR ========== -->
+<section id="launch">
+  <h2 class="section-title reveal">🎬 发射模拟器</h2>
+  <p class="section-subtitle reveal">按下"发射！"按钮，亲自体验火箭升空的震撼！</p>
+  <div class="launch-area">
+    <canvas id="launchCanvas"></canvas>
+    <div class="countdown-overlay">
+      <div class="countdown-number" id="countdownNum"></div>
+    </div>
+  </div>
+  <div class="launch-status" id="launchStatus">🚀 准备就绪，等你来发射！</div>
+  <div class="launch-controls">
+    <button class="launch-btn primary" id="launchBtn" onclick="startLaunch()">🎉 发射！</button>
+    <button class="launch-btn secondary" id="resetBtn" onclick="resetLaunch()" style="display:none">🔄 再来一次</button>
+  </div>
+</section>
+
+<!-- ========== STATS ========== -->
+<section id="stats">
+  <h2 class="section-title reveal">📊 猎鹰9号有多厉害？</h2>
+  <p class="section-subtitle reveal">这些数字告诉你，这只"猎鹰"有多强大！</p>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-emoji">📏</span>
+      <span class="stat-value" data-target="70" data-suffix="米">0</span>
+      <span class="stat-label">火箭高度（约7层楼）</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-emoji">⚖️</span>
+      <span class="stat-value" data-target="549" data-suffix="吨">0</span>
+      <span class="stat-label">起飞重量（540辆小汽车）</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-emoji">💨</span>
+      <span class="stat-value" data-target="27" data-suffix="个">0</span>
+      <span class="stat-label"> Merlin 引擎数量</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-emoji">🔄</span>
+      <span class="stat-value" data-target="200" data-suffix="+">0</span>
+      <span class="stat-label">成功发射次数</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-emoji">🌊</span>
+      <span class="stat-value" data-target="9" data-suffix="次">0</span>
+      <span class="stat-label">助推器复用次数记录</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-emoji">🌍</span>
+      <span class="stat-value" data-target="27500" data-suffix="km/h">0</span>
+      <span class="stat-label">进入轨道时的速度</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== QUIZ ========== -->
+<section id="quiz">
+  <h2 class="section-title reveal">🧠 小小宇航员测验</h2>
+  <p class="section-subtitle reveal">学到了这么多，来挑战一下自己吧！</p>
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quizProgress">
+      <div class="quiz-dot active" data-q="0"></div>
+      <div class="quiz-dot" data-q="1"></div>
+      <div class="quiz-dot" data-q="2"></div>
+    </div>
+    <div class="quiz-card" id="quizCard">
+      <h3 id="quizQuestion">问题加载中...</h3>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <button class="quiz-next-btn" id="quizNext" onclick="nextQuestion()">下一题 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ========== OUTRO ========== -->
+<section id="outro">
+  <div class="outro-content reveal">
+    <span class="outro-emoji">👨‍🚀</span>
+    <h2>你也可以飞向太空！</h2>
+    <p>猎鹰9号证明了，只要敢想敢做，人类可以去任何地方！<br>也许有一天，你也可以坐着自己设计的火箭飞向星空。<br>保持好奇心，星星在等你！ ✨</p>
+    <button class="dream-btn" onclick="celebrate()">🌟 我的太空梦想 🌟</button>
+  </div>
+</section>
+
+<!-- Celebration overlay -->
+<div class="celebration" id="celebration"></div>
+
+<script>
+// ==================== STARFIELD ====================
+(function() {
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  let stars = [];
+  let W, H;
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function createStars() {
+    stars = [];
+    const count = Math.floor((W * H) / 4000);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.5 + 0.3,
+        speed: Math.random() * 0.5 + 0.05,
+        opacity: Math.random() * 0.8 + 0.2,
+        twinkle: Math.random() * Math.PI * 2,
+        twinkleSpeed: Math.random() * 0.03 + 0.01,
+        color: Math.random() > 0.7 ? '#FFD166' : (Math.random() > 0.5 ? '#E8F1FF' : '#ffffff')
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => {
+      s.twinkle += s.twinkleSpeed;
+      const alpha = s.opacity * (0.5 + 0.5 * Math.sin(s.twinkle));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.globalAlpha = alpha;
+      ctx.fill();
+      s.y += s.speed;
+      if (s.y > H + 5) { s.y = -5; s.x = Math.random() * W; }
+    });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); createStars(); });
+  resize();
+  createStars();
+  draw();
+})();
+
+// ==================== NAV SCROLL ====================
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ==================== SCROLL REVEAL ====================
+const revealEls = document.querySelectorAll('.reveal, .intro-card, .stat-card');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => { e.target.classList.add('visible'); }, i * 80);
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// ==================== EXPLODE VIEW ====================
+let isExploded = false;
+
+function toggleExplode() {
+  isExploded = !isExploded;
+  const assembly = document.getElementById('rocketAssembly');
+  const btn = document.getElementById('explodeBtn');
+  if (isExploded) {
+    assembly.classList.add('exploded');
+    btn.textContent = '🔧 组装回去！';
+  } else {
+    assembly.classList.remove('exploded');
+    btn.textContent = '🔍 拆开看看！';
+  }
+}
+
+const partDetails = {
+  payload: {
+    emoji: '🛡️',
+    title: '整流罩',
+    desc: '火箭头顶的"帽子"就是整流罩！它像保护罩一样，保护里面的人造卫星不被风吹坏。当火箭飞出大气层后，整流罩就会打开，像贝壳一样张开，把卫星放出去！'
+  },
+  second: {
+    emoji: '🛸',
+    title: '二级助推器',
+    desc: '二级助推器是火箭的第二条腿！它负责把卫星送到更高的轨道。它装的是液态氧和煤油，点燃后可以工作很久很久，一直把东西送到很远很远的地方。'
+  },
+  interstage: {
+    emoji: '🔗',
+    title: '级间段',
+    desc: '级间段就像火箭的"腰带"，把一级和二级连接在一起。当一级火箭用完燃料后，级间段会爆炸，把一级弹开，让二级点火继续飞！'
+  },
+  first: {
+    emoji: '🔥',
+    title: '一级助推器',
+    desc: '一级助推器是火箭最强壮的部分！它有9个 Merlin 引擎，可以产生巨大的推力把火箭推离地面。它完成任务后，会自己飞回来降落在地球上，准备再次使用！'
+  },
+  grid: {
+    emoji: '🪶',
+    title: '栅格翼',
+    desc: '栅格翼是火箭的"小翅膀"！在它从太空飞回来的时候，栅格翼会展开，帮助火箭控制方向，像滑翔机一样稳稳地飘回来，这样它才能准确降落在指定地点。'
+  },
+  legs: {
+    emoji: '🦵',
+    title: '着陆腿',
+    desc: '着陆腿是火箭的"脚"！当一级助推器从太空飞回来时，它会用这几个"脚"站立。着陆时会自动伸出来，让火箭稳稳地停在地面上，就像机器人站立一样酷！'
+  }
+};
+
+function showPartDetail(partId) {
+  const modal = document.getElementById('detailModal');
+  const detail = partDetails[partId];
+  document.getElementById('modalEmoji').textContent = detail.emoji;
+  document.getElementById('modalTitle').textContent = detail.title;
+  document.getElementById('modalDesc').textContent = detail.desc;
+  modal.classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('detailModal')) {
+    document.getElementById('detailModal').classList.remove('open');
+  }
+}
+
+// ==================== LAUNCH SIMULATOR ====================
+const launchCanvas = document.getElementById('launchCanvas');
+const lc = launchCanvas.getContext('2d');
+let launchState = 'idle';
+let launchAnimId = null;
+let rocketY = 0;
+let booster1Y = 0;
+let booster2Y = 0;
+let particles = [];
+let stage = 0;
+let countdownVal = 10;
+
+function resizeLaunchCanvas() {
+  const rect = launchCanvas.getBoundingClientRect();
+  launchCanvas.width = rect.width;
+  launchCanvas.height = rect.height;
+}
+
+function drawLaunch() {
+  const W = launchCanvas.width;
+  const H = launchCanvas.height;
+  lc.clearRect(0, 0, W, H);
+
+  // Ground
+  const groundY = H - 40;
+  lc.fillStyle = '#1a3a2a';
+  lc.fillRect(0, groundY, W, 40);
+  // Launch pad
+  lc.fillStyle = '#2a4a3a';
+  lc.fillRect(W/2 - 30, groundY - 10, 60, 10);
+
+  const rx = W / 2;
+  const rocketH = 80;
+
+  if (launchState === 'idle' || launchState === 'countdown') {
+    // Static rocket
+    drawRocket(lc, rx, groundY - rocketH, rocketH, 1);
+  }
+
+  if (launchState === 'launching') {
+    // Launching rocket with fire
+    drawRocket(lc, rx, rocketY, rocketH, 1);
+    drawFire(lc, rx, rocketY + rocketH, rocketH);
+    particles.forEach(p => {
+      p.y += p.vy;
+      p.x += p.vx;
+      p.life -= 0.02;
+      p.size *= 0.97;
+      if (p.life > 0) {
+        lc.beginPath();
+        lc.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        lc.fillStyle = p.color;
+        lc.globalAlpha = p.life;
+        lc.fill();
+        lc.globalAlpha = 1;
+      }
+    });
+
+    if (rocketY > H * 0.5) {
+      launchState = 'stage1';
+      stage = 1;
+      // Spawn booster separation
+      booster1Y = rocketY;
+      booster2Y = rocketY;
+    }
+  }
+
+  if (launchState === 'stage1') {
+    // Rocket continues up
+    rocketY -= 3;
+    drawRocket(lc, rx, rocketY, rocketH, 2);
+    drawFire(lc, rx, rocketY + rocketH, rocketH * 0.6);
+
+    // Boosters falling with grid fins
+    booster1Y += 1.5;
+    booster2Y += 1.5;
+    drawBooster(lc, rx - 60, booster1Y);
+    drawBooster(lc, rx + 60, booster2Y);
+
+    if (rocketY < -rocketH * 2) {
+      launchState = 'landing';
+      stage = 2;
+    }
+  }
+
+  if (launchState === 'landing') {
+    // Boosters landing
+    booster1Y += 1.2;
+    booster2Y += 1.2;
+    drawBooster(lc, rx - 60, booster1Y);
+    drawBooster(lc, rx + 60, booster2Y);
+
+    if (booster1Y > groundY - 40) {
+      launchState = 'complete';
+      stage = 3;
+      document.getElementById('launchStatus').textContent = '🎉 发射成功！任务完成！';
+      document.getElementById('launchBtn').disabled = true;
+      document.getElementById('resetBtn').style.display = 'inline-flex';
+    }
+  }
+
+  if (launchState === 'complete') {
+    // Show completed state
+    drawBooster(lc, rx - 60, groundY - 40);
+    drawBooster(lc, rx + 60, groundY - 40);
+
+    // Stars celebration
+    for (let i = 0; i < 5; i++) {
+      lc.beginPath();
+      lc.arc(rx - 80 + Math.random() * 160, groundY - 20 + Math.random() * 20, 2, 0, Math.PI * 2);
+      lc.fillStyle = '#FFD166';
+      lc.globalAlpha = 0.8;
+      lc.fill();
+      lc.globalAlpha = 1;
+    }
+  }
+
+  if (launchState !== 'complete') {
+    launchAnimId = requestAnimationFrame(drawLaunch);
+  }
+}
+
+function drawRocket(ctx, x, y, h, stg) {
+  const w = h * 0.22;
+  ctx.save();
+  // Body
+  ctx.fillStyle = '#2d2d5e';
+  ctx.beginPath();
+  ctx.roundRect(x - w/2, y, w, h, 4);
+  ctx.fill();
+  // Nose
+  ctx.fillStyle = '#E8F1FF';
+  ctx.beginPath();
+  ctx.moveTo(x - w/2, y + 10);
+  ctx.quadraticCurveTo(x, y - 5, x + w/2, y + 10);
+  ctx.fill();
+  // Stripe
+  ctx.fillStyle = 'rgba(255,209,102,0.15)';
+  ctx.fillRect(x - w/2, y + h * 0.3, w, h * 0.08);
+
+  if (stg === 1) {
+    // Grid fins
+    ctx.fillStyle = '#555';
+    ctx.fillRect(x - w/2 - 12, y + 8, 12, 20);
+    ctx.fillRect(x + w/2, y + 8, 12, 20);
+  }
+  if (stg >= 1) {
+    // Legs
+    ctx.fillStyle = '#666';
+    ctx.beginPath();
+    ctx.moveTo(x - w/2, y + h - 2);
+    ctx.lineTo(x - w/2 - 15, y + h + 8);
+    ctx.lineTo(x - w/2 + 8, y + h + 8);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(x + w/2, y + h - 2);
+    ctx.lineTo(x + w/2 + 15, y + h + 8);
+    ctx.lineTo(x + w/2 - 8, y + h + 8);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+function drawBooster(ctx, x, y) {
+  const h = 50, w = 10;
+  ctx.fillStyle = '#2d2d5e';
+  ctx.beginPath();
+  ctx.roundRect(x - w/2, y, w, h, 3);
+  ctx.fill();
+  // Grid fin
+  ctx.fillStyle = '#555';
+  ctx.fillRect(x - w/2 - 6, y + 5, 6, 15);
+  ctx.fillRect(x + w/2, y + 5, 6, 15);
+  // Leg
+  ctx.fillStyle = '#666';
+  ctx.beginPath();
+  ctx.moveTo(x - w/2, y + h);
+  ctx.lineTo(x - w/2 - 8, y + h + 10);
+  ctx.lineTo(x - w/2 + 4, y + h + 10);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(x + w/2, y + h);
+  ctx.lineTo(x + w/2 + 8, y + h + 10);
+  ctx.lineTo(x + w/2 - 4, y + h + 10);
+  ctx.fill();
+}
+
+function drawFire(ctx, x, y, rocketH) {
+  const fh = rocketH * 0.5 + Math.random() * rocketH * 0.3;
+  const fw = rocketH * 0.12;
+  const grad = ctx.createRadialGradient(x, y, 0, x, y + fh, fh);
+  grad.addColorStop(0, 'rgba(255,255,255,0.9)');
+  grad.addColorStop(0.2, 'rgba(255,209,102,0.8)');
+  grad.addColorStop(0.6, 'rgba(239,71,111,0.5)');
+  grad.addColorStop(1, 'rgba(239,71,111,0)');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.ellipse(x, y + fh * 0.4, fw, fh * 0.7, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Particles
+  for (let i = 0; i < 3; i++) {
+    particles.push({
+      x: x + (Math.random() - 0.5) * 10,
+      y: y + fh,
+      vx: (Math.random() - 0.5) * 2,
+      vy: Math.random() * 3 + 1,
+      size: Math.random() * 4 + 2,
+      life: 1,
+      color: Math.random() > 0.5 ? '#FFD166' : '#EF476F'
+    });
+  }
+}
+
+function startLaunch() {
+  if (launchState !== 'idle') return;
+  resizeLaunchCanvas();
+  launchState = 'countdown';
+  countdownVal = 10;
+  document.getElementById('launchBtn').disabled = true;
+  document.getElementById('launchStatus').textContent = '⏱️ 倒计时开始...';
+
+  const countdownEl = document.getElementById('countdownNum');
+  const countInterval = setInterval(() => {
+    countdownEl.textContent = countdownVal;
+    countdownEl.classList.remove('active');
+    void countdownEl.offsetWidth;
+    countdownEl.classList.add('active');
+    countdownVal--;
+    if (countdownVal < 0) {
+      clearInterval(countInterval);
+      countdownEl.textContent = '🚀 发射！';
+      countdownEl.classList.remove('active');
+      void countdownEl.offsetWidth;
+      countdownEl.classList.add('active');
+      setTimeout(() => {
+        countdownEl.classList.remove('active');
+        launchState = 'launching';
+        rocketY = launchCanvas.height - 40 - 80;
+        document.getElementById('launchStatus').textContent = '🔥 点火！升空！';
+        drawLaunch();
+      }, 800);
+    }
+  }, 700);
+}
+
+function resetLaunch() {
+  cancelAnimationFrame(launchAnimId);
+  launchState = 'idle';
+  rocketY = 0;
+  booster1Y = 0;
+  booster2Y = 0;
+  particles = [];
+  stage = 0;
+  document.getElementById('launchBtn').disabled = false;
+  document.getElementById('resetBtn').style.display = 'none';
+  document.getElementById('launchStatus').textContent = '🚀 准备就绪，等你来发射！';
+  resizeLaunchCanvas();
+  drawLaunch();
+}
+
+window.addEventListener('resize', () => {
+  if (launchState === 'idle') {
+    resizeLaunchCanvas();
+    drawLaunch();
+  }
+});
+resizeLaunchCanvas();
+drawLaunch();
+
+// ==================== STAT COUNTER ====================
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target.querySelector('.stat-value');
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      let current = 0;
+      const step = target / 60;
+      const interval = setInterval(() => {
+        current += step;
+        if (current >= target) {
+          current = target;
+          clearInterval(interval);
+        }
+        el.textContent = Math.floor(current).toLocaleString() + suffix;
+      }, 16);
+      statObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.stat-card').forEach(card => {
+  statObserver.observe(card);
+});
+
+// ==================== QUIZ ====================
+const quizData = [
+  {
+    q: '🚀 猎鹰9号是谁制造的？',
+    options: ['苹果公司 🍎', 'SpaceX公司 🚀', 'NASA 🧑‍🚀', '谷歌 🔍'],
+    correct: 1,
+    feedback: '太棒了！是SpaceX公司制造的，他们的老板就是埃隆·马斯克！'
+  },
+  {
+    q: '🔥 猎鹰9号的一级助推器可以做什么？',
+    options: ['飞到太空不回来', '自己飞回来降落 ♻️', '只能飞一次', '在水里游泳'],
+    correct: 1,
+    feedback: '没错！它可以飞回来再次使用，超级环保又省钱！'
+  },
+  {
+    q: '⭐ 猎鹰9号大概有多高？',
+    options: ['和铅笔一样高 📏', '大约70米（像7层楼）🏢', '和火车一样长 🚂', '和桌子一样高'],
+    correct: 1,
+    feedback: '对啦！70米高，比很多大楼还要高呢！'
+  }
+];
+
+let currentQ = 0;
+let answered = false;
+
+function renderQuiz() {
+  const data = quizData[currentQ];
+  document.getElementById('quizQuestion').textContent = data.q;
+  const optsContainer = document.getElementById('quizOptions');
+  optsContainer.innerHTML = '';
+  data.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuestion(i);
+    optsContainer.appendChild(btn);
+  });
+  document.getElementById('quizFeedback').textContent = '';
+  document.getElementById('quizFeedback').classList.remove('show');
+  document.getElementById('quizNext').classList.remove('show');
+  answered = false;
+
+  document.querySelectorAll('.quiz-dot').forEach((dot, i) => {
+    dot.className = 'quiz-dot' + (i === currentQ ? ' active' : '');
+  });
+}
+
+function answerQuestion(idx) {
+  if (answered) return;
+  answered = true;
+  const data = quizData[currentQ];
+  const btns = document.querySelectorAll('.quiz-option');
+  btns.forEach((b, i) => {
+    b.disabled = true;
+    if (i === data.correct) b.classList.add('correct');
+    else if (i === idx && idx !== data.correct) b.classList.add('wrong');
+  });
+
+  const feedback = document.getElementById('quizFeedback');
+  feedback.textContent = idx === data.correct ? '✅ ' + data.feedback : '🤔 ' + '再想想呢，答案不对哦～';
+  feedback.classList.add('show');
+  feedback.style.color = idx === data.correct ? '#06D6A0' : '#FFD166';
+
+  if (idx === data.correct) celebrate();
+
+  if (currentQ < quizData.length - 1) {
+    document.getElementById('quizNext').classList.add('show');
+  } else {
+    document.getElementById('quizNext').textContent = '🎉 完成！';
+    document.getElementById('quizNext').classList.add('show');
+    document.getElementById('quizNext').onclick = () => {
+      currentQ = 0;
+      renderQuiz();
+      document.getElementById('quizNext').textContent = '下一题 →';
+      document.getElementById('quizNext').onclick = nextQuestion;
+    };
+  }
+
+  document.querySelectorAll('.quiz-dot')[currentQ].classList.add(idx === data.correct ? 'correct' : 'wrong');
+}
+
+function nextQuestion() {
+  currentQ++;
+  renderQuiz();
+}
+
+renderQuiz();
+
+// ==================== CELEBRATION ====================
+function celebrate() {
+  const container = document.getElementById('celebration');
+  const colors = ['#FFD166', '#EF476F', '#06D6A0', '#E8F1FF', '#ff6b8a', '#b48eff'];
+  for (let i = 0; i < 80; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDelay = Math.random() * 1.5 + 's';
+    el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+    el.style.width = (Math.random() * 8 + 5) + 'px';
+    el.style.height = (Math.random() * 8 + 5) + 'px';
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    container.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+  }
+}
+</script>
+</body>
+</html>
