@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔤 英语启蒙 · 迪士尼世界</title>
+  <link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="disney.css" />
+</head>
+<body class="lang-both">
+  <header class="topbar">
+    <div class="brand">🔤 英语启蒙<span class="brand-sub">· 迪士尼世界</span></div>
+    <div class="lang-toggle" id="langToggle" role="tablist" aria-label="语言切换">
+      <button class="lang-btn" data-lang="zh" type="button">中文</button>
+      <button class="lang-btn" data-lang="en" type="button">English</button>
+      <button class="lang-btn active" data-lang="both" type="button">双语</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1 class="hero-title">
+      <span class="t-zh">迪士尼世界</span><span class="t-en">Disney World</span>
+    </h1>
+    <p class="hero-sub">
+      <span class="t-zh">和米老鼠、艾莎一起，边玩边学英语！</span>
+      <span class="t-en">Learn English with Mickey and Elsa, by playing!</span>
+    </p>
+    <p class="hero-hint">
+      <span class="t-zh">点一张卡片，认识一个新朋友，学一句英语 👇</span>
+      <span class="t-en">Tap a card to meet a friend and learn a phrase 👇</span>
+    </p>
+  </section>
+
+  <main class="grid" id="grid"><!-- 由 disney.js 渲染 --></main>
+
+  <!-- 详情弹层 -->
+  <div class="modal hidden" id="modal" aria-hidden="true">
+    <div class="modal-mask" id="modalMask"></div>
+    <div class="modal-card" id="modalCard" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modalClose" aria-label="关闭">✕</button>
+      <div class="modal-body" id="modalBody"><!-- 由 disney.js 渲染 --></div>
+    </div>
+  </div>
+
+  <script src="disney-data.js"></script>
+  <script src="disney.js"></script>
+</body>
+</html>

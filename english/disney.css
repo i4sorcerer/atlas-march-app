@@ -1,0 +1,270 @@
+/* =========================================================================
+ *  英语启蒙 · 迪士尼世界 —— 样式
+ *  儿童趣味风格：圆润字体 + 城堡金 / 梦幻紫 主题 + 弹性动效
+ * ========================================================================= */
+
+:root {
+  --gold: #FFB703;
+  --gold-deep: #F2A900;
+  --purple: #7A5CFF;
+  --pink: #FF5C8A;
+  --ink: #2A2350;
+  --ink-soft: #5b5485;
+  --bg-1: #1b1140;
+  --bg-2: #2a1a5e;
+  --card-bg: #ffffff;
+  --radius: 22px;
+  --shadow: 0 10px 30px rgba(40, 20, 90, 0.30);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Nunito", "ZCOOL KuaiLe", -apple-system, "PingFang SC", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(1200px 600px at 20% -10%, rgba(255,183,3,0.20), transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, rgba(122,92,255,0.30), transparent 55%),
+    linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* ---------- 语言切换的显隐规则 ---------- */
+body.lang-zh  .t-en { display: none; }
+body.lang-en  .t-zh { display: none; }
+body.lang-both .t-en {
+  display: inline;
+  color: var(--ink-soft);
+  font-size: 0.82em;
+  margin-left: 6px;
+}
+body.lang-both .t-en::before { content: " · "; margin-right: 2px; }
+
+/* ---------- 顶栏 ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 22px;
+  background: rgba(27, 17, 64, 0.72);
+  backdrop-filter: blur(10px);
+  border-bottom: 2px solid rgba(255, 183, 3, 0.35);
+}
+.brand {
+  font-family: "ZCOOL KuaiLe", "Nunito", sans-serif;
+  font-size: 22px;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+.brand-sub { color: var(--gold); margin-left: 6px; font-size: 18px; }
+
+.lang-toggle {
+  display: inline-flex;
+  background: rgba(255,255,255,0.12);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 4px;
+}
+.lang-btn {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 14px;
+  color: #e9e6ff;
+  background: transparent;
+  padding: 8px 14px;
+  border-radius: 999px;
+  transition: transform .12s ease, background .15s ease, color .15s ease;
+}
+.lang-btn:hover { transform: translateY(-1px); }
+.lang-btn.active {
+  background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+  color: #3a2a00;
+  box-shadow: 0 4px 12px rgba(255,183,3,0.45);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  text-align: center;
+  padding: 34px 18px 10px;
+  color: #fff;
+}
+.hero-title {
+  font-family: "ZCOOL KuaiLe", "Fredoka One", sans-serif;
+  font-size: clamp(30px, 6vw, 52px);
+  margin: 0 0 10px;
+  text-shadow: 0 4px 18px rgba(255,183,3,0.35);
+}
+.hero-title .t-en { color: var(--gold); }
+.hero-sub {
+  font-size: clamp(15px, 2.4vw, 19px);
+  margin: 0 auto 8px;
+  max-width: 640px;
+  color: #f3ecff;
+}
+.hero-hint {
+  font-size: 14px;
+  margin: 4px auto 0;
+  color: #c9c0ff;
+}
+
+/* ---------- 卡片网格 ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+  padding: 26px clamp(16px, 4vw, 48px) 60px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.card {
+  --c: var(--gold);
+  position: relative;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 22px 18px 18px;
+  text-align: center;
+  cursor: pointer;
+  border-top: 6px solid var(--c);
+  box-shadow: var(--shadow);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease;
+  overflow: hidden;
+}
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120px 80px at 50% 0%, color-mix(in srgb, var(--c) 22%, transparent), transparent 70%);
+  pointer-events: none;
+}
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 16px 36px rgba(40,20,90,0.40);
+}
+.card-emoji {
+  font-size: 52px;
+  line-height: 1;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.18));
+}
+.card-name {
+  font-family: "ZCOOL KuaiLe", "Fredoka One", sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--ink);
+}
+.card-tag {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  min-height: 34px;
+}
+.card-tag .t-en { font-size: 12px; }
+
+/* ---------- 详情弹层 ---------- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal.hidden { display: none; }
+.modal-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 8, 40, 0.62);
+  backdrop-filter: blur(3px);
+}
+.modal-card {
+  --c: var(--gold);
+  position: relative;
+  width: min(520px, 100%);
+  max-height: 86vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 26px;
+  padding: 30px 26px 26px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+  border-top: 8px solid var(--c);
+  animation: pop .25s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes pop {
+  from { transform: scale(.9) translateY(12px); opacity: 0; }
+  to   { transform: scale(1) translateY(0);   opacity: 1; }
+}
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: #f1eefb;
+  color: var(--ink);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background .15s ease, transform .12s ease;
+}
+.modal-close:hover { background: #e6e0f7; transform: rotate(90deg); }
+
+.m-emoji { font-size: 64px; text-align: center; line-height: 1; }
+.m-name {
+  font-family: "ZCOOL KuaiLe", "Fredoka One", sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  text-align: center;
+  color: var(--ink);
+  margin: 6px 0 2px;
+}
+.m-tag { text-align: center; color: var(--ink-soft); font-size: 14px; margin-bottom: 14px; }
+.m-desc {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #3a3560;
+  background: #f7f4ff;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.m-phrase {
+  border-radius: 16px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--c) 18%, #fff), #fff);
+  border: 1px dashed color-mix(in srgb, var(--c) 55%, #ccc);
+}
+.m-phrase .label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--c);
+  letter-spacing: 1px;
+}
+.m-phrase .en {
+  display: block;
+  font-family: "Fredoka One", "Nunito", sans-serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--ink);
+  margin: 4px 0 2px;
+}
+.m-phrase .zh { font-size: 14px; color: var(--ink-soft); }
+
+/* 滚动条 */
+.modal-card::-webkit-scrollbar { width: 8px; }
+.modal-card::-webkit-scrollbar-thumb { background: #d9d2f2; border-radius: 8px; }
+
+@media (max-width: 480px) {
+  .topbar { padding: 12px 14px; }
+  .brand { font-size: 18px; }
+  .lang-btn { padding: 7px 11px; font-size: 13px; }
+}

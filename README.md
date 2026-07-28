@@ -65,12 +65,25 @@ atlas-march-app/
 │   ├── resources-data.js       #   ★ 资源库数据源（日常只维护这个文件）
 │   └── SPEC.md                 #   详细规划文档（选型 / BOM / 算法路径）
 │
+├── english/                    # 🔤 英语启蒙（双语）：迪士尼世界等
+│   ├── disney.html             #   迪士尼世界内容页（portal「迪士尼世界」入口）
+│   ├── disney.css
+│   ├── disney.js               #   卡片渲染 / 详情弹层 / 语言切换逻辑
+│   └── disney-data.js          #   ★ 迪士尼形象数据（中英文对照，日常只维护这个文件）
+│
 ├── .gitignore
-└── README.md                   # ← 本文件
+├── README.md                   # ← 本文件（中文）
+└── README.en.md                #   英文版说明
 ```
 
 > portal 还内置了 7 个已建好目录的占位学科（动物世界 / 自然科学 / 人体奥秘 / 地球家园 /
 > 数学思维 / 科技发明 / 更多），方便后续按模板填充内容。
+
+**🌍 英语启蒙（双语专区）**：已作为正式学科接入门户，初始化内容为 **迪士尼世界**
+（`english/disney.html`）——用米老鼠、冰雪奇缘等孩子熟悉的形象，边玩边学英语。
+页面所有关键文案都做 **中英文对照**，并带「中文 / English / 双语」一键切换，
+方便家长陪孩子循序渐进地启蒙。目前迪士尼世界已就绪，基础词汇 / 自然拼读 / 儿歌童谣 / 日常对话
+等子类已建好骨架（显示「敬请期待」），可一步步补充。
 
 ---
 
@@ -146,6 +159,25 @@ refs: {
 
 资源库本身用独立数据文件维护（如 `changzheng/resources-data.js`、
 `balance-car/resources-data.js`），改数据即可增删素材，无需改渲染逻辑。
+
+### 4. 新增迪士尼形象 / 英语内容（双语）
+
+英语启蒙的迪士尼页是 **数据驱动** 的，日常只改 `english/disney-data.js`（无需动 `disney.js`）：
+
+```js
+{
+  id: "moana", emoji: "🌊",
+  nameZh: "海洋奇缘", nameEn: "Moana",
+  tagZh: "勇敢的航海少女", tagEn: "A brave voyaging girl",
+  descZh: "莫阿娜出海寻找传说，唤醒大地之神。",
+  descEn: "Moana sails to find a legend and awakens the earth goddess.",
+  phraseEn: "I am Moana!", phraseZh: "我是莫阿娜！",
+  color: "#19B5A6"
+}
+```
+
+保存后刷新页面，新形象会自动出现在卡片网格里，且天然支持中 / 英 / 双语切换。
+要新增其他英语子类（基础词汇 / 自然拼读 / 儿歌 / 对话），按 **第 2 步** 在 `english` 学科下加 `subs` 即可。
 
 ---
 

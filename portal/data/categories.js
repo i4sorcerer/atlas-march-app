@@ -351,5 +351,56 @@ window.CATEGORIES = [
         ]
       }
     ]
+  },
+  {
+    id: "english",
+    name: "英语启蒙",
+    emoji: "🔤",
+    color: "#FFB703",
+    desc: "用喜欢的故事学英语！",
+    subs: [
+      {
+        id: "disney",
+        name: "迪士尼世界",
+        emoji: "🏰",
+        topics: [
+          { id: "disney-world", title: "迪士尼漫游", emoji: "🏰", desc: "米老鼠、冰雪奇缘…边玩边学英语", url: "../english/disney.html", ready: true }
+        ]
+      },
+      {
+        id: "basics",
+        name: "基础词汇",
+        emoji: "🔡",
+        topics: [
+          { id: "animals-en", title: "动物单词", emoji: "🐶", desc: "cat, dog, lion…", url: "", ready: false },
+          { id: "colors-en", title: "颜色单词", emoji: "🌈", desc: "red, blue, green…", url: "", ready: false },
+          { id: "numbers-en", title: "数字单词", emoji: "🔢", desc: "one, two, three…", url: "", ready: false }
+        ]
+      },
+      {
+        id: "phonics",
+        name: "自然拼读",
+        emoji: "🔠",
+        topics: [
+          { id: "abc", title: "字母 A–Z", emoji: "🔤", desc: "字母发音启蒙", url: "", ready: false }
+        ]
+      },
+      {
+        id: "songs",
+        name: "儿歌童谣",
+        emoji: "🎵",
+        topics: [
+          { id: "nursery", title: "英文儿歌", emoji: "🎶", desc: "Twinkle Twinkle…", url: "", ready: false }
+        ]
+      },
+      {
+        id: "daily",
+        name: "日常对话",
+        emoji: "💬",
+        topics: [
+          { id: "greet", title: "问候用语", emoji: "👋", desc: "Hello! Thank you!", url: "", ready: false }
+        ]
+      }
+    ]
   }
 ];

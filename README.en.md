@@ -67,13 +67,26 @@ atlas-march-app/
 │   ├── resources-data.js       #   ★ Reference library data (maintain this file day-to-day)
 │   └── SPEC.md                 #   Detailed planning doc (selection / BOM / algorithm path)
 │
+├── english/                    # 🔤 English enlightenment (bilingual): Disney World etc.
+│   ├── disney.html             #   Disney World content page (portal "迪士尼世界" entry)
+│   ├── disney.css
+│   ├── disney.js               #   Card rendering / detail modal / language-switch logic
+│   └── disney-data.js          #   ★ Disney character data (zh/en pairs; maintain this file day-to-day)
+│
 ├── .gitignore
-└── README.md                   # Chinese version (this file's sibling)
+├── README.md                   # Chinese version (this file's sibling)
 └── README.en.md                # ← This file (English version)
 ```
 
 > The portal also has 7 pre-built placeholder subjects (Animals / Natural Science / Human Body /
 > Earth / Math / Tech / more) ready to be filled in following the templates.
+
+**🌍 English Enlightenment (bilingual zone)**: wired in as a real subject, initialized with
+**Disney World** (`english/disney.html`) — kids learn English through familiar friends like Mickey
+and Elsa. Every key label is **bilingual (zh/en)** with a one-tap **中文 / English / 双语** switch,
+so parents can guide step-by-step enlightenment. Disney World is ready now; the subcategories
+Basic Words / Phonics / Nursery Rhymes / Daily Talk are scaffolded as "coming soon" placeholders
+to be filled in over time.
 
 ---
 
@@ -149,6 +162,26 @@ refs: {
 
 The library itself is maintained via a standalone data file (e.g. `changzheng/resources-data.js`,
 `balance-car/resources-data.js`) — edit data to add/remove materials, no need to touch render logic.
+
+### 4. Add a Disney character / English content (bilingual)
+
+The English Disney page is **data-driven** — just edit `english/disney-data.js` (no need to touch `disney.js`):
+
+```js
+{
+  id: "moana", emoji: "🌊",
+  nameZh: "海洋奇缘", nameEn: "Moana",
+  tagZh: "勇敢的航海少女", tagEn: "A brave voyaging girl",
+  descZh: "莫阿娜出海寻找传说，唤醒大地之神。",
+  descEn: "Moana sails to find a legend and awakens the earth goddess.",
+  phraseEn: "I am Moana!", phraseZh: "我是莫阿娜！",
+  color: "#19B5A6"
+}
+```
+
+On save + refresh, the new character appears in the grid automatically and supports the
+中文 / English / 双语 switch out of the box. To add other English subcategories (Basic Words /
+Phonics / Nursery Rhymes / Daily Talk), follow **Step 2** and add `subs` under the `english` subject.
 
 ---
 
