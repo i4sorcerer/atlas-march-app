@@ -374,7 +374,7 @@ window.DISNEY_DATA = {
         { nameZh:"拉尔夫", nameEn:"Ralph", emoji:"🧱", roleZh:"想做好人的坏蛋", roleEn:"The want-to-be-good villain", phraseEn:"I'm bad, and that's good!", phraseZh:"我是坏人，这也不错！" },
         { nameZh:"云妮洛普", nameEn:"Vanellope", emoji:"🍬", roleZh:"甜甜的赛车女孩", roleEn:"The candy racer", phraseEn:"I'm a racer!", phraseZh:"我是赛车手！" }
       ] },
-    { id:"frozen", era:"modern", year:2013, emoji:"❄️",
+    { id:"frozen", oscar:true, era:"modern", year:2013, emoji:"❄️",
       titleZh:"冰雪奇缘", titleEn:"Frozen",
       descZh:"艾莎的魔法冰封王国，妹妹安娜来拯救。",
       descEn:"Elsa's magic freezes the kingdom; sister Anna saves it.",
@@ -382,7 +382,7 @@ window.DISNEY_DATA = {
         { nameZh:"艾莎", nameEn:"Elsa", emoji:"👸", roleZh:"冰雪女王", roleEn:"The Snow Queen", phraseEn:"Let it go!", phraseZh:"随它去吧！" },
         { nameZh:"安娜", nameEn:"Anna", emoji:"🧕", roleZh:"勇敢的妹妹", roleEn:"The brave sister", phraseEn:"Do you want to build a snowman?", phraseZh:"你想堆个雪人吗？" }
       ] },
-    { id:"big-hero-6", era:"modern", year:2014, emoji:"🤖",
+    { id:"big-hero-6", oscar:true, era:"modern", year:2014, emoji:"🤖",
       titleZh:"超能陆战队", titleEn:"Big Hero 6",
       descZh:"少年宏和充气机器人贝max组成英雄团队。",
       descEn:"Boy Hiro and inflatable robot Baymax form a hero team.",
@@ -390,7 +390,7 @@ window.DISNEY_DATA = {
         { nameZh:"小宏", nameEn:"Hiro", emoji:"🧒", roleZh:"天才少年", roleEn:"The genius boy", phraseEn:"We got this!", phraseZh:"我们能行！" },
         { nameZh:"贝max", nameEn:"Baymax", emoji:"🤖", roleZh:"软软的医疗机器人", roleEn:"The soft healthcare robot", phraseEn:"Hello, I am Baymax, your personal healthcare companion.", phraseZh:"你好，我是贝max，你的私人健康伙伴。" }
       ] },
-    { id:"zootopia", era:"modern", year:2016, emoji:"🦊",
+    { id:"zootopia", oscar:true, era:"modern", year:2016, emoji:"🦊",
       titleZh:"疯狂动物城", titleEn:"Zootopia",
       descZh:"兔子警官朱迪和狐狸尼克联手破案。",
       descEn:"Rabbit officer Judy and fox Nick solve a case together.",
@@ -430,7 +430,7 @@ window.DISNEY_DATA = {
         { nameZh:"蕾雅", nameEn:"Raya", emoji:"🗡️", roleZh:"勇敢的战士", roleEn:"The brave warrior", phraseEn:"Trust.", phraseZh:"信任。" },
         { nameZh:"希苏", nameEn:"Sisu", emoji:"🐉", roleZh:"最后的水龙", roleEn:"The last water dragon", phraseEn:"I'm the last dragon!", phraseZh:"我是最后的龙！" }
       ] },
-    { id:"encanto", era:"modern", year:2021, emoji:"🏠",
+    { id:"encanto", oscar:true, era:"modern", year:2021, emoji:"🏠",
       titleZh:"魔法满屋", titleEn:"Encanto",
       descZh:"米拉贝家每个人有魔法，只有她没有。",
       descEn:"In Mirabel's family everyone has magic — except her.",
@@ -488,7 +488,7 @@ window.DISNEY_DATA = {
         { nameZh:"苏利", nameEn:"Sulley", emoji:"👾", roleZh:"毛茸茸的大怪兽", roleEn:"The furry monster", phraseEn:"Boo!", phraseZh:"布！" },
         { nameZh:"麦克", nameEn:"Mike", emoji:"👁️", roleZh:"独眼小怪兽", roleEn:"The one-eyed monster", phraseEn:"Mike Wazowski!", phraseZh:"麦克·华斯基！" }
       ] },
-    { id:"finding-nemo", era:"pixar", year:2003, emoji:"🐠",
+    { id:"finding-nemo", oscar:true, era:"pixar", year:2003, emoji:"🐠",
       titleZh:"海底总动员", titleEn:"Finding Nemo",
       descZh:"爸爸马林穿越海洋找回走丢的儿子尼莫。",
       descEn:"Dad Marlin crosses the ocean to find lost son Nemo.",
@@ -496,7 +496,7 @@ window.DISNEY_DATA = {
         { nameZh:"尼莫", nameEn:"Nemo", emoji:"🐠", roleZh:"走丢的小丑鱼", roleEn:"The lost clownfish", phraseEn:"Just keep swimming!", phraseZh:"一直游下去！" },
         { nameZh:"多莉", nameEn:"Dory", emoji:"🔵", roleZh:"健忘的蓝鱼", roleEn:"The forgetful blue fish", phraseEn:"Just keep swimming!", phraseZh:"一直游下去！" }
       ] },
-    { id:"incredibles", era:"pixar", year:2004, emoji:"🦸",
+    { id:"incredibles", oscar:true, era:"pixar", year:2004, emoji:"🦸",
       titleZh:"超人总动员", titleEn:"The Incredibles",
       descZh:"退休的超人一家重新出击打坏蛋。",
       descEn:"A retired superhero family springs back into action.",
@@ -512,7 +512,7 @@ window.DISNEY_DATA = {
         { nameZh:"闪电麦坤", nameEn:"Lightning McQueen", emoji:"🏎️", roleZh:"骄傲的赛车", roleEn:"The proud racer", phraseEn:"Kachow!", phraseZh:"咔嚓！" },
         { nameZh:"板牙", nameEn:"Mater", emoji:"🚚", roleZh:"憨厚的拖车", roleEn:"The simple tow truck", phraseEn:"Git-r-done!", phraseZh:"包在我身上！" }
       ] },
-    { id:"ratatouille", era:"pixar", year:2007, emoji:"🐀",
+    { id:"ratatouille", oscar:true, era:"pixar", year:2007, emoji:"🐀",
       titleZh:"美食总动员", titleEn:"Ratatouille",
       descZh:"小老鼠雷米梦想当大厨。",
       descEn:"Rat Remy dreams of being a great chef.",
@@ -520,7 +520,7 @@ window.DISNEY_DATA = {
         { nameZh:"雷米", nameEn:"Remy", emoji:"🐀", roleZh:"爱料理的老鼠", roleEn:"The cooking rat", phraseEn:"Anyone can cook!", phraseZh:"谁都能下厨！" },
         { nameZh:"林奎尼", nameEn:"Linguini", emoji:"🍝", roleZh:"笨手笨脚的人类", roleEn:"The clumsy human", phraseEn:"Le food!", phraseZh:"美食！" }
       ] },
-    { id:"wall-e", era:"pixar", year:2008, emoji:"🤖",
+    { id:"wall-e", oscar:true, era:"pixar", year:2008, emoji:"🤖",
       titleZh:"机器人总动员", titleEn:"WALL-E",
       descZh:"清理地球的机器人瓦力爱上探测机器人伊芙。",
       descEn:"Trash-robot WALL-E falls for probe-robot EVE.",
@@ -528,7 +528,7 @@ window.DISNEY_DATA = {
         { nameZh:"瓦力", nameEn:"WALL-E", emoji:"🤖", roleZh:"捡垃圾的小机器人", roleEn:"The little trash robot", phraseEn:"Eve.", phraseZh:"伊芙。" },
         { nameZh:"伊芙", nameEn:"EVE", emoji:"🛸", roleZh:"白色探测机器人", roleEn:"The white probe robot", phraseEn:"WALL-E.", phraseZh:"瓦力。" }
       ] },
-    { id:"up", era:"pixar", year:2009, emoji:"🎈",
+    { id:"up", oscar:true, era:"pixar", year:2009, emoji:"🎈",
       titleZh:"飞屋环游记", titleEn:"Up",
       descZh:"老卡尔用气球带屋飞向瀑布，带上小男孩小罗。",
       descEn:"Old Carl flies his house to a waterfall with boy Russell.",
@@ -536,7 +536,7 @@ window.DISNEY_DATA = {
         { nameZh:"卡尔", nameEn:"Carl", emoji:"🎈", roleZh:"倔强的老爷爷", roleEn:"The stubborn old man", phraseEn:"Adventure is out there!", phraseZh:"冒险就在远方！" },
         { nameZh:"小罗", nameEn:"Russell", emoji:"🧒", roleZh:"戴勋章的男孩", roleEn:"The badge boy", phraseEn:"Crossing the wilderness!", phraseZh:"穿越荒野！" }
       ] },
-    { id:"toy-story-3", era:"pixar", year:2010, emoji:"🤠",
+    { id:"toy-story-3", oscar:true, era:"pixar", year:2010, emoji:"🤠",
       titleZh:"玩具总动员3", titleEn:"Toy Story 3",
       descZh:"主人长大，玩具们面临被丢掉的命运。",
       descEn:"The owner grows up; the toys face being thrown away.",
@@ -544,7 +544,7 @@ window.DISNEY_DATA = {
         { nameZh:"胡迪", nameEn:"Woody", emoji:"🤠", roleZh:"守护大家的牛仔", roleEn:"The protecting cowboy", phraseEn:"You've got a friend in me.", phraseZh:"我永远是你的朋友。" },
         { nameZh:"巴斯光年", nameEn:"Buzz Lightyear", emoji:"🚀", roleZh:"永远的太空人", roleEn:"The ever space ranger", phraseEn:"To infinity and beyond!", phraseZh:"飞向宇宙，永无止境！" }
       ] },
-    { id:"brave", era:"pixar", year:2012, emoji:"🏹",
+    { id:"brave", oscar:true, era:"pixar", year:2012, emoji:"🏹",
       titleZh:"勇敢传说", titleEn:"Brave",
       descZh:"公主梅莉达想决定自己的命运。",
       descEn:"Princess Merida wants to choose her own fate.",
@@ -560,7 +560,7 @@ window.DISNEY_DATA = {
         { nameZh:"苏利", nameEn:"Sulley", emoji:"👾", roleZh:"大块头怪兽", roleEn:"The big monster", phraseEn:"Boo!", phraseZh:"布！" },
         { nameZh:"麦克", nameEn:"Mike", emoji:"👁️", roleZh:"聪明的小怪兽", roleEn:"The smart monster", phraseEn:"Mike Wazowski!", phraseZh:"麦克·华斯基！" }
       ] },
-    { id:"inside-out", era:"pixar", year:2015, emoji:"🎭",
+    { id:"inside-out", oscar:true, era:"pixar", year:2015, emoji:"🎭",
       titleZh:"头脑特工队", titleEn:"Inside Out",
       descZh:"大脑里的五种情绪管理小女孩莱莉。",
       descEn:"Five emotions run inside girl Riley's head.",
@@ -568,7 +568,15 @@ window.DISNEY_DATA = {
         { nameZh:"乐乐", nameEn:"Joy", emoji:"😄", roleZh:"开心的小人", roleEn:"The happy one", phraseEn:"I'm Joy!", phraseZh:"我是乐乐！" },
         { nameZh:"忧忧", nameEn:"Sadness", emoji:"😢", roleZh:"爱哭的小人", roleEn:"The crying one", phraseEn:"Crying helps.", phraseZh:"哭出来会好受。" }
       ] },
-    { id:"coco", era:"pixar", year:2017, emoji:"🎸",
+    { id:"inside-out-2", era:"pixar", year:2024, oscar:true, emoji:"🎭",
+      titleZh:"头脑特工队2", titleEn:"Inside Out 2",
+      descZh:"少女莱莉进入青春期，大脑里住进了新的情绪。",
+      descEn:"Teen Riley hits puberty; new emotions move into her head.",
+      characters:[
+        { nameZh:"乐乐", nameEn:"Joy", emoji:"😄", roleZh:"开心的小人", roleEn:"The happy one", phraseEn:"I'm Joy!", phraseZh:"我是乐乐！" },
+        { nameZh:"焦焦", nameEn:"Anxiety", emoji:"😰", roleZh:"新来的焦虑", roleEn:"The new anxiety", phraseEn:"We must be prepared!", phraseZh:"我们必须准备好！" }
+      ] },
+    { id:"coco", oscar:true, era:"pixar", year:2017, emoji:"🎸",
       titleZh:"寻梦环游记", titleEn:"Coco",
       descZh:"男孩米格在亡灵节找回家族记忆。",
       descEn:"Boy Miguel找回 family memory on the Day of the Dead.",
@@ -576,7 +584,7 @@ window.DISNEY_DATA = {
         { nameZh:"米格", nameEn:"Miguel", emoji:"🎸", roleZh:"爱音乐的男孩", roleEn:"The music-loving boy", phraseEn:"Remember me.", phraseZh:"请记得我。" },
         { nameZh:"埃克托", nameEn:"Héctor", emoji:"💀", roleZh:"想念家人的灵魂", roleEn:"The remembering soul", phraseEn:"Remember me.", phraseZh:"请记得我。" }
       ] },
-    { id:"toy-story-4", era:"pixar", year:2019, emoji:"🤠",
+    { id:"toy-story-4", oscar:true, era:"pixar", year:2019, emoji:"🤠",
       titleZh:"玩具总动员4", titleEn:"Toy Story 4",
       descZh:"胡迪遇见自认是玩具的叉叉，重新思考意义。",
       descEn:"Woody meets Forky, a spork who thinks he's trash.",
@@ -592,7 +600,7 @@ window.DISNEY_DATA = {
         { nameZh:"伊恩", nameEn:"Ian", emoji:"🧝", roleZh:"害羞的弟弟", roleEn:"The shy younger brother", phraseEn:"I can do magic!", phraseZh:"我会魔法！" },
         { nameZh:"巴力", nameEn:"Barley", emoji:"🧝", roleZh:"爱冒险的哥哥", roleEn:"The adventuring older brother", phraseEn:"Quest time!", phraseZh:"出发探险！" }
       ] },
-    { id:"soul", era:"pixar", year:2020, emoji:"🎷",
+    { id:"soul", oscar:true, era:"pixar", year:2020, emoji:"🎷",
       titleZh:"心灵奇旅", titleEn:"Soul",
       descZh:"音乐老师乔坠入灵魂世界，找回生活的火花。",
       descEn:"Music teacher Joe falls into the soul world to find his spark.",

@@ -90,6 +90,9 @@ systematic enlightenment.
   opening a movie shows each character's zh/en name, role, and a "learn a phrase" line.
 - **Search / filter**: the top search box filters instantly by **movie or character name** (zh or en);
   era chips filter by period with one tap.
+- **Oscar badge & filter**: films that won the **Academy Award for Best Animated Feature** (Frozen, Toy Story 3,
+  Coco, Soul, and 12 more — **16 in total**) show a 🏆 badge, and a "🏆 Oscar winners only" toggle filters them
+  instantly (combinable with era and search).
 - **Bilingual**: every key label is zh/en with a one-tap **中文 / English / 双语** switch.
 
 Disney World is ready now; the subcategories Basic Words / Phonics / Nursery Rhymes / Daily Talk

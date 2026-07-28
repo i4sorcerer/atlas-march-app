@@ -18,6 +18,7 @@
   var emptyEl = document.getElementById("empty");
   var eraChips = document.getElementById("eraChips");
   var searchInput = document.getElementById("search");
+  var oscarToggle = document.getElementById("oscarToggle");
   var langToggle = document.getElementById("langToggle");
   var modal = document.getElementById("modal");
   var modalBody = document.getElementById("modalBody");
@@ -25,7 +26,7 @@
   var modalClose = document.getElementById("modalClose");
   var modalMask = document.getElementById("modalMask");
 
-  var state = { lang: "both", era: "all", q: "" };
+  var state = { lang: "both", era: "all", q: "", oscar: false };
 
   function esc(s) {
     return String(s == null ? "" : s)
@@ -51,6 +52,7 @@
   function filteredFilms() {
     return films.filter(function (f) {
       if (state.era !== "all" && f.era !== state.era) return false;
+      if (state.oscar && !f.oscar) return false;
       return matchQ(f);
     });
   }
@@ -79,6 +81,7 @@
       '<article class="film" data-id="' + esc(f.id) + '" style="--c:' + eraColor(f.era) + '">' +
         '<div class="film-top">' +
           '<div class="film-emoji">' + esc(f.emoji) + "</div>" +
+          (f.oscar ? '<span class="oscar-badge" title="奥斯卡最佳动画长片">🏆</span>' : "") +
           '<span class="film-year">' + esc(f.year) + "</span>" +
         "</div>" +
         '<div class="film-title">' + zh(f.titleZh) + en(f.titleEn) + "</div>" +
@@ -187,6 +190,12 @@
   });
   searchInput.addEventListener("input", function () {
     state.q = searchInput.value.trim().toLowerCase();
+    renderList();
+  });
+  oscarToggle.addEventListener("click", function () {
+    state.oscar = !state.oscar;
+    oscarToggle.classList.toggle("active", state.oscar);
+    oscarToggle.setAttribute("aria-pressed", state.oscar ? "true" : "false");
     renderList();
   });
   langToggle.addEventListener("click", function (e) {
