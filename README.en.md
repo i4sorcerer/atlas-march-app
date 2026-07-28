@@ -67,11 +67,11 @@ atlas-march-app/
 │   ├── resources-data.js       #   ★ Reference library data (maintain this file day-to-day)
 │   └── SPEC.md                 #   Detailed planning doc (selection / BOM / algorithm path)
 │
-├── english/                    # 🔤 English enlightenment (bilingual): Disney World etc.
+├── english/                    # 🔤 English enlightenment (bilingual): Disney World (movie catalog) etc.
 │   ├── disney.html             #   Disney World content page (portal "迪士尼世界" entry)
 │   ├── disney.css
-│   ├── disney.js               #   Card rendering / detail modal / language-switch logic
-│   └── disney-data.js          #   ★ Disney character data (zh/en pairs; maintain this file day-to-day)
+│   ├── disney.js               #   Era grouping / search & filter / detail modal / language-switch logic
+│   └── disney-data.js          #   ★ Disney/Pixar movie data (by era + characters, zh/en; maintain this file day-to-day)
 │
 ├── .gitignore
 ├── README.md                   # Chinese version (this file's sibling)
@@ -82,10 +82,18 @@ atlas-march-app/
 > Earth / Math / Tech / more) ready to be filled in following the templates.
 
 **🌍 English Enlightenment (bilingual zone)**: wired in as a real subject, initialized with
-**Disney World** (`english/disney.html`) — kids learn English through familiar friends like Mickey
-and Elsa. Every key label is **bilingual (zh/en)** with a one-tap **中文 / English / 双语** switch,
-so parents can guide step-by-step enlightenment. Disney World is ready now; the subcategories
-Basic Words / Phonics / Nursery Rhymes / Daily Talk are scaffolded as "coming soon" placeholders
+**Disney World** (`english/disney.html`) — a **Disney / Pixar movie catalog grouped by era** for
+systematic enlightenment.
+- **Categorized**: movies are grouped into 5 eras — Classic Era (1937–1967) / Bronze Age (1970–1988) /
+  Renaissance (1989–1999) / Modern CGI (2000–) / Pixar (1995–). **73 feature films** are included.
+- **Movies vs characters separated**: each movie card lists its **key characters** (≥2 per movie);
+  opening a movie shows each character's zh/en name, role, and a "learn a phrase" line.
+- **Search / filter**: the top search box filters instantly by **movie or character name** (zh or en);
+  era chips filter by period with one tap.
+- **Bilingual**: every key label is zh/en with a one-tap **中文 / English / 双语** switch.
+
+Disney World is ready now; the subcategories Basic Words / Phonics / Nursery Rhymes / Daily Talk
+are scaffolded as "coming soon" placeholders
 to be filled in over time.
 
 ---
@@ -169,18 +177,20 @@ The English Disney page is **data-driven** — just edit `english/disney-data.js
 
 ```js
 {
-  id: "moana", emoji: "🌊",
-  nameZh: "海洋奇缘", nameEn: "Moana",
-  tagZh: "勇敢的航海少女", tagEn: "A brave voyaging girl",
-  descZh: "莫阿娜出海寻找传说，唤醒大地之神。",
-  descEn: "Moana sails to find a legend and awakens the earth goddess.",
-  phraseEn: "I am Moana!", phraseZh: "我是莫阿娜！",
-  color: "#19B5A6"
+  id: "moana", era: "modern", year: 2016, emoji: "🌊",
+  titleZh: "海洋奇缘", titleEn: "Moana",
+  descZh: "少女莫阿娜出海，帮半神毛伊归还心。",
+  descEn: "Girl Moana sails to help demigod Maui return the heart.",
+  characters: [
+    { nameZh: "莫阿娜", nameEn: "Moana", emoji: "🌺", roleZh: "航海的少女", roleEn: "The voyaging girl", phraseEn: "I am Moana!", phraseZh: "我是莫阿娜！" },
+    { nameZh: "毛伊", nameEn: "Maui", emoji: "🪝", roleZh: "自大的半神", roleEn: "The boastful demigod", phraseEn: "You're welcome!", phraseZh: "不用谢！" }
+  ]
 }
 ```
 
-On save + refresh, the new character appears in the grid automatically and supports the
-中文 / English / 双语 switch out of the box. To add other English subcategories (Basic Words /
+`era` is one of: `classic` / `bronze` / `renaissance` / `modern` / `pixar`.
+On save + refresh, the new movie auto-joins its era group and supports search / era-filter /
+中文·English·双语 switching out of the box. To add other English subcategories (Basic Words /
 Phonics / Nursery Rhymes / Daily Talk), follow **Step 2** and add `subs` under the `english` subject.
 
 ---

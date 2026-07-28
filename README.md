@@ -65,11 +65,11 @@ atlas-march-app/
 │   ├── resources-data.js       #   ★ 资源库数据源（日常只维护这个文件）
 │   └── SPEC.md                 #   详细规划文档（选型 / BOM / 算法路径）
 │
-├── english/                    # 🔤 英语启蒙（双语）：迪士尼世界等
+├── english/                    # 🔤 英语启蒙（双语）：迪士尼世界（动画大全）等
 │   ├── disney.html             #   迪士尼世界内容页（portal「迪士尼世界」入口）
 │   ├── disney.css
-│   ├── disney.js               #   卡片渲染 / 详情弹层 / 语言切换逻辑
-│   └── disney-data.js          #   ★ 迪士尼形象数据（中英文对照，日常只维护这个文件）
+│   ├── disney.js               #   年代分组 / 搜索筛选 / 详情弹层 / 语言切换逻辑
+│   └── disney-data.js          #   ★ 迪士尼/Pixar 动画数据（按年代+角色，中英文对照，日常只维护这个文件）
 │
 ├── .gitignore
 ├── README.md                   # ← 本文件（中文）
@@ -80,10 +80,17 @@ atlas-march-app/
 > 数学思维 / 科技发明 / 更多），方便后续按模板填充内容。
 
 **🌍 英语启蒙（双语专区）**：已作为正式学科接入门户，初始化内容为 **迪士尼世界**
-（`english/disney.html`）——用米老鼠、冰雪奇缘等孩子熟悉的形象，边玩边学英语。
-页面所有关键文案都做 **中英文对照**，并带「中文 / English / 双语」一键切换，
-方便家长陪孩子循序渐进地启蒙。目前迪士尼世界已就绪，基础词汇 / 自然拼读 / 儿歌童谣 / 日常对话
-等子类已建好骨架（显示「敬请期待」），可一步步补充。
+（`english/disney.html`）——一部**按年代分组的迪士尼 / 皮克斯动画大全**，方便系统启蒙。
+- **分类整理**：动画按 5 个年代分组展示 —— 经典时代(1937–1967) / 过渡时期(1970–1988) /
+  文艺复兴(1989–1999) / 现代 CG(2000–) / 皮克斯(1995–)，目前共收录 **73 部**长篇动画。
+- **动画与角色分离**：每部动画卡下方列出其**关键角色**（每部 ≥2 个），点开动画弹层可看
+  每个角色的中英文名、身份与「学一句」英语短句。
+- **搜索 / 筛选**：顶部搜索框可按**动画名或角色名**（中英文均可）即时过滤；年代 chips 一键筛选某一时期。
+- **中英文对照**：所有关键文案都做中英文两路，并带「中文 / English / 双语」一键切换，
+  方便家长陪孩子循序渐进地启蒙。
+
+目前迪士尼世界已就绪，基础词汇 / 自然拼读 / 儿歌童谣 / 日常对话等子类已建好骨架
+（显示「敬请期待」），可一步步补充。
 
 ---
 
@@ -166,17 +173,19 @@ refs: {
 
 ```js
 {
-  id: "moana", emoji: "🌊",
-  nameZh: "海洋奇缘", nameEn: "Moana",
-  tagZh: "勇敢的航海少女", tagEn: "A brave voyaging girl",
-  descZh: "莫阿娜出海寻找传说，唤醒大地之神。",
-  descEn: "Moana sails to find a legend and awakens the earth goddess.",
-  phraseEn: "I am Moana!", phraseZh: "我是莫阿娜！",
-  color: "#19B5A6"
+  id: "moana", era: "modern", year: 2016, emoji: "🌊",
+  titleZh: "海洋奇缘", titleEn: "Moana",
+  descZh: "少女莫阿娜出海，帮半神毛伊归还心。",
+  descEn: "Girl Moana sails to help demigod Maui return the heart.",
+  characters: [
+    { nameZh: "莫阿娜", nameEn: "Moana", emoji: "🌺", roleZh: "航海的少女", roleEn: "The voyaging girl", phraseEn: "I am Moana!", phraseZh: "我是莫阿娜！" },
+    { nameZh: "毛伊", nameEn: "Maui", emoji: "🪝", roleZh: "自大的半神", roleEn: "The boastful demigod", phraseEn: "You're welcome!", phraseZh: "不用谢！" }
+  ]
 }
 ```
 
-保存后刷新页面，新形象会自动出现在卡片网格里，且天然支持中 / 英 / 双语切换。
+`era` 取以下之一：`classic`(经典) / `bronze`(过渡) / `renaissance`(文艺复兴) / `modern`(现代) / `pixar`(皮克斯)。
+保存后刷新页面，新动画会自动归入对应年代分组，且天然支持搜索 / 年代筛选 / 中·英·双语切换。
 要新增其他英语子类（基础词汇 / 自然拼读 / 儿歌 / 对话），按 **第 2 步** 在 `english` 学科下加 `subs` 即可。
 
 ---

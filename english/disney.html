@@ -19,26 +19,37 @@
 
   <section class="hero">
     <h1 class="hero-title">
-      <span class="t-zh">迪士尼世界</span><span class="t-en">Disney World</span>
+      <span class="t-zh">迪士尼动画大全</span><span class="t-en">Disney Movies</span>
     </h1>
     <p class="hero-sub">
-      <span class="t-zh">和米老鼠、艾莎一起，边玩边学英语！</span>
-      <span class="t-en">Learn English with Mickey and Elsa, by playing!</span>
-    </p>
-    <p class="hero-hint">
-      <span class="t-zh">点一张卡片，认识一个新朋友，学一句英语 👇</span>
-      <span class="t-en">Tap a card to meet a friend and learn a phrase 👇</span>
+      <span class="t-zh">按年代看经典，点开认识每个动画的关键角色，学一句英语！</span>
+      <span class="t-en">Browse by era, meet key characters, and learn a phrase!</span>
     </p>
   </section>
 
-  <main class="grid" id="grid"><!-- 由 disney.js 渲染 --></main>
+  <div class="controls">
+    <div class="search-wrap">
+      <span class="search-ico">🔍</span>
+      <input id="search" class="search-input" type="search"
+             placeholder="搜索动画或角色 / Search movie or character…"
+             aria-label="搜索" />
+    </div>
+    <div class="era-chips" id="eraChips" role="tablist" aria-label="年代筛选"><!-- JS --></div>
+  </div>
+
+  <main class="list" id="list"><!-- JS 渲染：按年代分组 --></main>
+
+  <p class="empty hidden" id="empty">
+    <span class="t-zh">没有找到匹配的动画或角色，换个词试试？🐭</span>
+    <span class="t-en">No match found, try another word? 🐭</span>
+  </p>
 
   <!-- 详情弹层 -->
   <div class="modal hidden" id="modal" aria-hidden="true">
     <div class="modal-mask" id="modalMask"></div>
     <div class="modal-card" id="modalCard" role="dialog" aria-modal="true">
       <button class="modal-close" id="modalClose" aria-label="关闭">✕</button>
-      <div class="modal-body" id="modalBody"><!-- 由 disney.js 渲染 --></div>
+      <div class="modal-body" id="modalBody"><!-- JS --></div>
     </div>
   </div>
 
