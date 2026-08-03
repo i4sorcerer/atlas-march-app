@@ -8,7 +8,7 @@
     "dev": "node server.js"
   },
   "engines": {
-    "node": ">=22"
+    "node": "22.x"
   },
   "keywords": ["kids", "science", "education", "portal", "启蒙"],
   "license": "MIT"
