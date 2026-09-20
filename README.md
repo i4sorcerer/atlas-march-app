@@ -76,6 +76,8 @@ atlas-march-app/
 └── README.en.md                #   英文版说明
 ```
 
+> ⚠️ **目录已整体迁入 `docs/`**：上面列出的 `portal/` 与各内容站（`changzheng/`、`falcon9/`、`zhurong-hao/`、`history-kids/`、`balance-car/`、`english/`）现在都放在仓库的 **`docs/`** 目录下（即 `docs/portal/`、`docs/changzheng/` …）。GitHub Pages 只托管 `docs/`，新增内容目录请直接建在 `docs/` 里。
+>
 > portal 还内置了 7 个已建好目录的占位学科（动物世界 / 自然科学 / 人体奥秘 / 地球家园 /
 > 数学思维 / 科技发明 / 更多），方便后续按模板填充内容。
 
@@ -99,13 +101,13 @@ atlas-march-app/
 
 ### 方式一：通过门户统一访问（推荐）
 
-门户把 **整个 `atlas-march-app` 作为根目录** 提供，所以 iframe 能加载 `../falcon9`、
-`../zhurong-hao`、`../history-kids` 等页面。请务必通过服务器访问，
-**不要直接双击 html 文件**（否则跨目录 iframe 和探索记录接口都用不了）。
+本地服务器（`docs/portal/server.js`）把 **整个 `docs/` 目录作为根目录** 提供，
+所以门户（`docs/portal/index.html`）里的 iframe 能加载 `../changzheng`、`../english` 等兄弟目录。
+请务必通过服务器访问，**不要直接双击 html 文件**（否则跨目录 iframe 和探索记录接口都用不了）。
 
 ```bash
 # 需要 Node 22+（用了内置 node:sqlite；低版本会自动降级为内存存储，不影响前端）
-cd portal
+cd docs/portal
 node server.js
 # 然后浏览器打开： http://localhost:4000
 ```
@@ -116,7 +118,7 @@ node server.js
 PORT=8080 node server.js        # → http://localhost:8080
 ```
 
-> 访问 `/` 会自动跳转到 `/portal/index.html`。
+> 访问 `/` 会自动跳转到 `/portal/index.html`（线上 `docs/index.html` 也会跳到 `/portal/`）。
 
 ### 方式二：单独启动某个子站点（可选）
 
@@ -216,13 +218,28 @@ refs: {
 
 ---
 
-## 🌐 部署
+## 🌐 部署（GitHub Pages）
 
-纯静态资源，可直接部署到任意静态托管（GitHub Pages / Cloudflare Pages / Nginx 等）。
+项目已配置 **GitHub Pages 源 = `main` 分支 / `docs` 文件夹**，`docs/` 即站点根：
+- 线上地址：`https://i4sorcerer.github.io/atlas-march-app/`
+- 门户入口：`https://i4sorcerer.github.io/atlas-march-app/portal/`（访问根地址会自动跳到 `/portal/`）
+- **纯静态托管，不需要 Node**：`server.js` 仅本地调试用，线上不运行；探索记录接口 `/api/history` 在 Pages 上不存在，门户自动回退到浏览器 `localStorage`。
 
-- 若使用门户的 API（`/api/history`），需要能运行 `portal/server.js` 的 Node 环境；
-  纯静态托管则探索记录不可用，但浏览 / iframe 嵌入照常工作。
-- 也可用任意静态服务器把根目录指向 `atlas-march-app`（保持相对路径 `../xxx` 即可）。
+### ⚠️ 路径规则（改页面的人必读，否则线上样式/资源 404）
+
+GitHub Pages 是**项目站点**，挂在 `/<仓库名>/` 下（本仓库即 `/atlas-march-app/`）。
+**以 `/` 开头的绝对路径会解析到域名根，漏掉仓库名，线上全部 404。** 务必遵守：
+
+1. **本地资源用相对路径**，不要写 `/xxx` 绝对路径。门户 `docs/portal/index.html` 引自身资源写 `css/portal.css`、`js/portal.js`、`data/categories.js`（已改好）；内容页引自身资源写 `css/xxx.css` 等相对路径。
+2. **跨目录嵌入用相对 `../`**：`docs/portal/data/categories.js` 里 topic 的 `url` 写 `../changzheng/cz10.html` 这种相对门户根的路径（已就位）。
+3. 若必须用绝对路径，要带仓库前缀：`/atlas-march-app/portal/css/portal.css`（不推荐，改名仓库即失效）。
+4. **所有要上线的内容必须放在 `docs/` 内**——Pages 只托管 `docs/`，仓库根的其他目录不会被托管，iframe 会 404。新增内容目录直接建在 `docs/` 下。
+
+### 其他静态托管
+
+纯静态资源也可部署到 Cloudflare Pages / Nginx 等。若要用门户 API（`/api/history`），需能运行
+`docs/portal/server.js` 的 Node 环境；纯静态托管则探索记录不可用，但浏览 / iframe 嵌入照常工作。
+任意静态服务器把根目录指向 `docs/` 即可（保持相对路径 `../xxx`）。
 
 ---
 

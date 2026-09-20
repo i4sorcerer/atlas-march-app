@@ -291,9 +291,57 @@ window.RESOURCE_DATA = {
         },
       ],
     },
+
+    /* ===================== GitHub 高 Star 方案（2026-08 调研） ===================== */
+    {
+      id: "github", emoji: "🐙", title: "GitHub 高 Star 方案", tag: "智能机器人 / AI / 飞控 · 实时 star 核实",
+      intro: "「平衡小车」在 GitHub 上没有高 star 独立仓库（最老牌 sebnil 仅 32★、2019 停更）；高 star 价值在平台/框架层。下方按与你 P0→P4 路线的关联度分层，star 数与最近更新为 2026-08 实测。完整对照见 GITHUB-SOLUTIONS.md。",
+      groups: [
+        {
+          title: "🔌 ESP32 同生态（P0 即可认领）",
+          items: [
+            { name: "espressif/esp-drone", platforms: ["GitHub"], lang: "C · 2089★", desc: "ESP32 开源四轴，固件源自 Crazyflie，与平衡车同一块芯片——你下一台四轴的方向。", tags: ["ESP32", "四轴", "官方开源"], use: "P4 第一台自己刷固件的四轴", link: "https://github.com/espressif/esp-drone" },
+            { name: "jrowberg/i2cdevlib", platforms: ["GitHub"], lang: "C++ · 4265★", desc: "MPU6050 驱动事实标准，含 DMP 四元数输出示例，Arduino 生态必用。", tags: ["MPU6050", "DMP", "驱动库"], use: "P0 读传感器直接上", link: "https://github.com/jrowberg/i2cdevlib" },
+            { name: "arduino/arduino-ide", platforms: ["GitHub"], lang: "TS · 3202★", desc: "起步开发环境，Arduino IDE 2.x 源码。", tags: ["Arduino", "IDE"], use: "P0 开发环境", link: "https://github.com/arduino/arduino-ide" },
+          ],
+        },
+        {
+          title: "🚁 飞控固件（P4 主战场）",
+          items: [
+            { name: "bitcraze/crazyflie-firmware", platforms: ["GitHub"], lang: "C · 1521★", desc: "教科书级开源微型四轴，代码结构清晰注释规范，姿态解算 + 串级 PID 最佳读物。", tags: ["源码研读", "姿态解算", "串级PID"], use: "飞控源码精读范本", link: "https://github.com/bitcraze/crazyflie-firmware" },
+            { name: "PX4/PX4-Autopilot", platforms: ["GitHub"], lang: "C++ · 12333★", desc: "开源自驾仪双雄之一，EKF 状态估计 + 导航 + 任务规划，文档极全。", tags: ["EKF", "导航", "自驾仪"], use: "长期跟进的研究方向", link: "https://github.com/PX4/PX4-Autopilot" },
+            { name: "betaflight/betaflight", platforms: ["GitHub"], lang: "C · 11306★", desc: "穿越机固件事实标准，工业级 Rate/Angle 模式、滤波链、PID 前馈实现。", tags: ["穿越机", "滤波链", "前馈"], use: "看工业级 PID/滤波怎么写", link: "https://github.com/betaflight/betaflight" },
+            { name: "bitcraze/crazyflie-lib-python", platforms: ["GitHub"], lang: "Python · 341★", desc: "用 Python 给小车/四轴写上位机、做数据可视化的库。", tags: ["上位机", "可视化", "Python"], use: "P3 做 Web/Python 调参面板", link: "https://github.com/bitcraze/crazyflie-lib-python" },
+          ],
+        },
+        {
+          title: "🧠 仿真 / 感知 / 3D（加智能时再上）",
+          items: [
+            { name: "opencv/opencv", platforms: ["GitHub"], lang: "C++ · 90290★", desc: "视觉入门第一站，小车循迹/避障/识别都用它。", tags: ["视觉", "OpenCV"], use: "P3 视觉循迹/避障", link: "https://github.com/opencv/opencv" },
+            { name: "google-deepmind/mujoco", platforms: ["GitHub"], lang: "C++ · 14432★", desc: "物理仿真，调参先在仿真里炸，省硬件。", tags: ["仿真", "物理"], use: "算法先在仿真验证", link: "https://github.com/google-deepmind/mujoco" },
+            { name: "carla-simulator/carla", platforms: ["GitHub"], lang: "C++ · 14243★", desc: "自动驾驶仿真，理解'感知→决策→控制'全链路。", tags: ["自动驾驶", "仿真"], use: "理解控制全链路", link: "https://github.com/carla-simulator/carla" },
+            { name: "microsoft/airsim", platforms: ["GitHub"], lang: "C++ · 18358★", desc: "无人机/车仿真，虚幻引擎里练飞控。", tags: ["仿真", "飞控"], use: "P4 飞控仿真训练", link: "https://github.com/microsoft/airsim" },
+            { name: "isl-org/Open3D", platforms: ["GitHub"], lang: "C++ · 13858★", desc: "3D 点云，后续做 SLAM / 环境建模。", tags: ["3D", "SLAM"], use: "环境建模进阶", link: "https://github.com/isl-org/Open3D" },
+            { name: "unitreerobotics/unitree_rl_gym", platforms: ["GitHub"], lang: "Python · 3470★", desc: "宇树机器狗强化学习训练环境，具身 AI 样本。", tags: ["具身AI", "强化学习"], use: "具身智能样本", link: "https://github.com/unitreerobotics/unitree_rl_gym" },
+            { name: "stanfordroboticsclub/StanfordQuadruped", platforms: ["GitHub"], lang: "Python · 1773★", desc: "开源四足，从零理解腿式机器人控制。", tags: ["四足", "腿式机器人"], use: "理解腿式控制", link: "https://github.com/stanfordroboticsclub/StanfordQuadruped" },
+          ],
+        },
+        {
+          title: "🤖 具身 AI / 大模型（后期'智能'内核）",
+          items: [
+            { name: "huggingface/lerobot", platforms: ["GitHub"], lang: "Python · 26367★", desc: "Hugging Face 机器人学习库，数据集+模型+仿真一条龙，具身智能入门首选，父子可玩。", tags: ["具身智能", "机器人学习"], use: "后期'智能机器人'主线入口", link: "https://github.com/huggingface/lerobot" },
+            { name: "langchain-ai/langchain", platforms: ["GitHub"], lang: "Python · 143368★", desc: "AI Agent 框架，让机器人'听懂话、能规划'。", tags: ["AI Agent", "规划"], use: "让小车/机器人会思考", link: "https://github.com/langchain-ai/langchain" },
+            { name: "commaai/openpilot", platforms: ["GitHub"], lang: "Python · 63312★", desc: "开源 L2 自动驾驶，端到端控制的现实范本。", tags: ["自动驾驶", "端到端"], use: "端到端控制参考", link: "https://github.com/commaai/openpilot" },
+            { name: "pytorch/pytorch", platforms: ["GitHub"], lang: "Python · 102165★", desc: "深度学习底座。", tags: ["深度学习"], use: "模型训练底座", link: "https://github.com/pytorch/pytorch" },
+            { name: "tensorflow/tensorflow", platforms: ["GitHub"], lang: "C++ · 196777★", desc: "深度学习另一底座。", tags: ["深度学习"], use: "模型训练底座", link: "https://github.com/tensorflow/tensorflow" },
+            { name: "home-assistant/core", platforms: ["GitHub"], lang: "Python · 89677★", desc: "智能家居中枢，理解'设备联网 + 自动化'的工程化。", tags: ["智能家居", "自动化"], use: "物联网/自动化参考", link: "https://github.com/home-assistant/core" },
+          ],
+        },
+      ],
+    },
   ],
 
-  /* ===================== 五、选用指引 ===================== */
+  /* ===================== 选用指引 ===================== */
   guide: [
     { scenario: "完全零基础，第一次点亮 ESP32", pick: "Wokwi 仿真 + B站 ESP32 Arduino 入门" },
     { scenario: "P1 车站不稳，想真正搞懂 PID", pick: "DR_CAN《PID》系列 + 平衡小车之家调参视频" },

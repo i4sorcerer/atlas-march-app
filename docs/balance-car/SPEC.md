@@ -139,12 +139,29 @@ Betaflight/ArduPilot 社区跟进。
 balance-car/
 ├── SPEC.md            本规划文档
 ├── index.html         项目主页（方案/路线图/BOM/分工，file:// 可直接打开）
-├── resources.html     手搓小车参考资源库（类型首页，portal「手搓小车」refs 入口）
+├── GITHUB-SOLUTIONS.md GitHub 高 Star 方案清单（含 star 实测与认领建议）
+├── resources.html     手搓小车参考资源库（类型首页，含「GitHub 高 Star 方案」分类）
 ├── resources.css      资源库样式
 ├── resources-data.js  资源库数据源（★ 日常只维护这个文件）
 ├── resources.js       资源库渲染逻辑
 └── firmware/          （P0 开始建）Arduino/PlatformIO 工程，按阶段打 tag
 ```
+
+## 9. GitHub 高 Star 方案速览（2026-08 实测）
+
+> 关键发现：**「平衡小车」在 GitHub 上没有高 star 独立仓库**（最老牌 sebnil 仅 32★、2019 停更）。
+> 高 star 价值在**平台/框架层**。按与你 P0→P4 路线的关联度分层，完整清单与认领建议见 GITHUB-SOLUTIONS.md。
+
+| 分层 | 代表仓库 | Star | 在路线里的位置 |
+|------|---------|------|---------------|
+| ESP32 同生态 | espressif/esp-drone · jrowberg/i2cdevlib | 2089 / 4265 | P0 地基；P4 下一台四轴 |
+| 飞控固件 | crazyflie-firmware · PX4 · betaflight | 1521 / 12333 / 11306 | P4 飞控精读 + 长期研究 |
+| 仿真/感知 | opencv · mujoco · carla · airsim | 90k / 14k / 14k / 18k | P3 加视觉、P4 仿真训练 |
+| 具身 AI | huggingface/lerobot · langchain · openpilot | 26k / 143k / 63k | 后期「智能机器人」主线 |
+
+**认领建议**：P0 装好 arduino-ide + i2cdevlib；P1 后把 esp-drone 当预习；
+P3 用 opencv 加视觉；P4 精读 crazyflie → 跑通 esp-drone → 横向 betaflight/PX4；
+长期主线以 leRobot 入门具身智能，mujoco/carla 做仿真训练，langchain 做 Agent 层。
 
 Portal 接入：`portal/data/categories.js` → 创客手工·DIY → 手搓小车（diy-car）
 - 子类 `refs` → `../balance-car/resources.html`（参考资源库入口，右上角）

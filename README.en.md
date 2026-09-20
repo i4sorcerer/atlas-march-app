@@ -78,6 +78,8 @@ atlas-march-app/
 └── README.en.md                # ← This file (English version)
 ```
 
+> ⚠️ **All folders now live under `docs/`**: the `portal/` and content sites listed above (`changzheng/`, `falcon9/`, `zhurong-hao/`, `history-kids/`, `balance-car/`, `english/`) are now under the repo's **`docs/`** directory (`docs/portal/`, `docs/changzheng/` …). GitHub Pages only serves `docs/`, so put new content folders directly under `docs/`.
+>
 > The portal also has 7 pre-built placeholder subjects (Animals / Natural Science / Human Body /
 > Earth / Math / Tech / more) ready to be filled in following the templates.
 
@@ -105,13 +107,13 @@ to be filled in over time.
 
 ### Option 1: Unified access via the portal (recommended)
 
-The portal serves **the whole `atlas-march-app` as the root directory**, so the iframe can load
-`../falcon9`, `../zhurong-hao`, `../history-kids`, etc. Always access it through the server —
-**do not double-click the html files** (cross-directory iframes and the history API would break).
+The local server (`docs/portal/server.js`) serves **the whole `docs/` directory as root**, so the
+portal (`docs/portal/index.html`) iframes can load `../changzheng`, `../english`, etc. Always access
+it through the server — **do not double-click the html files** (cross-directory iframes and the history API would break).
 
 ```bash
 # Requires Node 22+ (uses built-in node:sqlite; older versions auto-degrade to in-memory storage)
-cd portal
+cd docs/portal
 node server.js
 # Then open in your browser: http://localhost:4000
 ```
@@ -224,13 +226,28 @@ Phonics / Nursery Rhymes / Daily Talk), follow **Step 2** and add `subs` under t
 
 ---
 
-## 🌐 Deployment
+## 🌐 Deployment (GitHub Pages)
 
-Pure static assets — deploy to any static host (GitHub Pages / Cloudflare Pages / Nginx, etc.).
+The project is configured with **GitHub Pages source = `main` branch / `docs` folder**, so `docs/` is the site root:
+- Live URL: `https://i4sorcerer.github.io/atlas-march-app/`
+- Portal entry: `https://i4sorcerer.github.io/atlas-march-app/portal/` (visiting the root auto-redirects to `/portal/`)
+- **Pure static hosting — no Node needed**: `server.js` is for local debugging only and does not run online; the `/api/history` endpoint does not exist on Pages, and the portal auto-falls back to browser `localStorage`.
 
-- If you use the portal API (`/api/history`), you need a Node environment that can run `portal/server.js`.
-  On pure static hosting the history is unavailable, but browsing / iframe embedding still works.
-- Any static server pointing its root at `atlas-march-app` also works (keep the relative paths `../xxx`).
+### ⚠️ Path rules (read before editing pages, or assets 404 online)
+
+GitHub Pages is a **project site** mounted under `/<repo-name>/` (here `/atlas-march-app/`).
+**Absolute paths starting with `/` resolve to the domain root, drop the repo name, and 404 online.** Rules:
+
+1. **Use relative paths for local assets**, never `/xxx` absolute paths. The portal `docs/portal/index.html` references its own assets as `css/portal.css`, `js/portal.js`, `data/categories.js` (already fixed); content pages reference their own assets relatively too.
+2. **Use relative `../` for cross-directory embeds**: in `docs/portal/data/categories.js`, a topic's `url` is `../changzheng/cz10.html` (relative to the portal, already in place).
+3. If you must use an absolute path, include the repo prefix: `/atlas-march-app/portal/css/portal.css` (not recommended — breaks if the repo is renamed).
+4. **Everything that should go live must live inside `docs/`** — Pages only serves `docs/`; other folders at the repo root are not hosted, and iframes will 404. Put new content folders directly under `docs/`.
+
+### Other static hosts
+
+Pure static assets also deploy to Cloudflare Pages / Nginx, etc. To use the portal API (`/api/history`)
+you need a Node environment that can run `docs/portal/server.js`; on pure static hosting the history is
+unavailable, but browsing / iframe embedding still works. Point any static server's root at `docs/`.
 
 ---
 
