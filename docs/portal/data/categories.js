@@ -45,12 +45,33 @@ window.CATEGORIES = [
         ]
       },
       {
+        id: "zhuque",
+        name: "朱雀系列火箭",
+        emoji: "🐦",
+        refs: { title: "朱雀火箭家族", emoji: "🚀", desc: "蓝箭航天朱雀一号 / 二号 / 三号，一张图看全", url: "../zhuque/zhuque.html" },
+        topics: [
+          { id: "zhuque1", title: "朱雀一号", emoji: "🚀", desc: "中国民营首次轨道发射尝试（2018）", url: "../zhuque/zhuque.html#zhuque1", ready: true },
+          { id: "zhuque2", title: "朱雀二号", emoji: "🚀", desc: "全球首枚入轨液氧甲烷火箭（2023）", url: "../zhuque/zhuque.html#zhuque2", ready: true },
+          { id: "zhuque3", title: "朱雀三号", emoji: "🛸", desc: "可回收·中国首次火箭陆地回收（2026）", url: "../zhuque/zhuque.html#zhuque3", ready: true }
+        ]
+      },
+      {
         id: "mars",
         name: "火星探测",
         emoji: "🔴",
+        refs: { title: "火星探测器全家福", emoji: "🛰️", desc: "登录过火星的所有探测器与飞行器，一张图看全", url: "../zhurong-hao/mars-missions.html" },
         topics: [
-          { id: "zhurong", title: "祝融号火星车", emoji: "🔥", desc: "在火星上开车的中国探测车", url: "../zhurong-hao/index.html", ready: true },
-          { id: "perseverance", title: "毅力号火星车", emoji: "🤖", desc: "会自己找生命痕迹的探测车", url: "", ready: false }
+          { id: "zhurong", title: "祝融号火星车（互动版）", emoji: "🔥", desc: "在火星上开车的中国探测车，可拆解、可驾驶", url: "../zhurong-hao/index.html", ready: true },
+          { id: "mars3", title: "火星3号", emoji: "🛰️", desc: "苏联·人类首次火星软着陆（1971）", url: "../zhurong-hao/mars-missions.html#mars3", ready: true },
+          { id: "viking1", title: "海盗1号", emoji: "🤖", desc: "美国·首个长期工作的着陆器（1976）", url: "../zhurong-hao/mars-missions.html#viking1", ready: true },
+          { id: "viking2", title: "海盗2号", emoji: "🤖", desc: "美国·海盗1号的双胞胎着陆器（1976）", url: "../zhurong-hao/mars-missions.html#viking2", ready: true },
+          { id: "pathfinder", title: "探路者 + 旅居者", emoji: "🚗", desc: "美国·首辆火星车（1997）", url: "../zhurong-hao/mars-missions.html#pathfinder", ready: true },
+          { id: "spirit", title: "勇气号", emoji: "🚙", desc: "美国·双胞胎火星车哥哥（2004）", url: "../zhurong-hao/mars-missions.html#spirit", ready: true },
+          { id: "opportunity", title: "机遇号", emoji: "🚙", desc: "美国·火星马拉松冠军（2004）", url: "../zhurong-hao/mars-missions.html#opportunity", ready: true },
+          { id: "phoenix", title: "凤凰号", emoji: "⛏️", desc: "美国·挖到火星水冰（2008）", url: "../zhurong-hao/mars-missions.html#phoenix", ready: true },
+          { id: "curiosity", title: "好奇号", emoji: "🚜", desc: "美国·核动力火星车，至今在岗（2012）", url: "../zhurong-hao/mars-missions.html#curiosity", ready: true },
+          { id: "insight", title: "洞察号", emoji: "👂", desc: "美国·火星地震听诊器（2018）", url: "../zhurong-hao/mars-missions.html#insight", ready: true },
+          { id: "perseverance", title: "毅力号", emoji: "🛰️", desc: "美国·带首架外星直升机机智号（2021）", url: "../zhurong-hao/mars-missions.html#perseverance", ready: true }
         ]
       },
       {

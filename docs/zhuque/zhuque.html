@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>朱雀火箭家族 · 会自己回家的中国火箭</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka+One&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --space-deep: #0D1B2A; --space-purple: #1B0033; --star-gold: #FFD166;
+      --rocket-red: #EF476F; --star-white: #E8F1FF; --tech-green: #06D6A0;
+      --mars-orange: #FF8C42; --mars-red: #E25822;
+      --radius-lg: 28px; --radius-md: 18px; --shadow: 0 12px 30px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'ZCOOL KuaiLe','Nunito',sans-serif; background: linear-gradient(160deg,var(--space-purple) 0%,var(--space-deep) 100%); background-attachment: fixed; color: var(--star-white); overflow-x: hidden; line-height: 1.7; }
+    #starfield { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .topbar, header, section, footer { position: relative; z-index: 1; }
+
+    .topbar { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; background: rgba(13,27,42,.6); backdrop-filter: blur(8px); z-index: 50; }
+    .logo { font-family: 'Fredoka One',cursive; font-size: 22px; color: var(--star-gold); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-links a { color: var(--star-white); text-decoration: none; margin-left: 14px; font-size: 15px; opacity: .85; transition: color .2s, transform .2s; }
+    .nav-links a:hover { color: var(--star-gold); transform: translateY(-2px); }
+    .lang-btn { font-family: 'ZCOOL KuaiLe',sans-serif; border: 2px solid var(--star-gold); background: transparent; color: var(--star-gold); border-radius: 999px; padding: 6px 16px; font-size: 15px; cursor: pointer; transition: transform .15s, background .2s; }
+    .lang-btn:hover { transform: scale(1.06); background: rgba(255,209,102,.15); }
+
+    .hero { min-height: 78vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 90px 20px 40px; }
+    .hero-rover { font-size: 84px; animation: floaty 3s ease-in-out infinite; filter: drop-shadow(0 8px 16px rgba(255,209,102,.4)); }
+    .hero-title { font-family: 'Fredoka One',cursive; font-size: clamp(34px,8vw,66px); margin: 10px 0; color: var(--star-white); text-shadow: 0 4px 0 rgba(239,71,111,.5); }
+    .hero-title .hl { color: var(--star-gold); }
+    .hero-sub { font-size: clamp(15px,4vw,22px); margin-bottom: 8px; opacity: .9; max-width: 640px; }
+    .hero-count { margin-top: 18px; font-size: 18px; color: var(--mars-orange); background: rgba(255,140,66,.12); border: 2px solid var(--mars-orange); border-radius: var(--radius-md); padding: 10px 22px; }
+    .scroll-hint { margin-top: 34px; font-size: 16px; color: var(--star-gold); animation: bounce 1.4s infinite; }
+
+    .section { padding: 60px 20px; max-width: 1040px; margin: 0 auto; }
+    .section-title { font-family: 'Fredoka One',cursive; font-size: clamp(24px,6vw,40px); text-align: center; color: var(--star-gold); margin-bottom: 12px; }
+    .section-desc { text-align: center; font-size: 18px; opacity: .85; margin-bottom: 30px; max-width: 720px; margin-left: auto; margin-right: auto; }
+
+    .missions { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 22px; }
+    .mission { background: rgba(232,241,255,.06); border: 2px solid rgba(232,241,255,.12); border-radius: var(--radius-lg); padding: 24px 22px; box-shadow: var(--shadow); scroll-margin-top: 90px; transition: transform .2s, border-color .2s, background .2s; }
+    .mission:hover { transform: translateY(-8px) rotate(-.6deg); border-color: var(--mars-orange); background: rgba(255,140,66,.10); }
+    .mission:target { border-color: var(--star-gold); background: rgba(255,209,102,.12); box-shadow: 0 0 0 3px rgba(255,209,102,.35), var(--shadow); }
+    .m-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .m-emoji { font-size: 46px; line-height: 1; }
+    .m-name { font-size: 21px; color: var(--tech-green); }
+    .m-flag { font-size: 22px; }
+    .m-meta { font-size: 14px; opacity: .8; margin: 2px 0 10px; }
+    .m-meta b { color: var(--star-gold); }
+    .m-desc { font-size: 16px; }
+    .m-tag { display: inline-block; margin-top: 12px; font-size: 13px; padding: 4px 12px; border-radius: 999px; background: rgba(6,214,160,.15); border: 1px solid var(--tech-green); color: var(--tech-green); }
+
+    .yearbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
+    .yearbar span { font-size: 14px; padding: 6px 12px; border-radius: 999px; background: rgba(255,140,66,.12); border: 1px solid var(--mars-orange); color: var(--star-white); }
+
+    /* ===== 真实火箭拆解 ===== */
+    .breakdown-wrap { display: flex; flex-wrap: wrap; gap: 26px; align-items: flex-start; justify-content: center; }
+    .rocket-stage { position: relative; width: 300px; height: 560px; flex: 0 0 auto; }
+    .rocket-silhouette { position: absolute; left: 50%; top: 5%; width: 66px; height: 84%; transform: translateX(-50%);
+      background: linear-gradient(90deg,#eef3f8 0%,#aeb9c4 48%,#eef3f8 100%); border-radius: 33px 33px 10px 10px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.25), 0 10px 26px rgba(0,0,0,.35); transition: opacity .5s; }
+    .rocket-silhouette::before { content:""; position: absolute; top: -34px; left: 50%; transform: translateX(-50%);
+      border-left: 33px solid transparent; border-right: 33px solid transparent; border-bottom: 36px solid #d7dee6; border-radius: 6px; }
+    .rocket-silhouette::after { content:""; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+      width: 80px; height: 16px; background: linear-gradient(90deg,#8a949f,#c7cfd8,#8a949f); border-radius: 4px; }
+    .rocket-stage.exploded-mode .rocket-silhouette { opacity: .12; }
+    .flame { position: absolute; left: 50%; bottom: 2%; transform: translateX(-50%); width: 40px; height: 0; background: linear-gradient(180deg,#fff3c4,#ff8c42 40%,#ef476f); border-radius: 0 0 50% 50%; filter: blur(1px); opacity: 0; transition: height .4s, opacity .4s; pointer-events: none; }
+    .rocket-stage.flying .flame { height: 90px; opacity: .9; animation: flick .25s infinite alternate; }
+    @keyframes flick { from { width: 38px; } to { width: 46px; } }
+    .part { position: absolute; font-size: 34px; cursor: pointer; transition: left .6s cubic-bezier(.34,1.56,.64,1), top .6s cubic-bezier(.34,1.56,.64,1), filter .2s; filter: drop-shadow(0 4px 8px rgba(0,0,0,.45)); text-align: center; transform: translate(-50%,-50%); z-index: 3; }
+    .part:hover { filter: drop-shadow(0 0 14px var(--star-gold)); }
+    .part.active { filter: drop-shadow(0 0 16px var(--star-gold)); }
+    .part .part-label { display: block; font-size: 12px; color: var(--star-white); margin-top: 2px; white-space: nowrap; background: rgba(13,27,42,.55); padding: 1px 6px; border-radius: 8px; }
+    .breakdown-side { flex: 1 1 300px; min-width: 260px; }
+    .part-info { margin-top: 4px; background: rgba(6,214,160,.1); border: 2px solid var(--tech-green); border-radius: var(--radius-md); padding: 18px; font-size: 16px; min-height: 120px; }
+    .part-info b { color: var(--tech-green); }
+    .btn { font-family: 'ZCOOL KuaiLe',sans-serif; border: none; border-radius: var(--radius-md); padding: 12px 20px; font-size: 17px; cursor: pointer; background: var(--rocket-red); color: #fff; box-shadow: var(--shadow); transition: transform .15s cubic-bezier(.34,1.56,.64,1), filter .2s; margin: 4px 6px 4px 0; }
+    .btn:hover { transform: scale(1.06) rotate(-1deg); filter: brightness(1.1); }
+    .btn-ghost { background: transparent; border: 2px solid var(--tech-green); color: var(--tech-green); }
+    .btn-orange { background: var(--mars-orange); }
+
+    /* 飞行旅程 */
+    .journey { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 16px; }
+    .jstep { background: rgba(232,241,255,.06); border: 2px solid rgba(232,241,255,.14); border-radius: var(--radius-md); padding: 14px 16px; width: 168px; text-align: center; transition: transform .2s, border-color .2s; }
+    .jstep:hover { transform: translateY(-6px); border-color: var(--star-gold); }
+    .jstep .j-emoji { font-size: 38px; }
+    .jstep .j-name { font-size: 15px; margin-top: 6px; color: var(--star-gold); }
+    .jstep .j-desc { font-size: 13px; opacity: .85; margin-top: 4px; }
+
+    .note { background: rgba(232,241,255,.06); border: 2px dashed rgba(232,241,255,.25); border-radius: var(--radius-lg); padding: 24px; margin-top: 24px; font-size: 16px; }
+    .note h3 { color: var(--star-gold); font-size: 20px; margin-bottom: 10px; }
+    .note ul { padding-left: 22px; }
+    .note li { margin-bottom: 6px; }
+
+    .footer { text-align: center; padding: 70px 20px 90px; }
+    .footer-title { font-family: 'Fredoka One',cursive; font-size: 32px; color: var(--tech-green); margin-bottom: 14px; }
+    .footer p { font-size: 18px; max-width: 600px; margin: 0 auto 10px; }
+    .footer-sign { color: var(--star-gold); margin-top: 18px; }
+    .hint { opacity: .8; }
+
+    @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+    @media (max-width: 600px) { .nav-links a { margin-left: 8px; font-size: 13px; } .topbar { padding: 10px 14px; } .rocket-stage { width: 260px; height: 500px; } }
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+
+  <nav class="topbar">
+    <span class="logo" id="ui-brand">🐦 朱雀火箭</span>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#hero" id="ui-nav-hero">出发</a>
+        <a href="#family" id="ui-nav-family">朱雀家族</a>
+        <a href="#breakdown" id="ui-nav-breakdown">拆开看</a>
+        <a href="#first" id="ui-nav-first">了不起</a>
+      </div>
+      <button class="lang-btn" id="langBtn">EN</button>
+    </div>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-rover">🚀</div>
+    <h1 class="hero-title"><span id="ui-hero-pre">朱雀</span><br /><span class="hl" id="ui-hero-hl">火箭家族</span></h1>
+    <p class="hero-sub" id="ui-hero-sub"></p>
+    <div class="hero-count" id="heroCount"></div>
+    <div class="scroll-hint" id="ui-scroll">👇 往下滚，认识每一只小朱雀</div>
+  </header>
+
+  <section id="family" class="section">
+    <h2 class="section-title" id="ui-fam-title">🚀 朱雀家族的小火箭们</h2>
+    <p class="section-desc" id="ui-fam-desc"></p>
+    <div class="yearbar" id="yearbar"></div>
+    <div class="missions" id="missions"></div>
+  </section>
+
+  <section id="breakdown" class="section">
+    <h2 class="section-title" id="ui-bd-title">🔧 把朱雀三号拆开看看！</h2>
+    <p class="section-desc" id="ui-bd-desc"></p>
+    <div class="breakdown-wrap">
+      <div class="rocket-stage" id="rocketStage">
+        <div class="rocket-silhouette"></div>
+        <div class="flame"></div>
+      </div>
+      <div class="breakdown-side">
+        <div>
+          <button class="btn" id="explodeBtn">🔧 拆开看看</button>
+          <button class="btn btn-ghost" id="assembleBtn">🧩 装回去</button>
+          <button class="btn btn-orange" id="flyBtn">🚀 看它飞一天</button>
+        </div>
+        <div class="part-info" id="partInfo"><span class="hint" id="ui-bd-hint">👈 点火箭上的小零件，听听它是干嘛的</span></div>
+        <div class="journey" id="journey"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="first" class="section">
+    <h2 class="section-title" id="ui-first-title">🏆 了不起的“第一次”</h2>
+    <p class="section-desc" id="ui-first-desc"></p>
+    <div class="note" id="firstNote"></div>
+  </section>
+
+  <footer class="footer">
+    <h2 class="footer-title" id="ui-footer-title">🌈 火箭也能“回家”啦</h2>
+    <p id="ui-footer-p1"></p>
+    <p id="ui-footer-p2"></p>
+    <p class="footer-sign" id="ui-footer-sign">—— 给喜欢星星的你 💫</p>
+  </footer>
+
+  <script>
+  /* ===== 星空背景 ===== */
+  (function starfield() {
+    const canvas = document.getElementById('starfield'); const ctx = canvas.getContext('2d'); let stars = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
+    function initStars() { const c = Math.floor((canvas.width*canvas.height)/6000);
+      stars = Array.from({length:c}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.6+0.4, a: Math.random(), speed: Math.random()*0.02+0.005, color: Math.random()>0.5?'#FFD166':'#E8F1FF' })); }
+    function draw() { ctx.clearRect(0,0,canvas.width,canvas.height); stars.forEach(s => { s.a+=s.speed; const al=0.4+Math.abs(Math.sin(s.a))*0.6; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=s.color; ctx.globalAlpha=al; ctx.fill(); }); ctx.globalAlpha=1; requestAnimationFrame(draw); }
+    window.addEventListener('resize', resize); resize(); draw();
+  })();
+
+  /* ===== 语言包（UI） ===== */
+  const I18N = {
+    zh: {
+      brand:"🐦 朱雀火箭", navHero:"出发", navFamily:"朱雀家族", navBreakdown:"拆开看", navFirst:"了不起",
+      heroPre:"朱雀", heroHl:"火箭家族", heroSub:"蓝箭航天造的一家人火箭，从勇敢的第一步，到今天会自己飞回家的可回收火箭！",
+      heroCount:(n)=>`🌟 朱雀家族一共有 <b>${n}</b> 位成员，而且越来越厉害`, scroll:"👇 往下滚，认识每一只小朱雀",
+      famTitle:"🚀 朱雀家族的小火箭们", famDesc:"它们都是中国民营公司「蓝箭航天」造的火箭，点一点，听它们的故事～",
+      bdTitle:"🔧 把朱雀三号拆开看看！", bdDesc:"这是一枚真正会回收的“不锈钢大火箭”，从上到下由好多真实部件组成。点零件听讲解，或点“拆开看看”把它拆成零件！",
+      bdHint:"👈 点火箭上的小零件，听听它是干嘛的", explode:"🔧 拆开看看", assemble:"🧩 装回去", fly:"🚀 看它飞一天",
+      firstTitle:"🏆 了不起的“第一次”", firstDesc:"朱雀家有两件让全中国都骄傲的大事！",
+      firstH3a:"🔥 朱雀二号：全球第一枚“喝甲烷”入轨的火箭", firstLi1:"2023 年 7 月 12 日，朱雀二号第二次发射成功进入轨道。",
+      firstLi2:"它是<b>全世界第一枚</b>用「液氧 + 甲烷」当燃料、还能成功飞上太空的火箭！甲烷更干净、便宜，还方便重复使用。",
+      firstH3b:"🛬 朱雀三号遥二：中国第一次让火箭“陆地回家”", firstLi3:"2026 年 8 月 19 日早上 7 点 35 分，朱雀三号遥二从酒泉起飞。",
+      firstLi4:"它把鸿鹄03星送进太空后，一子级自己掉头飞回甘肃民勤的着陆场，稳稳站好。",
+      firstLi5:"这是<b>我国第一次实现火箭陆地回收</b>，也是中国民营火箭第一次成功“回家”——以后火箭能像飞机一样反复用啦！",
+      footerTitle:"🌈 火箭也能“回家”啦", footerP1:"从 2018 年第一次勇敢起飞，到今天火箭自己飞回地球，朱雀家族只用了几年就追上了世界最厉害的可回收火箭。",
+      footerP2:"说不定，以后送你上天看星星的，就是会自己回家的朱雀火箭！", footerSign:"—— 给喜欢星星的你 💫", langOther:"EN"
+    },
+    en: {
+      brand:"🐦 Zhuque Rockets", navHero:"Start", navFamily:"Family", navBreakdown:"Explode", navFirst:"Firsts",
+      heroPre:"Zhuque", heroHl:"Rocket Family", heroSub:"A rocket family built by LandSpace — from a brave first step to a reusable rocket that flies itself home today!",
+      heroCount:(n)=>`🌟 The Zhuque family has <b>${n}</b> members, and keeps getting cooler`, scroll:"👇 Scroll down to meet every little Zhuque",
+      famTitle:"🚀 The Zhuque rocket family", famDesc:"They're all rockets made by Chinese private company LandSpace. Tap one to hear its story~",
+      bdTitle:"🔧 Take Zhuque-3 apart!", bdDesc:"This is a real reusable \u201cstainless-steel giant\u201d built from real parts, top to bottom. Tap a part to learn, or \u201cTake apart\u201d to split it into pieces!",
+      bdHint:"👈 Tap a part on the rocket to hear what it does", explode:"🔧 Take apart", assemble:"🧩 Put back", fly:"🚀 Watch its day",
+      firstTitle:"🏆 Amazing “firsts”", firstDesc:"The Zhuque family has two things all of China is proud of!",
+      firstH3a:"🔥 Zhuque-2: world's 1st methane-powered orbital rocket", firstLi1:"On July 12, 2023, Zhuque-2's second launch successfully reached orbit.",
+      firstLi2:"It was the <b>world's first</b> rocket to burn \u201cliquid oxygen + methane\u201d and still fly to space! Methane is cleaner, cheaper, and easier to reuse.",
+      firstH3b:"🛬 Zhuque-3 Yaoyi-2: China's 1st rocket to land on land", firstLi3:"At 7:35 am on Aug 19, 2026, Zhuque-3 Yaoyi-2 lifted off from Jiuquan.",
+      firstLi4:"After sending the Honghu-03 satellite to space, its first stage turned back and landed softly at the Minqin pad in Gansu.",
+      firstLi5:"This was <b>China's first rocket land-recovery</b> and the first time a Chinese private rocket came \u201chome\u201d \u2014 soon rockets can be reused like airplanes!",
+      footerTitle:"🌈 Rockets can come home too", footerP1:"From its brave first flight in 2018 to a rocket flying back to Earth today, the Zhuque family caught up to the world's best reusable rockets in just a few years.",
+      footerP2:"Maybe the Zhuque rocket that flies you to the stars someday will be one that comes home by itself!", footerSign:"—— For you who love the stars 💫", langOther:"中文"
+    }
+  };
+
+  /* ===== 数据：朱雀系列火箭 ===== */
+  const MISSIONS = [
+    { id:"zhuque1", emoji:"🚀", flag:"🇨🇳", nameZh:"朱雀一号", nameEn:"Zhuque-1 (ZQ-1)", yearZh:"2018年10月", yearEn:"Oct 2018", countryZh:"中国 · 蓝箭航天", countryEn:"China · LandSpace", siteZh:"酒泉卫星发射中心", siteEn:"Jiuquan LC",
+      descZh:`蓝箭航天造的<b>第一枚火箭</b>，是一枚“固体”小火箭。它想当中国民营公司第一枚冲进太空的火箭，可惜第一次飞最后一段没稳住，没能进轨道——但它是勇敢的第一步，给后面的哥哥们铺好了路！`,
+      descEn:`The very first rocket built by LandSpace — a small solid-fuel rocket. It wanted to be the first rocket from a Chinese private company to reach space, but on its first flight the final stage wobbled and missed orbit. Still, it was a brave first step that paved the way for its bigger siblings!`,
+      tagZh:"中国民营首次轨道发射尝试", tagEn:"China's 1st private orbital attempt" },
+    { id:"zhuque2", emoji:"🚀", flag:"🇨🇳", nameZh:"朱雀二号", nameEn:"Zhuque-2 (ZQ-2)", yearZh:"2023年7月（首次成功）", yearEn:"Jul 2023 (1st success)", countryZh:"中国 · 蓝箭航天", countryEn:"China · LandSpace", siteZh:"酒泉卫星发射中心", siteEn:"Jiuquan LC",
+      descZh:`用“液氧 + 甲烷”当燃料的环保大火箭！2022 年 12 月第一次飞没成功，但 2023 年 7 月 12 日第二次稳稳进了轨道，成了<b>全世界第一枚</b>用甲烷燃料成功飞上太空的火箭。后来还升级成更厉害的 ZQ-2E，经常帮人送卫星上天。`,
+      descEn:`A big, clean rocket that burns "liquid oxygen + methane"! Its first flight in Dec 2022 didn't make it, but on July 12, 2023 it reached orbit smoothly — becoming the <b>world's first</b> rocket to successfully fly to space on methane fuel. Later upgraded into the even better ZQ-2E, often sending satellites uphill.`,
+      tagZh:"全球首枚入轨液氧甲烷火箭", tagEn:"World's 1st orbital methalox rocket" },
+    { id:"zhuque3", emoji:"🛸", flag:"🇨🇳", nameZh:"朱雀三号", nameEn:"Zhuque-3 (ZQ-3)", yearZh:"2026年8月（遥二回收成功）", yearEn:"Aug 2026 (Yaoyi-2 recovered)", countryZh:"中国 · 蓝箭航天", countryEn:"China · LandSpace", siteZh:"东风商业航天创新试验区（酒泉）", siteEn:"Dongfeng Test Zone (Jiuquan)",
+      descZh:`银色<b>不锈钢</b>做的可回收大火箭！有 9 台液氧甲烷发动机，像大号“中国版猎鹰9号”。2026 年 8 月 19 日，它把鸿鹄03星送上天，还让一子级自己飞回甘肃民勤的着陆场、稳稳站好——这是<b>中国民营火箭第一次成功“回家”</b>！`,
+      descEn:`A reusable giant made of shiny stainless steel! With 9 methalox engines, it's like a big "Chinese Falcon 9." On Aug 19, 2026, it sent the Honghu-03 satellite to space AND flew its first stage back to the landing pad in Minqin, Gansu, standing up straight — the first time a Chinese private rocket successfully came "home"!`,
+      tagZh:"中国首次火箭陆地回收（可重复使用）", tagEn:"China's 1st land recovery (reusable)" }
+  ];
+
+  /* ===== 数据：朱雀三号真实构造部件（中英双语） =====
+     x/y = 组装位置(%)，ex/ey = 拆开后的位置(%) */
+  const PARTS = [
+    { id:"fairing", emoji:"🛰️", labelZh:"整流罩", labelEn:"Fairing", x:50, y:9, ex:50, ey:4,
+      infoZh:`<b>整流罩</b>：火箭最头顶的“保护帽”，像蚌壳一样包住卫星，挡住起飞时呼啸的气流；飞出稠密大气后“咔嚓”裂成两半掉下去，把卫星轻轻放出来。`,
+      infoEn:`<b>Fairing</b>: the "protective hat" on top, like a clamshell wrapping the satellite to block the roaring air at liftoff; above the thick atmosphere it splits in two and falls away, freeing the satellite.` },
+    { id:"payload", emoji:"📡", labelZh:"卫星", labelEn:"Satellite", x:50, y:18, ex:18, ey:16,
+      infoZh:`<b>有效载荷</b>：火箭真正要送上天“客人”——这里就是鸿鹄03星。它平时安安静静躺在整流罩里，等到了太空才开工。`,
+      infoEn:`<b>Payload</b>: the "guest" the rocket really carries uphill — here it's the Honghu-03 satellite. It rests quietly inside the fairing and only starts work once in space.` },
+    { id:"stage2", emoji:"🚀", labelZh:"第二级", labelEn:"2nd stage", x:50, y:28, ex:82, ey:26,
+      infoZh:`<b>第二级</b>：火箭的“上半身”。一级燃料烧完、累趴下后，它用自己的真空发动机接着推，把卫星稳稳送进太空轨道。`,
+      infoEn:`<b>Second stage</b>: the rocket's "upper half." After stage 1 runs out of fuel, its own vacuum engine keeps pushing to deliver the satellite safely into orbit.` },
+    { id:"interstage", emoji:"🔗", labelZh:"级间段", labelEn:"Interstage", x:50, y:38, ex:18, ey:38,
+      infoZh:`<b>级间段</b>：把一级和二级“扣”在一起的环。分离时它先松开，让二级带着卫星飞走；栅格舵也长在这一截上。`,
+      infoEn:`<b>Interstage</b>: the ring bolting stage 1 and 2 together. At separation it lets go so stage 2 flies off with the satellite; the grid fins sit on this section.` },
+    { id:"lox", emoji:"💧", labelZh:"液氧贮箱", labelEn:"LOX tank", x:50, y:48, ex:82, ey:48,
+      infoZh:`<b>液氧贮箱</b>：装着零下 180℃ 的“凉氧气”🧊。发动机要把氧气和燃料混在一起烧，才能喷出大火苗。`,
+      infoEn:`<b>LOX tank</b>: holds "super-cold oxygen" at −180°C. The engine mixes oxygen with fuel to blast out flames.` },
+    { id:"ch4", emoji:"🟦", labelZh:"甲烷贮箱", labelEn:"Methane tank", x:50, y:58, ex:18, ey:58,
+      infoZh:`<b>甲烷贮箱</b>：装着“液甲烷”🟦，是火箭的燃料。甲烷干净又便宜，还能在火星上制造，特别适合往返太空！`,
+      infoEn:`<b>Methane tank</b>: holds "liquid methane," the rocket's fuel. Methane is clean and cheap, and can even be made on Mars — perfect for space travel!` },
+    { id:"gridfin", emoji:"🪿", labelZh:"栅格舵", labelEn:"Grid fins", x:84, y:39, ex:96, ey:39,
+      infoZh:`<b>栅格舵</b>：一级回来时身子两边的“小鱼翅”。回到稠密大气里，它们像鱼鳍一样摆一摆，帮几百吨的火箭稳住姿势、对准着陆场。`,
+      infoEn:`<b>Grid fins</b>: the "little fish fins" on the first stage's sides. Back in thick air they wiggle like fins to steady the hundreds-of-tons rocket and aim at the pad.` },
+    { id:"legs", emoji:"🦵", labelZh:"着陆腿", labelEn:"Landing legs", x:84, y:80, ex:96, ey:80,
+      infoZh:`<b>着陆腿</b>：一级回家最后关头，“啪”地伸出四条腿，像小鸟落脚一样稳稳站在地上——火箭就能再次使用啦！`,
+      infoEn:`<b>Landing legs</b>: at the final moment of coming home, four legs snap out and it stands on the ground like a bird landing — so the rocket can fly again!` },
+    { id:"engines", emoji:"🔥", labelZh:"发动机×9", labelEn:"Engines ×9", x:50, y:90, ex:50, ey:95,
+      infoZh:`<b>发动机 ×9</b>：火箭的“大脚丫”，9 台“天鹊”液氧甲烷发动机一起喷火，把几百吨的火箭推上天；回收时还能掉头再点火，慢慢减速落地。`,
+      infoEn:`<b>Engines ×9</b>: the rocket's "big feet" — nine "Tianque" methalox engines blast fire together to lift hundreds of tons; on return they relight to slow down for landing.` },
+    { id:"brain", emoji:"💡", labelZh:"航电大脑", labelEn:"Avionics", x:16, y:66, ex:4, ey:66,
+      infoZh:`<b>航电大脑</b>：火箭的“小脑瓜”，里面有计算机和陀螺仪。它一边飞一边算“我现在在哪、该往哪拐”，指挥发动机和舵听话。`,
+      infoEn:`<b>Avionics brain</b>: the rocket's "little head" — computers and gyros inside. It keeps calculating "where am I, which way to turn" and tells the engines and fins what to do.` }
+  ];
+
+  /* ===== 数据：飞行旅程（中英双语） ===== */
+  const JOURNEY = [
+    { emoji:"🚀", nameZh:"起飞", nameEn:"Liftoff", descZh:"9 台发动机点火，火箭离开发射台。", descEn:"Nine engines ignite; the rocket leaves the pad." },
+    { emoji:"💥", nameZh:"级间分离", nameEn:"Stage sep.", descZh:"一级燃料烧完，和二级“分手”，二级继续往上推。", descEn:"Stage 1 runs dry and says bye; stage 2 keeps climbing." },
+    { emoji:"🛰️", nameZh:"整流罩打开", nameEn:"Fairing opens", descZh:"冲出大气层，整流罩裂开掉落，卫星露出来。", descEn:"Above the atmosphere the fairing splits and the satellite shows." },
+    { emoji:"🌍", nameZh:"送入轨道", nameEn:"In orbit", descZh:"二级把卫星送到预定轨道，任务成功！", descEn:"Stage 2 places the satellite in orbit — success!" },
+    { emoji:"🛬", nameZh:"一级回收", nameEn:"1st-stage back", descZh:"一级自己飞回着陆场，稳稳站好，下次还能再用。", descEn:"Stage 1 flies home and stands tall, ready to fly again." }
+  ];
+
+  /* ===== 渲染 ===== */
+  let lang = localStorage.getItem('zhuque-lang') || 'zh';
+  const T = () => I18N[lang];
+  const zh = (a,b) => lang === 'zh' ? a : b;
+
+  function applyUI() {
+    const t = T();
+    document.getElementById('ui-brand').textContent = t.brand;
+    document.getElementById('ui-nav-hero').textContent = t.navHero;
+    document.getElementById('ui-nav-family').textContent = t.navFamily;
+    document.getElementById('ui-nav-breakdown').textContent = t.navBreakdown;
+    document.getElementById('ui-nav-first').textContent = t.navFirst;
+    document.getElementById('ui-hero-pre').textContent = t.heroPre;
+    document.getElementById('ui-hero-hl').textContent = t.heroHl;
+    document.getElementById('ui-hero-sub').textContent = t.heroSub;
+    document.getElementById('ui-scroll').textContent = t.scroll;
+    document.getElementById('ui-fam-title').textContent = t.famTitle;
+    document.getElementById('ui-fam-desc').textContent = t.famDesc;
+    document.getElementById('ui-bd-title').textContent = t.bdTitle;
+    document.getElementById('ui-bd-desc').textContent = t.bdDesc;
+    document.getElementById('ui-bd-hint').textContent = t.bdHint;
+    document.getElementById('explodeBtn').textContent = t.explode;
+    document.getElementById('assembleBtn').textContent = t.assemble;
+    document.getElementById('flyBtn').textContent = t.fly;
+    document.getElementById('ui-first-title').textContent = t.firstTitle;
+    document.getElementById('ui-first-desc').textContent = t.firstDesc;
+    document.getElementById('ui-footer-title').textContent = t.footerTitle;
+    document.getElementById('ui-footer-p1').textContent = t.footerP1;
+    document.getElementById('ui-footer-p2').textContent = t.footerP2;
+    document.getElementById('ui-footer-sign').textContent = t.footerSign;
+    document.getElementById('langBtn').textContent = t.langOther;
+    document.getElementById('firstNote').innerHTML = `<h3>${t.firstH3a}</h3><ul><li>${t.firstLi1}</li><li>${t.firstLi2}</li></ul><h3 style="margin-top:18px">${t.firstH3b}</h3><ul><li>${t.firstLi3}</li><li>${t.firstLi4}</li><li>${t.firstLi5}</li></ul>`;
+    renderJourney();
+  }
+
+  function renderMissions() {
+    document.getElementById('missions').innerHTML = MISSIONS.map(m => `
+      <div class="mission" id="${m.id}">
+        <div class="m-top"><span class="m-emoji">${m.emoji}</span><div><div class="m-name">${zh(m.nameZh,m.nameEn)} <span class="m-flag">${m.flag}</span></div></div></div>
+        <div class="m-meta"><b>${zh(m.yearZh,m.yearEn)}</b> · ${zh(m.countryZh,m.countryEn)} · ${zh(m.siteZh,m.siteEn)}</div>
+        <div class="m-desc">${zh(m.descZh,m.descEn)}</div>
+        <span class="m-tag">${zh(m.tagZh,m.tagEn)}</span>
+      </div>`).join('');
+    document.getElementById('yearbar').innerHTML = MISSIONS.map(m => {
+      const yr = zh(m.yearZh,m.yearEn).replace(/（.*/,'').replace(/\(.*/,'');
+      return `<span>${yr} · ${zh(m.nameZh,m.nameEn)}</span>`;
+    }).join('');
+    document.getElementById('heroCount').innerHTML = T().heroCount(MISSIONS.length);
+  }
+
+  function renderJourney() {
+    document.getElementById('journey').innerHTML = JOURNEY.map(j => `
+      <div class="jstep"><div class="j-emoji">${j.emoji}</div><div class="j-name">${zh(j.nameZh,j.nameEn)}</div><div class="j-desc">${zh(j.descZh,j.descEn)}</div></div>`).join('');
+  }
+
+  function renderParts() {
+    const stage = document.getElementById('rocketStage');
+    const info = document.getElementById('partInfo');
+    PARTS.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'part assembled'; el.dataset.id = p.id;
+      el.style.left = p.x + '%'; el.style.top = p.y + '%';
+      el.innerHTML = `${p.emoji}<span class="part-label">${zh(p.labelZh,p.labelEn)}</span>`;
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.part').forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+        info.innerHTML = zh(p.infoZh, p.infoEn);
+      });
+      stage.appendChild(el);
+    });
+  }
+
+  function setMode(exploded) {
+    const stage = document.getElementById('rocketStage');
+    stage.classList.toggle('exploded-mode', exploded);
+    document.querySelectorAll('.part').forEach((el, i) => {
+      const p = PARTS[i];
+      el.classList.toggle('exploded', exploded);
+      el.classList.toggle('assembled', !exploded);
+      el.style.left = (exploded ? p.ex : p.x) + '%';
+      el.style.top = (exploded ? p.ey : p.y) + '%';
+      el.querySelector('.part-label').textContent = zh(p.labelZh, p.labelEn);
+    });
+  }
+
+  function updateLang() {
+    applyUI(); renderMissions(); renderParts();
+    const info = document.getElementById('partInfo');
+    if (!info.querySelector('b')) info.innerHTML = `<span class="hint">${T().bdHint}</span>`;
+  }
+
+  document.getElementById('explodeBtn').addEventListener('click', () => setMode(true));
+  document.getElementById('assembleBtn').addEventListener('click', () => setMode(false));
+  document.getElementById('flyBtn').addEventListener('click', () => {
+    const stage = document.getElementById('rocketStage');
+    stage.classList.add('flying');
+    const info = document.getElementById('partInfo');
+    info.innerHTML = lang === 'zh'
+      ? '🚀 <b>点火！</b> 9 台发动机喷出蓝焰，几百吨的朱雀三号慢慢离开地面，冲向星空～'
+      : '🚀 <b>Ignition!</b> Nine engines flare blue; the hundreds-of-tons Zhuque-3 slowly leaves the ground for the stars~';
+    setTimeout(() => stage.classList.remove('flying'), 2600);
+  });
+  document.getElementById('langBtn').addEventListener('click', () => {
+    lang = (lang === 'zh') ? 'en' : 'zh';
+    localStorage.setItem('zhuque-lang', lang);
+    updateLang();
+  });
+
+  updateLang();
+  </script>
+</body>
+</html>

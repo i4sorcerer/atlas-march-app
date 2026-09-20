@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>火星上的小伙伴 · 登录过火星的探测器全家福</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka+One&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --space-deep: #0D1B2A;
+      --space-purple: #1B0033;
+      --star-gold: #FFD166;
+      --rocket-red: #EF476F;
+      --star-white: #E8F1FF;
+      --tech-green: #06D6A0;
+      --mars-orange: #FF8C42;
+      --mars-red: #E25822;
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'ZCOOL KuaiLe', 'Nunito', sans-serif;
+      background: linear-gradient(160deg, var(--space-purple) 0%, var(--space-deep) 100%);
+      background-attachment: fixed; color: var(--star-white); overflow-x: hidden; line-height: 1.7;
+    }
+    #starfield { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .topbar, header, section, footer { position: relative; z-index: 1; }
+
+    .topbar { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; background: rgba(13,27,42,.6); backdrop-filter: blur(8px); z-index: 50; }
+    .logo { font-family: 'Fredoka One', cursive; font-size: 22px; color: var(--star-gold); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-links a { color: var(--star-white); text-decoration: none; margin-left: 14px; font-size: 15px; opacity: .85; transition: color .2s, transform .2s; }
+    .nav-links a:hover { color: var(--star-gold); transform: translateY(-2px); }
+    .lang-btn { font-family: 'ZCOOL KuaiLe', sans-serif; border: 2px solid var(--star-gold); background: transparent; color: var(--star-gold); border-radius: 999px; padding: 6px 16px; font-size: 15px; cursor: pointer; transition: transform .15s, background .2s; }
+    .lang-btn:hover { transform: scale(1.06); background: rgba(255,209,102,.15); }
+
+    .hero { min-height: 78vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 90px 20px 40px; }
+    .hero-rover { font-size: 84px; animation: floaty 3s ease-in-out infinite; filter: drop-shadow(0 8px 16px rgba(255,209,102,.4)); }
+    .hero-title { font-family: 'Fredoka One', cursive; font-size: clamp(34px, 8vw, 66px); margin: 10px 0; color: var(--star-white); text-shadow: 0 4px 0 rgba(239,71,111,.5); }
+    .hero-title .hl { color: var(--star-gold); }
+    .hero-sub { font-size: clamp(15px, 4vw, 22px); margin-bottom: 8px; opacity: .9; max-width: 640px; }
+    .hero-count { margin-top: 18px; font-size: 18px; color: var(--mars-orange); background: rgba(255,140,66,.12); border: 2px solid var(--mars-orange); border-radius: var(--radius-md); padding: 10px 22px; }
+    .scroll-hint { margin-top: 34px; font-size: 16px; color: var(--star-gold); animation: bounce 1.4s infinite; }
+
+    .section { padding: 60px 20px; max-width: 1040px; margin: 0 auto; }
+    .section-title { font-family: 'Fredoka One', cursive; font-size: clamp(24px, 6vw, 40px); text-align: center; color: var(--star-gold); margin-bottom: 12px; }
+    .section-desc { text-align: center; font-size: 18px; opacity: .85; margin-bottom: 30px; max-width: 720px; margin-left: auto; margin-right: auto; }
+
+    .missions { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+    .mission { background: rgba(232,241,255,.06); border: 2px solid rgba(232,241,255,.12); border-radius: var(--radius-lg); padding: 24px 22px; box-shadow: var(--shadow); scroll-margin-top: 90px; transition: transform .2s, border-color .2s, background .2s; }
+    .mission:hover { transform: translateY(-8px) rotate(-.6deg); border-color: var(--mars-orange); background: rgba(255,140,66,.10); }
+    .mission:target { border-color: var(--star-gold); background: rgba(255,209,102,.12); box-shadow: 0 0 0 3px rgba(255,209,102,.35), var(--shadow); }
+    .m-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .m-emoji { font-size: 46px; line-height: 1; }
+    .m-name { font-size: 21px; color: var(--tech-green); }
+    .m-flag { font-size: 22px; }
+    .m-meta { font-size: 14px; opacity: .8; margin: 2px 0 10px; }
+    .m-meta b { color: var(--star-gold); }
+    .m-desc { font-size: 16px; }
+    .m-tag { display: inline-block; margin-top: 12px; font-size: 13px; padding: 4px 12px; border-radius: 999px; background: rgba(6,214,160,.15); border: 1px solid var(--tech-green); color: var(--tech-green); }
+    .m-tag.failed { background: rgba(239,71,111,.15); border-color: var(--rocket-red); color: #ff9bb3; }
+
+    .yearbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
+    .yearbar span { font-size: 14px; padding: 6px 12px; border-radius: 999px; background: rgba(255,140,66,.12); border: 1px solid var(--mars-orange); color: var(--star-white); }
+
+    .breakdown-wrap { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; justify-content: center; }
+    .rover-stage { position: relative; width: 320px; height: 340px; background: radial-gradient(circle at 50% 60%, rgba(255,140,66,.18), transparent 70%); border-radius: var(--radius-lg); flex: 0 0 auto; }
+    .part { position: absolute; font-size: 40px; cursor: pointer; transition: transform .6s cubic-bezier(.34,1.56,.64,1), filter .2s; filter: drop-shadow(0 4px 8px rgba(0,0,0,.4)); text-align: center; transform: translate(-50%,-50%); }
+    .part:hover { filter: drop-shadow(0 0 12px var(--star-gold)); }
+    .part .part-label { display: block; font-size: 13px; color: var(--star-white); margin-top: 2px; }
+    .breakdown-side { flex: 1 1 260px; min-width: 240px; }
+    .part-info { margin-top: 18px; background: rgba(6,214,160,.1); border: 2px solid var(--tech-green); border-radius: var(--radius-md); padding: 18px; font-size: 17px; min-height: 90px; }
+    .part-info b { color: var(--tech-green); }
+    .btn { font-family: 'ZCOOL KuaiLe', sans-serif; border: none; border-radius: var(--radius-md); padding: 12px 22px; font-size: 18px; cursor: pointer; background: var(--rocket-red); color: #fff; box-shadow: var(--shadow); transition: transform .15s cubic-bezier(.34,1.56,.64,1), filter .2s; }
+    .btn:hover { transform: scale(1.06) rotate(-1deg); filter: brightness(1.1); }
+    .btn-ghost { background: transparent; border: 2px solid var(--tech-green); color: var(--tech-green); }
+
+    .note { background: rgba(232,241,255,.06); border: 2px dashed rgba(232,241,255,.25); border-radius: var(--radius-lg); padding: 24px; margin-top: 24px; font-size: 16px; }
+    .note h3 { color: var(--star-gold); font-size: 20px; margin-bottom: 10px; }
+    .note ul { padding-left: 22px; }
+    .note li { margin-bottom: 6px; }
+
+    .footer { text-align: center; padding: 70px 20px 90px; }
+    .footer-title { font-family: 'Fredoka One', cursive; font-size: 32px; color: var(--tech-green); margin-bottom: 14px; }
+    .footer p { font-size: 18px; max-width: 600px; margin: 0 auto 10px; }
+    .footer-sign { color: var(--star-gold); margin-top: 18px; }
+    .hint { opacity: .8; }
+
+    @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-18px); } }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+    @media (max-width: 600px) {
+      .nav-links a { margin-left: 8px; font-size: 13px; }
+      .topbar { padding: 10px 14px; }
+      .rover-stage { width: 280px; height: 300px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+
+  <nav class="topbar">
+    <span class="logo" id="ui-brand">🔴 火星小伙伴</span>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#hero" id="ui-nav-hero">出发</a>
+        <a href="#ok" id="ui-nav-ok">成功落地</a>
+        <a href="#breakdown" id="ui-nav-breakdown">拆开看</a>
+        <a href="#try" id="ui-nav-try">努力过</a>
+        <a href="#orbit" id="ui-nav-orbit">天上飞</a>
+      </div>
+      <button class="lang-btn" id="langBtn">EN</button>
+    </div>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-rover">🛸</div>
+    <h1 class="hero-title"><span id="ui-hero-pre">火星上的</span><br /><span class="hl" id="ui-hero-hl">小伙伴</span></h1>
+    <p class="hero-sub" id="ui-hero-sub"></p>
+    <div class="hero-count" id="heroCount"></div>
+    <div class="scroll-hint" id="ui-scroll">👇 往下滚，认识每一位火星探险家</div>
+  </header>
+
+  <section id="ok" class="section">
+    <h2 class="section-title" id="ui-ok-title">🤖 成功落在火星上的小伙伴们</h2>
+    <p class="section-desc" id="ui-ok-desc"></p>
+    <div class="yearbar" id="yearbar"></div>
+    <div class="missions" id="missions"></div>
+  </section>
+
+  <section id="breakdown" class="section">
+    <h2 class="section-title" id="ui-bd-title">🔧 把火星车拆开看看！</h2>
+    <p class="section-desc" id="ui-bd-desc"></p>
+    <div class="breakdown-wrap">
+      <div class="rover-stage" id="roverStage"></div>
+      <div class="breakdown-side">
+        <button class="btn" id="explodeBtn">🔧 拆开看看</button>
+        <button class="btn btn-ghost" id="assembleBtn">🧩 装回去</button>
+        <div class="part-info" id="partInfo"><span class="hint" id="ui-bd-hint">👈 点车车上的小零件，听听它是干嘛的</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="try" class="section">
+    <h2 class="section-title" id="ui-try-title">💪 也努力过的小伙伴</h2>
+    <p class="section-desc" id="ui-try-desc"></p>
+    <div class="missions" id="failed"></div>
+  </section>
+
+  <section id="orbit" class="section">
+    <h2 class="section-title" id="ui-orbit-title">🛰️ 在火星天上转圈圈的小伙伴</h2>
+    <p class="section-desc" id="ui-orbit-desc"></p>
+    <div class="note" id="orbitNote"></div>
+  </section>
+
+  <footer class="footer">
+    <h2 class="footer-title" id="ui-footer-title">🌈 下一个会是谁？</h2>
+    <p id="ui-footer-p1"></p>
+    <p id="ui-footer-p2"></p>
+    <p class="footer-sign" id="ui-footer-sign">—— 给喜欢星星的你 💫</p>
+  </footer>
+
+  <script>
+  /* ===== 星空背景 ===== */
+  (function starfield() {
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
+    function initStars() {
+      const count = Math.floor((canvas.width * canvas.height) / 6000);
+      stars = Array.from({ length: count }, () => ({
+        x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.6+0.4,
+        a: Math.random(), speed: Math.random()*0.02+0.005, color: Math.random()>0.5?'#FFD166':'#E8F1FF'
+      }));
+    }
+    function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      stars.forEach(s => { s.a+=s.speed; const alpha=0.4+Math.abs(Math.sin(s.a))*0.6;
+        ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=s.color; ctx.globalAlpha=alpha; ctx.fill(); });
+      ctx.globalAlpha=1; requestAnimationFrame(draw);
+    }
+    window.addEventListener('resize', resize); resize(); draw();
+  })();
+
+  /* ===== 语言包（UI 文案） ===== */
+  const I18N = {
+    zh: {
+      brand: "🔴 火星小伙伴", navHero: "出发", navOk: "成功落地", navBreakdown: "拆开看", navTry: "努力过", navOrbit: "天上飞",
+      heroPre: "火星上的", heroHl: "小伙伴", heroSub: "从地球出发，一路飞到红红的火星，稳稳落地的探测器们，都在这儿啦！",
+      heroCount: (n) => `🌟 人类一共成功让 <b>${n}</b> 个探测器落在了火星表面`,
+      scroll: "👇 往下滚，认识每一位火星探险家",
+      okTitle: "🤖 成功落在火星上的小伙伴们", okDesc: "这些探测器都真的摸到了火星的红土地！点一点，听它们的小故事～",
+      bdTitle: "🔧 把火星车拆开看看！", bdDesc: "点“拆开看看”，看看小车车肚子里藏着什么宝贝～", bdHint: "👈 点车车上的小零件，听听它是干嘛的",
+      explode: "🔧 拆开看看", assemble: "🧩 装回去",
+      tryTitle: "💪 也努力过的小伙伴", tryDesc: "去火星特别特别难，这几个小伙伴没能稳稳落地，但我们一样要给它们鼓掌！",
+      orbitTitle: "🛰️ 在火星天上转圈圈的小伙伴", orbitDesc: "还有很多探测器没有落地，而是绕着火星飞，当“太空摄影师”和“传话筒”，把落地小伙伴们拍的照片传给地球。",
+      orbitH3: "📡 著名的火星轨道器（没有落地，在天上飞）",
+      footerTitle: "🌈 下一个会是谁？", footerP1: "从 1971 年第一个试着落地，到今天火星上还有小车车在爬大山，人类从没停下探索的脚步。",
+      footerP2: "说不定，下一个开着小车车去火星的，就是你！", footerSign: "—— 给喜欢星星的你 💫",
+      langOther: "EN"
+    },
+    en: {
+      brand: "🔴 Mars Pals", navHero: "Start", navOk: "Landed", navBreakdown: "Explode", navTry: "Tried", navOrbit: "Orbiting",
+      heroPre: "Friends on", heroHl: "Mars", heroSub: "From Earth all the way to red, red Mars — the probes that landed safe and sound are all right here!",
+      heroCount: (n) => `🌟 Humans have safely landed <b>${n}</b> probes on the surface of Mars`,
+      scroll: "👇 Scroll down to meet every Mars explorer",
+      okTitle: "🤖 Pals that landed on Mars", okDesc: "These probes really touched the red soil of Mars! Tap one to hear its little story~",
+      bdTitle: "🔧 Take a Mars rover apart!", bdDesc: "Tap “Take apart” to see what treasures hide inside the little rover~", bdHint: "👈 Tap a part on the rover to hear what it does",
+      explode: "🔧 Take apart", assemble: "🧩 Put back",
+      tryTitle: "💪 Pals that also tried", tryDesc: "Getting to Mars is super hard. These pals didn't land softly, but we still cheer for them!",
+      orbitTitle: "🛰️ Pals circling Mars in the sky", orbitDesc: "Many probes didn't land — they orbit Mars as “space photographers” and “messengers,” sending the landed pals' photos back to Earth.",
+      orbitH3: "📡 Famous Mars orbiters (flying, not landed)",
+      footerTitle: "🌈 Who will be next?", footerP1: "From the first try in 1971 to little rovers climbing mountains today, humans never stopped exploring.",
+      footerP2: "Maybe the next one driving a little car on Mars will be YOU!", footerSign: "—— For you who love the stars 💫",
+      langOther: "中文"
+    }
+  };
+
+  /* ===== 数据：成功落在火星上的探测器（中英双语） ===== */
+  const MISSIONS = [
+    { id:"mars3", emoji:"🛰️", flag:"🇷🇺", nameZh:"火星3号", nameEn:"Mars 3", yearZh:"1971年12月", yearEn:"Dec 1971", countryZh:"苏联", countryEn:"USSR", siteZh:"火星表面", siteEn:"Mars surface",
+      descZh:`人类第一个在火星上<b>软着陆</b>的探测器！可惜落地后只和地球说了 <b>20 秒</b> 悄悄话，就睡着啦。`,
+      descEn:`The first probe to <b>soft-land</b> on Mars! Sadly, after landing it only whispered to Earth for <b>20 seconds</b>, then fell asleep.`,
+      tagZh:"人类首次火星软着陆", tagEn:"First Mars soft landing" },
+    { id:"viking1", emoji:"🤖", flag:"🇺🇸", nameZh:"海盗1号", nameEn:"Viking 1", yearZh:"1976年7月", yearEn:"Jul 1976", countryZh:"美国", countryEn:"USA", siteZh:"克律塞平原", siteEn:"Chryse Planitia",
+      descZh:`美国第一个成功工作的火星大着陆器，在红土地上找呀找，看有没有小生命，工作了 <b>6 年多</b>！`,
+      descEn:`America's first Mars lander that actually worked — it searched the red soil for little signs of life and kept going for <b>over 6 years</b>!`,
+      tagZh:"首个长期工作的着陆器", tagEn:"First long-working lander" },
+    { id:"viking2", emoji:"🤖", flag:"🇺🇸", nameZh:"海盗2号", nameEn:"Viking 2", yearZh:"1976年9月", yearEn:"Sep 1976", countryZh:"美国", countryEn:"USA", siteZh:"乌托邦平原", siteEn:"Utopia Planitia",
+      descZh:`海盗1号的好弟弟，也在火星上安了家，拍了好多火星照片寄回地球给小朋友看。`,
+      descEn:`Viking 1's little brother — it also made a home on Mars and sent lots of photos back to Earth for kids to see.`,
+      tagZh:"双胞胎着陆器", tagEn:"Twin lander" },
+    { id:"pathfinder", emoji:"🚗", flag:"🇺🇸", nameZh:"探路者 + 旅居者", nameEn:"Pathfinder + Sojourner", yearZh:"1997年7月", yearEn:"Jul 1997", countryZh:"美国", countryEn:"USA", siteZh:"阿瑞斯谷", siteEn:"Ares Vallis",
+      descZh:`带着第一辆火星小车车 <b>旅居者</b>！它只有微波炉那么大，在石头之间溜达，是人类第一辆在火星上开的小车。`,
+      descEn:`It carried the first Mars rover, <b>Sojourner</b>! Only as big as a microwave, it rolled between rocks — the first little car to drive on Mars.`,
+      tagZh:"首辆火星车", tagEn:"First Mars rover" },
+    { id:"spirit", emoji:"🚙", flag:"🇺🇸", nameZh:"勇气号", nameEn:"Spirit (MER-A)", yearZh:"2004年1月", yearEn:"Jan 2004", countryZh:"美国", countryEn:"USA", siteZh:"古谢夫撞击坑", siteEn:"Gusev Crater",
+      descZh:`双胞胎火星车哥哥，在火星上找水留下的痕迹，跑了快 <b>8 公里</b>！后来轮子陷进沙子里，就一直陪着火星啦。`,
+      descEn:`The twin rover big brother — it hunted for signs of water and drove almost <b>8 km</b>! Later its wheel got stuck in sand and stayed with Mars forever.`,
+      tagZh:"双胞胎火星车·哥哥", tagEn:"Twin rover · big brother" },
+    { id:"opportunity", emoji:"🚙", flag:"🇺🇸", nameZh:"机遇号", nameEn:"Opportunity (MER-B)", yearZh:"2004年1月", yearEn:"Jan 2004", countryZh:"美国", countryEn:"USA", siteZh:"子午线高原", siteEn:"Meridiani Planum",
+      descZh:`勇气号的双胞胎弟弟，超能跑！一口气工作了 <b>15 年</b>，跑了 45 公里，是火星马拉松冠军！`,
+      descEn:`Spirit's twin little brother — a super runner! It worked for <b>15 years</b> and drove 45 km, the Mars marathon champion!`,
+      tagZh:"火星马拉松冠军", tagEn:"Mars marathon champion" },
+    { id:"phoenix", emoji:"⛏️", flag:"🇺🇸", nameZh:"凤凰号", nameEn:"Phoenix", yearZh:"2008年5月", yearEn:"May 2008", countryZh:"美国", countryEn:"USA", siteZh:"火星北极平原", siteEn:"Vastitas Borealis",
+      descZh:`降落在火星北极附近，用铲子挖到了 <b>白白的冰</b>！证明火星土里真的有水。`,
+      descEn:`It landed near Mars's north pole and dug up <b>white ice</b> with its shovel — proof that there really is water in Martian soil.`,
+      tagZh:"挖到火星水冰", tagEn:"Dug up Martian water ice" },
+    { id:"curiosity", emoji:"🚜", flag:"🇺🇸", nameZh:"好奇号", nameEn:"Curiosity (MSL)", yearZh:"2012年8月", yearEn:"Aug 2012", countryZh:"美国", countryEn:"USA", siteZh:"盖尔撞击坑", siteEn:"Gale Crater",
+      descZh:`一辆小汽车那么大的 <b>核动力</b> 火星车！到现在还在火星上爬大山、找远古生命的线索。`,
+      descEn:`A <b>nuclear-powered</b> rover as big as a small car! It's still climbing mountains on Mars and hunting clues of ancient life.`,
+      tagZh:"核动力·至今在岗", tagEn:"Nuclear · still working" },
+    { id:"insight", emoji:"👂", flag:"🇺🇸", nameZh:"洞察号", nameEn:"InSight", yearZh:"2018年11月", yearEn:"Nov 2018", countryZh:"美国", countryEn:"USA", siteZh:"埃律西昂平原", siteEn:"Elysium Planitia",
+      descZh:`不走路的“听地员”，专门听火星的“心跳”——火星地震，帮我们看清火星肚子里有什么。一共听了 <b>1300 多次</b> 火星震！`,
+      descEn:`A "ground listener" that doesn't drive — it listens to Mars's "heartbeat," marsquakes, to show us what's inside. It heard over <b>1,300 marsquakes</b>!`,
+      tagZh:"火星地震听诊器", tagEn:"Mars-quake stethoscope" },
+    { id:"zhurong", emoji:"🔥", flag:"🇨🇳", nameZh:"祝融号", nameEn:"Zhurong", yearZh:"2021年5月", yearEn:"May 2021", countryZh:"中国", countryEn:"China", siteZh:"乌托邦平原", siteEn:"Utopia Planitia",
+      descZh:`中国第一辆火星车！跟着 <b>天问一号</b> 来到乌托邦平原，在红土地上画下第一道中国车辙。想听它的完整故事，去看《祝融号小火星车》哦！`,
+      descEn:`China's first Mars rover! Riding with <b>Tianwen-1</b>, it drew the first Chinese wheel tracks on the red soil. For its full story, visit "Zhurong the Little Mars Rover"!`,
+      tagZh:"中国首辆火星车", tagEn:"China's 1st Mars rover" },
+    { id:"perseverance", emoji:"🛰️", flag:"🇺🇸", nameZh:"毅力号", nameEn:"Perseverance", yearZh:"2021年2月", yearEn:"Feb 2021", countryZh:"美国", countryEn:"USA", siteZh:"耶泽罗撞击坑", siteEn:"Jezero Crater",
+      descZh:`最厉害的火星车，专门去火星 <b>古河床</b> 找远古生命的痕迹；还带着小直升机 <b>机智号</b>——人类第一架在别的星球上飞起来的飞机！`,
+      descEn:`The mightiest rover, hunting for ancient life in a dry Martian riverbed; it even carried <b>Ingenuity</b>, the first aircraft to fly on another planet!`,
+      tagZh:"带首架外星直升机", tagEn:"Carried 1st alien helicopter" }
+  ];
+
+  /* ===== 数据：努力过但没成功软着陆（中英双语） ===== */
+  const FAILED = [
+    { id:"mars2", emoji:"💥", flag:"🇷🇺", nameZh:"火星2号", nameEn:"Mars 2", yearZh:"1971年", yearEn:"1971", countryZh:"苏联", countryEn:"USSR",
+      descZh:`苏联第一个冲到火星的探测器，可惜降落时太快，狠狠摔在了火星上，没能软软地落地。`,
+      descEn:`The USSR's first probe to reach Mars, but it fell too fast and crashed hard — no soft landing.`,
+      tagZh:"硬着陆·未成功", tagEn:"Hard landing · failed" },
+    { id:"beagle2", emoji:"😴", flag:"🇬🇧", nameZh:"小猎犬2号", nameEn:"Beagle 2", yearZh:"2003年", yearEn:"2003", countryZh:"英国 / 欧洲", countryEn:"UK / Europe",
+      descZh:`它其实着陆了，可是像翅膀一样的太阳能板没完全张开，就没法和地球说话了。后来照片里发现它安安静静地躺在火星上。`,
+      descEn:`It did land, but its wing-like solar panels didn't fully open, so it couldn't talk to Earth. Later photos found it resting quietly on Mars.`,
+      tagZh:"着陆但失联", tagEn:"Landed but lost" },
+    { id:"schiaparelli", emoji:"🌪️", flag:"🇪🇺", nameZh:"斯基亚帕雷利", nameEn:"Schiaparelli", yearZh:"2016年", yearEn:"2016", countryZh:"欧洲", countryEn:"Europe",
+      descZh:`降落时算错了自己离地面多高，提前关掉了降落伞，重重地摔了一跤。不过它的哥哥轨道器还在好好工作！`,
+      descEn:`It misjudged how high it was, cut the parachute too early, and took a hard tumble. But its big brother orbiter is still working fine!`,
+      tagZh:"着陆失败", tagEn:"Landing failed" }
+  ];
+
+  /* ===== 数据：火星轨道器（中英双语） ===== */
+  const ORBITERS = [
+    { flag:"🇺🇸", nameZh:"火星奥德赛 Odyssey", nameEn:"Mars Odyssey", descZh:"2001 年到达，是火星上工作最久的“传话筒”。", descEn:"Arrived 2001 — the longest-working “messenger” at Mars." },
+    { flag:"🇪🇺", nameZh:"火星快车 Mars Express", nameEn:"Mars Express", descZh:"欧洲的第一个火星探测器（2003）。", descEn:"Europe's first Mars probe (2003)." },
+    { flag:"🇺🇸", nameZh:"火星侦察轨道器 MRO", nameEn:"MRO", descZh:"拍出超清晰的火星照片（2006）。", descEn:"Takes super-clear Mars photos (2006)." },
+    { flag:"🇺🇸", nameZh:"MAVEN", nameEn:"MAVEN", descZh:"专门研究火星大气是怎么跑掉的（2014）。", descEn:"Studies how Mars lost its atmosphere (2014)." },
+    { flag:"🇨🇳", nameZh:"天问一号轨道器", nameEn:"Tianwen-1 Orbiter", descZh:"祝融号的“快递哥哥”，绕火星飞并帮传信号（2021）。", descEn:"Zhurong's “delivery brother,” orbits Mars and relays signals (2021)." },
+    { flag:"🇦🇪", nameZh:"希望号 Hope", nameEn:"Hope", descZh:"阿联酋第一个火星探测器，给火星拍“全身照”（2021）。", descEn:"UAE's first Mars probe, takes “full-body” photos of Mars (2021)." }
+  ];
+
+  /* ===== 数据：火星车拆解部件（中英双语） ===== */
+  const PARTS = [
+    { id:"solar", emoji:"🦋", labelZh:"太阳能板", labelEn:"Solar panels", x:50, y:18, ex:18, ey:12,
+      infoZh:`<b>太阳能板</b>：像蝴蝶翅膀一样！它晒太阳就能充电，是小车的“饭饭”。`,
+      infoEn:`<b>Solar panels</b>: like butterfly wings! They eat sunlight to charge up — the rover's "food."` },
+    { id:"antenna", emoji:"📡", labelZh:"小天线", labelEn:"Antenna", x:50, y:8, ex:50, ey:2,
+      infoZh:`<b>天线</b>：像打电话一样，把火星看到的东西“嗖”地传给地球的爸爸妈妈。`,
+      infoEn:`<b>Antenna</b>: like making a phone call, it zips what Mars sees back to its parents on Earth.` },
+    { id:"camera", emoji:"👀", labelZh:"大眼睛", labelEn:"Nav camera", x:50, y:40, ex:82, ey:30,
+      infoZh:`<b>导航相机</b>：祝融号的“大眼睛”，帮它看路、看石头，不会撞到东西。`,
+      infoEn:`<b>Nav camera</b>: Zhurong's "big eyes" — help it see the road and rocks so it won't bump into things.` },
+    { id:"body", emoji:"📦", labelZh:"车身", labelEn:"Body", x:50, y:50, ex:50, ey:50,
+      infoZh:`<b>车身</b>：圆圆方方的小肚子，里面装着电脑和电池，是它聪明的小脑袋。`,
+      infoEn:`<b>Body</b>: the round little tummy holds the computer and battery — its smart little brain.` },
+    { id:"wheels", emoji:"🛞", labelZh:"轮子", labelEn:"Wheels", x:50, y:72, ex:50, ey:86,
+      infoZh:`<b>四个轮子</b>：可以前后左右转，还能原地打转，在火星沙子上也不怕！`,
+      infoEn:`<b>Four wheels</b>: turn every way and spin in place — no fear of Martian sand!` },
+    { id:"arm", emoji:"⚙️", labelZh:"机械臂", labelEn:"Robot arm", x:50, y:60, ex:14, ey:64,
+      infoZh:`<b>机械手臂</b>：伸出小手摸一摸石头、看看里面是什么做的，像小科学家！`,
+      infoEn:`<b>Robot arm</b>: reaches out to touch rocks and see what they're made of, like a little scientist!` }
+  ];
+
+  /* ===== 渲染 ===== */
+  let lang = localStorage.getItem('mars-lang') || 'zh';
+  const T = () => I18N[lang];
+  const zh = (a,b) => lang === 'zh' ? a : b;
+
+  function applyUI() {
+    const t = T();
+    document.getElementById('ui-brand').textContent = t.brand;
+    document.getElementById('ui-nav-hero').textContent = t.navHero;
+    document.getElementById('ui-nav-ok').textContent = t.navOk;
+    document.getElementById('ui-nav-breakdown').textContent = t.navBreakdown;
+    document.getElementById('ui-nav-try').textContent = t.navTry;
+    document.getElementById('ui-nav-orbit').textContent = t.navOrbit;
+    document.getElementById('ui-hero-pre').textContent = t.heroPre;
+    document.getElementById('ui-hero-hl').textContent = t.heroHl;
+    document.getElementById('ui-hero-sub').textContent = t.heroSub;
+    document.getElementById('ui-scroll').textContent = t.scroll;
+    document.getElementById('ui-ok-title').textContent = t.okTitle;
+    document.getElementById('ui-ok-desc').textContent = t.okDesc;
+    document.getElementById('ui-bd-title').textContent = t.bdTitle;
+    document.getElementById('ui-bd-desc').textContent = t.bdDesc;
+    document.getElementById('ui-bd-hint').textContent = t.bdHint;
+    document.getElementById('explodeBtn').textContent = t.explode;
+    document.getElementById('assembleBtn').textContent = t.assemble;
+    document.getElementById('ui-try-title').textContent = t.tryTitle;
+    document.getElementById('ui-try-desc').textContent = t.tryDesc;
+    document.getElementById('ui-orbit-title').textContent = t.orbitTitle;
+    document.getElementById('ui-orbit-desc').textContent = t.orbitDesc;
+    document.getElementById('ui-footer-title').textContent = t.footerTitle;
+    document.getElementById('ui-footer-p1').textContent = t.footerP1;
+    document.getElementById('ui-footer-p2').textContent = t.footerP2;
+    document.getElementById('ui-footer-sign').textContent = t.footerSign;
+    document.getElementById('langBtn').textContent = t.langOther;
+    document.getElementById('orbitNote').innerHTML = `<h3>${t.orbitH3}</h3><ul>${ORBITERS.map(o => `<li>${o.flag} <b>${zh(o.nameZh,o.nameEn)}</b>：${zh(o.descZh,o.descEn)}</li>`).join('')}</ul>`;
+  }
+
+  function cardHTML(m, failed) {
+    return `<div class="mission" id="${m.id}">
+      <div class="m-top"><span class="m-emoji">${m.emoji}</span>
+        <div><div class="m-name">${zh(m.nameZh,m.nameEn)} <span class="m-flag">${m.flag}</span></div></div></div>
+      <div class="m-meta"><b>${zh(m.yearZh,m.yearEn)}</b> · ${zh(m.countryZh,m.countryEn)}${m.siteZh ? ' · ' + zh(m.siteZh,m.siteEn) : ''}</div>
+      <div class="m-desc">${zh(m.descZh,m.descEn)}</div>
+      <span class="m-tag ${failed ? 'failed' : ''}">${zh(m.tagZh,m.tagEn)}</span>
+    </div>`;
+  }
+
+  function renderMissions() {
+    const t = T();
+    document.getElementById('missions').innerHTML = MISSIONS.map(m => cardHTML(m, false)).join('');
+    document.getElementById('failed').innerHTML = FAILED.map(m => cardHTML(m, true)).join('');
+    document.getElementById('yearbar').innerHTML = MISSIONS.map(m => {
+      const yr = zh(m.yearZh, m.yearEn).replace(/（.*/,'').replace(/\(.*/,'');
+      return `<span>${yr} · ${zh(m.nameZh,m.nameEn)}</span>`;
+    }).join('');
+    document.getElementById('heroCount').innerHTML = t.heroCount(MISSIONS.length);
+  }
+
+  function renderParts() {
+    const stage = document.getElementById('roverStage');
+    const info = document.getElementById('partInfo');
+    stage.innerHTML = '';
+    PARTS.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'part assembled'; el.dataset.id = p.id;
+      el.style.left = p.x + '%'; el.style.top = p.y + '%';
+      el.innerHTML = `${p.emoji}<span class="part-label">${zh(p.labelZh,p.labelEn)}</span>`;
+      el.addEventListener('click', () => { info.innerHTML = zh(p.infoZh, p.infoEn); });
+      stage.appendChild(el);
+    });
+  }
+
+  function setMode(exploded) {
+    document.querySelectorAll('.part').forEach((el, i) => {
+      const p = PARTS[i];
+      el.classList.toggle('exploded', exploded);
+      el.classList.toggle('assembled', !exploded);
+      el.style.left = (exploded ? p.ex : p.x) + '%';
+      el.style.top = (exploded ? p.ey : p.y) + '%';
+      el.querySelector('.part-label').textContent = zh(p.labelZh, p.labelEn);
+    });
+  }
+
+  function updateLang() {
+    applyUI(); renderMissions(); renderParts();
+    const info = document.getElementById('partInfo');
+    if (!info.querySelector('b')) info.innerHTML = `<span class="hint">${T().bdHint}</span>`;
+  }
+
+  document.getElementById('explodeBtn').addEventListener('click', () => setMode(true));
+  document.getElementById('assembleBtn').addEventListener('click', () => setMode(false));
+  document.getElementById('langBtn').addEventListener('click', () => {
+    lang = (lang === 'zh') ? 'en' : 'zh';
+    localStorage.setItem('mars-lang', lang);
+    updateLang();
+  });
+
+  updateLang();
+  </script>
+</body>
+</html>
