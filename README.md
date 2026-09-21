@@ -1,5 +1,7 @@
 # 🌈 好奇星球 · 全科启蒙探索乐园
 
+> 🔗 **在线访问地址**：[https://i4sorcerer.github.io/atlas-march-app/portal/](https://i4sorcerer.github.io/atlas-march-app/portal/)
+
 一个面向 **5 岁左右小朋友** 的互动科普启蒙 Web 应用。把多个儿童科普小站聚合到一个统一门户，
 按 **「学科 → 子类 → 知识点」** 三级目录浏览，点开知识点用 iframe 嵌入原页面查看，
 探索 / 测验记录存入本地数据库。

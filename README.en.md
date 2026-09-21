@@ -1,5 +1,7 @@
 # 🌈 Curiosity Planet · Whole-Subject Enlightenment Playground
 
+> 🔗 **Live site**: [https://i4sorcerer.github.io/atlas-march-app/portal/](https://i4sorcerer.github.io/atlas-march-app/portal/)
+
 An interactive science-education web app for kids around **age 5**. It gathers several
 children's science mini-sites into one unified portal, browsed by a three-level
 **「subject → subcategory → topic」** navigation. Clicking a topic opens the content page
