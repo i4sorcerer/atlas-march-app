@@ -42,8 +42,7 @@ window.WEB_DIRECTORY = [
       { name: "国家地理儿童", url: "https://kids.nationalgeographic.com/", desc: "国家地理专为小朋友打造", emoji: "🦁" },
       { name: "WWF 中国", url: "https://www.wwf.org.cn/", desc: "世界自然基金会中国站", emoji: "🐼" },
       { name: "物种2000", url: "https://www.sp2000.org.cn/", desc: "中国物种名录数据库", emoji: "🦋" },
-      { name: "美国自然史博物馆", url: "https://www.amnh.org/", desc: "纽约自然史博物馆", emoji: "🐘" },
-      { name: "中科院动物研究所", url: "http://www.ioz.cas.cn/", desc: "动物学前沿科普", emoji: "🐟" }
+      { name: "美国自然史博物馆", url: "https://www.amnh.org/", desc: "纽约自然史博物馆", emoji: "🐘" }
     ]
   },
   {
@@ -108,7 +107,6 @@ window.WEB_DIRECTORY = [
     color: "#6366f1",
     sites: [
       { name: "Kiddle 儿童搜索", url: "https://www.kiddle.co/", desc: "安全干净的儿童搜索引擎", emoji: "🔎" },
-      { name: "百度翻译", url: "https://fanyi.baidu.com/", desc: "中英互译好帮手", emoji: "🌐" },
       { name: "Wolfram Alpha", url: "https://www.wolframalpha.com/", desc: "会算会答的知识引擎", emoji: "🧮" },
       { name: "Calculator.net", url: "https://www.calculator.net/", desc: "各种在线计算器", emoji: "🧮" },
       { name: "Time and Date", url: "https://www.timeanddate.com/", desc: "世界时间与日历", emoji: "⏰" },
