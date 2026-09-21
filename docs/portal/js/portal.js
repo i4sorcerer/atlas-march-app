@@ -33,17 +33,26 @@
       <h1 class="section-title">🌈 选一个你好奇的领域吧！</h1>
       <p class="section-sub">这里有 ${CATS.length} 大探索主题，点一点开始冒险～</p>
       <div class="grid">${CATS.map(catCard).join("")}</div>`;
-    bindCards(browse, (id) => renderCategory(id));
+    bindCards(browse, (id) => {
+      const cat = CATS.find((c) => c.id === id);
+      if (cat && cat.url) openShortcut(cat);
+      else renderCategory(id);
+    });
   }
 
   function catCard(cat) {
-    const topicCount = cat.subs.reduce((n, s) => n + s.topics.length, 0);
+    const hasSubs = Array.isArray(cat.subs) && cat.subs.length;
+    const topicCount = hasSubs ? cat.subs.reduce((n, s) => n + s.topics.length, 0) : 0;
+    let count;
+    if (cat.url) count = "直接打开 →";
+    else if (hasSubs) count = `${cat.subs.length} 个分类 · ${topicCount} 个知识点`;
+    else count = "敬请期待";
     return `
       <div class="card" data-id="${cat.id}" style="--accent:${cat.color}">
         <span class="card-emoji">${cat.emoji}</span>
         <div class="card-title">${cat.name}</div>
         <div class="card-desc">${cat.desc}</div>
-        <span class="card-count">${cat.subs.length} 个分类 · ${topicCount} 个知识点</span>
+        <span class="card-count">${count}</span>
       </div>`;
   }
 
@@ -144,10 +153,31 @@
     crumbs.classList.remove("hidden");
   }
 
+  /* ---------- L1 直达入口（带 url 的学科，点卡片直接打开） ---------- */
+  function openShortcut(cat) {
+    state = { l1: cat.id, l2: null };
+    viewerFrame.src = cat.url;
+    viewerTitle.textContent = `${cat.emoji} ${cat.name}`;
+    openNew.href = cat.url;
+    viewer.classList.remove("hidden");
+    browse.classList.add("hidden");
+    crumbs.classList.add("hidden");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    logVisit({
+      topicId: cat.id,
+      title: cat.name,
+      emoji: cat.emoji,
+      path: cat.name
+    });
+  }
+
   function backToBrowse() {
     if (state.l2) renderSub(state.l1, state.l2);
-    else if (state.l1) renderCategory(state.l1);
-    else renderHome();
+    else if (state.l1) {
+      const cat = CATS.find((c) => c.id === state.l1);
+      if (cat && cat.url) renderHome();
+      else renderCategory(state.l1);
+    } else renderHome();
   }
 
   /* ---------- 面包屑 ---------- */

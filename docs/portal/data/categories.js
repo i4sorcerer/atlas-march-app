@@ -23,16 +23,7 @@ window.CATEGORIES = [
     emoji: "🌐",
     color: "#5B7CFA",
     desc: "好玩又安全的网站，按分类逛一逛！",
-    subs: [
-      {
-        id: "all",
-        name: "网址大全",
-        emoji: "🌐",
-        topics: [
-          { id: "go", title: "进入网址导航", emoji: "🌐", desc: "科学 / 太空 / 动物 / 编程 / 绘本 / 博物馆 / 数学 / 工具，一个页面全都有", url: "../webnav/index.html", ready: true }
-        ]
-      }
-    ]
+    url: "../webnav/index.html"
   },
   {
     id: "space",
