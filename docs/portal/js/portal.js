@@ -6,7 +6,6 @@
 
 (function () {
   const CATS = window.CATEGORIES || [];
-  const DIR = window.WEB_DIRECTORY || [];
 
   // 元素
   const browse = document.getElementById("browse");
@@ -22,22 +21,12 @@
   const historyClose = document.getElementById("historyClose");
   const historyBody = document.getElementById("historyBody");
 
-  // 分类目录（网址导航）元素
-  const dirBtn = document.getElementById("dirBtn");
-  const directory = document.getElementById("directory");
-  const dirSearch = document.getElementById("dirSearch");
-  const dirOrbit = document.getElementById("dirOrbit");
-  const dirResults = document.getElementById("dirResults");
-
   // 当前路径状态
   let state = { l1: null, l2: null };
-  let dirCat = "all"; // 当前选中的分类（"all" = 全部）
 
   /* ---------- 渲染：一级学科总览 ---------- */
   function renderHome() {
     state = { l1: null, l2: null };
-    directory.classList.add("hidden");
-    dirBtn.classList.remove("active");
     hideViewer();
     setCrumbs([{ label: "🏠 全部学科" }]);
     browse.innerHTML = `
@@ -183,76 +172,6 @@
     });
   }
 
-  /* ---------- 分类目录（网址导航） ---------- */
-  function showDirectory() {
-    browse.classList.add("hidden");
-    crumbs.classList.add("hidden");
-    hideViewer();
-    directory.classList.remove("hidden");
-    dirBtn.classList.add("active");
-    renderDirectory(dirSearch.value.trim(), dirCat);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function showSubjects() {
-    directory.classList.add("hidden");
-    dirBtn.classList.remove("active");
-    renderHome();
-  }
-
-  function renderDirectory(text, cat) {
-    text = (text || "").toLowerCase();
-
-    // 分类星球 orbit（脑图式快速导航）
-    const orbs = [{ id: "all", name: "全部", emoji: "🌐", color: "var(--blue)" }]
-      .concat(DIR.map((c) => ({ id: c.id, name: c.name, emoji: c.emoji, color: c.color })));
-    dirOrbit.innerHTML = orbs
-      .map(
-        (o) =>
-          `<button class="dir-orb ${cat === o.id ? "active" : ""}" data-cat="${o.id}" style="--accent:${o.color}">
-            <span class="orb-emoji">${o.emoji}</span><span class="orb-name">${o.name}</span>
-          </button>`
-      )
-      .join("");
-
-    // 筛选：先按分类，再按关键词（站名 / 简介 / 分类名）
-    const matchCat = (c) => cat === "all" || c.id === cat;
-    const matchText = (c, s) =>
-      !text ||
-      c.name.toLowerCase().includes(text) ||
-      s.name.toLowerCase().includes(text) ||
-      (s.desc || "").toLowerCase().includes(text);
-
-    const html = DIR.filter(matchCat)
-      .map((c) => {
-        const sites = c.sites.filter((s) => matchText(c, s));
-        if (!sites.length) return "";
-        return `
-          <div class="dir-cat" style="--accent:${c.color}">
-            <div class="dir-cat-head">
-              <span class="dot"></span>
-              <h2>${c.emoji} ${c.name}</h2>
-              <span class="count">${sites.length} 个</span>
-            </div>
-            <div class="grid">${sites.map(siteCard).join("")}</div>
-          </div>`;
-      })
-      .join("");
-
-    dirResults.innerHTML =
-      html || '<p class="history-empty">没找到匹配的网站 🔍 换个关键词试试？</p>';
-  }
-
-  function siteCard(s) {
-    return `
-      <a class="card site-card" href="${s.url}" target="_blank" rel="noopener">
-        <span class="card-emoji">${s.emoji || "🔗"}</span>
-        <div class="card-title">${s.name}</div>
-        <div class="card-desc">${s.desc || ""}</div>
-        <span class="site-go">↗ 访问</span>
-      </a>`;
-  }
-
   /* ---------- 探索记录（后端 SQLite + localStorage 回退） ---------- */
   const LS_KEY = "curiosity_history";
 
@@ -323,16 +242,7 @@
 
   /* ---------- 事件绑定 ---------- */
   backBtn.addEventListener("click", backToBrowse);
-  homeBtn.addEventListener("click", (e) => { e.preventDefault(); showSubjects(); });
-  dirBtn.addEventListener("click", showDirectory);
-  dirSearch.addEventListener("input", () => renderDirectory(dirSearch.value.trim(), dirCat));
-  dirOrbit.addEventListener("click", (e) => {
-    const b = e.target.closest(".dir-orb");
-    if (!b) return;
-    const v = b.dataset.cat;
-    dirCat = v === dirCat && v !== "all" ? "all" : v; // 再点一次当前分类则取消
-    renderDirectory(dirSearch.value.trim(), dirCat);
-  });
+  homeBtn.addEventListener("click", (e) => { e.preventDefault(); renderHome(); });
   historyBtn.addEventListener("click", showHistory);
   historyClose.addEventListener("click", () => historyModal.classList.add("hidden"));
   historyModal.addEventListener("click", (e) => {

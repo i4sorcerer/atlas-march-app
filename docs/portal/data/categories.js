@@ -18,6 +18,23 @@
 
 window.CATEGORIES = [
   {
+    id: "webnav",
+    name: "网址导航",
+    emoji: "🌐",
+    color: "#5B7CFA",
+    desc: "好玩又安全的网站，按分类逛一逛！",
+    subs: [
+      { id: "science", name: "科学探索", emoji: "🔬", topics: [ { id: "g", title: "科学网站", emoji: "🔬", desc: "NASA / 科普中国 / 趣味实验…", url: "../webnav/index.html?cat=science", ready: true } ] },
+      { id: "space", name: "太空与航天", emoji: "🪐", topics: [ { id: "g", title: "太空网站", emoji: "🪐", desc: "NASA / 各国航天局 / 在线星图…", url: "../webnav/index.html?cat=space", ready: true } ] },
+      { id: "nature", name: "动物与自然", emoji: "🐾", topics: [ { id: "g", title: "自然网站", emoji: "🐾", desc: "国家地理 / 动物数据库…", url: "../webnav/index.html?cat=nature", ready: true } ] },
+      { id: "coding", name: "编程与创客", emoji: "💻", topics: [ { id: "g", title: "编程网站", emoji: "💻", desc: "Scratch / 编程猫 / micro:bit…", url: "../webnav/index.html?cat=coding", ready: true } ] },
+      { id: "reading", name: "绘本与阅读", emoji: "📚", topics: [ { id: "g", title: "阅读网站", emoji: "📚", desc: "凯叔 / 绘本 / 少儿图书馆…", url: "../webnav/index.html?cat=reading", ready: true } ] },
+      { id: "museum", name: "博物馆展览", emoji: "🏛️", topics: [ { id: "g", title: "博物馆网站", emoji: "🏛️", desc: "故宫 / 国博 / 科技馆…", url: "../webnav/index.html?cat=museum", ready: true } ] },
+      { id: "math", name: "数学思维", emoji: "🔢", topics: [ { id: "g", title: "数学网站", emoji: "🔢", desc: "可汗学院 / 洋葱学园 / GeoGebra…", url: "../webnav/index.html?cat=math", ready: true } ] },
+      { id: "tools", name: "实用工具", emoji: "🧰", topics: [ { id: "g", title: "工具网站", emoji: "🧰", desc: "儿童搜索 / 翻译 / 计算器…", url: "../webnav/index.html?cat=tools", ready: true } ] }
+    ]
+  },
+  {
     id: "space",
     name: "航天探索",
     emoji: "🚀",

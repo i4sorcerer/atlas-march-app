@@ -22,7 +22,6 @@
     <span class="brand-text">好奇星球</span>
   </a>
   <p class="brand-slogan">全科启蒙 · 一起探索世界的奥秘！</p>
-  <button class="nav-btn" id="dirBtn">🌐 网址导航</button>
   <button class="history-btn" id="historyBtn">🏅 我的探索记录</button>
 </header>
 
@@ -33,17 +32,6 @@
 <main id="browse" class="browse">
   <!-- 由 JS 渲染 -->
 </main>
-
-<!-- 分类目录（网址导航）：可搜索的网站黄页 -->
-<section id="directory" class="directory hidden">
-  <h1 class="section-title">🌐 分类目录 · 好玩网站一览</h1>
-  <p class="section-sub">挑一个分类星球，或搜一搜，发现更多好玩又安全的网站吧！</p>
-  <div class="dir-search-wrap">
-    <input id="dirSearch" class="dir-search" type="search" placeholder="🔍 搜网站或分类…" aria-label="搜索网站" />
-  </div>
-  <div class="dir-orbit" id="dirOrbit" aria-label="分类快速导航"></div>
-  <div id="dirResults" class="dir-results"></div>
-</section>
 
 <!-- 内容查看区：iframe 嵌入 -->
 <section id="viewer" class="viewer hidden">
@@ -71,7 +59,6 @@
 </footer>
 
 <script src="data/categories.js"></script>
-<script src="data/directory.js"></script>
 <script src="js/portal.js"></script>
 </body>
 </html>
