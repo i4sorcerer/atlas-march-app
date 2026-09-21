@@ -112,7 +112,8 @@ window.WEB_DIRECTORY = [
       { name: "Wolfram Alpha", url: "https://www.wolframalpha.com/", desc: "会算会答的知识引擎", emoji: "🧮" },
       { name: "Calculator.net", url: "https://www.calculator.net/", desc: "各种在线计算器", emoji: "🧮" },
       { name: "Time and Date", url: "https://www.timeanddate.com/", desc: "世界时间与日历", emoji: "⏰" },
-      { name: "Emojipedia", url: "https://emojipedia.org/", desc: "查表情符号含义", emoji: "😀" }
+      { name: "Emojipedia", url: "https://emojipedia.org/", desc: "查表情符号含义", emoji: "😀" },
+      { name: "sssTwitter", url: "https://ssstwitter.com/", desc: "下载 Twitter / X 上的视频和动图", emoji: "📥" }
     ]
   }
 ];
