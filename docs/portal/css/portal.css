@@ -103,6 +103,22 @@ body {
 }
 .history-btn:hover { transform: translateY(-2px) scale(1.04); }
 
+/* 网址导航按钮 */
+.nav-btn {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 16px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--blue), var(--green));
+  box-shadow: var(--shadow);
+  transition: transform .15s;
+}
+.nav-btn:hover { transform: translateY(-2px) scale(1.04); }
+.nav-btn.active { box-shadow: 0 0 0 3px #fff, var(--shadow); transform: translateY(-1px); }
+
 /* 面包屑 */
 .crumbs {
   position: relative;
@@ -387,10 +403,113 @@ body {
   font-size: 15px;
 }
 
+/* ===== 分类目录 / 网址导航 ===== */
+.directory {
+  position: relative;
+  z-index: 2;
+  padding: 12px clamp(16px, 4vw, 44px) 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 搜索框 */
+.dir-search-wrap { margin: 18px 0 8px; }
+.dir-search {
+  display: block;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 14px 22px;
+  font-family: inherit;
+  font-size: 17px;
+  color: var(--ink);
+  border: 3px solid #fff;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+  outline: none;
+  transition: border-color .15s;
+}
+.dir-search::placeholder { color: var(--ink-soft); }
+.dir-search:focus { border-color: var(--blue); }
+
+/* 分类「星球」orbit（脑图式快速导航） */
+.dir-orbit {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin: 20px 0 28px;
+}
+.dir-orb {
+  width: 96px;
+  height: 96px;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent, var(--blue));
+  color: #fff;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-shadow: var(--shadow);
+  transition: transform .15s, box-shadow .15s;
+}
+.dir-orb:hover { transform: translateY(-5px) scale(1.06); }
+.dir-orb .orb-emoji { font-size: 32px; line-height: 1; }
+.dir-orb .orb-name { font-size: 13px; font-weight: 700; }
+.dir-orb.active {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 0 0 4px #fff, 0 0 0 7px var(--accent, var(--blue)), var(--shadow);
+}
+
+/* 分类分组 */
+.dir-cat { margin: 26px 0; }
+.dir-cat-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.dir-cat-head .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent, var(--blue));
+  flex: 0 0 auto;
+}
+.dir-cat-head h2 { font-size: 22px; }
+.dir-cat-head .count { color: var(--ink-soft); font-size: 14px; }
+
+/* 站点卡片（复用 .card 外观，作为外链） */
+.site-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.site-card .card-emoji { font-size: 44px; }
+.site-go {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent, var(--blue));
+  padding: 3px 14px;
+  border-radius: 999px;
+}
+.site-card:hover .site-go { filter: brightness(1.05); }
+
 .hidden { display: none !important; }
 
 @media (max-width: 600px) {
   .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
   .card-emoji { font-size: 42px; }
   .viewer-frame { height: calc(100vh - 150px); }
+  .dir-orb { width: 78px; height: 78px; }
+  .dir-orb .orb-emoji { font-size: 26px; }
+  .dir-orb .orb-name { font-size: 12px; }
+  .site-card .card-emoji { font-size: 38px; }
 }
