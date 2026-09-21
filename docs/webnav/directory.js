@@ -1,5 +1,5 @@
 /* ============ 好奇星球 · 分类目录（网址导航）数据源 ============
- * window.WEB_DIRECTORY：精选的儿童/科普向 + 少量通用工具网站
+ * window.WEB_DIRECTORY：精选的儿童/科普向 + 通用工具 + DIY/可视化教学/免费读书搜书等网站（面向全年龄段，PC 端友好）
  * 每个分类：{ id, name, emoji, color, sites:[{name,url,desc,emoji}] }
  * 站点点开在新标签页打开，不进 iframe。
  * 想增删网站，只改这个文件即可。
@@ -114,6 +114,45 @@ window.WEB_DIRECTORY = [
       { name: "Time and Date", url: "https://www.timeanddate.com/", desc: "世界时间与日历", emoji: "⏰" },
       { name: "Emojipedia", url: "https://emojipedia.org/", desc: "查表情符号含义", emoji: "😀" },
       { name: "sssTwitter", url: "https://ssstwitter.com/", desc: "下载 Twitter / X 上的视频和动图", emoji: "📥" }
+    ]
+  },
+  {
+    id: "diy",
+    name: "动手 DIY · 创客",
+    emoji: "🛠️",
+    color: "#F2662B",
+    sites: [
+      { name: "Instructables", url: "https://www.instructables.com/", desc: "全球最大的 DIY 项目社区，图文教程海量", emoji: "🔧" },
+      { name: "Make: 创客杂志", url: "https://makezine.com/", desc: "创客文化与动手制作教程", emoji: "🛠️" },
+      { name: "Thingiverse", url: "https://www.thingiverse.com/", desc: "免费下载 3D 打印模型", emoji: "🖨️" },
+      { name: "Adafruit", url: "https://www.adafruit.com/", desc: "开源硬件与电子制作学习", emoji: "🔌" },
+      { name: "嘉立创 EDA", url: "https://lceda.cn/", desc: "免费的在线电路设计工具", emoji: "📐" }
+    ]
+  },
+  {
+    id: "visual",
+    name: "可视化 · 互动教学",
+    emoji: "📊",
+    color: "#00B8D9",
+    sites: [
+      { name: "PhET 互动仿真", url: "https://phet.colorado.edu/zh_CN/", desc: "科罗拉多大学免费互动实验（数理化）", emoji: "🔬" },
+      { name: "Desmos", url: "https://www.desmos.com/", desc: "在线函数画图与数学可视化", emoji: "📈" },
+      { name: "Observable", url: "https://observablehq.com/", desc: "用代码画数据可视化笔记本", emoji: "📊" },
+      { name: "3Blue1Brown", url: "https://www.3blue1brown.com/", desc: "直观易懂的数学动画讲解", emoji: "🎬" }
+    ]
+  },
+  {
+    id: "books",
+    name: "免费读书 · 搜书",
+    emoji: "📚",
+    color: "#8E7CC3",
+    sites: [
+      { name: "Project Gutenberg", url: "https://www.gutenberg.org/", desc: "免费公版英文电子书（古登堡计划）", emoji: "📜" },
+      { name: "书格", url: "https://new.shuge.org/", desc: "免费分享的中文古籍与艺术书籍", emoji: "🏯" },
+      { name: "Open Library", url: "https://openlibrary.org/", desc: "可在线借阅的免费电子书", emoji: "📖" },
+      { name: "Standard Ebooks", url: "https://standardebooks.org/", desc: "排版精良的免费英文名著", emoji: "✨" },
+      { name: "鸠摩搜书", url: "https://www.jiumo.com/", desc: "一键搜索全网电子书资源", emoji: "🔎" },
+      { name: "PDF Drive", url: "https://www.pdfdrive.com/", desc: "海量免费 PDF 书库与搜索", emoji: "📚" }
     ]
   }
 ];
