@@ -9,14 +9,30 @@
     --bg:#e8eaf1; --card:#ffffff; --ink:#3a4252; --muted:#7a8296;
     --brand:#1f5ec9; --line:#e3e6ee; --focus:#e0245e; --trend:#8250df;
     --good:#1f9d55; --risk:#d13438; --amber:#e8890c; --tag:#4c7bd0;
+    --accentSoft:#eef2ff;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.6;}
-  .head{background:linear-gradient(180deg,#ffffff,#f4f6fb); border-bottom:2px solid var(--brand); padding:34px 20px 24px; text-align:center;}
-  .head h1{font-size:27px; font-weight:800; color:var(--ink);}
-  .head .sub{color:var(--muted); margin-top:6px; font-size:14px;}
-  .wrap{max-width:980px; margin:0 auto; padding:24px 16px 60px;}
-  .sec-head{display:flex; align-items:center; gap:10px; margin:30px 0 14px;}
+  .head{background:#ffffff; border-bottom:1px solid var(--line); padding:14px 20px;}
+  .ht{display:flex; align-items:center; justify-content:space-between; gap:12px; max-width:980px; margin:0 auto; text-align:left;}
+  .ht-l{min-width:0;}
+  .head h1{font-size:22px; font-weight:800; color:var(--ink); line-height:1.2;}
+  .head .sub{color:var(--muted); margin-top:3px; font-size:13px;}
+  .hmeta{display:flex; align-items:center; gap:8px; flex-shrink:0;}
+  .chip{font-size:12px; font-weight:700; color:var(--brand); background:var(--accentSoft); border-radius:999px; padding:3px 10px; white-space:nowrap;}
+  .overview{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px 16px; margin-top:16px;}
+  .ov-head{font-size:15px; font-weight:800; margin-bottom:10px;}
+  .ov-note{font-size:12px; font-weight:400; color:var(--muted); margin-left:6px;}
+  .ov-rows{display:block;}
+  .ov-row{display:flex; align-items:center; gap:10px; padding:8px 0; border-top:1px solid var(--line); text-decoration:none; color:inherit;}
+  .ov-row:first-child{border-top:none;}
+  .ov-row:hover .ot{color:var(--brand);}
+  .oe{font-size:20px; flex-shrink:0;}
+  .ot{font-weight:700; font-size:14px; white-space:nowrap; flex-shrink:0;}
+  .ol{flex:1; min-width:0; color:var(--muted); font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+  .og{color:var(--brand); font-size:12px; font-weight:700; white-space:nowrap; flex-shrink:0;}
+  .wrap{max-width:980px; margin:0 auto; padding:18px 16px 60px;}
+  .sec-head{display:flex; align-items:center; gap:10px; margin:18px 0 12px;}
   .sec-head::before{content:""; width:5px; height:24px; background:var(--brand); border-radius:2px;}
   .sec-head h2{font-size:19px; font-weight:800;}
   .sec-head .note{color:var(--muted); font-size:12px; font-weight:400;}
@@ -34,15 +50,46 @@
   .back{margin-top:24px; text-align:center;}
   .back a{color:var(--brand); font-size:13px; text-decoration:none; font-weight:700;}
   .back a:hover{text-decoration:underline;}
+  @media(max-width:640px){
+    .hmeta{display:none;}
+    .ov-row{flex-wrap:wrap; gap:6px 10px;}
+    .ol{order:3; flex-basis:100%;}
+  }
 </style>
 </head>
 <body>
   <header class="head">
-    <h1>🧭 个人洞察</h1>
-    <p class="sub">我关心的各个主题 · AI 定期更新研判看板聚合首页</p>
+    <div class="ht">
+      <div class="ht-l">
+        <h1>🧭 个人洞察</h1>
+        <p class="sub">我关心的各个主题 · AI 定期更新研判看板</p>
+      </div>
+      <div class="hmeta">
+        <span class="chip">🛰️ 2 个主题</span>
+        <span class="chip">每日更新</span>
+      </div>
+    </div>
   </header>
 
   <main class="wrap">
+    <section class="overview">
+      <div class="ov-head">🌟 今日速览 <span class="ov-note">各主题最新研判一句话</span></div>
+      <div class="ov-rows" id="ovRows">
+        <a class="ov-row" href="satellites/index.html">
+          <span class="oe">🛰️</span>
+          <span class="ot">关于卫星和火箭发射的一切</span>
+          <span class="ol" data-src="satellites/index.html">抓取最新研判中…</span>
+          <span class="og">进入 →</span>
+        </a>
+        <a class="ov-row" href="musk/index.html">
+          <span class="oe">🚀</span>
+          <span class="ot">关于马斯克的一切</span>
+          <span class="ol" data-src="musk/index.html">抓取最新研判中…</span>
+          <span class="og">进入 →</span>
+        </a>
+      </div>
+    </section>
+
     <div class="sec-head"><h2>关注的主题</h2><span class="note">点击任一卡片，进入对应主题的最新研判看板</span></div>
     <div class="grid" id="topics">
       <a class="card" href="satellites/index.html" style="--accent:#1296ba">
@@ -70,5 +117,26 @@
       <a href="../portal/index.html">← 返回 好奇星球 门户</a>
     </div>
   </main>
+
+  <script>
+    (function(){
+      var rows = document.querySelectorAll('.ol[data-src]');
+      rows.forEach(function(el){
+        var src = el.getAttribute('data-src');
+        fetch(src, { cache: 'no-store' })
+          .then(function(r){ return r.ok ? r.text() : Promise.reject(); })
+          .then(function(html){
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+            var lead = doc.querySelector('.lead');
+            var sub = doc.querySelector('header .sub');
+            var text = lead ? lead.textContent.trim() : (sub ? sub.textContent.trim() : '');
+            if(text){
+              el.textContent = text.length > 60 ? text.slice(0, 60) + '…' : text;
+            }
+          })
+          .catch(function(){ /* 同源抓取失败时保留初始静态文案 */ });
+      });
+    })();
+  </script>
 </body>
 </html>
