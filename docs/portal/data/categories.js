@@ -18,6 +18,14 @@
 
 window.CATEGORIES = [
   {
+    id: "insights",
+    name: "个人洞察",
+    emoji: "🧭",
+    color: "#1f5ec9",
+    desc: "我关心的主题最新研判（AI 每日自动更新）",
+    url: "../insights/index.html"
+  },
+  {
     id: "webnav",
     name: "网址导航",
     emoji: "🌐",

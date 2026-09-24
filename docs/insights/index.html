@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🧭 个人洞察 · 主题研判看板</title>
+<style>
+  :root{
+    --bg:#e8eaf1; --card:#ffffff; --ink:#3a4252; --muted:#7a8296;
+    --brand:#1f5ec9; --line:#e3e6ee; --focus:#e0245e; --trend:#8250df;
+    --good:#1f9d55; --risk:#d13438; --amber:#e8890c; --tag:#4c7bd0;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.6;}
+  .head{background:linear-gradient(180deg,#ffffff,#f4f6fb); border-bottom:2px solid var(--brand); padding:34px 20px 24px; text-align:center;}
+  .head h1{font-size:27px; font-weight:800; color:var(--ink);}
+  .head .sub{color:var(--muted); margin-top:6px; font-size:14px;}
+  .wrap{max-width:980px; margin:0 auto; padding:24px 16px 60px;}
+  .sec-head{display:flex; align-items:center; gap:10px; margin:30px 0 14px;}
+  .sec-head::before{content:""; width:5px; height:24px; background:var(--brand); border-radius:2px;}
+  .sec-head h2{font-size:19px; font-weight:800;}
+  .sec-head .note{color:var(--muted); font-size:12px; font-weight:400;}
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:18px; text-decoration:none; color:inherit; display:block; box-shadow:0 2px 10px rgba(31,94,201,.05); transition:transform .15s, box-shadow .15s;}
+  .card:hover{transform:translateY(-3px); box-shadow:0 6px 18px rgba(31,94,201,.12);}
+  .card .emoji{font-size:34px;}
+  .card h3{font-size:18px; font-weight:800; margin:8px 0 4px;}
+  .card p{color:var(--muted); font-size:13px;}
+  .card .go{margin-top:12px; font-size:12px; font-weight:700; color:var(--brand);}
+  .card .pill{display:inline-block; margin-top:10px; font-size:11px; font-weight:700; color:#fff; background:var(--brand); border-radius:20px; padding:2px 10px;}
+  .card .pill.off{background:#a9b0c2;}
+  .empty{background:var(--card); border:1px dashed var(--line); border-radius:14px; padding:26px; color:var(--muted); text-align:center; font-size:13px;}
+  .note-line{color:var(--muted); font-size:12px; margin-top:26px; text-align:center; line-height:1.8;}
+  .back{margin-top:24px; text-align:center;}
+  .back a{color:var(--brand); font-size:13px; text-decoration:none; font-weight:700;}
+  .back a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+  <header class="head">
+    <h1>🧭 个人洞察</h1>
+    <p class="sub">我关心的各个主题 · AI 定期更新研判看板聚合首页</p>
+  </header>
+
+  <main class="wrap">
+    <div class="sec-head"><h2>关注的主题</h2><span class="note">点击任一卡片，进入对应主题的最新研判看板</span></div>
+    <div class="grid" id="topics">
+      <a class="card" href="musk/index.html">
+        <span class="emoji">🚀</span>
+        <h3>关于马斯克的一切</h3>
+        <p>人物动态 · 特斯拉 / SpaceX / xAI / X / Neuralink · 政策与舆论，AI 每日追踪研判。</p>
+        <span class="pill">每日更新</span>
+        <div class="go">进入看板 →</div>
+      </a>
+    </div>
+
+    <div class="note-line">
+      同一主题在子目录内聚合并保留历史快照（<code>musk/archive/日期.html</code>）。<br/>
+      看板由定时任务每日自动生成并推送到 GitHub Pages，本页为固定聚合入口。
+    </div>
+
+    <div class="back">
+      <a href="../portal/index.html">← 返回 好奇星球 门户</a>
+    </div>
+  </main>
+</body>
+</html>
