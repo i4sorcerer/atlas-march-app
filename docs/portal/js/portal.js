@@ -137,6 +137,8 @@
     browse.classList.add("hidden");
     crumbs.classList.add("hidden");
     window.scrollTo({ top: 0, behavior: "smooth" });
+    document.body.classList.add("viewer-mode");
+    attachIframeScrollHide();
     // 记录一次访问
     logVisit({
       topicId: t.id,
@@ -151,6 +153,7 @@
     viewerFrame.src = "about:blank";
     browse.classList.remove("hidden");
     crumbs.classList.remove("hidden");
+    document.body.classList.remove("viewer-mode", "head-hidden");
   }
 
   /* ---------- L1 直达入口（带 url 的学科，点卡片直接打开） ---------- */
@@ -163,6 +166,8 @@
     browse.classList.add("hidden");
     crumbs.classList.add("hidden");
     window.scrollTo({ top: 0, behavior: "smooth" });
+    document.body.classList.add("viewer-mode");
+    attachIframeScrollHide();
     logVisit({
       topicId: cat.id,
       title: cat.name,
@@ -269,6 +274,44 @@
       })
       .join("");
   }
+
+  /* ---------- 顶栏滚动自动隐藏（内容区最大化） ---------- */
+  // 逻辑：向下滚动超过阈值 → 收起品牌顶栏；向上滚动或回到顶部 → 顶栏滑回。
+  // 内容查看模式下由 iframe 内部滚动驱动；浏览模式下由页面滚动驱动。
+  let lastY = 0;
+  function applyHead(y) {
+    if (y <= 4) {
+      document.body.classList.remove("head-hidden");
+      lastY = y;
+      return;
+    }
+    if (y > lastY + 2) document.body.classList.add("head-hidden");
+    else if (y < lastY - 2) document.body.classList.remove("head-hidden");
+    lastY = y;
+  }
+
+  window.addEventListener("scroll", () => {
+    if (document.body.classList.contains("viewer-mode")) return; // 查看模式下用 iframe 滚动
+    applyHead(window.scrollY || window.pageYOffset || 0);
+  }, { passive: true });
+
+  function attachIframeScrollHide() {
+    lastY = 0;
+    document.body.classList.remove("head-hidden");
+    try {
+      const fw = viewerFrame.contentWindow;
+      if (!fw || !fw.addEventListener) return;
+      fw.addEventListener("scroll", () => {
+        const doc = fw.document;
+        const y = fw.scrollY || fw.pageYOffset ||
+          (doc && doc.documentElement && doc.documentElement.scrollTop) || 0;
+        applyHead(y);
+      }, { passive: true });
+    } catch (e) {
+      /* 跨域页面无法读取滚动位置，忽略 */
+    }
+  }
+  viewerFrame.addEventListener("load", attachIframeScrollHide);
 
   /* ---------- 事件绑定 ---------- */
   backBtn.addEventListener("click", backToBrowse);
