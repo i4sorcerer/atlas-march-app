@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!--
+  主题看板 · 统一模板（canonical template / 唯一样式源头）
+  本文件中的 <style> 是全局唯一样式源。所有主题看板 HTML 一律由
+  docs/insights/_templates/generate.js 读取本模板的风格并渲染数据产出。
+  禁止改动本文件样式；禁止任何主题从零手写 HTML 或改板块结构。
+  下方 body 为结构示例（渲染目标），内容由 generate.js 依据数据 JSON 填充。
+  板块顺序固定：◎变化清单 → ①本期综述 → [专属表插槽] → ②趋势与规律→③研判→④关联→⑤待观察→⑥高质条目。
+-->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主题看板 · 统一模板</title>
+<style>
+  :root{--bg:#e8eaf1;--panel:#ffffff;--panel2:#f3f5fa;--ink:#2a3140;--muted:#5c6577;--muted2:#3a4252;--line:#d5dae6;--accent:#1f5ec9;--accentSoft:rgba(31,94,201,.08);--warn:#a86f0e;--peak:#c13a31;--good:#17613d;--dim:#0e7fa8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:30px 20px 60px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#ffffff 0%,var(--bg) 260px);}
+  .wrap{max-width:1060px;margin:0 auto;}
+  header{margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--accent);}
+  .crumb{font-size:13px;color:var(--muted);}
+  .crumb a{color:var(--accent);text-decoration:none;font-weight:700;}
+  h1{font-size:27px;font-weight:800;color:#1a2233;margin:8px 0 6px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:13.5px;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+  .badge{background:var(--accentSoft);border:1px solid #cdd7ee;color:var(--accent);border-radius:999px;font-size:12px;padding:3px 13px;font-weight:700;}
+  section{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:13px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(35,45,75,.06);overflow:hidden;}
+  section.warnside{border-top-color:var(--warn);}
+  section h2{font-size:17px;font-weight:800;color:#1b2333;margin-bottom:12px;display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  section h2 .idx{background:var(--accent);color:#fff;border-radius:7px;min-width:26px;height:25px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;padding:0 7px;letter-spacing:.5px;}
+  .lead{font-size:15px;color:var(--muted2);line-height:1.85;}
+  .lead b,.lead strong,section p b{color:#1b2333;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;}
+  .cell b{display:block;font-size:14.5px;font-weight:800;color:#1c2433;margin-bottom:8px;letter-spacing:.2px;}
+  .cell p{font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .tbd,.focus,.trend,.tline,.tag,.flag,.hl,.risk{display:inline-block;padding:1px 9px;border-radius:7px;font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.7;}
+  .flag,.tbd{color:#b4530a;background:#ffe3b3;}
+  .focus{color:#a0149b;background:#f6c7f7;border:1px solid #efb3ef;}
+  .trend{color:#5b43ce;background:#e3d9ff;}
+  .tline{color:#1f5ec9;background:#e7edfa;}
+  .tag{color:#24518f;background:#e9eefc;}
+  .hl,.risk{color:#b02a26;background:#fbe8e6;}
+  .good{color:#17613d;background:#e2f1e9;}
+  .hand{color:var(--good);font-weight:700;}
+  .new{color:var(--good);font-weight:700;}
+  .table a,.cell a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid #b9c8ec;}
+  .table a:hover,.cell a:hover{border-bottom-color:var(--accent);color:#143f96;}
+  .timeline{list-style:none;margin-top:6px;}
+  .timeline li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .timeline li b{color:#16202f;}
+  .timeline li:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}}
+  .table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+  .table th{text-align:left;color:var(--accent);font-weight:700;background:var(--accentSoft);border-bottom:1px solid var(--line);padding:9px 10px;}
+  .table td{padding:9px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;color:var(--muted2);}
+  .table tbody tr:nth-child(even){background:#fafbff;}
+  .table tbody tr:hover{background:#f2f5fd;}
+  .cheq label{display:block;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted2);}
+  .cheq label:last-child{border-bottom:none;}
+  .cheq input{margin-right:9px;accent-color:var(--accent);}
+  .callout{background:var(--accentSoft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted2);margin-top:12px;}
+  .callout .cl{font-weight:800;color:var(--accent);margin-bottom:4px;}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px;color:#5d6678;}
+</style>
+</head>
+<body>
+  <!-- 本文件为模板，正文由 generate.js 依据数据 JSON 渲染；此处 body 仅作结构示例。 -->
+</body>
+</html>
