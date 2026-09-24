@@ -21,7 +21,6 @@
   .head .meta .date{color:var(--brand); font-weight:700;}
   .wrap{max-width:1080px; margin:0 auto; padding:20px 16px 60px;}
 
-  /* 板块头：主色强调条 + 序号徽章 */
   .sec{margin-top:30px;}
   .sec-head{display:flex; align-items:center; gap:10px; border-bottom:2px solid var(--line); padding-bottom:10px;}
   .sec-head::before{content:""; width:5px; height:26px; background:var(--brand); border-radius:2px;}
@@ -29,13 +28,11 @@
   .sec-head h2{font-size:19px; font-weight:800;}
   .sec-head .note{color:var(--muted); font-size:12px; font-weight:400;}
 
-  /* 标签 pill 语义色 */
   .pill{display:inline-block; font-size:11px; font-weight:700; border-radius:20px; padding:2px 10px; color:#fff;}
   .p-tbd{background:var(--tbd);} .p-focus{background:var(--focus);} .p-trend{background:var(--trend);}
   .p-tline{background:var(--tline);} .p-tag{background:var(--tag);} .p-risk{background:var(--risk);}
   .p-good{background:var(--good);}
 
-  /* ◎ 变化清单 */
   .plist{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:12px;}
   .pcard{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:0 2px 8px rgba(31,94,201,.05);}
   .pcard .pt{font-weight:800; margin-bottom:8px;}
@@ -44,7 +41,6 @@
   .pcard li:last-child{border-bottom:none;}
   .pcard li small{color:var(--muted);}
 
-  /* 已沉淀事实小卡 */
   .facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:12px;}
   .fact{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--brand); border-radius:10px; padding:12px 14px; box-shadow:0 2px 8px rgba(31,94,201,.05);}
   .fact h4{font-size:15px; font-weight:800; margin-bottom:4px;}
@@ -54,11 +50,9 @@
   .prose{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-top:12px; box-shadow:0 2px 8px rgba(31,94,201,.05);}
   .prose li{font-size:14px; padding:5px 0; margin-left:20px;}
 
-  /* 列表项 */
   .row{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:8px 0; font-size:14px; display:flex; gap:10px; align-items:flex-start;}
   .row b{font-weight:800; flex:none;}
 
-  /* 高质条目表 */
   table{width:100%; border-collapse:collapse; margin-top:12px; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(31,94,201,.05); font-size:13px;}
   th,td{padding:10px 12px; text-align:left; border-bottom:1px solid #eef1f7; vertical-align:top;}
   th{background:#f4f6fb; font-weight:800; color:var(--ink);}
@@ -73,6 +67,7 @@
 
   .foot{margin-top:40px; text-align:center; color:var(--muted); font-size:12px; line-height:1.8;}
   .rendered{color:#9aa2b5;}
+  @media(max-width:640px){ .head h1{font-size:22px;} .sec-head h2{font-size:17px;} }
 </style>
 </head>
 <body>
@@ -80,7 +75,7 @@
   <header class="head">
     <h1>🚀 关于马斯克的一切</h1>
     <div class="meta">
-      期中版（首期种子） · 更新日期 <span class="date">2026-09-24</span> · 覆盖维度：人物动态 / 企业商业 / 科技与政策 / 国际关系
+      每日研判看板 · 本期日期 <span class="date">2026-09-24</span> · 覆盖维度：商业公司 / 产品技术 / 财务资本 / 政治言论 / 法律监管 / 人事舆论
     </div>
   </header>
 
@@ -88,23 +83,31 @@
 
     <!-- ◎ 变化清单 -->
     <section class="sec">
-      <div class="sec-head"><h2>◎ 变化清单</h2><span class="note">本窗相较上期的变化</span></div>
+      <div class="sec-head"><h2>◎ 变化清单</h2><span class="note">本窗相较上期</span></div>
       <div class="plist">
         <div class="pcard">
           <div class="pt"><span class="pill p-good">➕ 新增</span></div>
           <ul>
-            <li>央视财经专访回应热点（上海工厂 / 高铁体验）<small> 09-23</small></li>
-            <li>Tesla 上线车用 Grok Bot 语音助手<small> 09-22</small></li>
-            <li>再次暗示 Tesla × SpaceX 深化合作<small> 09-16</small></li>
+            <li>人民日报专访：中美贸易像「连体双胞胎」<small> 09-23</small></li>
+            <li>Optimus Gen3 设计意外泄露，指向量产前设计<small> 09-24</small></li>
+            <li>SpaceX 总裁肖特维尔拟减持逾 5200 万美元<small> 09-23</small></li>
+            <li>Grok Bot 上线首月周活跃破 40 万<small> 09-22</small></li>
+            <li>Cybercab 杭州数贸会浙江首秀<small> 09-23</small></li>
           </ul>
         </div>
         <div class="pcard">
           <div class="pt"><span class="pill p-trend">♻ 修正</span></div>
-          <ul><li>本期为首期种子版，暂无可比修正项。<small>（next 期开始回落）</small></li></ul>
+          <ul>
+            <li>星舰 IFT-14 确认改期至 9/28，首试入轨携 26 颗星链 V3<small>（原口径 09-22）</small></li>
+            <li>Cybercab 在华展示扩点：北京/上海 → 杭州浙江首秀<small> 09-23</small></li>
+          </ul>
         </div>
         <div class="pcard">
           <div class="pt"><span class="pill p-tag">⏸ 未变</span></div>
-          <ul><li>Optimus 量产节奏持续推进，判断延续。<small>（等工厂审厂进展）</small></li></ul>
+          <ul>
+            <li>Optimus 量产节奏：得州工厂钢结构近完工，判断延续。<small>（等量产节点）</small></li>
+            <li>Tesla × SpaceX 协同加深的叙事延续。<small>（无新增官方动作）</small></li>
+          </ul>
         </div>
       </div>
     </section>
@@ -113,8 +116,8 @@
     <section class="sec">
       <div class="sec-head"><h2>📁 历史归档</h2><span class="note">每日快照，可回看趋势</span></div>
       <div class="arch">
-        <em>暂无历史快照</em> —— 本期为首期。每日更新后，当日快照将归档于
-        <a href="archive/" target="_blank" rel="noopener">archive/</a>。
+        <em>2026-09-24（首期种子版）</em> —— <a href="archive/2026-09-24.html" target="_blank" rel="noopener">查看本日归档</a>。
+        每日更新后，当日快照将归档于 <a href="archive/" target="_blank" rel="noopener">archive/</a>。
       </div>
     </section>
 
@@ -122,53 +125,54 @@
     <section class="sec">
       <div class="sec-head"><span class="badge">1</span><h2>本期综述</h2></div>
       <div class="facts">
-        <div class="fact"><h4>中国业务加深</h4><p>上海超级工厂上半年交付近 46.8 万辆、同比 +28.4%，累计超 450 万辆。<small>（央视专访 09-23）</small></p></div>
-        <div class="fact"><h4>公司协同趋紧</h4><p>Tesla 与 SpaceX 合作深化，马斯克再提合并可能性。<small>（All-In Summit 09-16）</small></p></div>
-        <div class="fact"><h4>AI 出场频率上升</h4><p>Tesla 车端接入 Grok Bot，同时呼吁 AI 监管，政策发声增多。<small>（09-22/09-23）</small></p></div>
+        <div class="fact"><h4>涉华表态密集积极</h4><p>人民日报专访称中美贸易「连体双胞胎」；央视专访强调上海工厂上半年交付近 46.8 万辆、同比 +28.4%。<small>（09-23）</small></p></div>
+        <div class="fact"><h4>Optimus 进入量产前冲刺</h4><p>得州工厂钢结构近完工（规划 2027 投产、年产能 1000 万台），Gen3 设计意外泄露指向量产前设计定型。<small>（09-24）</small></p></div>
+        <div class="fact"><h4>星舰冲刺首次入轨</h4><p>IFT-14 改期 9/28，首试入轨并部署 26 颗星链 V3，是星舰最具商业意义的一次测试。<small>（09-28 待执行）</small></p></div>
       </div>
       <div class="prose">
         <b>最新趋势速递</b>
         <ul>
-          <li>09-23　央视财经专访：点赞中国制造与高铁，预测“全民高收入”、人形机器人十年内大规模落地。</li>
-          <li>09-23　马斯克公开呼吁 AI 监管，SpaceX 上市主体（SPCX）股价小幅回落。</li>
-          <li>09-22　Tesla 正式上线车用 Grok Bot，支持语音管理邮件 / 日历 / 任务。</li>
-          <li>09-16　All-In Summit 上再暗示 Tesla 与 SpaceX 可能合并。</li>
+          <li>09-24　Optimus Gen3 未公开设计被解包安卓应用意外泄露（财联社）。</li>
+          <li>09-23　人民日报专访：中美贸易像「连体双胞胎」，强行分开极危险。</li>
+          <li>09-23　SpaceX 总裁肖特维尔拟减持逾 5200 万美元，时点恰在星舰首轨测试前夕。</li>
+          <li>09-23　Cybercab 杭州数贸会浙江首秀（静态展示至 9/27）。</li>
+          <li>09-22　Grok Bot 上线约一月，周活跃用户破 40 万（官方口径）。</li>
         </ul>
       </div>
     </section>
 
-    <!-- ② 趋势与规律 -->
+    <!-- ② 趋势 -->
     <section class="sec">
       <div class="sec-head"><span class="badge">2</span><h2>趋势与规律</h2></div>
       <div class="prose">
         <ul>
-          <li><b>“合”的方向不变：</b>横跨汽车 · 航天 · AI · 社交的四线协同在加深，合并 / 深化合作的议题持续被抛出。<span class="pill p-trend" style="margin-left:6px">趋势</span></li>
-          <li><b>中国市场重估：</b>近期高频正面发声，上海工厂既是产能基本盘，也转化为对华关系的积极信号。<span class="pill p-tline" style="margin-left:6px">时间线</span></li>
-          <li><b>AI 双轨并行：</b>一边商业化（Grok 落地车端），一边主张监管——两头下注的叙事稳定。<span class="pill p-tag" style="margin-left:6px">标签</span></li>
+          <li><b>对华关系持续升温：</b>人民日报 + 央视财经高频正面发声，上海工厂既是产能基本盘，也转化为对华政策积极信号。<span class="pill p-trend" style="margin-left:6px">趋势</span></li>
+          <li><b>AI 双轨并行加速：</b>一边商业化（Grok 4.7、Grok Bot 周活 40 万落地车端/智能体），一边主张监管——两头下注叙事稳定。<span class="pill p-tag" style="margin-left:6px">标签</span></li>
+          <li><b>Optimus 从「生产」到「量产定型」跃迁：</b>Gen3 泄露 + 得州工厂进度，量产关键节点临近。<span class="pill p-tline" style="margin-left:6px">时间线</span></li>
         </ul>
       </div>
     </section>
 
-    <!-- ③ 研判与方向 -->
+    <!-- ③ 研判 -->
     <section class="sec">
       <div class="sec-head"><span class="badge">3</span><h2>研判与方向</h2></div>
       <div class="prose">
         <ul>
-          <li><b>中期看两点：</b>Optimus 三代量产是否如期（关键节点），以及 Tesla × SpaceX 协同是否会上升为组织动作。</li>
-          <li><b>风险信号：</b>自动驾驶安全争议与监管收紧并存，舆论反噬风险列为重点关注。<span class="pill p-focus" style="margin-left:6px">关注</span></li>
-          <li><b>机会信号：</b>中国产能 + AI 商业化共振，构成业务上行的主线。<span class="pill p-good" style="margin-left:6px">利好</span></li>
+          <li><b>中期看两点：</b>Optimus Gen3 量产是否如期（关键节点），以及星舰 IFT-14 首次入轨能否兑现商业组网节奏。</li>
+          <li><b>风险信号：</b>Cybercab 需在 9/30 前回复 NHTSA 合规特别令；SpaceX 上市后首现高管减持，市场对高估值分歧浮现。<span class="pill p-risk" style="margin-left:6px">风险</span></li>
+          <li><b>机会信号：</b>中国产能 + AI 商业化 + 星舰入轨组网三重共振，构成业务上行主线。<span class="pill p-good" style="margin-left:6px">利好</span></li>
         </ul>
       </div>
     </section>
 
-    <!-- ④ 关联脉络 -->
+    <!-- ④ 关联 -->
     <section class="sec">
       <div class="sec-head"><span class="badge">4</span><h2>关联脉络</h2></div>
       <div class="prose">
         <ul>
-          <li><b>Tesla ⇄ SpaceX：</b>资本与供应链协同加深，合并议题这是核心关联。</li>
-          <li><b>Tesla ⇄ Grok / xAI：</b>AI 助手正式上车，xAI 的能力向车端产品外溢。</li>
-          <li><b>马斯克 ⇄ 中国：</b>上海超级工厂 ↔ 对华表态 ↔ 全球产能与市场，形成闭环。</li>
+          <li><b>SpaceX ⇄ 星舰/星链：</b>IFT-14 首次入轨是星舰承担商业组网任务、承接猎鹰 9 发射量的关键一跃。</li>
+          <li><b>xAI ⇄ Grok Bot ⇄ Tesla 车端：</b>Grok 4.7 / Grok Bot 用户增长，AI 能力向产品矩阵（智能体、车机）持续外溢。</li>
+          <li><b>马斯克 ⇄ 中国：</b>人民日报/央视专访 ↔ 上海超级工厂 ↔ 全球产能与市场，形成政治表态与商业利益闭环。</li>
         </ul>
       </div>
     </section>
@@ -176,31 +180,37 @@
     <!-- ⑤ 待观察信号 -->
     <section class="sec">
       <div class="sec-head"><span class="badge">5</span><h2>待观察信号</h2></div>
-      <div class="row"><b><span class="pill p-tbd">待核</span></b>Tesla × SpaceX“合并”说法尚无正式文件，需官方 Q&amp;A 或监管披露交叉验证。</div>
-      <div class="row"><b><span class="pill p-risk">风险</span></b>纽约无人驾驶相关安全事故调查进展，可能影响 FSD / Robotaxi 审批节奏。</div>
-      <div class="row"><b><span class="pill p-trend">趋势</span></b>Optimus 国内产业链审厂进展，将决定量产落地的时间窗口。</div>
+      <div class="row"><b><span class="pill p-trend">趋势</span></b>星舰 IFT-14（9/28）首次入轨结果，将验证星舰商用组网与发射业务重心迁移节奏。</div>
+      <div class="row"><b><span class="pill p-risk">风险</span></b>NHTSA 要求特斯拉 9/30 前回复 Cybercab 无方向盘/踏板如何符合 FMVSS 的特别令，若逾期面临最高 1.39 亿美元罚款。</div>
+      <div class="row"><b><span class="pill p-focus">关注</span></b>SpaceX 高管减持（肖特维尔 5200 万美元）后续是否扩散，及对 SPCX 估值/上市叙事的压制。</div>
+      <div class="row"><b><span class="pill p-tbd">待核</span></b>Tesla × SpaceX「合并」说法尚无正式文件，需监管披露或官方 Q&amp;A 交叉验证。</div>
     </section>
 
     <!-- ⑥ 高质条目 -->
     <section class="sec">
-      <div class="sec-head"><span class="badge">6</span><h2>高质条目</h2><span class="note">标题可点击跳转原文</span></div>
+      <div class="sec-head"><span class="badge">6</span><h2>高质条目</h2><span class="note">标题可点击跳转原文 · 链接回填自档案库</span></div>
       <table>
         <thead>
           <tr><th>标题</th><th>子维度</th><th>来源</th><th>日期</th><th>权威级</th><th>决策</th></tr>
         </thead>
         <tbody>
-          <tr><td><a href="https://m.toutiao.com/group/7688607905578369590/" target="_blank" rel="noopener">央视财经专访马斯克：上海超级工厂产量创三年同期新高</a></td><td>企业商业</td><td>央视财经 / 光明网</td><td>09-23</td><td><span class="pill p-tline">高</span></td><td><span class="pill p-good">入库</span></td></tr>
-          <tr><td><a href="https://m.toutiao.com/group/7688685339120075273/" target="_blank" rel="noopener">马斯克盛赞中国高铁：值得一看的东西太多</a></td><td>人物动态</td><td>环球时报</td><td>09-23</td><td><span class="pill p-tline">高</span></td><td><span class="pill p-good">入库</span></td></tr>
-          <tr><td><a href="https://news.mydrivers.com/tag/masike.htm" target="_blank" rel="noopener">马斯克：未来将实现全民高收入，人形机器人十年内大规模落地</a></td><td>科技与政策</td><td>快科技</td><td>09-23</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
-          <tr><td><a href="https://www.tipranks.com/news/spacex-stock-spcx-slips-almost-2-as-ceo-elon-musk-calls-for-ai-regulation" target="_blank" rel="noopener">SpaceX 股价小幅回落，马斯克呼吁 AI 监管</a></td><td>企业商业</td><td>TipRanks</td><td>09-23</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-tbd">待核</span></td></tr>
-          <tr><td><a href="https://finance.sina.com.cn/stock/estate/integration/2026-09-16/doc-inirzfsw3401049.shtml" target="_blank" rel="noopener">马斯克再次暗示特斯拉与 SpaceX 可能合并</a></td><td>企业商业</td><td>新浪财经</td><td>09-16</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-tbd">待核</span></td></tr>
+          <tr><td><a href="https://www.peopleapp.com/column/30053208164-500007712495" target="_blank" rel="noopener">马斯克人民日报专访：中美贸易像「连体双胞胎」</a></td><td>政治言论</td><td>人民日报客户端</td><td>09-23</td><td><span class="pill p-tline">高</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="http://m.toutiao.com/group/7688926027288019466/" target="_blank" rel="noopener">特斯拉第三代 Optimus 设计意外泄露，更契合工厂流水线作业</a></td><td>产品技术</td><td>财联社</td><td>09-24</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="https://finance.sina.com.cn/stock/hkstock/ggscyd/2026-09-23/doc-inisvcqf1201000.shtml" target="_blank" rel="noopener">SpaceX 上市后首现高管减持：总裁肖特维尔拟套现逾 5200 万美元</a></td><td>财务资本</td><td>新浪财经/智通财经</td><td>09-23</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="http://m.toutiao.com/group/7688898750609981998/" target="_blank" rel="noopener">Grok Bot 上线约一月周活跃用户破 40 万</a></td><td>产品技术</td><td>第一财经</td><td>09-22</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="http://zjnews.zjol.com.cn/yc/qmt/202609/t20260922_31927232.shtml" target="_blank" rel="noopener">特斯拉 Cybercab 数贸会浙江首秀，杭州静态展示至 9/27</a></td><td>产品技术</td><td>浙江在线</td><td>09-23</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="https://finance.sina.com.cn/jjxw/2026-09-23/doc-inisuhki6350206.shtml" target="_blank" rel="noopener">马斯克接受央视财经专访称赞中国</a></td><td>政治言论</td><td>北京晚报/新浪财经</td><td>09-23</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="https://teslanorth.com/2026/09/21/grok-4-7-smartest-ai/" target="_blank" rel="noopener">xAI 发布 Grok 4.7，称同价位最强编码模型</a></td><td>产品技术</td><td>Decrypt/TeslaNorth</td><td>09-21</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="https://finance.sina.com.cn/roll/2026-09-20/doc-inismzux1580583.shtml" target="_blank" rel="noopener">SpaceX 纳入纳指 100，权重翻倍至 2.82%</a></td><td>财务资本</td><td>财联社/界面新闻</td><td>09-21</td><td><span class="pill p-tline">高</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="https://electrek.co/2026/09/15/nhtsa-tesla-cybercab-special-order-fmvss-certification/" target="_blank" rel="noopener">NHTSA 特别令要求特斯拉 9/30 前证明 Cybercab 合规</a></td><td>法律监管</td><td>Electrek</td><td>09-15</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="https://spacex.com/launches/" target="_blank" rel="noopener">星舰 IFT-14 改期 9/28，首轨携 26 颗星链 V3</a></td><td>产品技术</td><td>SpaceX 官方</td><td>09-18</td><td><span class="pill p-tline">高</span></td><td><span class="pill p-good">入库</span></td></tr>
         </tbody>
       </table>
     </section>
 
     <div class="foot">
       <div>🚀 关于马斯克的一切 · 主题研判看板</div>
-      <div class="rendered">由定时任务每日生成 · 本期为首期种子版（2026-09-24）· 条目链接均为可点击的原文回填</div>
+      <div class="rendered">由定时任务每日生成 · 本期 2026-09-24 · 条目标题均为可点击的原文链接（回填自飞书档案库「条目库」表）</div>
     </div>
   </main>
 </body>
