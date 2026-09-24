@@ -273,7 +273,8 @@ body {
   z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 clamp(10px, 3vw, 30px) 30px;
+  padding: calc(var(--hh) + 48px) clamp(10px, 3vw, 30px) 16px;
+  transition: padding-top .26s ease;
 }
 .viewer-bar {
   display: flex;
@@ -419,10 +420,12 @@ body.head-hidden .topbar {
 body.head-hidden .crumbs { top: 0; }
 body.head-hidden .viewer-bar { top: 0; }
 
-/* 查看模式下：页脚不参与布局（内容页下方无需页脚），iframe 占满可视区 */
+/* 查看模式下：页脚不参与布局（内容页下方无需页脚），iframe 让开固定顶栏+工具条后占满可视区 */
 .viewer-mode .portal-footer { display: none; }
 .viewer-mode .browse { padding-bottom: 0; }
-.viewer-mode .viewer-frame { height: calc(100vh - var(--hh) - 54px); }
+.viewer-mode .viewer-frame { height: calc(100vh - var(--hh) - 48px); }
+/* 顶栏隐藏时，内容上移补位（工具条此时贴到顶部，仅留其高度） */
+body.head-hidden .viewer { padding-top: 48px; }
 
 @media (max-width: 900px) {
   .brand-slogan { display: none; }
