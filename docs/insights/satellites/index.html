@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🛰️ 关于卫星和火箭发射的一切 · 主题研判看板</title>
+<!-- 主题：关于卫星和火箭发射的一切 · 每日研判看板 · 浅色专业风格（v3 强制规范） -->
+<style>
+  :root{
+    --bg:#e8eaf1; --card:#ffffff; --ink:#3a4252; --muted:#7a8296;
+    --brand:#1f5ec9; --line:#e3e6ee;
+    --tbd:#e8890c; --focus:#e0245e; --trend:#8250df; --tline:#1f5ec9;
+    --tag:#4c7bd0; --risk:#d13438; --good:#1f9d55;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; line-height:1.6;}
+  .head{background:linear-gradient(180deg,#ffffff,#f2f5fb); border-bottom:2px solid var(--brand); padding:30px 20px 20px; text-align:center;}
+  .head h1{font-size:27px; font-weight:800;}
+  .head .meta{margin-top:8px; color:var(--muted); font-size:13px;}
+  .head .meta .date{color:var(--brand); font-weight:700;}
+  .wrap{max-width:1080px; margin:0 auto; padding:20px 16px 60px;}
+  .flag{font-size:inherit;}
+
+  .sec{margin-top:30px;}
+  .sec-head{display:flex; align-items:center; gap:10px; border-bottom:2px solid var(--line); padding-bottom:10px;}
+  .sec-head::before{content:""; width:5px; height:26px; background:var(--brand); border-radius:2px;}
+  .badge{background:var(--brand); color:#fff; font-weight:800; font-size:14px; width:24px; height:24px; border-radius:5px; display:inline-flex; align-items:center; justify-content:center; flex:none;}
+  .sec-head h2{font-size:19px; font-weight:800;}
+  .sec-head .note{color:var(--muted); font-size:12px; font-weight:400;}
+
+  .pill{display:inline-block; font-size:11px; font-weight:700; border-radius:20px; padding:2px 10px; color:#fff;}
+  .p-tbd{background:var(--tbd);} .p-focus{background:var(--focus);} .p-trend{background:var(--trend);}
+  .p-tline{background:var(--tline);} .p-tag{background:var(--tag);} .p-risk{background:var(--risk);}
+  .p-good{background:var(--good);}
+
+  .plist{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:12px; margin-top:12px;}
+  .pcard{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px; box-shadow:0 2px 8px rgba(31,94,201,.05);}
+  .pcard .pt{font-weight:800; margin-bottom:8px;}
+  .pcard ul{list-style:none;}
+  .pcard li{font-size:13px; padding:3px 0; border-bottom:1px dashed #eef1f7;}
+  .pcard li:last-child{border-bottom:none;}
+  .pcard li small{color:var(--muted);}
+
+  .facts{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin-top:12px;}
+  .fact{background:var(--card); border:1px solid var(--line); border-left:4px solid var(--brand); border-radius:10px; padding:12px 14px; box-shadow:0 2px 8px rgba(31,94,201,.05);}
+  .fact h4{font-size:15px; font-weight:800; margin-bottom:4px;}
+  .fact p{font-size:13px;}
+  .fact p small{color:var(--muted);}
+
+  .prose{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:16px 18px; margin-top:12px; box-shadow:0 2px 8px rgba(31,94,201,.05);}
+  .prose li{font-size:14px; padding:5px 0; margin-left:20px;}
+
+  .row{background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 14px; margin:8px 0; font-size:14px; display:flex; gap:10px; align-items:flex-start;}
+  .row b{font-weight:800; flex:none;}
+
+  table{width:100%; border-collapse:collapse; margin-top:12px; background:var(--card); border:1px solid var(--line); border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(31,94,201,.05); font-size:13px;}
+  th,td{padding:9px 11px; text-align:left; border-bottom:1px solid #eef1f7; vertical-align:top;}
+  th{background:#f4f6fb; font-weight:800; color:var(--ink); white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  td a{color:var(--brand); text-decoration:none; font-weight:700;}
+  td a:hover{text-decoration:underline;}
+  .ok{color:var(--good); font-weight:700;}
+  .ng{color:var(--risk); font-weight:700;}
+  .hold{color:var(--tbd); font-weight:700;}
+
+  .arch{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 16px; margin-top:12px; font-size:13px; color:var(--muted);}
+  .arch a{color:var(--brand); font-weight:700; text-decoration:none;}
+  .arch em{font-style:normal; color:var(--ink);}
+
+  .foot{margin-top:40px; text-align:center; color:var(--muted); font-size:12px; line-height:1.8;}
+  .rendered{color:#9aa2b5;}
+</style>
+</head>
+<body>
+
+  <header class="head">
+    <h1>🛰️ 关于卫星和火箭发射的一切</h1>
+    <div class="meta">
+      首期版本 · 更新日期 <span class="date">2026-09-24</span> · 覆盖：全球发射清单 / 各国航天动态 / 火箭与卫星任务追踪
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ◎ 变化清单 -->
+    <section class="sec">
+      <div class="sec-head"><h2>◎ 变化清单</h2><span class="note">本窗相较上期的变化</span></div>
+      <div class="plist">
+        <div class="pcard">
+          <div class="pt"><span class="pill p-good">➕ 新增</span></div>
+          <ul>
+            <li>年度发射总量口径更新（截至 09-24）<small> 全球约 235 次</small></li>
+            <li>日本 H3 恢复双助推构型并成功发射<small> 08-11</small></li>
+            <li>俄罗斯进步 MS-35 货运飞船入轨<small> 09-16</small></li>
+          </ul>
+        </div>
+        <div class="pcard">
+          <div class="pt"><span class="pill p-trend">♻ 修正</span></div>
+          <ul><li>本期为首期种子版，暂无可比修正项。<small>（next 期开始回落）</small></li></ul>
+        </div>
+        <div class="pcard">
+          <div class="pt"><span class="pill p-tag">⏸ 未变</span></div>
+          <ul><li>美国靠 Falcon-9 稳居发射榜首，判断延续。<small>（星舰轨道首飞待验证）</small></li></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 历史归档 -->
+    <section class="sec">
+      <div class="sec-head"><h2>📁 历史归档</h2><span class="note">每日快照，可回看趋势</span></div>
+      <div class="arch">
+        <em>暂无历史快照</em> —— 本期为首期。每日更新后，当日快照将归档于
+        <a href="archive/" target="_blank" rel="noopener">archive/</a>。
+      </div>
+    </section>
+
+    <!-- ① 本期综述 -->
+    <section class="sec">
+      <div class="sec-head"><span class="badge">1</span><h2>本期综述</h2></div>
+      <div class="facts">
+        <div class="fact"><h4>全球年发射超 230 次</h4><p>截至 09-24，全球轨道发射约 228 次、成功 228、失败 7，美国约 139 次居首、中国约 69 次第二。<small>（含亚轨道口径约 235 次）</small></p></div>
+        <div class="fact"><h4>美国靠一箭之力领跑</h4><p>Falcon-9 年内约 101 次，SpaceX 连续第三年单独超过除美国外全球之和。<small>（108 vs 106）</small></p></div>
+        <div class="fact"><h4>星舰将首飞入轨</h4><p>Starship 第 14 次试飞（NET 09-28）为首次轨道任务，计划投放首批 Starlink v3 卫星。<small>（待监管批准）</small></p></div>
+      </div>
+      <div class="prose">
+        <b>最新趋势速递</b>
+        <ul>
+          <li>09-16　俄罗斯「联盟-2.1b」从拜科努尔发射进步 MS-35 货运飞船入轨。</li>
+          <li>09-11　中国长征四号乙在酒泉发射遥感 53/56 组卫星。</li>
+          <li>08-24　俄罗斯安加拉-1.2 / 联盟系列多箭并发，航天发射节奏维持。</li>
+          <li>08-11　日本 H3 携「引路-7」导航卫星成功入轨，双助推构型失而复飞。</li>
+          <li>07-24　中国力箭一号（遥十五）于东风商业航天新区一箭五星（含天仪 48 星）。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ★ 各国发射概览 -->
+    <section class="sec">
+      <div class="sec-head"><span class="badge">★</span><h2>各国发射概览</h2><span class="note">年度发射数（截至 2026-09-24，口径含亚轨道）</span></div>
+      <table>
+        <thead><tr><th>国家 / 地区</th><th>年度发射</th><th>主力运载火箭</th><th>年内亮点</th></tr></thead>
+        <tbody>
+          <tr><td><span class="flag">🇺🇸</span> 美国</td><td>约 139 次</td><td>Falcon-9 / Falcon Heavy / Starship / Electron</td><td>Falcon-9 约 101 次；Starship 首轨任务在即（09-28）</td></tr>
+          <tr><td><span class="flag">🇨🇳</span> 中国</td><td>约 69 次</td><td>长征系列 / 力箭一号 / 朱雀系列</td><td>长征家族累计 650+ 发；力箭一箭五星；商业发射场活跃</td></tr>
+          <tr><td><span class="flag">🇷🇺</span> 俄罗斯</td><td>约 14 次</td><td>联盟-2 / 安加拉-1.2/1.2T / 质子</td><td>进步 MS-35 货运；安加拉轻/重型并行部署</td></tr>
+          <tr><td><span class="flag">🇪🇺</span> 欧洲（欧空局/阿里安）</td><td>约 7 次</td><td>Ariane 6 / Vega-C / Vega</td><td>Ariane 6 逐步转入常态化商业发射</td></tr>
+          <tr><td><span class="flag">🇯🇵</span> 日本</td><td>约 3 次</td><td>H3 / 艾普斯龙-S</td><td>H3 双助推恢复首飞成功；MMX 火卫一采样定于 H3-10</td></tr>
+          <tr><td><span class="flag">🇮🇳</span> 印度</td><td>约 3 次</td><td>PSLV / LVM3</td><td>PSLV-C62/EOS-N1 三级异常；Gaganyaan 无人试飞在即</td></tr>
+        </tbody>
+      </table>
+      <div class="arch" style="margin-top:8px;">数据口径因统计源与日期而异，本表以综合口径给出量级，具体以当日任务实测为准。</div>
+    </section>
+
+    <!-- ★ 发射清单 -->
+    <section class="sec">
+      <div class="sec-head"><span class="badge">★</span><h2>发射清单（近期任务摘要）</h2><span class="note">按最新在前 · 覆盖各主要发射国</span></div>
+      <table>
+        <thead><tr><th>国家</th><th>日期</th><th>火箭</th><th>载荷 / 任务</th><th>发射场</th><th>状态</th></tr></thead>
+        <tbody>
+          <tr><td><span class="flag">🇺🇸</span> 美国</td><td>09-28</td><td>Starship V3（F-14）</td><td>Starlink Group 31-1 · 首个轨道任务（26 颗 Starlink v3）</td><td>得州 Starbase</td><td class="hold">待发</td></tr>
+          <tr><td><span class="flag">🇷🇺</span> 俄罗斯</td><td>09-16</td><td>联盟-2.1b</td><td>进步 MS-35 货运飞船</td><td>拜科努尔</td><td class="ok">成功</td></tr>
+          <tr><td><span class="flag">🇨🇳</span> 中国</td><td>09-11</td><td>长征四号乙</td><td>遥感 53 / 56 组遥感卫星</td><td>酒泉</td><td class="ok">成功</td></tr>
+          <tr><td><span class="flag">🇨🇳</span> 中国</td><td>07-24</td><td>力箭一号（遥十五）</td><td>一箭五星（天仪 48 / 甘德一号 01 / 西光贰号 03 等）</td><td>东风商业新区</td><td class="ok">成功</td></tr>
+          <tr><td><span class="flag">🇨🇳</span> 中国</td><td>07-02</td><td>长征四号乙</td><td>海阳二号 E（HY-2E）海洋遥感卫星</td><td>酒泉</td><td class="ok">成功</td></tr>
+          <tr><td><span class="flag">🇨🇳</span> 中国</td><td>06-23</td><td>长征七号改</td><td>通信技术试验卫星</td><td>文昌</td><td class="ok">成功</td></tr>
+          <tr><td><span class="flag">🇨🇳</span> 中国</td><td>06-17</td><td>长征十二号</td><td>互联网卫星组</td><td>海南商业发射场</td><td class="ok">成功</td></tr>
+          <tr><td><span class="flag">🇷🇺</span> 俄罗斯</td><td>04-23</td><td>安加拉-1.2</td><td>轻型有效载荷（空天军）</td><td>普列谢茨克</td><td class="ok">成功</td></tr>
+          <tr><td><span class="flag">🇺🇸</span> 美国</td><td>01-02</td><td>Falcon-9</td><td>Cosmo-SkyMed Gen.2（CSG-FM3）军事/遥感</td><td>范登堡 SLC-4E</td><td class="ok">成功</td></tr>
+          <tr><td><span class="flag">🇮🇳</span> 印度</td><td>01-08</td><td>PSLV-C62</td><td>EOS-N1 观测卫星（第三级异常）</td><td>斯里赫里戈达</td><td class="ng">异常</td></tr>
+          <tr><td><span class="flag">🇯🇵</span> 日本</td><td>08-11</td><td>H3（第 9 发）</td><td>引路-7（Michibiki-7）导航卫星</td><td>种子岛</td><td class="ok">成功</td></tr>
+        </tbody>
+      </table>
+      <div class="arch" style="margin-top:8px;">清单为精选摘要，非全量；完整清单由每日任务从公开数据持续补全。日期为公布口径，凌晨时间以东八区为主。</div>
+    </section>
+
+    <!-- ② 趋势与规律 -->
+    <section class="sec">
+      <div class="sec-head"><span class="badge">2</span><h2>趋势与规律</h2></div>
+      <div class="prose">
+        <ul>
+          <li><b>“一箭多星 + 复用”常态化：</b>Falcon-9 复用与可回收火箭普及，单发效率持续抬升。<span class="pill p-trend" style="margin-left:6px">趋势</span></li>
+          <li><b>巨型星座成为发射主引擎：</b>Starlink 等星座批量补网，是年发射量激增的最大动因。<span class="pill p-tag" style="margin-left:6px">标签</span></li>
+          <li><b>新兴商业发射场开花：</b>中国海南商业发射场、东风商业新区启用，发射基础设施加速扩容。<span class="pill p-tline" style="margin-left:6px">时间线</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ③ 研判与方向 -->
+    <section class="sec">
+      <div class="sec-head"><span class="badge">3</span><h2>研判与方向</h2></div>
+      <div class="prose">
+        <ul>
+          <li><b>核心看点：</b>Starship 首个轨道任务（09-28）是否如期并投放星链，将是下一代超重型运力的关键节点。<span class="pill p-focus" style="margin-left:6px">关注</span></li>
+          <li><b>风险信号：</b>印度 PSLV 三级异常、空间碎片与轨道拥堵、监管审批节奏（如 FAA）构成不确定性。<span class="pill p-risk" style="margin-left:6px">风险</span></li>
+          <li><b>机会信号：</b>日本 MMX 火卫一采样、印度 Gaganyaan 载人前无人试飞、中国商业火箭密集发射，均指向新一轮里程碑。<span class="pill p-good" style="margin-left:6px">利好</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ④ 关联脉络 -->
+    <section class="sec">
+      <div class="sec-head"><span class="badge">4</span><h2>关联脉络</h2></div>
+      <div class="prose">
+        <ul>
+          <li><b>国家机构 ⇄ 商业公司：</b>CNSA ↔ 长征/商业火箭；NASA ↔ SpaceX；JAXA ↔ 三菱重工；ISRO ↔ NSIL。</li>
+          <li><b>火箭 ⇄ 星座 ⇄ 应用：</b>发射能力决定星座规模，星座又反哺通信 / 遥测 / 导航产业。</li>
+          <li><b>发射场 ⇄ 产业链：</b>新发射场带动区域制造、测控与人才聚落。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ⑤ 待观察信号 -->
+    <section class="sec">
+      <div class="sec-head"><span class="badge">5</span><h2>待观察信号</h2></div>
+      <div class="row"><b><span class="pill p-tbd">待核</span></b>Starship 首个轨道任务的确切执行时间与监管批复状态。</div>
+      <div class="row"><b><span class="pill p-tbd">待核</span></b>印度 PSLV-C62 第三级异常的根因调查结论。</div>
+      <div class="row"><b><span class="pill p-trend">趋势</span></b>H3 下一次（第 10 发，MMX）10-20 计划是否照常执行。</div>
+    </section>
+
+    <!-- ⑥ 高质条目 -->
+    <section class="sec">
+      <div class="sec-head"><span class="badge">6</span><h2>高质条目</h2><span class="note">标题可点击跳转原文</span></div>
+      <table>
+        <thead><tr><th>标题</th><th>国家</th><th>来源</th><th>日期</th><th>权威级</th><th>决策</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://www.cnsa.gov.cn/english/" target="_blank" rel="noopener">中国长征四号乙发射海阳二号 E 海洋遥感卫星</a></td><td>🇨🇳 中国</td><td>CNSA</td><td>07-02</td><td><span class="pill p-tline">高</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="https://next2space.com/spacex/starship/" target="_blank" rel="noopener">SpaceX Starship 第 14 次试飞（首轨任务）在即</a></td><td>🇺🇸 美国</td><td>NextSpace</td><td>09-28</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="http://www.chinaview.cn/20260917/7240fa7e99f041ae875984682c129dca/c.html" target="_blank" rel="noopener">俄罗斯联盟-2.1b 发射进步 MS-35 货运飞船入轨</a></td><td>🇷🇺 俄罗斯</td><td>新华社</td><td>09-16</td><td><span class="pill p-tline">高</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="https://thespacewiki.com/wiki/jaxa" target="_blank" rel="noopener">日本 H3 发射引路-7 导航卫星，双助推构型恢复</a></td><td>🇯🇵 日本</td><td>SpaceWiki</td><td>08-11</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-good">入库</span></td></tr>
+          <tr><td><a href="https://www.spacelive.cn/launch/statistics" target="_blank" rel="noopener">2026 年全球火箭发射统计（按国家）</a></td><td>全球</td><td>SpaceLive</td><td>09-24</td><td><span class="pill p-tag">中</span></td><td><span class="pill p-tbd">待核</span></td></tr>
+          <tr><td><a href="https://www.isro.gov.in/Mission_PSLV_C62.html" target="_blank" rel="noopener">ISRO PSLV-C62 / EOS-N1 任务异常说明</a></td><td>🇮🇳 印度</td><td>ISRO</td><td>01-08</td><td><span class="pill p-tline">高</span></td><td><span class="pill p-good">入库</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="foot">
+      <div>🛰️ 关于卫星和火箭发射的一切 · 主题研判看板</div>
+      <div class="rendered">由定时任务每日生成 · 本期为首期种子版（2026-09-24）· 条目链接均为可点击的原文回填</div>
+    </div>
+  </main>
+</body>
+</html>
