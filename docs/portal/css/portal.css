@@ -403,9 +403,9 @@ body {
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 26px 16px 34px;
+  padding: 10px 16px 14px;
   color: var(--ink-soft);
-  font-size: 15px;
+  font-size: 13px;
 }
 
 .hidden { display: none !important; }
@@ -419,6 +419,11 @@ body.head-hidden .topbar {
 body.head-hidden .crumbs { top: 0; }
 body.head-hidden .viewer-bar { top: 0; }
 
+/* 查看模式下：页脚不参与布局（内容页下方无需页脚），iframe 占满可视区 */
+.viewer-mode .portal-footer { display: none; }
+.viewer-mode .browse { padding-bottom: 0; }
+.viewer-mode .viewer-frame { height: calc(100vh - var(--hh) - 54px); }
+
 @media (max-width: 900px) {
   .brand-slogan { display: none; }
 }
@@ -426,4 +431,5 @@ body.head-hidden .viewer-bar { top: 0; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
   .card-emoji { font-size: 42px; }
   .viewer-frame { height: calc(100vh - 64px); }
+  .viewer-mode .viewer-frame { height: calc(100vh - 104px); }
 }
