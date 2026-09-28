@@ -147,7 +147,7 @@ window.WEB_DIRECTORY = [
     sites: [
       { name: "Project Gutenberg", url: "https://www.gutenberg.org/", desc: "免费公版英文电子书（古登堡计划）", emoji: "📜" },
       { name: "书格", url: "https://new.shuge.org/", desc: "免费分享的中文古籍与艺术书籍", emoji: "🏯" },
-      { name: "史典故籍", url: "https://www.shidianguji.com/", desc: "免费的中华古文与古典文献在线阅读", emoji: "✒️" },
+      { name: "识典古籍", url: "https://www.shidianguji.com/", desc: "免费的中华古文与古典文献在线阅读", emoji: "✒️" },
       { name: "Open Library", url: "https://openlibrary.org/", desc: "可在线借阅的免费电子书", emoji: "📖" },
       { name: "Standard Ebooks", url: "https://standardebooks.org/", desc: "排版精良的免费英文名著", emoji: "✨" },
       { name: "鸠摩搜书", url: "https://www.jiumo.com/", desc: "一键搜索全网电子书资源", emoji: "🔎" },
