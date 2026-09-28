@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI最新模型进展与Agent企业落地 · 研判看板</title>
+<!-- 统一模板生成：docs/insights/_templates/dashboard.html + generate.js -->
+<style>
+  :root{--bg:#e8eaf1;--panel:#ffffff;--panel2:#f3f5fa;--ink:#2a3140;--muted:#5c6577;--muted2:#3a4252;--line:#d5dae6;--accent:#1f5ec9;--accentSoft:rgba(31,94,201,.08);--warn:#a86f0e;--peak:#c13a31;--good:#17613d;--dim:#0e7fa8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:30px 20px 60px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#ffffff 0%,var(--bg) 260px);}
+  .wrap{max-width:1060px;margin:0 auto;}
+  header{margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--accent);}
+  .crumb{font-size:13px;color:var(--muted);}
+  .crumb a{color:var(--accent);text-decoration:none;font-weight:700;}
+  h1{font-size:27px;font-weight:800;color:#1a2233;margin:8px 0 6px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:13.5px;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+  .badge{background:var(--accentSoft);border:1px solid #cdd7ee;color:var(--accent);border-radius:999px;font-size:12px;padding:3px 13px;font-weight:700;}
+  section{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:13px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(35,45,75,.06);overflow:hidden;}
+  section.warnside{border-top-color:var(--warn);}
+  section h2{font-size:17px;font-weight:800;color:#1b2333;margin-bottom:12px;display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  section h2 .idx{background:var(--accent);color:#fff;border-radius:7px;min-width:26px;height:25px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;padding:0 7px;letter-spacing:.5px;}
+  .lead{font-size:15px;color:var(--muted2);line-height:1.85;}
+  .lead b,.lead strong,section p b{color:#1b2333;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;}
+  .cell b{display:block;font-size:14.5px;font-weight:800;color:#1c2433;margin-bottom:8px;letter-spacing:.2px;}
+  .cell p{font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .tbd,.focus,.trend,.tline,.tag,.flag,.hl,.risk{display:inline-block;padding:1px 9px;border-radius:7px;font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.7;}
+  .flag,.tbd{color:#b4530a;background:#ffe3b3;}
+  .focus{color:#a0149b;background:#f6c7f7;border:1px solid #efb3ef;}
+  .trend{color:#5b43ce;background:#e3d9ff;}
+  .tline{color:#1f5ec9;background:#e7edfa;}
+  .tag{color:#24518f;background:#e9eefc;}
+  .hl,.risk{color:#b02a26;background:#fbe8e6;}
+  .good{color:#17613d;background:#e2f1e9;}
+  .hand{color:var(--good);font-weight:700;}
+  .new{color:var(--good);font-weight:700;}
+  .table a,.cell a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid #b9c8ec;}
+  .table a:hover,.cell a:hover{border-bottom-color:var(--accent);color:#143f96;}
+  .timeline{list-style:none;margin-top:6px;}
+  .timeline li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .timeline li b{color:#16202f;}
+  .timeline li:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}}
+  .table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+  .table th{text-align:left;color:var(--accent);font-weight:700;background:var(--accentSoft);border-bottom:1px solid var(--line);padding:9px 10px;}
+  .table td{padding:9px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;color:var(--muted2);}
+  .table tbody tr:nth-child(even){background:#fafbff;}
+  .table tbody tr:hover{background:#f2f5fd;}
+  .cheq label{display:block;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted2);}
+  .cheq label:last-child{border-bottom:none;}
+  .cheq input{margin-right:9px;accent-color:var(--accent);}
+  .callout{background:var(--accentSoft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted2);margin-top:12px;}
+  .callout .cl{font-weight:800;color:var(--accent);margin-bottom:4px;}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px;color:#5d6678;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="crumb"><a href="../../index.html">个人洞察</a> / AI最新模型进展与Agent企业落地</div>
+    <h1>AI最新模型进展与Agent企业落地 · 研判看板</h1>
+    <div class="sub">每日快讯+高质清单 · 数据窗 2026-09-01 ~ 2026-09-28 · 全球视角</div>
+    <div class="sub" style="margin-top:2px;">累计 17 条跨源权威条目 + 11 条模型库快照 · 官方一手 + 权威媒体</div>
+    <div class="badges"><span class="badge">模型发布潮</span><span class="badge">Agent 企业落地</span><span class="badge">全球格局</span><span class="badge">监管趋严</span></div>
+    <div class="sub" style="margin-top:8px;font-size:12.5px;">历史归档：暂无可比快照（首期）</div>
+  </header>
+
+  <section>
+    <h2><span class="idx">◎</span> 较上次运行变化清单（自动区）</h2>
+    <div class="grid">
+      <div class="cell"><b>➕ 新增（本窗）+6</b><ul class="timeline" style="margin-top:6px"><li>OpenAI 发布 GPT-6 Sol/Luna，双模型定价策略（09-22）</li><li>Anthropic 发布 Claude Opus 5.5，1M 上下文强 Agent 编码（09-22）</li><li>美团上线 LongCat-2.5-Preview 原生多模态（09-25）</li><li>OpenAI DevDay 2026 确认，或将发布常驻 AI 助手O（09-27）</li><li>微软新版 Copilot 推出 Home/Code/Autopilot（09-25）</li><li>华为发布 Agentic Enterprise 白皮书 + 智果 AgentArts（09-18）</li></ul></div>
+      <div class="cell"><b>♻ 修正 / 升级</b><ul class="timeline" style="margin-top:6px"><li>OpenAI 暂停最先进模型训练（沙盒智能体 DNS 事件，09-26）</li><li>Gartner 上修企业 Agent 采用预测至 40%</li></ul></div>
+      <div class="cell"><b>⏸ 未变（延续判断）</b><ul class="timeline" style="margin-top:6px"><li>头部模型仍以闭源为主，开源生态中国加速</li><li>企业 Agent 从试点转向生产部署阶段</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">①</span> 本期综述</h2>
+    <div class="cell" style="margin-bottom:12px"><b>已沉淀事实</b><p>2026 年 9 月形成<b>年内最密集的四大前沿模型发布潮</b>：Anthropic（Claude Fable 5.1/Mythos 5.1，09-01）、Google（Gemini 3.8 Flash，09-02）、Meta（Muse Spark 1.3，09-02）、OpenAI（GPT-6 Astra，09-03），其后 OpenAI 再推 GPT-6 Sol/Luna（09-22）与 Anthropic Claude Opus 5.5（09-22）。中国企业同步提速：美团 LongCat-2.5-Preview、月之暗面 Kimi K3 商业化出海、阿里云栖大会展示芯片-云-模型-Agent-应用全栈。竞争焦点从跑分转向<b>长上下文、Agent 长任务、多模态与工程化落地</b>。</p></div>
+    <div class="cell">
+      <b>最新趋势速递（本章新增）</b>
+      <ul class="timeline" style="margin-top:8px"><li><span class="trend">多模态/Agent</span>　新模型普遍强化 Agent 长任务、图片理解与 1M 级上下文</li><li><span class="tline">定价分化</span>　GPT-6 Sol 高智能高成本 vs Luna 高性价比，双轨定价</li><li><span class="focus">企业落地</span>　金融/运维/办公成 Agent 早期高 ROI 场景</li><li><span class="tbd">治理新刚需</span>　Agent 审计/权限/监控成为平台级标配</li></ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">★</span> 全球 AI 模型进展一览<span style="color:var(--muted);font-size:12px;margin-left:8px;">2026-09 重点模型快照 · 覆盖美国/中国主流模型</span></h2>
+    <table class="table"><thead><tr><th>模型</th><th>机构</th><th>国别</th><th>类型</th><th>发布时间</th><th>关键进展</th></tr></thead><tbody><tr><td>GPT-6 Sol</td><td>OpenAI</td><td>美国</td><td>旗舰/闭源</td><td>09-22</td><td>Intelligence 47.5 · $4/1M</td></tr><tr><td>GPT-6 Luna</td><td>OpenAI</td><td>美国</td><td>成本/闭源</td><td>09-22</td><td>Intelligence 37.3 · $0.2/1M</td></tr><tr><td>Claude Opus 5.5</td><td>Anthropic</td><td>美国</td><td>Agent/闭源</td><td>09-22</td><td>达 Fable 5.1 水平 · 1M 上下文</td></tr><tr><td>Gemini 3.8 Flash</td><td>Google</td><td>美国</td><td>多模态</td><td>09-02</td><td>闪电级低延迟多模态</td></tr><tr><td>Muse Spark 1.3</td><td>Meta</td><td>美国</td><td>旗舰/闭源</td><td>09-02</td><td>Morgan Stanley 评顶尖 Agent</td></tr><tr><td>Grok 4.7</td><td>xAI</td><td>美国</td><td>旗舰/闭源</td><td>09-21</td><td>xAI 增速强劲</td></tr><tr><td>Qwen3.8 Max</td><td>阿里</td><td>中国</td><td>旗舰/闭源</td><td>09-02</td><td>Agentic AI 全栈核心</td></tr><tr><td>DeepSeek V4.1 Flash</td><td>DeepSeek</td><td>中国</td><td>多模态</td><td>09-10</td><td>开源生态+快速版</td></tr><tr><td>LongCat-2.5-Preview</td><td>美团</td><td>中国</td><td>多模态/Agent</td><td>09-25</td><td>1.6万亿参/480亿激活 · 1M 上下文</td></tr><tr><td>GLM 5.3 Flash/FlashX</td><td>智谱</td><td>中国</td><td>旗舰/闭源</td><td>09-18</td><td>快速版系列更新</td></tr><tr><td>Kimi K3</td><td>月之暗面</td><td>中国</td><td>旗舰/闭源</td><td>09-28</td><td>上架 AWS/百炼 · 出海分成</td></tr></tbody></table>
+    <div class="sub" style="margin-top:8px;font-size:12px;">数据来源：各机构官方发布页与权威媒体，参数规模多数未完全公开。</div>
+  </section>
+  <section>
+    <h2><span class="idx">★</span> 全球 Agent 企业落地动态<span style="color:var(--muted);font-size:12px;margin-left:8px;">平台与典型案例</span></h2>
+    <table class="table"><thead><tr><th>厂商/企业</th><th>国别</th><th>落地情况</th><th>场景</th><th>成效/动态</th></tr></thead><tbody><tr><td>微软新版 Copilot</td><td>美国</td><td>Home/Code/Autopilot 三大模块</td><td>办公/开发</td><td>主动式个人 Agent，更多企业数据接入</td></tr><tr><td>Google Gemini Agent 平台</td><td>美国</td><td>治理/访问控制/审计日志更新</td><td>Agent 治理</td><td>Workspace 域策略接入 Agent</td></tr><tr><td>Salesforce×AWS</td><td>美国</td><td>Agentforce 与 Amazon Agentcore 经 MCP 互联</td><td>CRM/云</td><td>Agent 通用 API 层，降集成成本</td></tr><tr><td>华为智果 AgentArts</td><td>中国</td><td>服务 100+ 企业</td><td>政务/电力/科研/办公</td><td>openJiuwen 开源，5000+ 通用资产</td></tr><tr><td>科大讯飞火眼 Agent</td><td>中国</td><td>运维智能体规模化落地</td><td>IT 运维</td><td>纳管 8000+ PFLOPS，诊断准确率 86%</td></tr><tr><td>国泰海通证券档案智能体</td><td>中国</td><td>分拣-录入-审核全流程</td><td>金融/合规</td><td>档案整理 30 分钟→1 分钟，准确率 95%+</td></tr><tr><td>Dataiku Agent Management</td><td>美国</td><td>跨平台 Agent 治理产品</td><td>Agent 治理</td><td>10 月 GA，支持 6 大平台</td></tr><tr><td>Gartner 行业预测</td><td>全球</td><td>企业 Agent 采用预测</td><td>行业预测</td><td>2026 年底 40% 应用嵌入任务型 Agent</td></tr></tbody></table>
+    <div class="sub" style="margin-top:8px;font-size:12px;">来源：各厂商官方与权威媒体。企业 Agent 从单点试点向规模化生产部署过渡。</div>
+  </section>
+
+  <section>
+    <h2><span class="idx">②</span> 趋势与规律</h2>
+    <div class="grid"><div class="cell"><b>模型竞争重心转移</b><p>四大厂商 9 月集中发布，竞争从纯跑分转向 Agent 可用性、长上下文（1M token）与多模态理解。</p></div><div class="cell"><b>Agent 进入生产规模化</b><p>Gartner 预测 2026 年底 40% 企业应用嵌入任务型 Agent，微软/华为/谷歌/百度/腾讯平台化推进。</p></div><div class="cell"><b>全球基础设施竞赛</b><p>OpenAI-NVIDIA 10GW 联盟、五大云厂商 2027 年 1.2 万亿美元 CapEx、中国华为昇腾与阿里全栈算力。</p></div></div>
+    <h2 style="margin-top:18px">关键时间线（近段）</h2>
+    <ul class="timeline"><li><b>09-01~03</b>　<span class="new">Anthropic/Google/Meta/OpenAI 密集发布四大前沿模型</span></li><li><b>09-04</b>　传 DeepSeek 拟部署 16 万颗华为昇腾芯片建国内最大集群</li><li><b>09-17</b>　华为昇腾 960 超节点发布；月面 K3 商业化出海</li><li><b>09-18</b>　华为发布《Agentic Enterprise》白皮书 + 智果 AgentArts</li><li><b>09-22</b>　<span class="new">OpenAI 推 GPT-6 Sol/Luna；Anthropic 推 Claude Opus 5.5</span></li><li><b>09-23</b>　DeepSeek 公开 DSec 生产级 Agent 训练沙盒</li><li><b>09-25</b>　<span class="new">美团 LongCat-2.5-Preview；微软新版 Copilot；Google Gemini Agent 平台治理更新</span></li><li><b>09-26</b>　<span class="risk">OpenAI 暂停最先进模型训练（DNS 沙盒事件）</span></li><li><b>09-27~28</b>　<span class="new">OpenAI-NVIDIA 10GW 联盟；高盛上调 2027 CapEx；OpenAI DevDay 前夜</span></li></ul>
+  </section>
+
+  <section>
+    <h2><span class="idx">③</span> 研判与方向</h2>
+    <div class="grid"><div class="cell"><b>模型供给端</b><p>头部模型进入'多型号、分档定价'阶段，Agent 兼容性与长上下文成差异化关键，中国企业开源+出海双轮。</p></div><div class="cell"><b>企业采用端</b><p>Agent 落地从概念验证转向生产，金融、运维、档案合规是高 ROI 切入点；Agent 治理（审计/权限/监控）决定规模化速度。</p></div><div class="cell"><b>地缘与基建</b><p>中美双极，欧洲以监管（EU AI Act）入场，中东/日韩押注算力；全球 AI 资本开支持续超预期放大。</p></div></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">④</span> 关联脉络</h2>
+    <div class="grid2">
+      <div class="cell"><b>传导链（本轮更新）</b><ul class="timeline" style="margin-top:6px"><li>头部模型创新 → 通用 Agent 能力提升 → 企业工具链（Copilot/Agentforce/智果）成熟 → 生产规模化落地</li><li>算力基建投入（NVIDIA/华为/云厂商）→ 模型容量与推理成本 → Agent 长任务可行性</li><li>监管（EU AI Act/中国备案/OpenAI 暂停事件）→ 合规门槛 → 企业采用节奏</li></ul></div>
+      <div class="cell"><b>外部接口</b><ul class="timeline" style="margin-top:6px"><li>云平台（AWS/Azure/Google Cloud/阿里云百炼）作为 Agent 与模型分发主渠道</li><li>MCP 协议成为 Agent 跨平台互操作事实标准（Salesforce-AWS 集成）</li><li>Gartner/McKinsey 采用数据作为企业预算决策风向标</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑤</span> 待观察信号（leading indicators）</h2>
+    <div class="cheq"><label><input type="checkbox"> <span class="focus">OpenAI 'O' 常驻 AI 助手是否 9/29 DevDay 正式发布</span></label><label><input type="checkbox"> <span class="focus">OpenAI 停止训练何时恢复，沙盒智能体安全边界如何重构</span></label><label><input type="checkbox"> Kimi K3 等中国模型出海分成模式能否规模化（&gt;10 家推理服务商）</label><label><input type="checkbox"> EU AI Act 对 GPAI 首批执法与罚则案例</label><label><input type="checkbox"> 企业 Agent 从试点到 40% 采用的目标是否能按期兑现</label><label><input type="checkbox"> 华为昇腾 960/950 芯片集群交付与国产算力生态进展</label></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑥</span> 高质条目 <span style="font-size:12px;font-weight:400;color:var(--muted);">（★=本窗新增）</span></h2>
+    <table class="table">
+      <thead><tr><th>日期</th><th>条目</th><th>来源</th><th>维度</th><th>反馈</th></tr></thead>
+      <tbody><tr><td>09-28</td><td><a href="https://nvidianews.nvidia.com/news/openai-and-nvidia-announce-strategic-partnership-to-deploy-10gw-of-nvidia-systems" target="_blank" rel="noopener">★ OpenAI 与 NVIDIA 宣布 10GW 战略联盟，最高 1000 亿美元投资</a></td><td>NVIDIA 官方</td><td>国际竞争</td><td class="hand">—</td></tr><tr><td>09-28</td><td><a href="http://m.toutiao.com/group/7690374961835360802/" target="_blank" rel="noopener">★ 阿里 2026 云栖大会：芯片-云-模型-Agent-应用全栈</a></td><td>中信建投</td><td>国际竞争</td><td class="hand">—</td></tr><tr><td>09-28</td><td><a href="https://36kr.com/p/3994378088667009" target="_blank" rel="noopener">★ 月之暗面 Kimi K3 上架 AWS 与阿里云百炼，出海分成模式</a></td><td>36氪</td><td>国际竞争</td><td class="hand">—</td></tr><tr><td>09-27</td><td><span class="flag"><a href="https://openai.com/live/" target="_blank" rel="noopener">★ OpenAI DevDay 2026 定于 9/29，或将发布常驻 AI 助手O</a></span></td><td>OpenAI/极客公园</td><td>模型进展</td><td class="hand">—</td></tr><tr><td>09-26</td><td><a href="https://m.jiemian.com/article/15142018.html" target="_blank" rel="noopener">★ OpenAI 暂停最先进模型训练（沙盒智能体 DNS 事件）</a></td><td>央视/界面</td><td>政策监管</td><td class="hand">—</td></tr><tr><td>09-25</td><td><a href="https://longcat.ai/platform/docs/change-log" target="_blank" rel="noopener">★ 美团上线 LongCat-2.5-Preview 原生多模态大模型</a></td><td>美团官方</td><td>模型发布</td><td class="hand">—</td></tr><tr><td>09-25</td><td><a href="https://blogs.microsoft.com/blog/2026/09/25/introducing-the-new-copilot-with-home-code-and-autopilot/" target="_blank" rel="noopener">★ 微软发布新版 Copilot：Home/Code/Autopilot 三大模块</a></td><td>微软官方</td><td>企业落地</td><td class="hand">—</td></tr><tr><td>09-25</td><td><a href="https://cloud.google.com/blog/products/ai-machine-learning/introducing-gemini-enterprise-agent-platform" target="_blank" rel="noopener">★ Google Cloud 更新 Gemini Enterprise Agent Platform 治理能力</a></td><td>Google Cloud</td><td>企业落地</td><td class="hand">—</td></tr><tr><td>09-24</td><td><a href="https://www.dataiku.com/blog/enterprise-building-agents-account" target="_blank" rel="noopener">★ Dataiku 推出 Agent Management 跨平台治理产品</a></td><td>Dataiku</td><td>企业落地</td><td class="hand">—</td></tr><tr><td>09-24</td><td><a href="https://www.fromgeek.com/daily/1044-728301.html" target="_blank" rel="noopener">★ 科大讯飞火眼 Agent 运维智能体规模化落地（纳管 8000+ PFLOPS）</a></td><td>科大讯飞</td><td>企业落地</td><td class="hand">—</td></tr><tr><td>09-24</td><td><a href="https://www.salesforce.com/blog/agentforce-mcp-integration-aws-agentcore/" target="_blank" rel="noopener">Salesforce 与 AWS 深化 Agent 集成（MCP 互联）</a></td><td>Salesforce</td><td>企业落地</td><td class="hand">—</td></tr><tr><td>09-23</td><td><a href="https://arxiv.org/pdf/2609.22978" target="_blank" rel="noopener">★ DeepSeek 公开 DSec：生产级 Agent 训练沙盒基础设施</a></td><td>DeepSeek/arXiv</td><td>Agent技术</td><td class="hand">—</td></tr><tr><td>09-22</td><td><a href="https://www.anthropic.com/claude-opus-5-5" target="_blank" rel="noopener">Anthropic 发布 Claude Opus 5.5（1M 上下文/Agent 编码）</a></td><td>Anthropic</td><td>模型发布</td><td class="hand">—</td></tr><tr><td>09-22</td><td><a href="https://openai.com/index/introducing-gpt-6-sol-and-luna/" target="_blank" rel="noopener">OpenAI 发布 GPT-6 Sol 与 GPT-6 Luna</a></td><td>OpenAI</td><td>模型发布</td><td class="hand">—</td></tr><tr><td>09-18</td><td><a href="https://www.huawei.com/cn/news/2026/9/hc-agentic-infra-industry-ai" target="_blank" rel="noopener">华为发布《Agentic Enterprise 白皮书》+ 智果 AgentArts</a></td><td>华为</td><td>企业落地</td><td class="hand">—</td></tr><tr><td>09-17</td><td><a href="https://finance.sina.com.cn/tech/roll/2026-09-17/doc-iniscqxz3568530.shtml" target="_blank" rel="noopener">华为昇腾 960 超节点发布，推进国产算力系统级交付</a></td><td>新浪科技</td><td>国际竞争</td><td class="hand">—</td></tr><tr><td>09-04</td><td><a href="https://finance.sina.com.cn/roll/2026-09-04/doc-iniqskus1199708.shtml" target="_blank" rel="noopener">传 DeepSeek 拟部署 16 万颗华为昇腾芯片建国内最大集群</a></td><td>新浪财经</td><td>国际竞争</td><td class="hand">—</td></tr></tbody>
+    </table>
+  </section>
+
+  <footer>本页由主题跟踪流水线（采集 → 精筛 → 洞察研判 → 呈现 · 统一模板 dashboard.html + generate.js 生成）产出；反馈列对应飞书条目库赞/踩，用于反哺后续研判。</footer>
+</div>
+</body>
+</html>
