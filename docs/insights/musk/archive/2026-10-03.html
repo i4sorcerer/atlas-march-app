@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<base href="../" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于马斯克的一切 · 研判看板</title>
+<!-- 统一模板生成：docs/insights/_templates/dashboard.html + generate.js -->
+<style>
+  :root{--bg:#e8eaf1;--panel:#ffffff;--panel2:#f3f5fa;--ink:#2a3140;--muted:#5c6577;--muted2:#3a4252;--line:#d5dae6;--accent:#1f5ec9;--accentSoft:rgba(31,94,201,.08);--warn:#a86f0e;--peak:#c13a31;--good:#17613d;--dim:#0e7fa8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:30px 20px 60px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#ffffff 0%,var(--bg) 260px);}
+  .wrap{max-width:1060px;margin:0 auto;}
+  header{margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--accent);}
+  .crumb{font-size:13px;color:var(--muted);}
+  .crumb a{color:var(--accent);text-decoration:none;font-weight:700;}
+  h1{font-size:27px;font-weight:800;color:#1a2233;margin:8px 0 6px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:13.5px;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+  .badge{background:var(--accentSoft);border:1px solid #cdd7ee;color:var(--accent);border-radius:999px;font-size:12px;padding:3px 13px;font-weight:700;}
+  section{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:13px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(35,45,75,.06);overflow:hidden;}
+  section.warnside{border-top-color:var(--warn);}
+  section h2{font-size:17px;font-weight:800;color:#1b2333;margin-bottom:12px;display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  section h2 .idx{background:var(--accent);color:#fff;border-radius:7px;min-width:26px;height:25px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;padding:0 7px;letter-spacing:.5px;}
+  .lead{font-size:15px;color:var(--muted2);line-height:1.85;}
+  .lead b,.lead strong,section p b{color:#1b2333;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;}
+  .cell b{display:block;font-size:14.5px;font-weight:800;color:#1c2433;margin-bottom:8px;letter-spacing:.2px;}
+  .cell p{font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .tbd,.focus,.trend,.tline,.tag,.flag,.hl,.risk{display:inline-block;padding:1px 9px;border-radius:7px;font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.7;}
+  .flag,.tbd{color:#b4530a;background:#ffe3b3;}
+  .focus{color:#a0149b;background:#f6c7f7;border:1px solid #efb3ef;}
+  .trend{color:#5b43ce;background:#e3d9ff;}
+  .tline{color:#1f5ec9;background:#e7edfa;}
+  .tag{color:#24518f;background:#e9eefc;}
+  .hl,.risk{color:#b02a26;background:#fbe8e6;}
+  .good{color:#17613d;background:#e2f1e9;}
+  .hand{color:var(--good);font-weight:700;}
+  .new{color:var(--good);font-weight:700;}
+  .table a,.cell a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid #b9c8ec;}
+  .table a:hover,.cell a:hover{border-bottom-color:var(--accent);color:#143f96;}
+  .timeline{list-style:none;margin-top:6px;}
+  .timeline li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .timeline li b{color:#16202f;}
+  .timeline li:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}}
+  .table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+  .table th{text-align:left;color:var(--accent);font-weight:700;background:var(--accentSoft);border-bottom:1px solid var(--line);padding:9px 10px;}
+  .table td{padding:9px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;color:var(--muted2);}
+  .table tbody tr:nth-child(even){background:#fafbff;}
+  .table tbody tr:hover{background:#f2f5fd;}
+  .cheq label{display:block;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted2);}
+  .cheq label:last-child{border-bottom:none;}
+  .cheq input{margin-right:9px;accent-color:var(--accent);}
+  .callout{background:var(--accentSoft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted2);margin-top:12px;}
+  .callout .cl{font-weight:800;color:var(--accent);margin-bottom:4px;}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px;color:#5d6678;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="crumb"><a href="../../index.html">个人洞察</a> / 关于马斯克的一切</div>
+    <h1>关于马斯克的一切 · 研判看板</h1>
+    <div class="sub">每日研判 · 执行日 2026-09-28 · 数据窗 2026-09-27 ~ 2026-09-28（近48h）</div>
+    <div class="sub" style="margin-top:2px;">本期新增 2 入库 + 1 待核；高质条目库延续累积，含官方一手 + 国际权威媒体</div>
+    <div class="badges"><span class="badge">每日研判</span><span class="badge">星舰今日首轨·FAA许可已发</span><span class="badge">Optimus周产数百台多方确认</span><span class="badge">America.gov 待核</span></div>
+    <div class="sub" style="margin-top:8px;font-size:12.5px;">历史归档（每日快照）：<a href="./archive/2026-09-24.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;">2026-09-24</a><a href="./archive/2026-09-25.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-25</a><a href="./archive/2026-09-26.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-26</a><a href="./archive/2026-09-28.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-28</a></div>
+  </header>
+
+  <section>
+    <h2><span class="idx">◎</span> 较上次运行变化清单（自动区）</h2>
+    <div class="grid">
+      <div class="cell"><b>➕ 新增（本窗）+3</b><ul class="timeline" style="margin-top:6px"><li>星舰IFT-14获FAA发射许可、今日9/28执行首次真正入轨：FAA 9/26核发许可解开‘监管待批’悬念，9/28（北京20:15、75分钟窗）首试入轨并部署26颗星链V3（单颗+1Tbps、合计约26Tbps），成败今夜见分晓（09-28 入库）</li><li>特斯拉Optimus周产数百台获澎湃多方确认（弗里蒙特工厂较Q2翻约10倍、年底目标周产超千台自动化产线），V3整机仍处小批量的瓶颈信号并存（09-28 入库）</li><li>特朗普将推AI驱动的联邦门户America.gov，马斯克/黄仁勋/Dave Limp或出席（09-26 财联社，待核）</li></ul></div>
+      <div class="cell"><b>♻ 修正 / 升级</b><ul class="timeline" style="margin-top:6px"><li>星舰IFT-14监管状态从‘等待监管批准’升级为‘许可已核发、今日窗口执行’（FAA 9/26签发发射许可）</li><li>Optimus周产数百台由财联社单源升级为澎湃/21财经/新浪/华尔街见闻多方续证，口径收敛一致</li></ul></div>
+      <div class="cell"><b>⏸ 未变（延续判断）</b><ul class="timeline" style="margin-top:6px"><li>xAI收购X（330亿美元口径）仍无高权威媒体确认，维持待核</li><li>星舰FT-14首轨结果今日晚间待确认，成败窗口判断延续</li><li>特斯拉中国限时优惠（截至10/31）与10月初Q3交付数据验证节点延续</li><li>Optimus量产节奏：产能翻倍与V3瓶颈信号并存，待官方数据收敛</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">①</span> 本期综述</h2>
+    <div class="cell" style="margin-bottom:12px"><b>已沉淀事实</b><p><b>涉华表态密集积极：</b>人民日报专访称中美贸易像‘连体双胞胎’；央视专访（9/23、完整视频9/26发布）盛赞中国、称上海为最大单一市场。<b>特斯拉中国监管与促销并行：</b>约570万辆召回备案（9/25起实施）以OTA为主，叠加Model 3/Y限时尾款立减。<b>Optimus进入量产前冲刺：</b>得州工厂钢结构近完工（规划2027、年产能1000万台），周产较Q2翻约10倍、商业化‘只租不售’。<b>星舰冲刺首次入轨：</b>IFT-14于今日9/28窗口执行首次真正入轨并部署26颗星链V3。</p></div>
+    <div class="cell">
+      <b>最新趋势速递（本章新增）</b>
+      <ul class="timeline" style="margin-top:8px"><li><span class="trend">星舰首轨今日执行</span>　FAA 9/26核发IFT-14许可、‘监管待批’悬念解除：9/28（北京20:15、75分钟窗）首试真正入轨（约275km、近10小时、西智利太平洋溅落）并部署26颗星链V3（约+26Tbps），成败今夜见分晓。</li><li><span class="trend">Optimus量产口径收敛</span>　澎湃/21财经/新浪/华尔街见闻多方确认：弗里蒙特工厂周产数百台、较Q2翻约10倍、年底目标周产超千台自动化产线；但V3整机仍处小批量，‘产能兑现’与‘瓶颈’信号持续并存。</li><li><span class="focus">AI×政府（待核）</span>　特朗普将推出整合各联邦机构信息的AI驱动门户America.gov，马斯克/黄仁勋/Dave Limp或同台出席，科技领袖与联邦AI基础设施绑定或进一步加深。</li><li><span class="focus">涉华进入平台期</span>　央视/人民日报专访续证上海、力荐中国并称‘不可替代之地’，但本窗无重大新增定量表态，关注转向10月初Q3交付与召回OTA执行验证。</li></ul>
+    </div>
+  </section>
+
+
+  <section>
+    <h2><span class="idx">②</span> 趋势与规律</h2>
+    <div class="grid"><div class="cell"><b>星舰：监管已是唯一变量，首轨成败=里程碑或回归测试</b><p>FT-14获FAA许可后发射风险降至技术执行与首轨入轨窗口。若成功：星舰首次具备商业组网运力（单发26颗星链V3、约26Tbps），全球火箭排名与星链V3组网叙事同时改写；若失败：回归迭代测试，监管许可与复用账本不变。入轨约275km、约6圈近10小时、西智利太平洋溅落为本轮核心验证点。</p></div><div class="cell"><b>Optimus：从‘翻10倍’到‘周产千台’的兑现压力</b><p>周产数百台获澎湃等多家确认，补充弗里蒙特工厂定位与‘V3整机仍处小批量’口径；叠加此前‘机械手100+零部件人工组装、触觉传感器瓶颈’报道（待核），年底‘周产超千台自动化产线’节点成为量产叙事的分水岭。</p></div><div class="cell"><b>AI政府化与马斯克角色加深（待核）</b><p>America.gov若属实并确认马斯克出席，意味着马斯克以技术领袖身份深度嵌入联邦AI基础设施，政治-商业-舆论三重绑定进一步加深，也为其SpaceXAI/X生态争取政策接口。</p></div><div class="cell"><b>涉华：热情续证、增量有限，转入数据验证</b><p>央视/人民日报访谈续证上海与‘中国不可替代’，但本窗缺少新定量细节；特斯拉中国限时优惠（截至10/31）与约570万辆召回OTA执行共同指向：下一步看10月初Q3交付与份额能否在‘以价换量+合规修复’下稳住。</p></div></div>
+    <h2 style="margin-top:18px">关键时间线（近段）</h2>
+    <ul class="timeline"><li><b>2026-09-28</b>　<span class="tline"><span class="focus">（今日执行）星舰IFT-14首次真正入轨：北京20:15窗口、部署26颗星链V3；Fly重开水印成败待今夜确认。</span></span></li><li><b>2026-09-28</b>　<span class="tline">Optimus周产数百台获澎湃/21财经多方确认（弗里蒙特工厂、年底周产超千台目标）。</span></li><li><b>2026-09-27</b>　星舰IFT-14获FAA发射许可消息扩散（许可9/26晚间签发）；America.gov报道延续（待核）。</li><li><b>2026-09-26</b>　央视财经专访完整视频发布：马斯克称AI‘睡觉都有新进展’、力荐中国。</li><li><b>2026-09-25</b>　特斯拉中国约570万辆召回9/25起实施；马斯克公布Colossus 2年底121万GPU时间表；欧盟表态‘准备好捍卫’对X的1.2亿欧元罚款。</li><li><b>2026-09-24</b>　特斯拉Semi规模化量产启动（Sparks工厂揭幕、首批交付百事/DHL/US Foods）。</li><li><b>2026-09-30</b>　<span class="risk"><span class="risk">（窗口）特斯拉须答复NHTSA Cybercab合规特别令。</span></span></li><li><b>2026-10-01</b>　<span class="tline">（窗口）SpaceX Crew-13载人任务排期（NASA称延至10月上旬）。</span></li><li><b>2026-10-31</b>　<span class="tline">（窗口）特斯拉中国限时尾款立减下单截止（Model 3减5000元、Model Y部分减7000元）。</span></li></ul>
+  </section>
+
+  <section>
+    <h2><span class="idx">③</span> 研判与方向</h2>
+    <div class="grid"><div class="cell"><b>星舰今夜的‘0或1’：首轨成败改写全球火箭叙事</b><p>监管已放行、发射风险降至技术执行。若成功入轨并部署26颗V3，星舰首次具备真实商业组网运力（单发约26Tbps），叠加弗线段发射频次，星链V3规模化与全球低轨容量战争进入新阶段；若失败则回落测试迭代，不影响许可与复用台账。关键验证：入轨高度、26颗V3部署与西智利溅落。</p></div><div class="cell"><b>Optimus：兑现压力从‘翻10倍’转向‘周产千台’</b><p>周产数百台多方续证，但‘V3整机仍处小批量’与机械手人工组装瓶颈信号并存；年底‘周产超千台自动化产线’若兑现则量产叙事确认、否则瓶颈论升级。商业化‘只租不售’降低试错成本并反哺数据。</p></div><div class="cell"><b>AI政府门户与马斯克角色双重绑定（待核）</b><p>America.gov若属实并确认马斯克出席，标志科技领袖embedded进联邦AI基础设施；对马斯克是政策接口、对市场是新‘政府单’叙事，需等高权威确认后再定性。</p></div><div class="cell"><b>涉华：热情回落为确定性数据，Q3交付成试金石</b><p>专访续证但无新定量；约570万辆召回OTA+限时优惠双线，10月初Q3交付与份额能否在‘修复+让利’下企稳，决定‘以价换量’正面还是反噬叙事。</p></div></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">④</span> 关联脉络</h2>
+    <div class="grid2">
+      <div class="cell"><b>传导链（本轮更新）</b><ul class="timeline" style="margin-top:6px"><li>星舰FT-14入轨 ⇄ 26颗星链V3部署 ⇄ 星链Gen3规模化：单发约26Tbps，若成功星链组网进入V3时代</li><li>Optimus周产数百台 ⇄ V3整机小批量/机械手瓶颈 ⇄ ‘周产千台’年底兑现窗口</li><li>America.gov ⇄ 联邦AI基础设施绑定 ⇄ 马斯克科技-政治双重角色（待核）</li><li>特斯拉中国OTA召回 ⇄ 限时优惠 ⇄ 10月初Q3交付数据验证</li></ul></div>
+      <div class="cell"><b>外部接口</b><ul class="timeline" style="margin-top:6px"><li>FAA（发射许可9/26核发）↔ 星舰首轨时间表</li><li>NASA（Crew-13排期）↔ SpaceX载人任务</li><li>NHTSA特别令（9/30答复）↔ Cybercab量产</li><li>澎湃/21财经等财经媒体 ↔ Optimus量产节奏信息源</li><li>白宫America.gov ↔ 硅谷科技领袖（待核）</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑤</span> 待观察信号（leading indicators）</h2>
+    <div class="cheq"><label><input type="checkbox"> <span class="focus">星舰IFT-14今夜首轨：26颗星链V3部署结果与西智利溅落/回收成败</span></label><label><input type="checkbox"> <span class="focus">xAI收购X是否获高权威媒体确认（330亿美元口径）</span></label><label><input type="checkbox"> <span class="focus">特斯拉Optimus：年底‘周产千台’节点与V3机械手瓶颈收敛方向</span></label><label><input type="checkbox"> America.gov上线及马斯克是否实际出席（待核）</label><label><input type="checkbox"> 特斯拉中国召回OTA执行后Q3（10月初）交付数据与份额变化</label><label><input type="checkbox"> 特斯拉Semi周交付斜率与4680产能衔接</label><label><input type="checkbox"> 欧盟法院X罚款案美方介入后，X欧洲合规与Blue Checks调查走向</label></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑥</span> 高质条目 <span style="font-size:12px;font-weight:400;color:var(--muted);">（★=本窗新增）</span></h2>
+    <table class="table">
+      <thead><tr><th>日期</th><th>条目</th><th>来源</th><th>维度</th><th>反馈</th></tr></thead>
+      <tbody><tr><td>2026-09-28</td><td><a href="https://www.nasaspaceflight.com/2026/09/starship-flight-14-orbit/" target="_blank" rel="noopener">★ ★ 星舰IFT-14获FAA许可、今日9/28执行首次真正入轨（部署26颗星链V3）</a></td><td>SpaceX官网/NASASpaceFlight/Spaceflightnow</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-09-28</td><td><a href="http://m.toutiao.com/group/7690393299667943971/" target="_blank" rel="noopener">★ ★ 特斯拉Optimus周产数百台获澎湃多方确认：弗里蒙特工厂较Q2翻约10倍、年底目标周产超千台</a></td><td>澎湃新闻/21世纪经济报道</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-09-26</td><td><span class="flag"><a href="https://www.cls.cn/detail/2493658" target="_blank" rel="noopener">★ ★ 特朗普将推出AI联邦门户America.gov，马斯克/黄仁勋/Dave Limp或出席</a></span></td><td>财联社</td><td>人事舆论</td><td class="hand">—</td></tr><tr><td>2026-09-25</td><td><a href="https://www.samr.gov.cn:88/zw/zh/art/2026/art_4223bf2706a84189b425d58124dbac7d.html" target="_blank" rel="noopener">特斯拉中国大规模召回备案：国产Model 3/Y约570万辆、进口3/X/S 4.6万辆（9/25起实施）</a></td><td>市场监管总局（官方）</td><td>法律监管</td><td class="hand">—</td></tr><tr><td>2026-09-25</td><td><a href="https://guelph.ctvnews.ca/world/article/eu-says-ready-to-defend-x-fine-after-us-seeks-to-join-musk-appeal/" target="_blank" rel="noopener">欧盟回应：准备在法庭捍卫对X的1.2亿欧元罚款（美政府申请介入后）</a></td><td>CTV News/路透</td><td>法律监管</td><td class="hand">—</td></tr><tr><td>2026-09-24</td><td><a href="https://driveteslacanada.ca/news/tesla-semi-high-volume-production-nevada/" target="_blank" rel="noopener">特斯拉Semi规模化量产启动：Sparks专属工厂揭幕、首批交付百事/DHL/US Foods</a></td><td>Drive Tesla/新浪财经</td><td>商业公司</td><td class="hand">—</td></tr><tr><td>2026-09-25</td><td><a href="http://tech.cnr.cn/gstj/20260926/t20260926_527825743.shtml" target="_blank" rel="noopener">马斯克公布Colossus 2扩容时间表：年底GPU达约121万颗、三批66万颗GB300分批上线</a></td><td>央广网/快科技</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-09-25</td><td><a href="https://www.tesla.com/support/grok" target="_blank" rel="noopener">Grok车载AI上线：Tesla官方支持页确认（2026.32.6更新、中东市场先行、Beta）</a></td><td>Tesla官方</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-09-26</td><td><a href="https://news.cctv.com/2026/09/23/ARTICE8rjnAYqAW4RCgeVsI8260923.shtml" target="_blank" rel="noopener">央视财经专访完整视频发布：马斯克称AI进展‘睡觉都有新进展’、力荐中国</a></td><td>央视财经/CCTV（官方）</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-09-25</td><td><a href="http://m.toutiao.com/group/7689218306569536046/" target="_blank" rel="noopener">马斯克：若保持强劲加速度，SpaceXAI约6个月后即可领跑</a></td><td>新浪财经</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-09-25</td><td><a href="http://finance.sina.cn/7x24/2026-09-24/detail-inisycsr8084324.d.html" target="_blank" rel="noopener">美国（特朗普政府）申请加入诉讼，寻求推翻欧盟对X的1.2亿欧元罚款</a></td><td>新浪财经/环球市场播报</td><td>法律监管</td><td class="hand">—</td></tr><tr><td>2026-09-24</td><td><a href="https://world.huanqiu.com/article/4JyeIwgSBM1" target="_blank" rel="noopener">特斯拉Q3财报：营收251.82亿美元、毛利率回升至19.8%，料明年销量增20%-30%</a></td><td>环球网（官方）</td><td>财务资本</td><td class="hand">—</td></tr><tr><td>2026-09-24</td><td><a href="https://world.huanqiu.com/article/4JyeIwgSBM1" target="_blank" rel="noopener">特斯拉上海工厂出口总量突破百万辆，Q3交付占全球53.82%</a></td><td>环球网（官方）</td><td>商业公司</td><td class="hand">—</td></tr><tr><td>2026-09-24</td><td><a href="https://www.akm.ru/eng/news/south-korean-samsung-electronics/" target="_blank" rel="noopener">特斯拉与三星签165亿美元AI半导体协议，涉2nm芯片（2025-2033）</a></td><td>AKM/新浪财经</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-09-25</td><td><span class="flag"><a href="https://costaricapost.com/elon-musk-s-xai-acquires-social-media-platform-x-for-33-billion" target="_blank" rel="noopener">马斯克宣布xAI收购社交平台X，交易估值330亿美元（不含债务）</a></span></td><td>Costa Rica Post/Amsterdam Times</td><td>商业公司</td><td class="hand">—</td></tr></tbody>
+    </table>
+  </section>
+
+  <footer>本页由主题跟踪流水线（采集 → 精筛 → 洞察研判 → 呈现 · 统一模板 dashboard.html + generate.js 生成）产出；反馈列对应飞书条目库赞/踩，用于反哺后续研判。</footer>
+</div>
+</body>
+</html>
