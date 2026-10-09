@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<base href="../" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于马斯克的一切 · 研判看板</title>
+<!-- 统一模板生成：docs/insights/_templates/dashboard.html + generate.js -->
+<style>
+  :root{--bg:#e8eaf1;--panel:#ffffff;--panel2:#f3f5fa;--ink:#2a3140;--muted:#5c6577;--muted2:#3a4252;--line:#d5dae6;--accent:#1f5ec9;--accentSoft:rgba(31,94,201,.08);--warn:#a86f0e;--peak:#c13a31;--good:#17613d;--dim:#0e7fa8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:30px 20px 60px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#ffffff 0%,var(--bg) 260px);}
+  .wrap{max-width:1060px;margin:0 auto;}
+  header{margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--accent);}
+  .crumb{font-size:13px;color:var(--muted);}
+  .crumb a{color:var(--accent);text-decoration:none;font-weight:700;}
+  h1{font-size:27px;font-weight:800;color:#1a2233;margin:8px 0 6px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:13.5px;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+  .badge{background:var(--accentSoft);border:1px solid #cdd7ee;color:var(--accent);border-radius:999px;font-size:12px;padding:3px 13px;font-weight:700;}
+  section{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:13px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(35,45,75,.06);overflow:hidden;}
+  section.warnside{border-top-color:var(--warn);}
+  section h2{font-size:17px;font-weight:800;color:#1b2333;margin-bottom:12px;display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  section h2 .idx{background:var(--accent);color:#fff;border-radius:7px;min-width:26px;height:25px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;padding:0 7px;letter-spacing:.5px;}
+  .lead{font-size:15px;color:var(--muted2);line-height:1.85;}
+  .lead b,.lead strong,section p b{color:#1b2333;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;}
+  .cell b{display:block;font-size:14.5px;font-weight:800;color:#1c2433;margin-bottom:8px;letter-spacing:.2px;}
+  .cell p{font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .tbd,.focus,.trend,.tline,.tag,.flag,.hl,.risk{display:inline-block;padding:1px 9px;border-radius:7px;font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.7;}
+  .flag,.tbd{color:#b4530a;background:#ffe3b3;}
+  .focus{color:#a0149b;background:#f6c7f7;border:1px solid #efb3ef;}
+  .trend{color:#5b43ce;background:#e3d9ff;}
+  .tline{color:#1f5ec9;background:#e7edfa;}
+  .tag{color:#24518f;background:#e9eefc;}
+  .hl,.risk{color:#b02a26;background:#fbe8e6;}
+  .good{color:#17613d;background:#e2f1e9;}
+  .hand{color:var(--good);font-weight:700;}
+  .new{color:var(--good);font-weight:700;}
+  .table a,.cell a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid #b9c8ec;}
+  .table a:hover,.cell a:hover{border-bottom-color:var(--accent);color:#143f96;}
+  .timeline{list-style:none;margin-top:6px;}
+  .timeline li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .timeline li b{color:#16202f;}
+  .timeline li:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}}
+  .table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+  .table th{text-align:left;color:var(--accent);font-weight:700;background:var(--accentSoft);border-bottom:1px solid var(--line);padding:9px 10px;}
+  .table td{padding:9px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;color:var(--muted2);}
+  .table tbody tr:nth-child(even){background:#fafbff;}
+  .table tbody tr:hover{background:#f2f5fd;}
+  .cheq label{display:block;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted2);}
+  .cheq label:last-child{border-bottom:none;}
+  .cheq input{margin-right:9px;accent-color:var(--accent);}
+  .callout{background:var(--accentSoft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted2);margin-top:12px;}
+  .callout .cl{font-weight:800;color:var(--accent);margin-bottom:4px;}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px;color:#5d6678;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="crumb"><a href="../../index.html">个人洞察</a> / 关于马斯克的一切</div>
+    <h1>关于马斯克的一切 · 研判看板</h1>
+    <div class="sub">每日快讯+高质清单 · 数据窗 2026-10-07~2026-10-09 · 执行日 2026-10-09</div>
+    <div class="sub" style="margin-top:2px;">本期新增 2 入库 + 3 待核；高质条目库延续累积，含官方一手 + 国际权威媒体</div>
+    <div class="badges"><span class="badge">每日研判</span><span class="badge">星链印度准入战</span><span class="badge">Grok Bot择优路由</span><span class="badge">Crew-12返航·IFT-15目标10/19</span></div>
+    <div class="sub" style="margin-top:8px;font-size:12.5px;">历史归档（每日快照）：<a href="./archive/2026-09-24.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;">2026-09-24</a><a href="./archive/2026-09-25.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-25</a><a href="./archive/2026-09-26.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-26</a><a href="./archive/2026-09-28.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-28</a><a href="./archive/2026-10-03.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-03</a><a href="./archive/2026-10-09.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-09</a></div>
+  </header>
+
+  <section>
+    <h2><span class="idx">◎</span> 较上次运行变化清单（自动区）</h2>
+    <div class="grid">
+      <div class="cell"><b>➕ 新增（本窗）+5</b><ul class="timeline" style="margin-top:6px"><li>马斯克炮轰印度电信寡头阻挠星链进入印度、印度政府否认审批偏袒，路透渠道多源确认（10-07/08 入库）</li><li>NASA官方确认SpaceX Crew-12溅落返航：在轨237天、4次出舱、Meir累计440天进NASA前十（10-08 入库）</li><li>Grok Bot接入Claude Opus 5.5等外部模型择优路由、『谁好用就用谁』（10-07 待核）</li><li>Grok Bot新增X平台原生搜索、单提示可分析100+帖（10-07 待核）</li><li>星舰IFT-15目标不早于10/19：Booster22+Ship42低温测试完成、或尝试助推器捕获（10-07 待核）</li></ul></div>
+      <div class="cell"><b>♻ 修正 / 升级</b><ul class="timeline" style="margin-top:6px"><li>星舰IFT-15从『FAA公告显露两追加窗口』升级为『目标NET 10/19、B22+S42低温测试完成、拟尝试助推器捕获』（垂直媒体规划口径，待官方确认）</li><li>Grok Bot从『自研模型主导+周活40万』升级为『择优路由外部模型（Claude Opus 5.5/Midjourney/Suno）+X原生搜索』</li><li>星链入印从『审批僵局背景』升级为『公开政治对峙：马斯克点名寡头+印度政府否认偏袒』</li></ul></div>
+      <div class="cell"><b>⏸ 未变（延续判断）</b><ul class="timeline" style="margin-top:6px"><li>子午线计划/金穹军工绑定：本窗无新增高权威信息，维持入库观察</li><li>Optimus量产（内存下调+约5000台订单）：10月『周产千台』兑现窗口未变</li><li>Q3交付超预期后的盈利质量验证：等待10月下旬财报</li><li>xAI收购X（330亿美元口径）仍无高权威媒体确认，维持待核</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">①</span> 本期综述</h2>
+    <div class="cell" style="margin-bottom:12px"><b>已沉淀事实</b><p><b>星舰首轨里程碑落地：</b>IFT-14（9/28）实现首次真正入轨，Ship41入轨后即便丢一台真空发动机仍部署26颗星链V3并安全溅落太平洋；审评后IFT-15目标不早于10/19（Booster22+Ship42低温测试完成），待官方确认。<b>Q3交付超预期：</b>交付486,532辆（环比+1.3%）、超华尔街约46.2万共识，上海工厂占比过半、9月中国交付9.08万辆结束两月连跌。<b>Optimus进入量产前奏：</b>马斯克为保产量下调AI5/AI6内存、首批约5000台Optimus大额订单落地并对中国供应商审厂。<b>马斯克重返政府：</b>出任五角大楼「子午线计划」联合牵头人研究未来战争形态，SpaceX为「金穹」导弹防御卫星网络主要承包商。<b>AI算力基建主线：</b>Neuralink BCI速度纪录升至11.32BPS；SpaceX市值破2万亿美元；Grok Bot周活破40万后开启外部模型择优路由。</p></div>
+    <div class="cell">
+      <b>最新趋势速递（本章新增）</b>
+      <ul class="timeline" style="margin-top:8px"><li><span class="trend">星链印度准入战升级为公开对峙</span>　马斯克10/7在X公开点名『寡头』阻挠星链入印、称『对印度人民的犯罪』，印度政府10/8否认审批偏袒；星链入印多年未决、信实Jio主导本土市场，市场准入从监管问题上升为政治对峙，对星链印度万亿人口市场节奏构成关键变量。</li><li><span class="trend">Grok Bot转向『择优路由』外部模型</span>　Grok Bot接入Claude Opus 5.5/Midjourney/Suno等『最佳后端模型』、口号『谁好用就用谁』，并新增X平台原生搜索（单提示可分析100+帖子）；xAI产品策略从全自研转向结果导向多模型路由，Grok Bot向Agent平台演进，对Anthropic构成X生态入口、对自研Grok形成体验压力。</li><li><span class="tline">星舰IFT-15目标10/19、高频复用窗口临近</span>　多家发射日程媒体：IFT-15瞄准NET 10/19、Starbase 2号台、B22+S42（第4对Block车辆）低温测试完成、拟尝试助推器捕获；若兑现，星舰将从『检验入轨』转入高频复用部署，与星链V3组网、月球基建叙事形成闭环。</li><li><span class="focus">商业载人回归常态化节奏</span>　NASA官方确认Crew-12溅落返航（在轨237天、4次出舱、Meir累计440天进NASA前十）；SpaceX载人-货运-星舰三线并行，叠加Q3交付超预期，马斯克系『航天+汽车+AI』基本盘企稳，但X停服后马斯克『24/7回归』的资源分配仍在观察。</li></ul>
+    </div>
+  </section>
+
+
+  <section>
+    <h2><span class="idx">②</span> 趋势与规律</h2>
+    <div class="grid"><div class="cell"><b>星链入印：从审批僵局到公开政治对峙</b><p>马斯克以公开炮轰施压监管，印度否认偏袒，将星链入印的『审批节奏』推向舆论中心；星链在印度/越南/巴西等新兴市场的准入节奏将决定海外增长曲线，政治言论与监管审批深度互锁，舆情战或成为SpaceX市场准入的新工具。</p></div><div class="cell"><b>Grok Bot：从模型公司到Agent平台的演进</b><p>接入外部模型+原生X搜索（100+帖批量分析）标志xAI从『训练最强模型』转向『提供最好Agent体验』；『谁好用就用谁』缓解自研模型差距焦虑，同时把Anthropic/Midjourney引入X生态——竞合关系重构，OpenAI是否纳入成下一悬念。</p></div><div class="cell"><b>星舰：10/19候选窗口的兑现观察</b><p>B22+S42低温测试完成指向积极进度，但SpaceX尚未官方确认时间表；若IFT-15如期入轨并复现助推器捕获，星舰高频复用与星链V3组网叙事闭环，SpaceX 2万亿美元估值的『星舰资产』得到强化；FAA监管与内审仍是最大变量。</p></div><div class="cell"><b>航天与汽车双线：基本面企稳待财报</b><p>Crew-12 237天任务平稳返航+Q3交付超预期（48.65万辆）+Optimus量产前奏，构成航天/汽车双线企稳信号；但特斯拉盈利质量（Q3财报10月下旬）与X/xAI投入强度仍是估值分歧点，SpaceX 2万亿市值独立叙事继续演绎。</p></div></div>
+    <h2 style="margin-top:18px">关键时间线（近段）</h2>
+    <ul class="timeline"><li><b>2026-10-08</b>　<span class="new">NASA官方确认SpaceX Crew-12龙飞船溅落返航（在轨237天、4次出舱、Meir累计440天进NASA前十）；印度政府否认卫星互联网审批偏袒（回应马斯克炮轰）</span></li><li><b>2026-10-07</b>　<span class="new">马斯克X发文炮轰『寡头』阻挠星链入印；Grok Bot接入Claude Opus 5.5等外部模型择优路由、新增X平台原生搜索（单提示可分析100+帖子）</span></li><li><b>2026-10-05</b>　xAI起诉Grok用户生成儿童色情图像、封禁超5万账户（窗口外背景）</li><li><b>2026-10-03</b>　X平台周六约2小时大面积停服（4万+用户受限）、马斯克宣布回归24/7工作模式全力聚焦X/xAI/Tesla（待核）</li><li><b>2026-10-02</b>　马斯克下调Tesla AI5/AI6内存为Optimus量产让路；SpaceX四宇航员8小时快速对接ISS创美国纪录、市值破2万亿美元</li><li><b>2026-10-01</b>　Neuralink官方：5万小时未标注脑数据预训练、BCI速度纪录11.32BPS；首批约5000台Optimus大额订单消息曝光</li><li><b>2026-09-30</b>　美国防长赫格塞思宣布「子午线计划」，马斯克任联合牵头人；特斯拉Q3全球交付486,532辆超预期、上海工厂占比过半</li><li><b>2026-09-28</b>　星舰IFT-14实现首次真正入轨：部署26颗星链V3后提前返航（约3小时）、太平洋溅落爆炸</li><li><b>2026-10-19</b>　（窗口）星舰IFT-15目标不早于10/19（B22+S42低温测试完成，待官方确认）</li><li><b>2026-10-下旬</b>　（窗口）特斯拉Q3财报发布：盈利质量（毛利率/储能/单车收入）验证窗口</li><li><b>2026-10-31</b>　（窗口）特斯拉中国限时尾款立减下单截止（Model 3减5000元、Model Y部分减7000元）</li></ul>
+  </section>
+
+  <section>
+    <h2><span class="idx">③</span> 研判与方向</h2>
+    <div class="grid"><div class="cell"><b>星链入印：公开对峙或加速监管博弈</b><p>马斯克以舆论施压换取审批提速，效果与反噬并存：印度万亿人口市场对星链海外增长关键，但Jio等本土利益与印度电信监管独立性决定最终结果；短期看印度电信部表态与许可节奏，中期看频谱分配与落地牌照，若僵局延续则进入长期拉锯。</p></div><div class="cell"><b>Grok Bot择优路由：xAI平台化的分水岭</b><p>接入Claude等外部模型说明xAI以『结果』为先，Grok Bot向Agent平台演进（原生X搜索、批量分析100+帖）；对Anthropic是进入X生态的入口，对自研Grok是压力测试。若外部模型体验显著优于自研，Grok品牌定位、Colossus算力投资逻辑均需重估；反之『择优路由』成为生态护城河。</p></div><div class="cell"><b>星舰高频复用：10月是兑现窗口</b><p>IFT-15目标10/19（B22+S42低温测试完成）若如期入轨并复现助推器捕获，星舰从测试转入准运营，星链V3组网与『每10天一次月球发射』叙事获得载体；反之内审/天气/FAA延误则节奏回落。10/19前后为关键观察点，官方时间表确认是第一信号。</p></div><div class="cell"><b>商业载人常态化：航天叙事的稳定器</b><p>Crew-12 237天平稳返航显示SpaceX商业载人进入高可靠常态，载人-货运-星舰三线并行；叠加Q3交付超预期与Optimus量产前奏，马斯克系基本面企稳。但特斯拉盈利质量（Q3财报）与X/xAI投入强度仍是分歧点，SpaceX 2万亿美元市值叙事继续独立演绎。</p></div></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">④</span> 关联脉络</h2>
+    <div class="grid2">
+      <div class="cell"><b>传导链（本轮更新）</b><ul class="timeline" style="margin-top:6px"><li>马斯克炮轰印度『寡头』 ⇄ 星链入印审批僵局 ⇄ 印度政府否认偏袒 ⇄ 新兴市场准入与监管博弈</li><li>Grok Bot接入Claude Opus 5.5 ⇄ 择优路由外部模型 ⇄ X原生搜索（100+帖批量分析） ⇄ xAI从模型公司转向Agent平台</li><li>IFT-14首轨成功 ⇄ 26颗星链V3部署 ⇄ IFT-15目标10/19（B22+S42低温测试完成） ⇄ 星舰高频复用+组网闭环</li><li>Crew-12返航（237天/4次出舱） ⇄ 商业载人常态化 ⇄ 载人-货运-星舰三线并行</li><li>Q3交付超预期 ⇄ 上海占比过半+中国9月回正 ⇄ 10月下旬Q3财报盈利质量验证 ⇄ Optimus量产兑现</li></ul></div>
+      <div class="cell"><b>外部接口</b><ul class="timeline" style="margin-top:6px"><li>印度电信部/监管机构 ↔ 星链入印许可与频谱分配</li><li>信实Jio/Airtel等本土运营商 ↔ 星链印度市场竞争</li><li>Anthropic（Claude Opus 5.5）/Midjourney/Suno ↔ Grok Bot外部模型生态</li><li>FAA/Starbase发射场 ↔ 星舰IFT-15窗口（NET 10/19）</li><li>NASA商业载人计划 ↔ SpaceX载人任务节奏（Crew-12返航→后续任务）</li><li>特斯拉Q3财报（10月下旬） ↔ 盈利质量与股价定价</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑤</span> 待观察信号（leading indicators）</h2>
+    <div class="cheq"><label><input type="checkbox"> <span class="focus">星舰IFT-15是否按NET 10/19推进：官方时间表确认与入轨/助推器捕获结果</span></label><label><input type="checkbox"> <span class="focus">印度电信部对星链许可/频谱的官方表态与审批进展（马斯克公开炮轰后）</span></label><label><input type="checkbox"> <span class="focus">Grok Bot外部模型路由的实际体验：Claude Opus 5.5与自研Grok的使用占比、OpenAI是否纳入</span></label><label><input type="checkbox"> 特斯拉Q3财报（10月下旬）：毛利率、储能盈利、单车收入是否扭转『增收不增利』</label><label><input type="checkbox"> Optimus 10月『周产千台』节点与V3机械手/触觉瓶颈收敛方向</label><label><input type="checkbox"> 马斯克子午线计划后续分工与SpaceX/Starlink军工订单增量（金穹）</label><label><input type="checkbox"> xAI收购X是否获高权威媒体确认（330亿美元口径）</label><label><input type="checkbox"> X平台停服归因（协同攻击 vs 基建）与『24/7回归』背景下X/xAI资源分配</label><label><input type="checkbox"> 星链新兴市场（印度/越南/巴西）准入节奏对海外增长曲线的影响</label></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑥</span> 高质条目 <span style="font-size:12px;font-weight:400;color:var(--muted);">（★=本窗新增）</span></h2>
+    <table class="table">
+      <thead><tr><th>日期</th><th>条目</th><th>来源</th><th>维度</th><th>反馈</th></tr></thead>
+      <tbody><tr><td>2026-10-08</td><td><a href="https://www.nasa.gov/blogs/spacestation/2026/10/08/nasas-spacex-crew-12-dragon-splashes-down-at-1134-a-m-edt/" target="_blank" rel="noopener">★ SpaceX Crew-12龙飞船成功溅落返航：在轨237天、4次出舱，NASA官方确认</a></td><td>NASA官方博客</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-07</td><td><a href="https://bdnews24.com/technology/dde4voyg00" target="_blank" rel="noopener">★ 马斯克炮轰印度电信寡头阻挠星链进入印度，印度政府否认审批偏袒</a></td><td>Reuters/观察者网/财联社</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-10-07</td><td><span class="flag"><a href="https://36kr.com/p/4017174108655748" target="_blank" rel="noopener">★ Grok Bot接入Claude Opus 5.5等外部模型：择优路由『谁好用就用谁』（待核）</a></span></td><td>36氪/9to5Mac/Infobae</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-07</td><td><span class="flag"><a href="https://cryptobriefing.com/grok-bot-native-x-search-100-posts/" target="_blank" rel="noopener">★ Grok Bot新增X平台原生搜索：单提示可分析100+帖子、可起草不可发布（待核）</a></span></td><td>CryptoBriefing</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-07</td><td><span class="flag"><a href="https://www.spacelaunchschedule.com/news/starship-flight-15-launch-date-how-to-watch/" target="_blank" rel="noopener">★ 星舰IFT-15目标不早于10/19：Booster22+Ship42低温测试完成、或尝试助推器捕获（待核）</a></span></td><td>Space Launch Schedule/SpaceX France</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-03</td><td><span class="flag"><a href="https://manilatimes.com/elon-musk-announces-shift-in-focus-following-brief-outage-of-social-media-platform-x" target="_blank" rel="noopener">X平台周六大面积停服（4万+用户受限）、马斯克称协同攻击后宣布回归24/7工作模式（待核）</a></span></td><td>Manila Times/London Daily</td><td>商业公司</td><td class="hand">—</td></tr><tr><td>2026-10-02</td><td><a href="http://m.toutiao.com/group/7691967509373469210/" target="_blank" rel="noopener">马斯克下调特斯拉AI5/AI6芯片内存为Optimus量产让路：AI5砍半至72GB LP5、AI6降至144GB LP6</a></td><td>财联社/华尔街见闻</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-02</td><td><a href="http://m.toutiao.com/group/7692197610232365602/" target="_blank" rel="noopener">SpaceX四名宇航员8小时快速对接国际空间站创美国航天速度纪录，市值破2万亿美元</a></td><td>新浪财经/证券时报</td><td>财务资本</td><td class="hand">—</td></tr><tr><td>2026-10-01</td><td><a href="https://neuralink.com/updates/pretraining-on-50000-hours/" target="_blank" rel="noopener">Neuralink用5万小时未标注脑数据预训练，BCI速度创11.32BPS纪录、数周免重标定</a></td><td>Neuralink官方</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-01</td><td><span class="flag"><a href="https://www.nasaspaceflight.com/2026/09/starship-14-orbit-flight-15/" target="_blank" rel="noopener">星舰IFT-15或10月发射：FAA公告显露两个追加窗口，飞行后审查进行中（待核）</a></span></td><td>NASASpaceFlight</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-01</td><td><span class="flag"><a href="https://finance.sina.com.cn/tech/digi/2026-10-02/doc-initviif1436268.shtml" target="_blank" rel="noopener">马斯克：星舰未来在月球部署『巨型望远镜』、望重塑天体物理学（待核）</a></span></td><td>新浪科技/IT之家</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-01</td><td><span class="flag"><a href="https://www.benzinga.com/markets/tech/26/10/62125996/elon-musk-tesla-optimus-memory-micron-humanoid-robots" target="_blank" rel="noopener">特斯拉首批约5000台Optimus大额零部件订单已下、正审计中国供应商（待核）</a></span></td><td>Benzinga/The Information</td><td>商业公司</td><td class="hand">—</td></tr><tr><td>2026-09-30</td><td><span class="flag"><a href="https://24h.jrj.com.cn/2026/09/30050258586702.shtml" target="_blank" rel="noopener">马斯克：SpaceX正与特斯拉携手、目标实现每年200吉瓦太阳能产能（待核）</a></span></td><td>金融界/报道</td><td>商业公司</td><td class="hand">—</td></tr><tr><td>2026-09-30</td><td><a href="http://m.toutiao.com/group/7692285246514971190/" target="_blank" rel="noopener">特斯拉Q3全球交付超48.6万辆超预期，上海工厂占比过半</a></td><td>新浪财经/上海证券报</td><td>财务资本</td><td class="hand">—</td></tr><tr><td>2026-09-30</td><td><a href="https://app.xinhuanet.com/news/article.html?articleId=202610028de37d2250454e6db0c6211620168e6e" target="_blank" rel="noopener">马斯克出任五角大楼「子午线计划」联合牵头人，研究未来战争形态</a></td><td>新华网/参考消息</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-09-29</td><td><a href="http://m.toutiao.com/group/7691091798562783744/" target="_blank" rel="noopener">特斯拉签署300亿美元信贷安排：200亿定期+80亿循环+20亿364天，支持产能</a></td><td>新浪财经</td><td>财务资本</td><td class="hand">—</td></tr><tr><td>2026-09-29</td><td><span class="flag"><a href="https://elonbuzz.com/tesla-cybercab-fleet-doubles-to-well-over-100-units/" target="_blank" rel="noopener">特斯拉得州Robotaxi车队Cybercab突破100辆：专用车型从约69辆翻倍至126辆（待核）</a></span></td><td>ElonBuzz</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-09-28</td><td><a href="https://apnews.com/article/spacex-starship-orbit-262d3c58d56bf7a525b49115d6c5dfe8" target="_blank" rel="noopener">星舰IFT-14实现首次真正入轨：部署26颗星链V3后因引擎异常提前返航、太平洋溅落爆炸</a></td><td>AP News</td><td>产品技术</td><td class="hand">—</td></tr></tbody>
+    </table>
+  </section>
+
+  <footer>本页由主题跟踪流水线（采集 → 精筛 → 洞察研判 → 呈现 · 统一模板 dashboard.html + generate.js 生成）产出；反馈列对应飞书条目库赞/踩，用于反哺后续研判。</footer>
+</div>
+</body>
+</html>
