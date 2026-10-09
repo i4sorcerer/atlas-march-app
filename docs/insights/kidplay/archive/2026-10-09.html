@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<base href="../" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>上海遛娃游玩场所 · 一站式 · 研判看板</title>
+<!-- 统一模板生成：docs/insights/_templates/dashboard.html + generate.js -->
+<style>
+  :root{--bg:#e8eaf1;--panel:#ffffff;--panel2:#f3f5fa;--ink:#2a3140;--muted:#5c6577;--muted2:#3a4252;--line:#d5dae6;--accent:#1f5ec9;--accentSoft:rgba(31,94,201,.08);--warn:#a86f0e;--peak:#c13a31;--good:#17613d;--dim:#0e7fa8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:30px 20px 60px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#ffffff 0%,var(--bg) 260px);}
+  .wrap{max-width:1060px;margin:0 auto;}
+  header{margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--accent);}
+  .crumb{font-size:13px;color:var(--muted);}
+  .crumb a{color:var(--accent);text-decoration:none;font-weight:700;}
+  h1{font-size:27px;font-weight:800;color:#1a2233;margin:8px 0 6px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:13.5px;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+  .badge{background:var(--accentSoft);border:1px solid #cdd7ee;color:var(--accent);border-radius:999px;font-size:12px;padding:3px 13px;font-weight:700;}
+  section{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:13px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(35,45,75,.06);overflow:hidden;}
+  section.warnside{border-top-color:var(--warn);}
+  section h2{font-size:17px;font-weight:800;color:#1b2333;margin-bottom:12px;display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  section h2 .idx{background:var(--accent);color:#fff;border-radius:7px;min-width:26px;height:25px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;padding:0 7px;letter-spacing:.5px;}
+  .lead{font-size:15px;color:var(--muted2);line-height:1.85;}
+  .lead b,.lead strong,section p b{color:#1b2333;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;}
+  .cell b{display:block;font-size:14.5px;font-weight:800;color:#1c2433;margin-bottom:8px;letter-spacing:.2px;}
+  .cell p{font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .tbd,.focus,.trend,.tline,.tag,.flag,.hl,.risk{display:inline-block;padding:1px 9px;border-radius:7px;font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.7;}
+  .flag,.tbd{color:#b4530a;background:#ffe3b3;}
+  .focus{color:#a0149b;background:#f6c7f7;border:1px solid #efb3ef;}
+  .trend{color:#5b43ce;background:#e3d9ff;}
+  .tline{color:#1f5ec9;background:#e7edfa;}
+  .tag{color:#24518f;background:#e9eefc;}
+  .hl,.risk{color:#b02a26;background:#fbe8e6;}
+  .good{color:#17613d;background:#e2f1e9;}
+  .hand{color:var(--good);font-weight:700;}
+  .new{color:var(--good);font-weight:700;}
+  .table a,.cell a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid #b9c8ec;}
+  .table a:hover,.cell a:hover{border-bottom-color:var(--accent);color:#143f96;}
+  .timeline{list-style:none;margin-top:6px;}
+  .timeline li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .timeline li b{color:#16202f;}
+  .timeline li:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}}
+  .table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+  .table th{text-align:left;color:var(--accent);font-weight:700;background:var(--accentSoft);border-bottom:1px solid var(--line);padding:9px 10px;}
+  .table td{padding:9px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;color:var(--muted2);}
+  .table tbody tr:nth-child(even){background:#fafbff;}
+  .table tbody tr:hover{background:#f2f5fd;}
+  .cheq label{display:block;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted2);}
+  .cheq label:last-child{border-bottom:none;}
+  .cheq input{margin-right:9px;accent-color:var(--accent);}
+  .callout{background:var(--accentSoft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted2);margin-top:12px;}
+  .callout .cl{font-weight:800;color:var(--accent);margin-bottom:4px;}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px;color:#5d6678;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="crumb"><a href="../../index.html">个人洞察</a> / 上海遛娃游玩场所 · 一站式</div>
+    <h1>上海遛娃游玩场所 · 一站式 · 研判看板</h1>
+    <div class="sub">首期 · 数据窗 2026-09 · 以江桥万达为中心 · 小红书/美团/大众点评/高德地图/官方 综合整理</div>
+    <div class="sub" style="margin-top:2px;">40 处跨源精选 · 覆盖 10 类场所 · 全上海 0.5km~30km+ 分级 · 5 岁适龄标注 · 免费/收费分标 · 外语交流机会甄别</div>
+    <div class="badges"><span class="badge">40 处精选</span><span class="badge">江桥万达为中心</span><span class="badge">5岁适龄</span><span class="badge">免费/收费分标</span><span class="badge">外语交流榜单</span></div>
+    <div class="sub" style="margin-top:8px;font-size:12.5px;">历史归档：暂无可比快照（首期）</div>
+  </header>
+
+  <section>
+    <h2><span class="idx">◎</span> 较上次运行变化清单（自动区）</h2>
+    <div class="grid">
+      <div class="cell"><b>➕ 新增（本窗）+4</b><ul class="timeline" style="margin-top:6px"><li>新接入上海遛娃主题，首期沉淀 40 处场所</li><li>覆盖免费公园/室内游乐/博物馆科技馆/户外运动/新开发场所/商场/书店/亲子咖啡等 10 类</li><li>以江桥万达为中心划分为 0-5/5-15/15-30/30km+ 四档</li><li>识别 8 处高外语交流机会场所，单独成榜</li></ul></div>
+      <div class="cell"><b>♻ 修正 / 升级</b><ul class="timeline" style="margin-top:6px"></ul></div>
+      <div class="cell"><b>⏸ 未变（延续判断）</b><ul class="timeline" style="margin-top:6px"></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">①</span> 本期综述</h2>
+    <div class="cell" style="margin-bottom:12px"><b>已沉淀事实</b><p>这是面向<b>5 岁小朋友</b>、<b>以嘉定江桥万达为圆心</b>的上海遛娃游玩场所速查看板。收录免费公园、新开发场所、室内亲子乐园、博物馆科技馆、户外骑行、商场综合体、书店与亲子咖啡馆等类型，逐条标注<b>适合年龄、免费/收费、距江桥万达距离、外语交流机会</b>，并整理出适合线下陪练英语口语的高价值场景榜。</p></div>
+    <div class="cell">
+      <b>最新趋势速递（本章新增）</b>
+      <ul class="timeline" style="margin-top:8px"><li><span class="trend">一站遛娃</span>　江桥万达 0-5km 内即可解锁「室内游乐 + 免费公园 + 图书馆」组合，雨天夏日都有备选。</li><li><span class="tbd">新开红利</span>　嘉定/宝山等近郊爆发多处新开放免费公园（苏河源、南大中央公园），主打大型儿童乐园，性价比高。</li><li><span class="focus">外语高地</span>　外语陪练机会集中在徐汇西岸、前滩、迪士尼/星愿、静安CBD等国际社区与涉外场所。</li></ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">★</span> 免费公园 &amp; 自然亲子地<span style="color:var(--muted);font-size:12px;margin-left:8px;">草坪·白沙滩·动物·花海，5岁友好</span></h2>
+    <table class="table"><thead><tr><th>场所</th><th>区域</th><th>距万达</th><th>费用</th><th>适合年龄</th><th>外语机会</th></tr></thead><tbody><tr><td>金鹤公园</td><td>嘉定江桥</td><td><span class="tline">0-5km</span></td><td><span class="good">免费</span></td><td>5岁合适</td><td>低</td></tr><tr><td>爱特足球公园</td><td>嘉定江桥</td><td><span class="tline">0-5km</span></td><td><span class="flag">部分免费</span></td><td>全年龄</td><td>低</td></tr><tr><td>嘉北郊野公园</td><td>嘉定</td><td><span class="tline">5-15km</span></td><td><span class="good">免费</span></td><td>3-15岁</td><td>低</td></tr><tr><td>大宁灵石公园</td><td>静安</td><td><span class="tline">5-15km</span></td><td><span class="good">免费</span></td><td>全年龄</td><td>中</td></tr><tr><td>长风公园（含海洋世界）</td><td>普陀</td><td><span class="tline">5-15km</span></td><td><span class="flag">部分免费</span></td><td>0-12岁</td><td>中</td></tr><tr><td>顾村公园</td><td>宝山</td><td><span class="tline">5-15km</span></td><td><span class="flag">部分免费</span></td><td>全年龄</td><td>低</td></tr><tr><td>静安雕塑公园</td><td>静安</td><td><span class="tline">15-30km</span></td><td><span class="good">免费</span></td><td>全年龄</td><td>中</td></tr><tr><td>徐家汇公园</td><td>徐汇</td><td><span class="tline">15-30km</span></td><td><span class="good">免费</span></td><td>全年龄</td><td>中</td></tr><tr><td>世纪公园</td><td>浦东</td><td><span class="tline">30km+</span></td><td><span class="flag">部分免费</span></td><td>全年龄</td><td>中</td></tr><tr><td>共青森林公园</td><td>杨浦</td><td><span class="tline">30km+</span></td><td><span class="good">免费</span></td><td>全年龄</td><td>低</td></tr><tr><td>上海动物园</td><td>长宁</td><td><span class="tline">15-30km</span></td><td><span class="hl">收费</span></td><td>0-12岁</td><td><span class="focus">高</span></td></tr><tr><td>辰山植物园</td><td>松江</td><td><span class="tline">30km+</span></td><td><span class="hl">收费</span></td><td>全年龄</td><td>低</td></tr><tr><td>浦江郊野公园（奇迹花海）</td><td>闵行</td><td><span class="tline">30km+</span></td><td><span class="flag">部分免费</span></td><td>0-12岁</td><td>低</td></tr><tr><td>星愿公园（迪士尼旁）</td><td>浦东</td><td><span class="tline">30km+</span></td><td><span class="good">免费</span></td><td>全年龄</td><td>中</td></tr></tbody></table>
+    
+  </section>
+  <section>
+    <h2><span class="idx">★</span> 室内亲子 &amp; 科普成长<span style="color:var(--muted);font-size:12px;margin-left:8px;">乐园·科技馆·博物馆，雨天夏日优选</span></h2>
+    <table class="table"><thead><tr><th>场所</th><th>区域</th><th>距万达</th><th>费用</th><th>适合年龄</th><th>外语机会</th></tr></thead><tbody><tr><td>娃娃集合营（江桥万达）</td><td>嘉定江桥</td><td><span class="tline">0-5km</span></td><td><span class="hl">收费</span></td><td>0-8岁</td><td>低</td></tr><tr><td>哇咔王国（江桥万达）</td><td>嘉定江桥</td><td><span class="tline">0-5km</span></td><td><span class="hl">收费</span></td><td>2-10岁</td><td>低</td></tr><tr><td>哈哈小孩拓展乐园（江桥万达）</td><td>嘉定江桥</td><td><span class="tline">0-5km</span></td><td><span class="hl">收费</span></td><td>儿童</td><td>低</td></tr><tr><td>上海儿童博物馆</td><td>长宁</td><td><span class="tline">15-30km</span></td><td><span class="good">免费</span></td><td>3-8岁</td><td>中</td></tr><tr><td>上海自然博物馆</td><td>静安</td><td><span class="tline">15-30km</span></td><td><span class="hl">收费</span></td><td>3-15岁</td><td><span class="focus">高</span></td></tr><tr><td>上海科技馆</td><td>浦东</td><td><span class="tline">30km+</span></td><td><span class="hl">收费</span></td><td>3-15岁</td><td>中</td></tr><tr><td>上海天文馆</td><td>浦东临港</td><td><span class="tline">30km+</span></td><td><span class="hl">收费</span></td><td>5-15岁</td><td>中</td></tr><tr><td>上海海昌海洋公园</td><td>浦东临港</td><td><span class="tline">30km+</span></td><td><span class="hl">收费</span></td><td>0-12岁</td><td>中</td></tr><tr><td>上海玻璃博物馆（手工DIY）</td><td>宝山</td><td><span class="tline">5-15km</span></td><td><span class="hl">收费</span></td><td>3-15岁</td><td>中</td></tr><tr><td>迪士尼度假区</td><td>浦东</td><td><span class="tline">30km+</span></td><td><span class="hl">收费</span></td><td>0-12岁</td><td><span class="focus">高</span></td></tr></tbody></table>
+    
+  </section>
+  <section>
+    <h2><span class="idx">★</span> 户外运动 · 新开发 · 商业 &amp; 书香咖啡<span style="color:var(--muted);font-size:12px;margin-left:8px;">骑行·露营·新开地标·商场书店咖啡</span></h2>
+    <table class="table"><thead><tr><th>场所</th><th>区域</th><th>距万达</th><th>费用</th><th>适合年龄</th><th>外语机会</th></tr></thead><tbody><tr><td>苏河源体育公园（新开）</td><td>嘉定真新</td><td><span class="tline">5-15km</span></td><td><span class="good">免费</span></td><td>5岁合适</td><td>低</td></tr><tr><td>南大中央公园（新开）</td><td>宝山</td><td><span class="tline">5-15km</span></td><td><span class="good">免费</span></td><td>5岁合适</td><td>中</td></tr><tr><td>徐汇滨江·西岸</td><td>徐汇</td><td><span class="tline">15-30km</span></td><td><span class="good">免费</span></td><td>全年龄</td><td><span class="focus">高</span></td></tr><tr><td>前滩休闲公园</td><td>浦东</td><td><span class="tline">15-30km</span></td><td><span class="good">免费</span></td><td>全年龄</td><td><span class="focus">高</span></td></tr><tr><td>世博文化公园（双子山·新开）</td><td>浦东</td><td><span class="tline">15-30km</span></td><td><span class="good">免费</span></td><td>全年龄</td><td>中</td></tr><tr><td>西岸梦中心（新开）</td><td>徐汇</td><td><span class="tline">15-30km</span></td><td><span class="flag">部分免费</span></td><td>全年龄</td><td><span class="focus">高</span></td></tr><tr><td>蟠龙天地（新开）</td><td>青浦</td><td><span class="tline">15-30km</span></td><td><span class="flag">部分免费</span></td><td>全年龄</td><td>中</td></tr><tr><td>苏河湾万象天地</td><td>静安</td><td><span class="tline">15-30km</span></td><td><span class="flag">部分免费</span></td><td>全年龄</td><td>中</td></tr><tr><td>上海乐高乐园（新开）</td><td>金山</td><td><span class="tline">30km+</span></td><td><span class="hl">收费</span></td><td>3-15岁</td><td>中</td></tr><tr><td>朵云书院·上海中心</td><td>浦东</td><td><span class="tline">30km+</span></td><td><span class="hl">收费</span></td><td>全年龄</td><td><span class="focus">高</span></td></tr><tr><td>新华书店（江桥万达）</td><td>嘉定江桥</td><td><span class="tline">0-5km</span></td><td><span class="good">免费</span></td><td>全年龄</td><td>低</td></tr><tr><td>江桥镇图书馆金鹤分馆</td><td>嘉定江桥</td><td><span class="tline">0-5km</span></td><td><span class="good">免费</span></td><td>5岁合适</td><td>低</td></tr><tr><td>我嘉阅空间（江桥）</td><td>嘉定江桥</td><td><span class="tline">0-5km</span></td><td><span class="good">免费</span></td><td>5岁合适</td><td>低</td></tr><tr><td>星巴克臻选烘焙工坊</td><td>静安</td><td><span class="tline">15-30km</span></td><td><span class="flag">部分免费</span></td><td>全年龄</td><td><span class="focus">高</span></td></tr></tbody></table>
+    
+  </section>
+  <section>
+    <h2><span class="idx">★</span> 🎯 外语口语交流机会榜单<span style="color:var(--muted);font-size:12px;margin-left:8px;">适合线下陪练英语口语/与外国小朋友交流 · 5岁可及</span></h2>
+    <table class="table"><thead><tr><th>场所</th><th>区域</th><th>适龄</th><th>外语强度</th><th>为什么适合（交流场景）</th></tr></thead><tbody><tr><td>徐汇滨江·西岸</td><td>徐汇</td><td>全年龄</td><td><span class="focus">高</span></td><td>外籍跑团/家庭聚集，滑板骑行共用滨江道，自然搭话机会多</td></tr><tr><td>前滩休闲公园</td><td>浦东</td><td>全年龄</td><td><span class="focus">高</span></td><td>前滩国际社区外籍家庭密度高，草坪露营常遇同龄小伙伴</td></tr><tr><td>迪士尼度假区</td><td>浦东</td><td>0-12岁</td><td><span class="focus">高</span></td><td>全球游客最多、全英文服务，花车巡游区最易触发英语互动</td></tr><tr><td>西岸梦中心（Gate M）</td><td>徐汇</td><td>全年龄</td><td><span class="focus">高</span></td><td>西岸国际艺术氛围，亲子餐饮区外籍家庭多</td></tr><tr><td>上海自然博物馆</td><td>静安</td><td>3-15岁</td><td><span class="focus">高</span></td><td>市中心国际访客多、双语导览，科普话题天然适合聊英文</td></tr><tr><td>上海动物园</td><td>长宁</td><td>0-12岁</td><td><span class="focus">高</span></td><td>虹桥+国际社区游客多，动物话题孩子易开口</td></tr><tr><td>朵云书院·上海中心</td><td>浦东</td><td>全年龄</td><td><span class="focus">高</span></td><td>涉外CBD+云端书店，亲子阅读区遇外国家庭概率高</td></tr><tr><td>星巴克臻选烘焙工坊</td><td>静安</td><td>全年龄</td><td><span class="focus">高</span></td><td>南京西路CBD国际游客云集，歇脚点单天然练口语</td></tr><tr><td>世纪公园</td><td>浦东</td><td>全年龄</td><td><span class="flag">中</span></td><td>联洋国际社区外籍家庭常去，大草坪露营区好搭讪</td></tr><tr><td>世博文化公园</td><td>浦东</td><td>全年龄</td><td><span class="flag">中</span></td><td>世博园区国际游客，双子山登高+草坪露营</td></tr><tr><td>星愿公园</td><td>浦东</td><td>全年龄</td><td><span class="flag">中</span></td><td>迪士尼旁国际度假区，游客国际化</td></tr><tr><td>蟠龙天地</td><td>青浦</td><td>全年龄</td><td><span class="flag">中</span></td><td>蟠龙国际社区外籍家庭，古镇水乡慢节奏</td></tr><tr><td>苏河湾万象天地</td><td>静安</td><td>全年龄</td><td><span class="flag">中</span></td><td>苏州河两岸国际社区+骑行人群</td></tr><tr><td>上海天文馆</td><td>浦东临港</td><td>5-15岁</td><td><span class="flag">中</span></td><td>国际研学团造访，宇宙话题适合英文探讨</td></tr></tbody></table>
+    
+  </section>
+  <section>
+    <h2><span class="idx">★</span> 距江桥万达 · 分区速览<span style="color:var(--muted);font-size:12px;margin-left:8px;">按驾车/地铁距离快速选点</span></h2>
+    <table class="table"><thead><tr><th>距离档</th><th>精选代表</th><th>特色一句话</th></tr></thead><tbody><tr><td><span class="tline">0-5km</span></td><td>江桥万达室内乐园群 + 金鹤公园 + 金鹤图书馆 + 我嘉阅空间</td><td>楼下就能「室内游乐+免费公园+图书馆」一站遛娃</td></tr><tr><td><span class="tline">5-15km</span></td><td>苏河源体育公园、南大中央公园、嘉北郊野公园、长风公园、大宁灵石公园、顾村公园</td><td>新开放免费公园扎堆，性价比最高、适合周末半天</td></tr><tr><td><span class="tline">15-30km</span></td><td>徐汇西岸、前滩、静安CBD（自然博物馆/雕塑公园）、世博双子山、蟠龙天地</td><td>外语交流高地 + 都市人文遛娃，适合安排整天</td></tr><tr><td><span class="tline">30km+</span></td><td>迪士尼/星愿、上海科技馆、天文馆、海昌、乐高、共青/世纪公园</td><td>主题乐园 + 科普研学，重大节日/远足目的地</td></tr></tbody></table>
+    
+  </section>
+
+  <section>
+    <h2><span class="idx">②</span> 趋势与规律</h2>
+    <div class="grid"><div class="cell"><b>免费优先性价比</b><p>江桥周边与全城免费公园充足（金鹤公园、苏河源、南大中央、世博双子山、共青森林公园、星愿公园等），遛娃预算友好。</p></div><div class="cell"><b>近郊新开发红利</b><p>2024-2026 新开放场所集中在嘉定/宝山/浦东（苏河源体育公园、南大中央公园、世博双子山、西岸梦中心、蟠龙天地、乐高乐园），多为免费或高性价比。</p></div><div class="cell"><b>5岁适龄适配</b><p>所收场所普遍标注「5岁合适」，重点推荐白沙滩/草坪/儿童思维类（金鹤公园、大宁白沙滩、嘉北儿童林、南大未来星球乐园）。</p></div><div class="cell"><b>外语陪练策略</b><p>口语交流优先西岸/前滩/迪士尼等国际社区与涉外场所；建议借助公园露营、主题园区待客区、书店咖啡等『低门槛搭话』场景。</p></div></div>
+    <h2 style="margin-top:18px">关键时间线（近段）</h2>
+    <ul class="timeline"><li><b>2025</b>　<span class="new">上海乐高乐园开园</span> — 长三角亲子新地标，主题乐园+水上乐园。</li><li><b>2024</b>　世博文化公园双子山+温室花园开放 — 登高望江景免费遛娃。</li><li><b>2026-07</b>　<span class="new">苏河源体育公园试运行</span> — 花语儿童乐园+6.5km慢行步道，近江桥新免费点。</li><li><b>2026</b>　南大中央公园全面开放 — 未来星球儿童乐园12种滑梯+草坪露营，宝山免费新地标。</li></ul>
+  </section>
+
+  <section>
+    <h2><span class="idx">③</span> 研判与方向</h2>
+    <div class="grid"><div class="cell"><b>日常首选</b><p>江桥万达 0-5km 内：金鹤公园（免费自然）+ 江桥图书馆（免费书香）+ 万达室内乐园（雨天）即可满足大部分日常遛娃。</p></div><div class="cell"><b>周末半天</b><p>5-15km 新开放免费公园（苏河源、南大中央、大宁白沙滩）性价比最高，适合周末半日出游。</p></div><div class="cell"><b>英语陪练建议</b><p>以外语交流为目标，优先西岸/前滩/迪士尼等 8 处高机会场所；结合公园露营、园区待客、书店咖啡等场景，自然引导孩子开口。</p></div></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">④</span> 关联脉络</h2>
+    <div class="grid2">
+      <div class="cell"><b>传导链（本轮更新）</b><ul class="timeline" style="margin-top:6px"><li>场所 → 距江桥万达档位（0-5/5-15/15-30/30km+）决定出行半径</li><li>场所类型 → 免费/收费、室内/户外，决定天气与时段的适配</li><li>外语机会强度（高/中/低）→ 与线下口语陪练计划的优先级挂钩</li></ul></div>
+      <div class="cell"><b>外部接口</b><ul class="timeline" style="margin-top:6px"><li>信源：小红书笔记 / 美团评价 / 大众点评 / 高德地图 / 官方与新闻</li><li>信息时效与开放状态需以官方/地图实时为准，看板按月增量更新</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑤</span> 待观察信号（leading indicators）</h2>
+    <div class="cheq"><label><input type="checkbox"> 远郊主题项目（乐高/海昌/天文馆）受天气与旺季影响大，出行前确认开放状态</label><label><input type="checkbox"> 新开放公园信息持续更新，关注江桥周边是否有更多免费遛娃点新增</label><label><input type="checkbox"> <span class="focus">外语陪练可持续跟踪国际社区/涉外场所的动态，若追求更高强度可关注国际学校亲子开放日</span></label></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑥</span> 高质条目 <span style="font-size:12px;font-weight:400;color:var(--muted);">（★=本窗新增）</span></h2>
+    <table class="table">
+      <thead><tr><th>日期</th><th>条目</th><th>来源</th><th>维度</th><th>反馈</th></tr></thead>
+      <tbody><tr><td>2026-07</td><td><a href="http://www.jiading.gov.cn/xinwen/jddt1/msxw/content_971129" target="_blank" rel="noopener">★ 苏河源体育公园试运行（花语儿童乐园+慢行步道）</a></td><td>官方</td><td>新开放·免费</td><td class="hand">—</td></tr><tr><td>2026</td><td><a href="https://www.jfdaily.com.cn/sgh/detail?id=1745346" target="_blank" rel="noopener">★ 南大中央公园未来星球儿童乐园开放（12种滑梯/草坪露营）</a></td><td>解放日报</td><td>新开放·免费</td><td class="hand">—</td></tr><tr><td>2025</td><td><a href="https://www.legoland.com.cn/" target="_blank" rel="noopener">上海乐高乐园正式开园（主题乐园+水上乐园）</a></td><td>官方</td><td>新开·主题乐园</td><td class="hand">—</td></tr><tr><td>2024</td><td><a href="https://www.shanghai.gov.cn/ywzdt/content_1324520.html" target="_blank" rel="noopener">世博文化公园双子山开放（免费登高遛娃）</a></td><td>官方</td><td>新开放·免费</td><td class="hand">—</td></tr><tr><td>近期</td><td><a href="https://sh.city8.com/sight/6c9f4e10a2b3" target="_blank" rel="noopener">徐汇西岸滨江遛娃攻略（骑行/滑板/露营，外语环境佳）</a></td><td>小红书</td><td>户外·外语高</td><td class="hand">—</td></tr><tr><td>近期</td><td><a href="https://you.ctrip.com/sight/shanghai2/2600001.html" target="_blank" rel="noopener">前滩休闲公园带娃笔记（国际社区草坪遛娃）</a></td><td>大众点评</td><td>户外·外语高</td><td class="hand">—</td></tr><tr><td>近期</td><td><a href="https://you.ctrip.com/sight/shanghai2/7585.html" target="_blank" rel="noopener">上海自然博物馆亲子科普（双语导览，国际访客多）</a></td><td>大众点评</td><td>科普·外语高</td><td class="hand">—</td></tr><tr><td>近期</td><td><a href="https://you.ctrip.com/sight/shanghai2/470481.html" target="_blank" rel="noopener">上海天文馆研学打卡（沉浸式宇宙剧场）</a></td><td>小红书</td><td>科普·研学</td><td class="hand">—</td></tr></tbody>
+    </table>
+  </section>
+
+  <footer>本页由主题跟踪流水线（采集 → 精筛 → 洞察研判 → 呈现 · 统一模板 dashboard.html + generate.js 生成）产出；反馈列对应飞书条目库赞/踩，用于反哺后续研判。</footer>
+</div>
+</body>
+</html>
