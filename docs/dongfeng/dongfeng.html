@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>东风导弹家族 · 守护和平的大国重器</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka+One&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --space-deep: #0D1B2A; --space-purple: #1B0033; --star-gold: #FFD166;
+      --rocket-red: #EF476F; --star-white: #E8F1FF; --tech-green: #06D6A0;
+      --mars-orange: #FF8C42; --mars-red: #E25822;
+      --radius-lg: 28px; --radius-md: 18px; --shadow: 0 12px 30px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'ZCOOL KuaiLe','Nunito',sans-serif; background: linear-gradient(160deg,var(--space-purple) 0%,var(--space-deep) 100%); background-attachment: fixed; color: var(--star-white); overflow-x: hidden; line-height: 1.7; }
+    #starfield { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .topbar, header, section, footer { position: relative; z-index: 1; }
+
+    .topbar { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; background: rgba(13,27,42,.6); backdrop-filter: blur(8px); z-index: 50; }
+    .logo { font-family: 'Fredoka One',cursive; font-size: 22px; color: var(--star-gold); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-links a { color: var(--star-white); text-decoration: none; margin-left: 14px; font-size: 15px; opacity: .85; transition: color .2s, transform .2s; }
+    .nav-links a:hover { color: var(--star-gold); transform: translateY(-2px); }
+    .lang-btn { font-family: 'ZCOOL KuaiLe',sans-serif; border: 2px solid var(--star-gold); background: transparent; color: var(--star-gold); border-radius: 999px; padding: 6px 16px; font-size: 15px; cursor: pointer; transition: transform .15s, background .2s; }
+    .lang-btn:hover { transform: scale(1.06); background: rgba(255,209,102,.15); }
+
+    .hero { min-height: 78vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 90px 20px 40px; }
+    .hero-rover { font-size: 84px; animation: floaty 3s ease-in-out infinite; filter: drop-shadow(0 8px 16px rgba(255,209,102,.4)); }
+    .hero-title { font-family: 'Fredoka One',cursive; font-size: clamp(34px,8vw,66px); margin: 10px 0; color: var(--star-white); text-shadow: 0 4px 0 rgba(239,71,111,.5); }
+    .hero-title .hl { color: var(--star-gold); }
+    .hero-sub { font-size: clamp(15px,4vw,22px); margin-bottom: 8px; opacity: .9; max-width: 660px; }
+    .hero-count { margin-top: 18px; font-size: 18px; color: var(--mars-orange); background: rgba(255,140,66,.12); border: 2px solid var(--mars-orange); border-radius: var(--radius-md); padding: 10px 22px; }
+    .scroll-hint { margin-top: 34px; font-size: 16px; color: var(--star-gold); animation: bounce 1.4s infinite; }
+
+    .section { padding: 60px 20px; max-width: 1040px; margin: 0 auto; }
+    .section-title { font-family: 'Fredoka One',cursive; font-size: clamp(24px,6vw,40px); text-align: center; color: var(--star-gold); margin-bottom: 12px; }
+    .section-desc { text-align: center; font-size: 18px; opacity: .85; margin-bottom: 30px; max-width: 760px; margin-left: auto; margin-right: auto; }
+
+    .missions { display: grid; grid-template-columns: repeat(auto-fit,minmax(270px,1fr)); gap: 22px; }
+    .mission { background: rgba(232,241,255,.06); border: 2px solid rgba(232,241,255,.12); border-radius: var(--radius-lg); padding: 24px 22px; box-shadow: var(--shadow); scroll-margin-top: 90px; transition: transform .2s, border-color .2s, background .2s; }
+    .mission:hover { transform: translateY(-8px) rotate(-.6deg); border-color: var(--mars-orange); background: rgba(255,140,66,.10); }
+    .mission:target { border-color: var(--star-gold); background: rgba(255,209,102,.12); box-shadow: 0 0 0 3px rgba(255,209,102,.35), var(--shadow); }
+    .mission.star { border-color: var(--star-gold); background: linear-gradient(180deg, rgba(255,209,102,.14), rgba(255,140,66,.08)); grid-column: 1 / -1; }
+    .m-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+    .m-emoji { font-size: 46px; line-height: 1; }
+    .m-name { font-size: 21px; color: var(--tech-green); }
+    .m-flag { font-size: 22px; }
+    .m-meta { font-size: 14px; opacity: .8; margin: 2px 0 10px; }
+    .m-meta b { color: var(--star-gold); }
+    .m-desc { font-size: 16px; }
+    .m-tag { display: inline-block; margin-top: 12px; font-size: 13px; padding: 4px 12px; border-radius: 999px; background: rgba(6,214,160,.15); border: 1px solid var(--tech-green); color: var(--tech-green); }
+    .mission.star .m-tag { background: rgba(255,209,102,.18); border-color: var(--star-gold); color: var(--star-gold); }
+
+    .yearbar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 30px; }
+    .yearbar span { font-size: 14px; padding: 6px 12px; border-radius: 999px; background: rgba(255,140,66,.12); border: 1px solid var(--mars-orange); color: var(--star-white); }
+
+    /* 拆解 */
+    .breakdown-wrap { display: flex; flex-wrap: wrap; gap: 26px; align-items: flex-start; justify-content: center; }
+    .rocket-stage { position: relative; width: 300px; height: 560px; flex: 0 0 auto; }
+    .rocket-silhouette { position: absolute; left: 50%; top: 5%; width: 66px; height: 84%; transform: translateX(-50%);
+      background: linear-gradient(90deg,#eef3f8 0%,#aeb9c4 48%,#eef3f8 100%); border-radius: 33px 33px 10px 10px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.25), 0 10px 26px rgba(0,0,0,.35); transition: opacity .5s; }
+    .rocket-silhouette::before { content:""; position: absolute; top: -34px; left: 50%; transform: translateX(-50%);
+      border-left: 33px solid transparent; border-right: 33px solid transparent; border-bottom: 36px solid #d7dee6; border-radius: 6px; }
+    .rocket-silhouette::after { content:""; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+      width: 84px; height: 18px; background: linear-gradient(90deg,#8a949f,#c7cfd8,#8a949f); border-radius: 4px; }
+    .rocket-stage.exploded-mode .rocket-silhouette { opacity: .12; }
+    .flame { position: absolute; left: 50%; bottom: 2%; transform: translateX(-50%); width: 40px; height: 0; background: linear-gradient(180deg,#fff3c4,#ff8c42 40%,#ef476f); border-radius: 0 0 50% 50%; filter: blur(1px); opacity: 0; transition: height .4s, opacity .4s; pointer-events: none; }
+    .rocket-stage.flying .flame { height: 90px; opacity: .9; animation: flick .25s infinite alternate; }
+    @keyframes flick { from { width: 38px; } to { width: 46px; } }
+    .part { position: absolute; font-size: 34px; cursor: pointer; transition: left .6s cubic-bezier(.34,1.56,.64,1), top .6s cubic-bezier(.34,1.56,.64,1), filter .2s; filter: drop-shadow(0 4px 8px rgba(0,0,0,.45)); text-align: center; transform: translate(-50%,-50%); z-index: 3; }
+    .part:hover { filter: drop-shadow(0 0 14px var(--star-gold)); }
+    .part.active { filter: drop-shadow(0 0 16px var(--star-gold)); }
+    .part .part-label { display: block; font-size: 12px; color: var(--star-white); margin-top: 2px; white-space: nowrap; background: rgba(13,27,42,.55); padding: 1px 6px; border-radius: 8px; }
+    .breakdown-side { flex: 1 1 300px; min-width: 260px; }
+    .part-info { margin-top: 4px; background: rgba(6,214,160,.1); border: 2px solid var(--tech-green); border-radius: var(--radius-md); padding: 18px; font-size: 16px; min-height: 120px; }
+    .part-info b { color: var(--tech-green); }
+    .btn { font-family: 'ZCOOL KuaiLe',sans-serif; border: none; border-radius: var(--radius-md); padding: 12px 20px; font-size: 17px; cursor: pointer; background: var(--rocket-red); color: #fff; box-shadow: var(--shadow); transition: transform .15s cubic-bezier(.34,1.56,.64,1), filter .2s; margin: 4px 6px 4px 0; }
+    .btn:hover { transform: scale(1.06) rotate(-1deg); filter: brightness(1.1); }
+    .btn-ghost { background: transparent; border: 2px solid var(--tech-green); color: var(--tech-green); }
+
+    /* 故事时间线 */
+    .story { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+    .sstep { background: rgba(232,241,255,.06); border: 2px solid rgba(232,241,255,.14); border-radius: var(--radius-md); padding: 16px; width: 200px; text-align: center; transition: transform .2s, border-color .2s; }
+    .sstep:hover { transform: translateY(-6px); border-color: var(--star-gold); }
+    .sstep .s-year { font-family: 'Fredoka One',cursive; font-size: 24px; color: var(--star-gold); }
+    .sstep .s-desc { font-size: 14px; opacity: .88; margin-top: 6px; }
+
+    .note { background: rgba(232,241,255,.06); border: 2px dashed rgba(232,241,255,.25); border-radius: var(--radius-lg); padding: 24px; margin-top: 24px; font-size: 16px; }
+    .note h3 { color: var(--star-gold); font-size: 20px; margin-bottom: 10px; }
+    .note ul { padding-left: 22px; }
+    .note li { margin-bottom: 6px; }
+
+    .footer { text-align: center; padding: 70px 20px 90px; }
+    .footer-title { font-family: 'Fredoka One',cursive; font-size: 32px; color: var(--tech-green); margin-bottom: 14px; }
+    .footer p { font-size: 18px; max-width: 620px; margin: 0 auto 10px; }
+    .footer-sign { color: var(--star-gold); margin-top: 18px; }
+    .hint { opacity: .8; }
+
+    @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+    @media (max-width: 600px) { .nav-links a { margin-left: 8px; font-size: 13px; } .topbar { padding: 10px 14px; } .rocket-stage { width: 260px; height: 500px; } }
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+
+  <nav class="topbar">
+    <span class="logo" id="ui-brand">🇨🇳 东风导弹</span>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#hero" id="ui-nav-hero">出发</a>
+        <a href="#family" id="ui-nav-family">东风家族</a>
+        <a href="#breakdown" id="ui-nav-breakdown">拆开看</a>
+        <a href="#story" id="ui-nav-story">大国重器</a>
+      </div>
+      <button class="lang-btn" id="langBtn">EN</button>
+    </div>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-rover">🛡️</div>
+    <h1 class="hero-title"><span id="ui-hero-pre">东风</span><br /><span class="hl" id="ui-hero-hl">导弹家族</span></h1>
+    <p class="hero-sub" id="ui-hero-sub"></p>
+    <div class="hero-count" id="heroCount"></div>
+    <div class="scroll-hint" id="ui-scroll">👇 往下滚，认识每一位东风卫士</div>
+  </header>
+
+  <section id="family" class="section">
+    <h2 class="section-title" id="ui-fam-title">🇨🇳 东风家族的成员们</h2>
+    <p class="section-desc" id="ui-fam-desc"></p>
+    <div class="yearbar" id="yearbar"></div>
+    <div class="missions" id="missions"></div>
+  </section>
+
+  <section id="breakdown" class="section">
+    <h2 class="section-title" id="ui-bd-title">🔧 把东风5C拆开看看！</h2>
+    <p class="section-desc" id="ui-bd-desc"></p>
+    <div class="breakdown-wrap">
+      <div class="rocket-stage" id="rocketStage">
+        <div class="rocket-silhouette"></div>
+        <div class="flame"></div>
+      </div>
+      <div class="breakdown-side">
+        <div>
+          <button class="btn" id="explodeBtn">🔧 拆开看看</button>
+          <button class="btn btn-ghost" id="assembleBtn">🧩 装回去</button>
+        </div>
+        <div class="part-info" id="partInfo"><span class="hint" id="ui-bd-hint">👈 点导弹上的小零件，听听它是干嘛的</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="story" class="section">
+    <h2 class="section-title" id="ui-story-title">🏆 大国重器的故事</h2>
+    <p class="section-desc" id="ui-story-desc"></p>
+    <div class="story" id="story"></div>
+    <div class="note" id="peaceNote"></div>
+  </section>
+
+  <footer class="footer">
+    <h2 class="footer-title" id="ui-footer-title">🌈 为什么要造它？</h2>
+    <p id="ui-footer-p1"></p>
+    <p id="ui-footer-p2"></p>
+    <p class="footer-sign" id="ui-footer-sign">—— 给热爱和平的你 💫</p>
+  </footer>
+
+  <script>
+  /* ===== 星空背景 ===== */
+  (function starfield() {
+    const canvas = document.getElementById('starfield'); const ctx = canvas.getContext('2d'); let stars = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
+    function initStars() { const c = Math.floor((canvas.width*canvas.height)/6000);
+      stars = Array.from({length:c}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.6+0.4, a: Math.random(), speed: Math.random()*0.02+0.005, color: Math.random()>0.5?'#FFD166':'#E8F1FF' })); }
+    function draw() { ctx.clearRect(0,0,canvas.width,canvas.height); stars.forEach(s => { s.a+=s.speed; const al=0.4+Math.abs(Math.sin(s.a))*0.6; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=s.color; ctx.globalAlpha=al; ctx.fill(); }); ctx.globalAlpha=1; requestAnimationFrame(draw); }
+    window.addEventListener('resize', resize); resize(); draw();
+  })();
+
+  /* ===== 语言包（UI） ===== */
+  const I18N = {
+    zh: {
+      brand:"🇨🇳 东风导弹", navHero:"出发", navFamily:"东风家族", navBreakdown:"拆开看", navStory:"大国重器",
+      heroPre:"东风", heroHl:"导弹家族", heroSub:"保卫国家的大国重器，平时静静守护，只在阅兵上和大家见面——它们的使命，是守护和平。",
+      heroCount:(n)=>`🛡️ 东风家族在这里收录了 <b>${n}</b> 位成员`, scroll:"👇 往下滚，认识每一位东风卫士",
+      famTitle:"🇨🇳 东风家族的成员们", famDesc:"“东风”是中国的导弹家族。它们平时全时戒备、守护国家安全，阅兵时威武亮相～",
+      bdTitle:"🔧 把东风5C拆开看看！", bdDesc:"东风5C是我国的大型液体洲际战略核导弹，2025年阅兵首次公开亮相、压轴出场。点零件听讲解，或点“拆开看看”把它拆成零件！",
+      bdHint:"👈 点导弹上的小零件，听听它是干嘛的", explode:"🔧 拆开看看", assemble:"🧩 装回去",
+      storyTitle:"🏆 大国重器的故事", storyDesc:"从无到有，中国的导弹事业走了很多年。",
+      storyH3:"📖 几个重要的日子",
+      storyLi1:"1965 年，我国决定研制洲际导弹，命名为“东风五号”。",
+      storyLi2:"1980 年 5 月 18 日，东风五号成功完成全射程飞行试验，飞越九千多公里，中国从此拥有了自己的洲际导弹。",
+      storyLi3:"2019 年国庆阅兵，东风-41、东风-17 等新型导弹公开亮相。",
+      storyLi4:"2025 年 9 月 3 日阅兵，东风-5C 液体洲际战略核导弹首次公开亮相，压轴出场。",
+      footerTitle:"🌈 为什么要造它？", footerP1:"东风导弹是保卫国家的“定海神针”。它的使命是“以武止戈”——用强大的力量，让战争不敢发生，守护我们的和平生活。",
+      footerP2:"它不是用来打仗的，而是用来“不让战争发生”的。", footerSign:"—— 给热爱和平的你 💫", langOther:"EN"
+    },
+    en: {
+      brand:"🇨🇳 Dongfeng Missiles", navHero:"Start", navFamily:"Family", navBreakdown:"Explode", navStory:"Story",
+      heroPre:"Dongfeng", heroHl:"Missile Family", heroSub:"China's big strategic guardians. They quietly stand watch and only meet us at parades — their mission is to protect peace.",
+      heroCount:(n)=>`🛡️ This page gathers <b>${n}</b> members of the Dongfeng family`, scroll:"👇 Scroll down to meet every Dongfeng guard",
+      famTitle:"🇨🇳 The Dongfeng family", famDesc:"“Dongfeng” is China's missile family. They stay on alert to guard the nation, and march proudly at parades~",
+      bdTitle:"🔧 Take DF-5C apart!", bdDesc:"DF-5C is China's large liquid-fueled intercontinental strategic missile. It first appeared publicly at the 2025 parade, marching last. Tap a part to learn, or “Take apart” to split it!",
+      bdHint:"👈 Tap a part on the missile to hear what it does", explode:"🔧 Take apart", assemble:"🧩 Put back",
+      storyTitle:"🏆 The story of a great guardian", storyDesc:"From nothing to something, China's missile work took many years.",
+      storyH3:"📖 A few important dates",
+      storyLi1:"In 1965, China decided to build an intercontinental missile, named “Dongfeng-5.”",
+      storyLi2:"On May 18, 1980, Dongfeng-5 completed a full-range test flight of over 9,000 km — China had its own ICBM.",
+      storyLi3:"At the 2019 National Day parade, new missiles like DF-41 and DF-17 appeared in public.",
+      storyLi4:"At the Sep 3, 2025 parade, the DF-5C liquid-fueled intercontinental strategic missile appeared publicly for the first time, marching last.",
+      footerTitle:"🌈 Why build it?", footerP1:"Dongfeng missiles are the “anchor” that guards the nation. Their mission is to stop war with strength — so that war dare not start, and our peaceful life is protected.",
+      footerP2:"They are not made for fighting, but for keeping war from happening.", footerSign:"—— For you who love peace 💫", langOther:"中文"
+    }
+  };
+
+  /* ===== 数据：东风导弹家族 ===== */
+  const MISSIONS = [
+    { id:"df5c", emoji:"🛡️", flag:"🇨🇳", star:true, nameZh:"东风5C", nameEn:"DF-5C", yearZh:"2025年首次公开亮相", yearEn:"First shown 2025", countryZh:"中国", countryEn:"China", siteZh:"液体洲际战略核导弹", siteEn:"Liquid-fueled ICBM",
+      descZh:`我国的大型<b>液体洲际战略核导弹</b>。2025 年 9 月 3 日阅兵上首次公开亮相、压轴出场！它由<b>弹头、二级火箭、一级火箭</b>三部分组成，阅兵时用 3 辆车分段运输。官方介绍它“打击范围覆盖全球，全时戒备、有效威慑”。`,
+      descEn:`China's giant <b>liquid-fueled intercontinental strategic missile</b>. It first appeared publicly at the Sep 3, 2025 parade, marching last! It has three parts — <b>warhead, second stage, first stage</b> — carried on three trucks in the parade. Officials describe it as “covering the whole globe, always on alert, an effective deterrent.”`,
+      tagZh:"大国重器·压轴出场", tagEn:"Flagship · marched last" },
+    { id:"df5", emoji:"🚀", flag:"🇨🇳", nameZh:"东风5", nameEn:"DF-5", yearZh:"1980年首飞成功", yearEn:"First success 1980", countryZh:"中国", countryEn:"China", siteZh:"中国第一代洲际导弹", siteEn:"China's 1st-gen ICBM",
+      descZh:`中国<b>第一代洲际导弹</b>。1965 年开始研制，1980 年 5 月 18 日在酒泉成功完成全射程飞行试验，飞越九千多公里，准确落到预定海域——中国从此拥有了自己的洲际导弹！`,
+      descEn:`China's <b>first-generation ICBM</b>. Work began in 1965; on May 18, 1980 it completed a full-range test flight from Jiuquan, flying over 9,000 km to land precisely in a set sea area — China had its own ICBM!`,
+      tagZh:"中国第一代洲际导弹", tagEn:"China's 1st-gen ICBM" },
+    { id:"df5a", emoji:"🚀", flag:"🇨🇳", nameZh:"东风5A", nameEn:"DF-5A", yearZh:"东风五号升级版", yearEn:"Upgraded DF-5", countryZh:"中国", countryEn:"China", siteZh:"射程更远", siteEn:"Longer range",
+      descZh:`东风五号的升级版，射程突破 <b>1.5 万公里</b> 量级，还能携带多枚分导式弹头，飞得更远、更厉害。`,
+      descEn:`An upgraded DF-5 with a range beyond <b>15,000 km</b>, able to carry several independently guided warheads — flying farther and smarter.`,
+      tagZh:"射程突破1.5万公里", tagEn:"Range beyond 15,000 km" },
+    { id:"df41", emoji:"🚚", flag:"🇨🇳", nameZh:"东风41", nameEn:"DF-41", yearZh:"2019年国庆阅兵亮相", yearEn:"Shown at 2019 parade", countryZh:"中国", countryEn:"China", siteZh:"公路机动洲际导弹", siteEn:"Road-mobile ICBM",
+      descZh:`能坐着大卡车到处跑的<b>公路机动</b>洲际导弹，2019 年国庆阅兵上首次公开亮相。它不用待在固定的井里，更灵活。`,
+      descEn:`A <b>road-mobile</b> ICBM that rides on big trucks, first shown at the 2019 National Day parade. It doesn't stay in a fixed silo — much more flexible.`,
+      tagZh:"公路机动洲际导弹", tagEn:"Road-mobile ICBM" },
+    { id:"df31", emoji:"🚀", flag:"🇨🇳", nameZh:"东风31", nameEn:"DF-31", yearZh:"新型陆基洲际导弹", yearEn:"New land-based ICBM", countryZh:"中国", countryEn:"China", siteZh:"陆基洲际导弹", siteEn:"Land-based ICBM",
+      descZh:`我国<b>新型陆基洲际导弹</b>。2025 年阅兵上，它和巨浪-3、东风-61 等一起，展示了我国陆、海、空“三位一体”的战略力量。`,
+      descEn:`China's <b>new land-based ICBM</b>. At the 2025 parade it joined Julang-3 and DF-61 to show China's land, sea and air strategic forces together.`,
+      tagZh:"三位一体战略力量", tagEn:"Triad strategic force" },
+    { id:"df17", emoji:"⚡", flag:"🇨🇳", nameZh:"东风17", nameEn:"DF-17", yearZh:"2019年国庆阅兵亮相", yearEn:"Shown at 2019 parade", countryZh:"中国", countryEn:"China", siteZh:"高超声速导弹", siteEn:"Hypersonic missile",
+      descZh:`飞得特别特别快的<b>高超声速导弹</b>，2019 年国庆阅兵首次亮相。它的速度快到很难被拦住。`,
+      descEn:`A <b>hypersonic missile</b> that flies incredibly fast, first shown at the 2019 National Day parade. It's so quick it's very hard to stop.`,
+      tagZh:"高超声速·飞得极快", tagEn:"Hypersonic · super fast" },
+    { id:"df26", emoji:"🎯", flag:"🇨🇳", nameZh:"东风26", nameEn:"DF-26", yearZh:"2015年阅兵亮相", yearEn:"Shown at 2015 parade", countryZh:"中国", countryEn:"China", siteZh:"中远程弹道导弹", siteEn:"Medium/long-range ballistic missile",
+      descZh:`中远程<b>弹道导弹</b>，2015 年阅兵首次亮相；后来的改进型东风-26D 也在 2025 年阅兵上和大家见了面。`,
+      descEn:`A medium/long-range <b>ballistic missile</b>, first shown at the 2015 parade; its improved DF-26D also appeared at the 2025 parade.`,
+      tagZh:"中远程弹道导弹", tagEn:"Medium/long-range ballistic missile" }
+  ];
+
+  /* ===== 数据：东风5C 构造部件（公开信息，中英双语） ===== */
+  const PARTS = [
+    { id:"warhead", emoji:"🛡️", labelZh:"弹头", labelEn:"Warhead", x:50, y:10, ex:50, ey:5,
+      infoZh:`<b>弹头</b>：导弹最顶上要送出去的“有效载荷”，就像火箭顶上的卫星。东风5C 可以携带多个分导式弹头。`,
+      infoEn:`<b>Warhead</b>: the "payload" at the very top, like the satellite atop a rocket. DF-5C can carry several independently guided warheads.` },
+    { id:"stage2", emoji:"🚀", labelZh:"二级火箭", labelEn:"2nd stage", x:50, y:30, ex:18, ey:28,
+      infoZh:`<b>二级火箭</b>：中间那一截。一级把它送到高处后，二级接着推，把弹头送得更远。`,
+      infoEn:`<b>Second stage</b>: the middle section. After stage 1 lifts it high, stage 2 keeps pushing to send the warhead farther.` },
+    { id:"stage1", emoji:"🚀", labelZh:"一级火箭", labelEn:"1st stage", x:50, y:58, ex:82, ey:56,
+      infoZh:`<b>一级火箭</b>：最下面那一截，力气最大，装满液体燃料，负责把整枚导弹推上天。`,
+      infoEn:`<b>First stage</b>: the bottom section — the strongest, filled with liquid fuel to lift the whole missile off the ground.` },
+    { id:"engine", emoji:"🔥", labelZh:"发动机喷口×4", labelEn:"Nozzles ×4", x:50, y:86, ex:50, ey:93,
+      infoZh:`<b>发动机喷口 ×4</b>：尾部四个大圆圈，是液体火箭发动机的喷口。4 个一起喷火，既推得更有劲，又能灵活调整方向。`,
+      infoEn:`<b>Engine nozzles ×4</b>: the four big circles at the tail are liquid-rocket engine nozzles. Firing together they give more thrust and can steer the missile.` },
+    { id:"guidance", emoji:"🧠", labelZh:"制导系统", labelEn:"Guidance", x:16, y:44, ex:4, ey:44,
+      infoZh:`<b>制导系统</b>：导弹的“大脑”，用惯性、星光和我国的北斗卫星来认路，飞得又远又准。`,
+      infoEn:`<b>Guidance system</b>: the missile's "brain," using inertia, starlight and China's BeiDou satellites to find its way — far and accurate.` },
+    { id:"silo", emoji:"🏰", labelZh:"发射井", labelEn:"Silo", x:84, y:72, ex:96, ey:72,
+      infoZh:`<b>发射井</b>：导弹平时住的地下大井，像一座坚固的地下堡垒，让它能“全时戒备”，随时守护国家安全。`,
+      infoEn:`<b>Silo</b>: the big underground well where the missile lives — a strong underground fortress that lets it stay "always on alert" to guard the nation.` }
+  ];
+
+  /* ===== 数据：故事时间线（中英双语） ===== */
+  const STORY = [
+    { year:"1965", descZh:"决定研制洲际导弹，命名“东风五号”。", descEn:"China decides to build an ICBM, named “Dongfeng-5.”" },
+    { year:"1980", descZh:"东风五号首飞成功，飞越九千多公里。", descEn:"Dongfeng-5's full-range test succeeds, flying 9,000+ km." },
+    { year:"2019", descZh:"东风-41、东风-17 在国庆阅兵亮相。", descEn:"DF-41 and DF-17 appear at the National Day parade." },
+    { year:"2025", descZh:"东风-5C 首次公开亮相，压轴出场。", descEn:"DF-5C appears publicly for the first time, marching last." }
+  ];
+
+  /* ===== 渲染 ===== */
+  let lang = localStorage.getItem('dongfeng-lang') || 'zh';
+  const T = () => I18N[lang];
+  const zh = (a,b) => lang === 'zh' ? a : b;
+
+  function applyUI() {
+    const t = T();
+    document.getElementById('ui-brand').textContent = t.brand;
+    document.getElementById('ui-nav-hero').textContent = t.navHero;
+    document.getElementById('ui-nav-family').textContent = t.navFamily;
+    document.getElementById('ui-nav-breakdown').textContent = t.navBreakdown;
+    document.getElementById('ui-nav-story').textContent = t.navStory;
+    document.getElementById('ui-hero-pre').textContent = t.heroPre;
+    document.getElementById('ui-hero-hl').textContent = t.heroHl;
+    document.getElementById('ui-hero-sub').textContent = t.heroSub;
+    document.getElementById('ui-scroll').textContent = t.scroll;
+    document.getElementById('ui-fam-title').textContent = t.famTitle;
+    document.getElementById('ui-fam-desc').textContent = t.famDesc;
+    document.getElementById('ui-bd-title').textContent = t.bdTitle;
+    document.getElementById('ui-bd-desc').textContent = t.bdDesc;
+    document.getElementById('ui-bd-hint').textContent = t.bdHint;
+    document.getElementById('explodeBtn').textContent = t.explode;
+    document.getElementById('assembleBtn').textContent = t.assemble;
+    document.getElementById('ui-story-title').textContent = t.storyTitle;
+    document.getElementById('ui-story-desc').textContent = t.storyDesc;
+    document.getElementById('ui-footer-title').textContent = t.footerTitle;
+    document.getElementById('ui-footer-p1').textContent = t.footerP1;
+    document.getElementById('ui-footer-p2').textContent = t.footerP2;
+    document.getElementById('ui-footer-sign').textContent = t.footerSign;
+    document.getElementById('langBtn').textContent = t.langOther;
+    document.getElementById('peaceNote').innerHTML = `<h3>${t.storyH3}</h3><ul><li>${t.storyLi1}</li><li>${t.storyLi2}</li><li>${t.storyLi3}</li><li>${t.storyLi4}</li></ul>`;
+    renderStory();
+  }
+
+  function renderMissions() {
+    document.getElementById('missions').innerHTML = MISSIONS.map(m => `
+      <div class="mission${m.star ? ' star' : ''}" id="${m.id}">
+        <div class="m-top"><span class="m-emoji">${m.emoji}</span><div><div class="m-name">${zh(m.nameZh,m.nameEn)} <span class="m-flag">${m.flag}</span></div></div></div>
+        <div class="m-meta"><b>${zh(m.yearZh,m.yearEn)}</b> · ${zh(m.countryZh,m.countryEn)} · ${zh(m.siteZh,m.siteEn)}</div>
+        <div class="m-desc">${zh(m.descZh,m.descEn)}</div>
+        <span class="m-tag">${zh(m.tagZh,m.tagEn)}</span>
+      </div>`).join('');
+    document.getElementById('yearbar').innerHTML = MISSIONS.map(m => `<span>${zh(m.nameZh,m.nameEn)}</span>`).join('');
+    document.getElementById('heroCount').innerHTML = T().heroCount(MISSIONS.length);
+  }
+
+  function renderStory() {
+    document.getElementById('story').innerHTML = STORY.map(s => `
+      <div class="sstep"><div class="s-year">${s.year}</div><div class="s-desc">${zh(s.descZh,s.descEn)}</div></div>`).join('');
+  }
+
+  function renderParts() {
+    const stage = document.getElementById('rocketStage');
+    const info = document.getElementById('partInfo');
+    PARTS.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'part assembled'; el.dataset.id = p.id;
+      el.style.left = p.x + '%'; el.style.top = p.y + '%';
+      el.innerHTML = `${p.emoji}<span class="part-label">${zh(p.labelZh,p.labelEn)}</span>`;
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.part').forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+        info.innerHTML = zh(p.infoZh, p.infoEn);
+      });
+      stage.appendChild(el);
+    });
+  }
+
+  function setMode(exploded) {
+    const stage = document.getElementById('rocketStage');
+    stage.classList.toggle('exploded-mode', exploded);
+    document.querySelectorAll('.part').forEach((el, i) => {
+      const p = PARTS[i];
+      el.classList.toggle('exploded', exploded);
+      el.classList.toggle('assembled', !exploded);
+      el.style.left = (exploded ? p.ex : p.x) + '%';
+      el.style.top = (exploded ? p.ey : p.y) + '%';
+      el.querySelector('.part-label').textContent = zh(p.labelZh, p.labelEn);
+    });
+  }
+
+  function updateLang() {
+    applyUI(); renderMissions(); renderParts();
+    const info = document.getElementById('partInfo');
+    if (!info.querySelector('b')) info.innerHTML = `<span class="hint">${T().bdHint}</span>`;
+  }
+
+  document.getElementById('explodeBtn').addEventListener('click', () => setMode(true));
+  document.getElementById('assembleBtn').addEventListener('click', () => setMode(false));
+  document.getElementById('langBtn').addEventListener('click', () => {
+    lang = (lang === 'zh') ? 'en' : 'zh';
+    localStorage.setItem('dongfeng-lang', lang);
+    updateLang();
+  });
+
+  updateLang();
+  </script>
+</body>
+</html>

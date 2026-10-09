@@ -72,6 +72,21 @@ window.CATEGORIES = [
         ]
       },
       {
+        id: "missile",
+        name: "导弹",
+        emoji: "🛡️",
+        refs: { title: "东风导弹家族", emoji: "🇨🇳", desc: "东风系列导弹，一张图看全", url: "../dongfeng/dongfeng.html" },
+        topics: [
+          { id: "df5c", title: "东风5C", emoji: "🛡️", desc: "液体洲际战略核导弹·2025阅兵压轴亮相", url: "../dongfeng/dongfeng.html#df5c", ready: true },
+          { id: "df5", title: "东风5", emoji: "🚀", desc: "中国第一代洲际导弹（1980首飞成功）", url: "../dongfeng/dongfeng.html#df5", ready: true },
+          { id: "df5a", title: "东风5A", emoji: "🚀", desc: "东风五号升级版·射程1.5万公里", url: "../dongfeng/dongfeng.html#df5a", ready: true },
+          { id: "df41", title: "东风41", emoji: "🚚", desc: "公路机动洲际导弹（2019阅兵亮相）", url: "../dongfeng/dongfeng.html#df41", ready: true },
+          { id: "df31", title: "东风31", emoji: "🚀", desc: "新型陆基洲际导弹", url: "../dongfeng/dongfeng.html#df31", ready: true },
+          { id: "df17", title: "东风17", emoji: "⚡", desc: "高超声速导弹·飞得极快", url: "../dongfeng/dongfeng.html#df17", ready: true },
+          { id: "df26", title: "东风26", emoji: "🎯", desc: "中远程弹道导弹", url: "../dongfeng/dongfeng.html#df26", ready: true }
+        ]
+      },
+      {
         id: "mars",
         name: "火星探测",
         emoji: "🔴",
