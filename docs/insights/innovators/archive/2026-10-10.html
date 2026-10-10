@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<base href="../" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>创新探索人才·早期挖掘 · 研判看板</title>
+<!-- 统一模板生成：docs/insights/_templates/dashboard.html + generate.js -->
+<style>
+  :root{--bg:#e8eaf1;--panel:#ffffff;--panel2:#f3f5fa;--ink:#2a3140;--muted:#5c6577;--muted2:#3a4252;--line:#d5dae6;--accent:#1f5ec9;--accentSoft:rgba(31,94,201,.08);--warn:#a86f0e;--peak:#c13a31;--good:#17613d;--dim:#0e7fa8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:30px 20px 60px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#ffffff 0%,var(--bg) 260px);}
+  .wrap{max-width:1060px;margin:0 auto;}
+  header{margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--accent);}
+  .crumb{font-size:13px;color:var(--muted);}
+  .crumb a{color:var(--accent);text-decoration:none;font-weight:700;}
+  h1{font-size:27px;font-weight:800;color:#1a2233;margin:8px 0 6px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:13.5px;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+  .badge{background:var(--accentSoft);border:1px solid #cdd7ee;color:var(--accent);border-radius:999px;font-size:12px;padding:3px 13px;font-weight:700;}
+  section{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:13px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(35,45,75,.06);overflow:hidden;}
+  section.warnside{border-top-color:var(--warn);}
+  section h2{font-size:17px;font-weight:800;color:#1b2333;margin-bottom:12px;display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  section h2 .idx{background:var(--accent);color:#fff;border-radius:7px;min-width:26px;height:25px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;padding:0 7px;letter-spacing:.5px;}
+  .lead{font-size:15px;color:var(--muted2);line-height:1.85;}
+  .lead b,.lead strong,section p b{color:#1b2333;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;}
+  .cell b{display:block;font-size:14.5px;font-weight:800;color:#1c2433;margin-bottom:8px;letter-spacing:.2px;}
+  .cell p{font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .tbd,.focus,.trend,.tline,.tag,.flag,.hl,.risk{display:inline-block;padding:1px 9px;border-radius:7px;font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.7;}
+  .flag,.tbd{color:#b4530a;background:#ffe3b3;}
+  .focus{color:#a0149b;background:#f6c7f7;border:1px solid #efb3ef;}
+  .trend{color:#5b43ce;background:#e3d9ff;}
+  .tline{color:#1f5ec9;background:#e7edfa;}
+  .tag{color:#24518f;background:#e9eefc;}
+  .hl,.risk{color:#b02a26;background:#fbe8e6;}
+  .good{color:#17613d;background:#e2f1e9;}
+  .hand{color:var(--good);font-weight:700;}
+  .new{color:var(--good);font-weight:700;}
+  .table a,.cell a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid #b9c8ec;}
+  .table a:hover,.cell a:hover{border-bottom-color:var(--accent);color:#143f96;}
+  .timeline{list-style:none;margin-top:6px;}
+  .timeline li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .timeline li b{color:#16202f;}
+  .timeline li:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}}
+  .table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+  .table th{text-align:left;color:var(--accent);font-weight:700;background:var(--accentSoft);border-bottom:1px solid var(--line);padding:9px 10px;}
+  .table td{padding:9px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;color:var(--muted2);}
+  .table tbody tr:nth-child(even){background:#fafbff;}
+  .table tbody tr:hover{background:#f2f5fd;}
+  .cheq label{display:block;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted2);}
+  .cheq label:last-child{border-bottom:none;}
+  .cheq input{margin-right:9px;accent-color:var(--accent);}
+  .callout{background:var(--accentSoft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted2);margin-top:12px;}
+  .callout .cl{font-weight:800;color:var(--accent);margin-bottom:4px;}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px;color:#5d6678;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="crumb"><a href="../../index.html">个人洞察</a> / 创新探索人才·早期挖掘</div>
+    <h1>创新探索人才·早期挖掘 · 研判看板</h1>
+    <div class="sub">首期 · 数据窗 2026-09~10 · 中国前沿探索型创新人才/企业线索 · 跨源扫描（小/红书、投资人访谈、官方与一线媒体）</div>
+    <div class="sub" style="margin-top:2px;">首个探测窗口：5 大挖掘维度 + 共通特质画像 + 3 梯队 20+ 线索人物 · 核心中国、兼顾国际对比</div>
+    <div class="badges"><span class="badge">探测雷达</span><span class="badge">中国优先</span><span class="badge">早期发现</span><span class="badge">共通特质</span><span class="badge">3梯队</span></div>
+    <div class="sub" style="margin-top:8px;font-size:12.5px;">历史归档：暂无可比快照（首期）</div>
+  </header>
+
+  <section>
+    <h2><span class="idx">◎</span> 较上次运行变化清单（自动区）</h2>
+    <div class="grid">
+      <div class="cell"><b>➕ 新增（本窗）+4</b><ul class="timeline" style="margin-top:6px"><li>新接入主题，本次为首次探测窗口（传感基线）</li><li>定义 5 大挖掘维度 + 共通特质画像 + 3 梯队分层</li><li>沉淀 20+ 中国前沿探索型线索人物/项目（聚变·脑机·具身·航天·触觉·金刚石设备等）</li><li>识别多处待观察早期信号（融资/里程碑/新人曝光）</li></ul></div>
+      <div class="cell"><b>♻ 修正 / 升级</b><ul class="timeline" style="margin-top:6px"></ul></div>
+      <div class="cell"><b>⏸ 未变（延续判断）</b><ul class="timeline" style="margin-top:6px"></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">①</span> 本期综述</h2>
+    <div class="cell" style="margin-bottom:12px"><b>已沉淀事实</b><p>本主题目标：像马斯克一样 <b>敢探索人类极限、跳脱传统思维、目标远大且有具体战略落地</b> 的创新人才，<b>在其尚未被大众熟知时就提前发现</b>。核心以中国为主、兼顾其他国家。方法是从<b>蛛丝马迹、成长/学习/工作轨迹</b>中捕捉早期信号，把它们汇编成可持续更新的『潜在大咖雷达』。本期为首期基线，后续每日运行增量挖掘。</p></div>
+    <div class="cell">
+      <b>最新趋势速递（本章新增）</b>
+      <ul class="timeline" style="margin-top:8px"><li><span class="tbd">非共识路线</span>　高温超导托卡马克、超声波无创脑机等冷门路线获资本认可，『非主流』恰是早期信号。</li><li><span class="trend">极限制高点</span>　聚变能源、脑机接口、具身智能、商业航天成为『探索人类极限』的主赛道，中国新锐密集浮现。</li><li><span class="focus">隐于主流</span>　多名候选人信号藏在种子/天使轮、论文署名、专利与低调专访中，尚未进入大众头部叙事。</li></ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">★</span> 挖掘设计 · 五大探测维度<span style="color:var(--muted);font-size:12px;margin-left:8px;">这是本主题的『挖掘地图』，按下述维度持续扫描信号</span></h2>
+    <table class="table"><thead><tr><th>探测维度</th><th>要捕捉的『蛛丝马迹』信号</th><th>高发领域</th></tr></thead><tbody><tr><td><span class="trend">① 非共识路线</span></td><td>选择主流不看好的技术路线，早期融资却不退缩</td><td>可控核聚变(高温超导)、超声波无创脑机、可回收火箭、常温超导</td></tr><tr><td><span class="trend">② 探索极限制高点</span></td><td>押注改变人类下限的终极问题，而非当下变现</td><td>聚变能源、脑机接口、地月空间、合成生物/长寿抵抗</td></tr><tr><td><span class="trend">③ 战略聚焦×长期主义</span></td><td>多年押注单一目标，且有可验证的落地时间表</td><td>人形机器人量产、聚变发电、火箭入轨、长时储能</td></tr><tr><td><span class="trend">④ 高频早期资本却非大众知名</span></td><td>种子/天使轮密集融资，却少见于大众头条</td><td>北上深杭蓉硬科技新锐团队、连续创业者</td></tr><tr><td><span class="trend">⑤ 跨界成长轨迹</span></td><td>跨学科／跨领域、工程师背景、连续创业、争议发表</td><td>互联网→脑科学、研究员→机器人、学术→商业落地</td></tr></tbody></table>
+    
+  </section>
+  <section>
+    <h2><span class="idx">★</span> 共通特质画像 ·『下一个马斯克』<span style="color:var(--muted);font-size:12px;margin-left:8px;">作为筛选判据，同时列出警示点避免误判</span></h2>
+    <table class="table"><thead><tr><th>共通特质</th><th>观察点 / 判断依据</th><th>警示（避免误判）</th></tr></thead><tbody><tr><td>第一性原理</td><td>用基础物理/数学重估成本与路径，敢于自研攻坚</td><td>警惕仅『概念炒作』而无工程验证</td></tr><tr><td>跨学科跨界</td><td>把 A 领域方法迁移到 B 领域形成代差</td><td>警惕跨行却没有深度积累</td></tr><tr><td>下重注 × 高速试错</td><td>All-in 单一方向，用快速迭代逼近</td><td>警惕投机式频繁换赛道</td></tr><tr><td>战略叙事可验证</td><td>能把宏大目标拆成可证伪的里程碑时间表</td><td>警惕只有宏大叙事缺落地路线</td></tr><tr><td>相对隐于主流</td><td>信号藏在论文/专利/天使轮/争议发声</td><td>需用事件验证，而非名气判断</td></tr></tbody></table>
+    
+  </section>
+  <section>
+    <h2><span class="idx">★</span> 候选人物·企业 梯队（首期扫描）<span style="color:var(--muted);font-size:12px;margin-left:8px;">T1=已证明可规模化(公众稍知)；T2=垂类有名(主流未尽知)；T3=早期线索(需持续验证) · 中国优先</span></h2>
+    <table class="table"><thead><tr><th>梯队</th><th>人物 / 团队</th><th>领域 / 代表成果</th><th>当前信号</th></tr></thead><tbody><tr><td><span class="focus">T1 核心</span></td><td>王兴兴｜宇树科技</td><td>人形机器人 / 科创板 IPO 受理</td><td>全球四足/人形龙头，'ChatGPT 时刻'公开定义</td></tr><tr><td><span class="focus">T1 核心</span></td><td>王鹤｜银河通用(Galbot)</td><td>具身智能 / Galbot S1 量产</td><td>3 年融资约 70 亿、估值破 200 亿，宁德产线落地</td></tr><tr><td><span class="focus">T1 核心</span></td><td>张昌武｜蓝箭航天</td><td>商业航天 / 朱雀火箭</td><td>国内民营航天头部，可回收路线押注者</td></tr><tr><td><span class="focus">T1 核心</span></td><td>梁文锋｜DeepSeek</td><td>AI 基础模型 / 开源大模型</td><td>低成本开源冲击全球算力格局</td></tr><tr><td><span class="flag">T2 垂类</span></td><td>彭志辉(稚晖君)｜智元机电</td><td>人形机器人 / 远征系列</td><td>谷歌归来跨界机器人，量产进程受关注</td></tr><tr><td><span class="flag">T2 垂类</span></td><td>杨植麟｜月之暗面 / 张鹏｜智谱AI</td><td>AI 模型 / Agent</td><td>国产大模型前沿，持续迭代</td></tr><tr><td><span class="flag">T2 垂类</span></td><td>陶虎｜脑虎科技</td><td>侵入式脑机接口 / 半侵入高带宽</td><td>面向渐冻症等临床，走植入电极路线</td></tr><tr><td><span class="flag">T2 垂类</span></td><td>布向伟｜东方空间 / 康永来｜天兵科技</td><td>商业航天 / 固体可回收</td><td>新兴航天创业，谷神·天龙系研发</td></tr><tr><td><span class="tbd">T3 早期</span></td><td>杨钊｜能量奇点</td><td>高温超导托卡马克 / 洪荒70</td><td>全球首台全高温超导装置，1337 秒稳态运行，「诺瓦一号」拟 2026 底放电</td></tr><tr><td><span class="tbd">T3 早期</span></td><td>星核聚变团队</td><td>高温超导聚变 / 面向 AI 数据中心</td><td>8.3 亿元首轮融资，估值近 30 亿，路线非典型</td></tr><tr><td><span class="tbd">T3 早期</span></td><td>张星智｜瓦博科技</td><td>非侵入式脑机 / 读懂人类意图</td><td>宇树早期投资人押注，清华博士带队，成都</td></tr><tr><td><span class="tbd">T3 早期</span></td><td>彭雷｜格式塔科技</td><td>超声波无创脑机 / 相控阵聚焦</td><td>连续创业者跨界脑科学，陈天桥联合创办</td></tr><tr><td><span class="tbd">T3 早期</span></td><td>王茜/李远宁/朱毅鑫｜芯生视界</td><td>具身智能+脑认知 / 近亿元种子轮</td><td>北大心理与认知—上科大—卡梅隆脑机实验室，学术孵化</td></tr><tr><td><span class="tbd">T3 早期</span></td><td>灵感机器人(AGIMind)</td><td>触觉智能 / Lux 视触觉传感</td><td>数千万元天使轮，物理AI接触智能量产</td></tr><tr><td><span class="tbd">T3 早期</span></td><td>袁稳｜稳正科技</td><td>MPCVD 金刚石装备 / 打破海外垄断</td><td>第 1000 台设备下线，自研攻坚高端设备</td></tr></tbody></table>
+    
+  </section>
+
+  <section>
+    <h2><span class="idx">②</span> 趋势与规律</h2>
+    <div class="grid"><div class="cell"><b>为什么现在挖</b><p>聚变、脑机、具身、航天在中国集体进入『资本+舆论』升温期，早期创始人与『背后工程师』仍在被公开关注前夜，是提前发掘窗口。</p></div><div class="cell"><b>信号源优先级</b><p>一手官方/权威媒体 > 一线投融资报道 > 论文署名与专利 > 争议性自述。技术里程碑（如千秒稳态、IPO受理）是强验证信号。</p></div><div class="cell"><b>中国 vs 全球</b><p>中国线索集中在前沿硬科技攻坚与工程化落地；国际线索（如 SpaceX/Neuralink/OpenAI 相关人物）作为对比参照，标注国别。</p></div></div>
+    <h2 style="margin-top:18px">关键时间线（近段）</h2>
+    <ul class="timeline"><li><b>2026</b>　<span class="new">能量奇点洪荒70 实现 1337 秒稳态长脉冲</span> — 全高温超导路径工程可行性被验证。</li><li><b>2026</b>　银河通用累计融资约 70 亿、估值破 200 亿，大基金三期进入具身智能。</li><li><b>2026-03</b>　<span class="new">宇树科技科创板 IPO 受理</span>，具身智能资本化提速，多公司集中冲刺上市。</li><li><b>2026</b>　成都脑机『双子星』（瓦博/格式塔）成立，非侵入/超声波路线进入公众视野。</li><li><b>2026</b>　星核聚变完成 8.3 亿元首轮融资，高温超导路线面向 AI 算力数据中心。</li></ul>
+  </section>
+
+  <section>
+    <h2><span class="idx">③</span> 研判与方向</h2>
+    <div class="grid"><div class="cell"><b>本主题定位</b><p>不是『名人榜单』，而是『探测雷达』：提供可复用的挖掘框架 + 可持续更新的早期候选梯队，用事件（里程碑/融资/首发）持续提级或降级。</p></div><div class="cell"><b>建议行动</b><p>按 5 维度每周扫描一次早期融资/论文/争议信号，优先把 T3 中已有硬工程证据者向 T2 提级复盘；对疑似『概念+无工程』者提示误判风险。</p></div><div class="cell"><b>判定原则</b><p>名气≠价值：更看重『非共识路线 + 可验证落地时间表』。同一人可因 IPO/关键里程碑而公开化，届时退出『早期挖掘』名单，转为已确认对象。</p></div></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">④</span> 关联脉络</h2>
+    <div class="grid2">
+      <div class="cell"><b>传导链（本轮更新）</b><ul class="timeline" style="margin-top:6px"><li>非共识路线 → 突破性工程验证 → 资本涌入 → 进入大众视野（早期→知名）</li><li>跨界成长轨迹 + 自研攻坚 → 核心技术壁垒 → 行业范式改变</li></ul></div>
+      <div class="cell"><b>外部接口</b><ul class="timeline" style="margin-top:6px"><li>信源：新华网/上海证券报/经济日报/证券之星/21世纪经济 等权威与一线媒体、IT桔子/企查查 等早期融资库、arXiv/专利、官方专访</li><li>线索需结合『里程碑可验证』原则持续核对，避免因个例叙事或夸大宣传误判</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑤</span> 待观察信号（leading indicators）</h2>
+    <div class="cheq"><label><input type="checkbox"> <span class="focus">高温超导聚变：洪荒70 稳态→能否走向商业化发电（诺瓦一号放电）？</span></label><label><input type="checkbox"> 具身智能资本事件：宇树 IPO、银河通用大基金、多企冲刺上市 → 头部创始人物公开化进程</label><label><input type="checkbox"> <span class="focus">非侵入/超声波脑机临床落地进度 → 该路线创始人的证明节点</span></label><label><input type="checkbox"> 触觉传感/物理AI 量产与入场景 → 灵感机器人等 T3 是否加速向 T2 提级</label><label><input type="checkbox"> <span class="focus">被首次公开报道的『背后人物』（论文署名/低调天使轮/铁路专访）→ 下一批早期线索来源</span></label></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑥</span> 高质条目 <span style="font-size:12px;font-weight:400;color:var(--muted);">（★=本窗新增）</span></h2>
+    <table class="table">
+      <thead><tr><th>日期</th><th>条目</th><th>来源</th><th>维度</th><th>反馈</th></tr></thead>
+      <tbody><tr><td>2026-04</td><td><a href="https://www.news.cn/tech/20260409/9d8c6b3774624d528b674596f9e2186f/c.html" target="_blank" rel="noopener">★ 能量奇点洪荒70全高温超导托卡马克实现1337秒稳态长脉冲</a></td><td>新华网</td><td>聚变·里程碑</td><td class="hand">—</td></tr><tr><td>2026</td><td><a href="http://m.toutiao.com/group/7694881535413043722/" target="_blank" rel="noopener">★ 星核聚变完成8.3亿元首轮融资，高温超导路线面向AI数据中心</a></td><td>上海证券报/新浪</td><td>聚变·早期融资</td><td class="hand">—</td></tr><tr><td>2026</td><td><a href="http://paper.cnstock.com/html/2026-04/09/content_2197846.htm" target="_blank" rel="noopener">★ 能量奇点杨钊专访：释放聚变能源的'洪荒'之力</a></td><td>上海证券报</td><td>人物访谈</td><td class="hand">—</td></tr><tr><td>2026</td><td><a href="https://app.xinhuanet.com/news/article.html?articleId=20260730392c54cf53b54dfe8df8253be13c1f4d" target="_blank" rel="noopener">★ 宇树早期投资人押注脑机新锐：瓦博科技（非侵入，清华博士带队）</a></td><td>新华网客户端</td><td>脑机·早期线索</td><td class="hand">—</td></tr><tr><td>2026</td><td><a href="http://www.cditv.cn/show/4813-2451647.html" target="_blank" rel="noopener">★ 成都'冲天入海'脑机双子星：格式塔科技(超声波)+瓦博</a></td><td>瞭望东方周刊</td><td>脑机·人物</td><td class="hand">—</td></tr><tr><td>2026-06</td><td><a href="https://finance.sina.com.cn/roll/2026-06-18/doc-inicvfcx2293711.shtml" target="_blank" rel="noopener">★ 芯生视界完成近亿元种子轮融资（王茜/李远宁/朱毅鑫，北大—上科大—卡梅隆）</a></td><td>新浪财经</td><td>具身+脑认知·种子轮</td><td class="hand">—</td></tr><tr><td>2026</td><td><a href="https://www.huxiu.com/article/4890421.html" target="_blank" rel="noopener">★ 银河通用约70亿融资估值破200亿，大基金三期首次出手具身智能</a></td><td>虎嗅/证券之星</td><td>具身·资本</td><td class="hand">—</td></tr><tr><td>2026-03</td><td><a href="http://finance.ce.cn/stock/gsgdbd/202603/t20260323_2847432.shtml" target="_blank" rel="noopener">★ 宇树科技科创板IPO受理，或成A股人形机器人第一股</a></td><td>经济日报</td><td>机器人·资本化</td><td class="hand">—</td></tr><tr><td>近期</td><td><a href="http://m.toutiao.com/group/7694930199649878582/" target="_blank" rel="noopener">★ 灵感机器人(AGIMind)完成数千万元天使轮，触觉智能(Lux视触觉传感)</a></td><td>北京科技报</td><td>触觉·天使轮</td><td class="hand">—</td></tr><tr><td>近期</td><td><a href="http://m.toutiao.com/group/7694926305422328371/" target="_blank" rel="noopener">★ 稳正科技第1000台MPCVD金刚石设备下线，打破海外垄断</a></td><td>九派财经</td><td>高端装备·背后人物</td><td class="hand">—</td></tr></tbody>
+    </table>
+  </section>
+
+  <footer>本页由主题跟踪流水线（采集 → 精筛 → 洞察研判 → 呈现 · 统一模板 dashboard.html + generate.js 生成）产出；反馈列对应飞书条目库赞/踩，用于反哺后续研判。</footer>
+</div>
+</body>
+</html>
