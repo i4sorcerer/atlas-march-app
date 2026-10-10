@@ -47,7 +47,7 @@ window.CATEGORIES = [
         refs: { title: "参考资源库", emoji: "📚", desc: "双语航天科普素材库（视频 / 纪录片 / 播客）", url: "../changzheng/resources.html" },
         topics: [
           { id: "falcon9", title: "猎鹰9号", emoji: "🚀", desc: "会自己飞回来的可回收火箭", url: "../falcon9/falcon9.html", ready: true },
-          { id: "starship", title: "星舰 Starship", emoji: "🚀", desc: "要带人去火星的超级飞船", url: "", ready: false }
+          { id: "starship", title: "星舰 Starship（IFT-14）", emoji: "🚀", desc: "首次入轨！2026-09-28 第14次试飞全记录", url: "../starship/starship.html", ready: true }
         ]
       },
       {

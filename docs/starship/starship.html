@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>星舰 Starship · IFT-14 首次入轨全记录</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka+One&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --space-deep: #0D1B2A; --space-purple: #1B0033; --star-gold: #FFD166;
+      --rocket-red: #EF476F; --star-white: #E8F1FF; --tech-green: #06D6A0;
+      --mars-orange: #FF8C42; --mars-red: #E25822;
+      --radius-lg: 28px; --radius-md: 18px; --shadow: 0 12px 30px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'ZCOOL KuaiLe','Nunito',sans-serif; background: linear-gradient(160deg,var(--space-purple) 0%,var(--space-deep) 100%); background-attachment: fixed; color: var(--star-white); overflow-x: hidden; line-height: 1.7; }
+    #starfield { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+    .topbar, header, section, footer { position: relative; z-index: 1; }
+
+    .topbar { position: fixed; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 14px 22px; background: rgba(13,27,42,.6); backdrop-filter: blur(8px); z-index: 50; }
+    .logo { font-family: 'Fredoka One',cursive; font-size: 22px; color: var(--star-gold); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-links a { color: var(--star-white); text-decoration: none; margin-left: 14px; font-size: 15px; opacity: .85; transition: color .2s, transform .2s; }
+    .nav-links a:hover { color: var(--star-gold); transform: translateY(-2px); }
+    .lang-btn { font-family: 'ZCOOL KuaiLe',sans-serif; border: 2px solid var(--star-gold); background: transparent; color: var(--star-gold); border-radius: 999px; padding: 6px 16px; font-size: 15px; cursor: pointer; transition: transform .15s, background .2s; }
+    .lang-btn:hover { transform: scale(1.06); background: rgba(255,209,102,.15); }
+
+    .hero { min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 90px 20px 40px; }
+    .hero-rover { font-size: 84px; animation: floaty 3s ease-in-out infinite; filter: drop-shadow(0 8px 16px rgba(255,209,102,.4)); }
+    .hero-title { font-family: 'Fredoka One',cursive; font-size: clamp(32px,7.5vw,62px); margin: 10px 0; color: var(--star-white); text-shadow: 0 4px 0 rgba(239,71,111,.5); }
+    .hero-title .hl { color: var(--star-gold); }
+    .hero-sub { font-size: clamp(15px,4vw,21px); margin-bottom: 8px; opacity: .9; max-width: 720px; }
+    .hero-count { margin-top: 18px; font-size: 17px; color: var(--mars-orange); background: rgba(255,140,66,.12); border: 2px solid var(--mars-orange); border-radius: var(--radius-md); padding: 10px 22px; }
+    .scroll-hint { margin-top: 34px; font-size: 16px; color: var(--star-gold); animation: bounce 1.4s infinite; }
+
+    .section { padding: 58px 20px; max-width: 1060px; margin: 0 auto; }
+    .section-title { font-family: 'Fredoka One',cursive; font-size: clamp(23px,5.6vw,38px); text-align: center; color: var(--star-gold); margin-bottom: 12px; }
+    .section-desc { text-align: center; font-size: 17px; opacity: .85; margin-bottom: 28px; max-width: 800px; margin-left: auto; margin-right: auto; }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 20px; }
+    .card { background: rgba(232,241,255,.06); border: 2px solid rgba(232,241,255,.12); border-radius: var(--radius-lg); padding: 22px 20px; box-shadow: var(--shadow); transition: transform .2s, border-color .2s; }
+    .card:hover { transform: translateY(-6px); border-color: var(--mars-orange); }
+    .card h3 { color: var(--tech-green); font-size: 19px; margin-bottom: 8px; }
+    .card p { font-size: 15.5px; }
+    .card .big { font-family: 'Fredoka One',cursive; font-size: 30px; color: var(--star-gold); }
+    .card b { color: var(--star-gold); }
+
+    /* 拆解 */
+    .breakdown-wrap { display: flex; flex-wrap: wrap; gap: 26px; align-items: flex-start; justify-content: center; }
+    .rocket-stage { position: relative; width: 300px; height: 620px; flex: 0 0 auto; }
+    .rocket-silhouette { position: absolute; left: 50%; top: 4%; width: 62px; height: 88%; transform: translateX(-50%);
+      background: linear-gradient(90deg,#f2f6fa 0%,#b3bec9 48%,#f2f6fa 100%); border-radius: 31px 31px 8px 8px;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.28), 0 10px 26px rgba(0,0,0,.35); transition: opacity .5s; }
+    .rocket-silhouette::before { content:""; position: absolute; top: -32px; left: 50%; transform: translateX(-50%);
+      border-left: 31px solid transparent; border-right: 31px solid transparent; border-bottom: 34px solid #dbe2ea; border-radius: 6px; }
+    .rocket-stage.exploded-mode .rocket-silhouette { opacity: .12; }
+    .part { position: absolute; font-size: 32px; cursor: pointer; transition: left .6s cubic-bezier(.34,1.56,.64,1), top .6s cubic-bezier(.34,1.56,.64,1), filter .2s; filter: drop-shadow(0 4px 8px rgba(0,0,0,.45)); text-align: center; transform: translate(-50%,-50%); z-index: 3; }
+    .part:hover { filter: drop-shadow(0 0 14px var(--star-gold)); }
+    .part.active { filter: drop-shadow(0 0 16px var(--star-gold)); }
+    .part .part-label { display: block; font-size: 11.5px; color: var(--star-white); margin-top: 2px; white-space: nowrap; background: rgba(13,27,42,.55); padding: 1px 6px; border-radius: 8px; }
+    .breakdown-side { flex: 1 1 320px; min-width: 260px; }
+    .part-info { margin-top: 4px; background: rgba(6,214,160,.1); border: 2px solid var(--tech-green); border-radius: var(--radius-md); padding: 18px; font-size: 16px; min-height: 130px; }
+    .part-info b { color: var(--tech-green); }
+    .btn { font-family: 'ZCOOL KuaiLe',sans-serif; border: none; border-radius: var(--radius-md); padding: 12px 20px; font-size: 17px; cursor: pointer; background: var(--rocket-red); color: #fff; box-shadow: var(--shadow); transition: transform .15s cubic-bezier(.34,1.56,.64,1), filter .2s; margin: 4px 6px 4px 0; }
+    .btn:hover { transform: scale(1.06) rotate(-1deg); filter: brightness(1.1); }
+    .btn-ghost { background: transparent; border: 2px solid var(--tech-green); color: var(--tech-green); }
+
+    /* 飞行时间线 */
+    .timeline { position: relative; margin: 0 auto; max-width: 860px; }
+    .tl-item { display: grid; grid-template-columns: 108px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px dashed rgba(232,241,255,.14); }
+    .tl-item:last-child { border-bottom: none; }
+    .tl-time { font-family: 'Fredoka One',cursive; font-size: 15px; color: var(--star-gold); padding-top: 2px; }
+    .tl-body { font-size: 15.5px; }
+    .tl-body b { color: var(--tech-green); }
+    .tl-body .badge { display: inline-block; font-size: 12px; padding: 1px 9px; border-radius: 999px; margin-left: 6px; background: rgba(255,209,102,.18); border: 1px solid var(--star-gold); color: var(--star-gold); }
+
+    /* 目标表 */
+    .obj { width: 100%; border-collapse: collapse; font-size: 15px; }
+    .obj th, .obj td { text-align: left; padding: 11px 12px; border-bottom: 1px solid rgba(232,241,255,.14); vertical-align: top; }
+    .obj th { color: var(--star-gold); font-family: 'Fredoka One',cursive; font-weight: 400; }
+    .obj .ok { color: var(--tech-green); white-space: nowrap; }
+    .obj .part-ok { color: var(--star-gold); white-space: nowrap; }
+    .obj .no { color: #ff9bb3; white-space: nowrap; }
+
+    .note { background: rgba(232,241,255,.06); border: 2px dashed rgba(232,241,255,.25); border-radius: var(--radius-lg); padding: 22px; margin-top: 22px; font-size: 15.5px; }
+    .note h3 { color: var(--star-gold); font-size: 19px; margin-bottom: 10px; }
+    .note ul { padding-left: 22px; }
+    .note li { margin-bottom: 6px; }
+
+    .footer { text-align: center; padding: 66px 20px 90px; }
+    .footer-title { font-family: 'Fredoka One',cursive; font-size: 30px; color: var(--tech-green); margin-bottom: 14px; }
+    .footer p { font-size: 17px; max-width: 640px; margin: 0 auto 10px; }
+    .footer-sign { color: var(--star-gold); margin-top: 18px; }
+    .hint { opacity: .8; }
+
+    @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+    @media (max-width: 620px) { .nav-links a { margin-left: 8px; font-size: 13px; } .topbar { padding: 10px 14px; } .rocket-stage { width: 260px; height: 560px; } .tl-item { grid-template-columns: 82px 1fr; gap: 10px; } }
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+
+  <nav class="topbar">
+    <span class="logo" id="ui-brand">🚀 星舰 IFT-14</span>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#hero" id="ui-nav-hero">出发</a>
+        <a href="#about" id="ui-nav-about">它是什么</a>
+        <a href="#breakdown" id="ui-nav-breakdown">拆开看</a>
+        <a href="#flight" id="ui-nav-flight">飞行全程</a>
+        <a href="#result" id="ui-nav-result">目标结果</a>
+      </div>
+      <button class="lang-btn" id="langBtn">EN</button>
+    </div>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-rover">🚀</div>
+    <h1 class="hero-title"><span id="ui-hero-pre">星舰 Starship</span><br /><span class="hl" id="ui-hero-hl">IFT-14 · 首次入轨</span></h1>
+    <p class="hero-sub" id="ui-hero-sub"></p>
+    <div class="hero-count" id="heroCount"></div>
+    <div class="scroll-hint" id="ui-scroll">👇 往下滚，看这次里程碑飞行</div>
+  </header>
+
+  <section id="about" class="section">
+    <h2 class="section-title" id="ui-about-title">🛰️ 星舰是什么？</h2>
+    <p class="section-desc" id="ui-about-desc"></p>
+    <div class="cards" id="specs"></div>
+  </section>
+
+  <section id="breakdown" class="section">
+    <h2 class="section-title" id="ui-bd-title">🔧 把星舰拆开看看！</h2>
+    <p class="section-desc" id="ui-bd-desc"></p>
+    <div class="breakdown-wrap">
+      <div class="rocket-stage" id="rocketStage"><div class="rocket-silhouette"></div></div>
+      <div class="breakdown-side">
+        <div>
+          <button class="btn" id="explodeBtn">🔧 拆开看看</button>
+          <button class="btn btn-ghost" id="assembleBtn">🧩 装回去</button>
+        </div>
+        <div class="part-info" id="partInfo"><span class="hint" id="ui-bd-hint">👈 点星舰上的小零件，听听它是干嘛的</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="flight" class="section">
+    <h2 class="section-title" id="ui-flight-title">⏱️ IFT-14 飞行全程</h2>
+    <p class="section-desc" id="ui-flight-desc"></p>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <section id="result" class="section">
+    <h2 class="section-title" id="ui-result-title">🎯 计划 vs 实际</h2>
+    <p class="section-desc" id="ui-result-desc"></p>
+    <table class="obj"><thead id="objHead"></thead><tbody id="objBody"></tbody></table>
+    <div class="note" id="firstsNote"></div>
+    <div class="note" id="notNote"></div>
+  </section>
+
+  <footer class="footer">
+    <h2 class="footer-title" id="ui-footer-title">🌈 为什么这一步很重要？</h2>
+    <p id="ui-footer-p1"></p>
+    <p id="ui-footer-p2"></p>
+    <p class="footer-sign" id="ui-footer-sign">—— 给仰望星空的人 💫</p>
+  </footer>
+
+  <script>
+  /* ===== 星空背景 ===== */
+  (function starfield() {
+    const canvas = document.getElementById('starfield'); const ctx = canvas.getContext('2d'); let stars = [];
+    function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initStars(); }
+    function initStars() { const c = Math.floor((canvas.width*canvas.height)/6000);
+      stars = Array.from({length:c}, () => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.6+0.4, a: Math.random(), speed: Math.random()*0.02+0.005, color: Math.random()>0.5?'#FFD166':'#E8F1FF' })); }
+    function draw() { ctx.clearRect(0,0,canvas.width,canvas.height); stars.forEach(s => { s.a+=s.speed; const al=0.4+Math.abs(Math.sin(s.a))*0.6; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=s.color; ctx.globalAlpha=al; ctx.fill(); }); ctx.globalAlpha=1; requestAnimationFrame(draw); }
+    window.addEventListener('resize', resize); resize(); draw();
+  })();
+
+  /* ===== 语言包（UI） ===== */
+  const I18N = {
+    zh: {
+      brand:"🚀 星舰 IFT-14", navHero:"出发", navAbout:"它是什么", navBreakdown:"拆开看", navFlight:"飞行全程", navResult:"目标结果",
+      heroPre:"星舰 Starship", heroHl:"IFT-14 · 首次入轨",
+      heroSub:"2026 年 9 月 28 日，星舰第 14 次试飞。它第一次真正进入地球轨道，还第一次在太空放出了卫星。",
+      heroCount:"📅 2026-09-28 07:48:59 CT · 得州星舰基地 2 号台 · 助推器 B21 + 飞船 S41",
+      scroll:"👇 往下滚，看这次里程碑飞行",
+      aboutTitle:"🛰️ 星舰是什么？", aboutDesc:"星舰（Starship）是 SpaceX 研制的人类史上最大、推力最强的运载火箭，两级都设计成可以反复回收使用，目标是把人和货物送上月球、火星。",
+      bdTitle:"🔧 把星舰拆开看看！", bdDesc:"星舰 = 下面的“超重”助推器 + 上面的“星舰”飞船，一共约 121 米高。点零件听讲解，或点“拆开看看”把它拆成零件！",
+      bdHint:"👈 点星舰上的小零件，听听它是干嘛的", explode:"🔧 拆开看看", assemble:"🧩 装回去",
+      flightTitle:"⏱️ IFT-14 飞行全程", flightDesc:"从点火到溅落，这次飞行大约 3 小时 9 分钟（原计划近 10 小时、绕地球约 6 圈，因上升段一台发动机异常，团队出于稳妥缩短了在轨时间）。",
+      resultTitle:"🎯 计划 vs 实际", resultDesc:"这次试飞的任务目标完成得怎么样？",
+      objPlan:"计划", objActual:"实际", objItem:"任务项",
+      firstsH3:"🏅 这次创下的“第一次”",
+      notH3:"❌ 这次没有做的事",
+      footerTitle:"🌈 为什么这一步很重要？", footerP1:"进入轨道、在太空部署卫星，是星舰从“会飞”走向“能用”的关键一步。它未来要送星链 V3 卫星上天，还要作为 NASA 载人登月舱把航天员送上月球。",
+      footerP2:"更远的目标，是让人类成为跨行星的物种——去月球，去火星。", footerSign:"—— 给仰望星空的人 💫", langOther:"EN"
+    },
+    en: {
+      brand:"🚀 Starship IFT-14", navHero:"Start", navAbout:"What it is", navBreakdown:"Explode", navFlight:"Flight", navResult:"Results",
+      heroPre:"Starship", heroHl:"IFT-14 · First Orbit",
+      heroSub:"On September 28, 2026, Starship flew for the 14th time. It reached Earth orbit for the first time, and deployed satellites in space for the first time.",
+      heroCount:"📅 2026-09-28 07:48:59 CT · Pad 2, Starbase, Texas · Booster 21 + Ship 41",
+      scroll:"👇 Scroll down for this landmark flight",
+      aboutTitle:"🛰️ What is Starship?", aboutDesc:"Starship is the largest, most powerful rocket ever built, made by SpaceX. Both stages are designed to be reusable, aiming to carry people and cargo to the Moon and Mars.",
+      bdTitle:"🔧 Take Starship apart!", bdDesc:"Starship = the “Super Heavy” booster below + the “Starship” ship above, about 121 m tall in all. Tap a part to learn, or “Take apart” to split it!",
+      bdHint:"👈 Tap a part on Starship to hear what it does", explode:"🔧 Take apart", assemble:"🧩 Put back",
+      flightTitle:"⏱️ IFT-14 flight profile", flightDesc:"From ignition to splashdown, the flight lasted about 3 h 9 min (the plan was nearly 10 hours and ~6 orbits; after one engine shut down on the climb, the team shortened the time in orbit out of caution).",
+      resultTitle:"🎯 Plan vs actual", resultDesc:"How did this test flight do against its objectives?",
+      objPlan:"Plan", objActual:"Actual", objItem:"Objective",
+      firstsH3:"🏅 “Firsts” on this flight",
+      notH3:"❌ Not demonstrated this time",
+      footerTitle:"🌈 Why does this step matter?", footerP1:"Reaching orbit and deploying satellites in space is the key step from Starship “flying” to Starship “working.” It will launch Starlink V3 satellites and serve as NASA's human landing system to carry astronauts to the Moon.",
+      footerP2:"The farther goal is to make humanity a multi-planet species — to the Moon, and to Mars.", footerSign:"—— For those who look up at the stars 💫", langOther:"中文"
+    }
+  };
+
+  /* ===== 规格卡（中英双语） ===== */
+  const SPECS = [
+    { big:"~121 m", labelZh:"全箭高度", labelEn:"Total height", descZh:"比 30 层楼还高，是人类造过的最大火箭。", descEn:"Taller than a 30-story building — the biggest rocket ever built." },
+    { big:"9 m", labelZh:"直径", labelEn:"Diameter", descZh:"两级都是 9 米粗的不锈钢大筒。", descEn:"Both stages are 9 m-wide stainless-steel cylinders." },
+    { big:"33 + 6", labelZh:"发动机总数", labelEn:"Engines", descZh:"助推器 33 台“猛禽 3” + 飞船 6 台“猛禽”。", descEn:"33 “Raptor 3” on the booster + 6 Raptors on the ship." },
+    { big:"液氧+甲烷", labelZh:"推进剂", labelEn:"Propellant", descZh:"干净、便宜，还能在火星上制造。", descEn:"Clean, cheap, and can even be made on Mars." },
+    { big:"26 颗", labelZh:"本次载荷", labelEn:"Payload", descZh:"星链 V3 卫星，首次由星舰送入轨道。", descEn:"Starlink V3 satellites, first deployed to orbit by Starship." },
+    { big:"两级复用", labelZh:"设计目标", labelEn:"Design goal", descZh:"两级都要能回收、翻修、再飞。", descEn:"Both stages meant to land, refurbish and fly again." }
+  ];
+
+  /* ===== 拆解部件（中英双语） ===== */
+  const PARTS = [
+    { id:"flaps", emoji:"🪽", labelZh:"前翼/后翼", labelEn:"Flaps", x:50, y:7, ex:50, ey:3,
+      infoZh:`<b>前后翼</b>：飞船身上两对“小翅膀”。再入时像舵一样摆动，帮星舰调整姿势、对准落点。`,
+      infoEn:`<b>Flaps</b>: two pairs of "little wings" on the ship. During reentry they swing like rudders to steer Starship and aim its landing point.` },
+    { id:"payload", emoji:"🛰️", labelZh:"载荷舱/卫星", labelEn:"Payload bay", x:50, y:16, ex:84, ey:15,
+      infoZh:`<b>载荷舱</b>：飞船肚子里的“大货舱”。这次装了 26 颗星链 V3 卫星，其中 3 颗还带摄像头，专门拍隔热瓦的样子。`,
+      infoEn:`<b>Payload bay</b>: the ship's big cargo hold. This flight carried 26 Starlink V3 satellites, three with cameras to film the heat shield.` },
+    { id:"heat", emoji:"🛡️", labelZh:"隔热瓦", labelEn:"Heat shield", x:14, y:27, ex:2, ey:27,
+      infoZh:`<b>隔热瓦</b>：贴在迎风面的黑色小瓦片，能扛住再入时上千度的高温。这次还首次重复使用了 2 块旧瓦片。`,
+      infoEn:`<b>Heat shield</b>: black tiles on the windward side that survive the thousands-of-degrees heat of reentry. This flight reused two old tiles for the first time.` },
+    { id:"shipEngines", emoji:"🔥", labelZh:"飞船猛禽×6", labelEn:"Ship Raptors ×6", x:50, y:38, ex:50, ey:37,
+      infoZh:`<b>飞船发动机 ×6</b>：3 台海平面型 + 3 台真空型。负责入轨点火、离轨点火，以及最后着陆点火。`,
+      infoEn:`<b>Ship engines ×6</b>: 3 sea-level + 3 vacuum Raptors, handling orbit insertion, the deorbit burn, and the final landing burn.` },
+    { id:"hotstage", emoji:"🔗", labelZh:"热分离环", labelEn:"Hot-stage ring", x:50, y:47, ex:16, ey:47,
+      infoZh:`<b>热分离环</b>：两级之间的“分离环”。一级还没熄火，二级就点火冲出去——这就是“热分离”，更省燃料、更快。`,
+      infoEn:`<b>Hot-stage ring</b>: the ring between the stages. The upper stage lights up while the booster is still firing — "hot-staging" — saving fuel and adding speed.` },
+    { id:"gridfins", emoji:"🪿", labelZh:"栅格舵", labelEn:"Grid fins", x:86, y:56, ex:98, ey:56,
+      infoZh:`<b>栅格舵</b>：助推器上部的四片“格子翅膀”，回来时帮它稳住方向、对准溅落点。`,
+      infoEn:`<b>Grid fins</b>: four grid-like fins near the booster's top that steady it as it returns and aim at the splashdown point.` },
+    { id:"booster", emoji:"🥫", labelZh:"超重助推器", labelEn:"Super Heavy", x:50, y:66, ex:84, ey:66,
+      infoZh:`<b>超重助推器</b>：下面那根粗粗的“大柱子”，装满液氧和甲烷，把星舰推离地面；它也是要回收复用的。`,
+      infoEn:`<b>Super Heavy booster</b>: the thick "big column" below, filled with liquid oxygen and methane to lift Starship off the ground — also meant to be reusable.` },
+    { id:"catchpins", emoji:"👂", labelZh:"捕获销", labelEn:"Catch pins", x:14, y:77, ex:2, ey:78,
+      infoZh:`<b>捕获销</b>：助推器上两个小“耳朵”。以后它飞回发射塔时，塔上的“筷子”就是夹住这里把它接住的。`,
+      infoEn:`<b>Catch pins</b>: two little "ears" on the booster. One day, when it returns to the tower, the tower's "chopsticks" will grab here to catch it.` },
+    { id:"boosterEngines", emoji:"🔥", labelZh:"猛禽×33", labelEn:"Raptors ×33", x:50, y:88, ex:50, ey:95,
+      infoZh:`<b>助推器发动机 ×33</b>：33 台“猛禽 3”一起喷出蓝紫色火焰，产生上千吨推力，把整枚火箭推上天。`,
+      infoEn:`<b>Booster engines ×33</b>: 33 "Raptor 3" engines blast blue-violet flame, making thousands of tons of thrust to lift the whole rocket.` }
+  ];
+
+  /* ===== 飞行时间线（中英双语） ===== */
+  const TIMELINE = [
+    { t:"T+00:00", badgeZh:"起飞", badgeEn:"Liftoff",
+      zh:`助推器 33 台发动机全部点火，星舰从得州星舰基地 2 号台升空。`,
+      en:`All 33 booster engines ignite; Starship lifts off from Pad 2 at Starbase, Texas.` },
+    { t:"上升段", badgeZh:"1 台关机", badgeEn:"1 engine out",
+      zh:`助推器 33 台中 <b>1 台提前关机</b>；飞船 6 台发动机中也有 <b>1 台真空发动机提前关机</b>，团队评估后决定继续飞行。`,
+      en:`<b>One of 33</b> booster engines shut down early; <b>one of six</b> ship vacuum engines shut down too. After review, the team chose to continue.` },
+    { t:"T+02:30", badgeZh:"热分离", badgeEn:"Hot-staging",
+      zh:`起飞约 2 分半，两级热分离，飞船点火继续飞向太空。`,
+      en:`About 2.5 min in, the stages hot-stage apart and the ship lights up to keep climbing.` },
+    { t:"返航点火", badgeZh:"助推器", badgeEn:"Booster",
+      zh:`助推器翻转后重新点燃 <b>31 台</b>发动机做“返航点火”，故意把多余的液氧烧掉，测试助推器极限。`,
+      en:`After a flip, the booster relights <b>31 engines</b> for its boostback burn, deliberately burning off extra LOX to test its limits.` },
+    { t:"溅落", badgeZh:"助推器落海", badgeEn:"Booster splashdown",
+      zh:`着陆点火从 11 台减到 5 台、再到 3 台，助推器溅落墨西哥湾；随后<b>故意触发自毁系统</b>，测试安全硬件。`,
+      en:`The landing burn steps from 11 to 5 to 3 engines; the booster splashes down in the Gulf. Then its <b>flight termination system is triggered on purpose</b> as a safety-hardware test.` },
+    { t:"T+25:17", badgeZh:"首次入轨", badgeEn:"First orbit",
+      zh:`1 台发动机点火做入轨点火，高度约 <b>275 公里</b>——星舰<b>第一次进入地球轨道</b>！`,
+      en:`A single engine relights for the orbit-insertion burn at about <b>275 km</b> — Starship <b>reaches Earth orbit for the first time</b>!` },
+    { t:"约 T+34 分", badgeZh:"部署卫星", badgeEn:"Deploy",
+      zh:`放出全部 <b>26 颗星链 V3</b> 卫星，并通过激光链路、地面站与终端与每一颗建立联系。`,
+      en:`All <b>26 Starlink V3</b> satellites deploy; contact is made with every one via laser links, ground stations and user terminals.` },
+    { t:"离轨点火", badgeZh:"首次离轨", badgeEn:"Deorbit",
+      zh:`1 台发动机点火，星舰完成<b>史上第一次离轨点火</b>，脱离轨道准备返回。`,
+      en:`A single engine relights for Starship's <b>first-ever deorbit burn</b>, leaving orbit to come home.` },
+    { t:"再入", badgeZh:"考验隔热瓦", badgeEn:"Reentry",
+      zh:`飞船以约 17,500 英里/小时的速度穿过大气层，隔热瓦接受最严酷的考验。`,
+      en:`The ship crosses the atmosphere at about 17,500 mph, giving the heat shield its toughest test.` },
+    { t:"T+3:09", badgeZh:"溅落", badgeEn:"Splashdown",
+      zh:`3 台发动机着陆点火并翻转，飞船<b>溅落北太平洋（夏威夷以北）</b>，全程约 3 小时 9 分钟。`,
+      en:`Three engines fire for the landing burn and flip; the ship <b>splashes down in the northern Pacific, north of Hawaii</b>, about 3 h 9 min after liftoff.` }
+  ];
+
+  /* ===== 计划 vs 实际（中英双语） ===== */
+  const OBJ = [
+    { zh:"首次进入地球轨道", en:"Reach Earth orbit for the first time", rz:"✅", rk:"ok", resZh:"成功", resEn:"Success" },
+    { zh:"把 26 颗星链 V3 送入低地球轨道", en:"Deploy 26 Starlink V3 into low Earth orbit", rz:"✅", rk:"ok", resZh:"成功，26 颗全部部署并建立联系", resEn:"Success — all 26 deployed and contacted" },
+    { zh:"完成首次离轨点火并再入返回", en:"Perform first deorbit burn and reenter", rz:"✅", rk:"ok", resZh:"成功", resEn:"Success" },
+    { zh:"飞船溅落太平洋（原定智利以西）", en:"Ship splashdown in the Pacific (planned west of Chile)", rz:"✅", rk:"part-ok", resZh:"成功，但改在北太平洋（夏威夷以北）", resEn:"Success, but in the northern Pacific (north of Hawaii)" },
+    { zh:"助推器溅落墨西哥湾", en:"Booster splashdown in the Gulf", rz:"✅", rk:"part-ok", resZh:"成功（本次不计划筷子夹持回收）", resEn:"Success (no tower catch was planned)" },
+    { zh:"飞行约 6 圈、近 10 小时", en:"Fly ~6 orbits over nearly 10 hours", rz:"⚠️", rk:"part-ok", resZh:"缩短为约 3 小时（因发动机异常，团队稳妥处理）", resEn:"Cut to about 3 hours (shortened out of caution after the engine issue)" }
+  ];
+
+  const FIRSTS = [
+    { zh:"星舰首次进入地球轨道", en:"First Starship to reach Earth orbit" },
+    { zh:"星舰首次在轨部署卫星（26 颗星链 V3）", en:"First to deploy satellites in orbit (26 Starlink V3)" },
+    { zh:"星舰首次完成离轨点火", en:"First Starship deorbit burn" },
+    { zh:"星舰首次重复使用隔热瓦（2 块来自上枚飞船）", en:"First heat-shield tile reuse (2 tiles from a previous ship)" }
+  ];
+
+  const NOTS = [
+    { zh:"没有做“筷子夹持”——两级都没有返回发射塔，助推器改为海上溅落", en:"No tower catch — neither stage returned to the pad; the booster splashed down at sea instead" },
+    { zh:"没有做在轨推进剂加注（飞船间加注），这是 NASA 登月方案的关键技术，尚未尝试", en:"No orbital propellant transfer (ship-to-ship), a key technology for NASA's Moon plan, not yet attempted" }
+  ];
+
+  /* ===== 渲染 ===== */
+  let lang = localStorage.getItem('starship-lang') || 'zh';
+  const T = () => I18N[lang];
+  const zh = (a,b) => lang === 'zh' ? a : b;
+
+  function applyUI() {
+    const t = T();
+    document.getElementById('ui-brand').textContent = t.brand;
+    document.getElementById('ui-nav-hero').textContent = t.navHero;
+    document.getElementById('ui-nav-about').textContent = t.navAbout;
+    document.getElementById('ui-nav-breakdown').textContent = t.navBreakdown;
+    document.getElementById('ui-nav-flight').textContent = t.navFlight;
+    document.getElementById('ui-nav-result').textContent = t.navResult;
+    document.getElementById('ui-hero-pre').textContent = t.heroPre;
+    document.getElementById('ui-hero-hl').textContent = t.heroHl;
+    document.getElementById('ui-hero-sub').textContent = t.heroSub;
+    document.getElementById('heroCount').textContent = t.heroCount;
+    document.getElementById('ui-scroll').textContent = t.scroll;
+    document.getElementById('ui-about-title').textContent = t.aboutTitle;
+    document.getElementById('ui-about-desc').textContent = t.aboutDesc;
+    document.getElementById('ui-bd-title').textContent = t.bdTitle;
+    document.getElementById('ui-bd-desc').textContent = t.bdDesc;
+    document.getElementById('ui-bd-hint').textContent = t.bdHint;
+    document.getElementById('explodeBtn').textContent = t.explode;
+    document.getElementById('assembleBtn').textContent = t.assemble;
+    document.getElementById('ui-flight-title').textContent = t.flightTitle;
+    document.getElementById('ui-flight-desc').textContent = t.flightDesc;
+    document.getElementById('ui-result-title').textContent = t.resultTitle;
+    document.getElementById('ui-result-desc').textContent = t.resultDesc;
+    document.getElementById('ui-footer-title').textContent = t.footerTitle;
+    document.getElementById('ui-footer-p1').textContent = t.footerP1;
+    document.getElementById('ui-footer-p2').textContent = t.footerP2;
+    document.getElementById('ui-footer-sign').textContent = t.footerSign;
+    document.getElementById('langBtn').textContent = t.langOther;
+    document.getElementById('firstsNote').innerHTML = `<h3>${t.firstsH3}</h3><ul>${FIRSTS.map(f=>`<li>${zh(f.zh,f.en)}</li>`).join('')}</ul>`;
+    document.getElementById('notNote').innerHTML = `<h3>${t.notH3}</h3><ul>${NOTS.map(f=>`<li>${zh(f.zh,f.en)}</li>`).join('')}</ul>`;
+  }
+
+  function renderSpecs() {
+    document.getElementById('specs').innerHTML = SPECS.map(s => `
+      <div class="card"><div class="big">${s.big}</div><h3>${zh(s.labelZh,s.labelEn)}</h3><p>${zh(s.descZh,s.descEn)}</p></div>`).join('');
+  }
+
+  function renderTimeline() {
+    document.getElementById('timeline').innerHTML = TIMELINE.map(e => `
+      <div class="tl-item">
+        <div class="tl-time">${e.t}</div>
+        <div class="tl-body">${zh(e.zh,e.en)}<span class="badge">${zh(e.badgeZh,e.badgeEn)}</span></div>
+      </div>`).join('');
+  }
+
+  function renderObj() {
+    const t = T();
+    document.getElementById('objHead').innerHTML = `<tr><th>${t.objItem}</th><th>${t.objActual}</th></tr>`;
+    document.getElementById('objBody').innerHTML = OBJ.map(o => `
+      <tr><td>${zh(o.zh,o.en)}</td><td class="${o.rk}">${o.rz} ${zh(o.resZh,o.resEn)}</td></tr>`).join('');
+  }
+
+  function renderParts() {
+    const stage = document.getElementById('rocketStage');
+    const info = document.getElementById('partInfo');
+    PARTS.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'part assembled'; el.dataset.id = p.id;
+      el.style.left = p.x + '%'; el.style.top = p.y + '%';
+      el.innerHTML = `${p.emoji}<span class="part-label">${zh(p.labelZh,p.labelEn)}</span>`;
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.part').forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+        info.innerHTML = zh(p.infoZh, p.infoEn);
+      });
+      stage.appendChild(el);
+    });
+  }
+
+  function setMode(exploded) {
+    const stage = document.getElementById('rocketStage');
+    stage.classList.toggle('exploded-mode', exploded);
+    document.querySelectorAll('.part').forEach((el, i) => {
+      const p = PARTS[i];
+      el.classList.toggle('exploded', exploded);
+      el.classList.toggle('assembled', !exploded);
+      el.style.left = (exploded ? p.ex : p.x) + '%';
+      el.style.top = (exploded ? p.ey : p.y) + '%';
+      el.querySelector('.part-label').textContent = zh(p.labelZh, p.labelEn);
+    });
+  }
+
+  function updateLang() {
+    applyUI(); renderSpecs(); renderTimeline(); renderObj(); renderParts();
+    const info = document.getElementById('partInfo');
+    if (!info.querySelector('b')) info.innerHTML = `<span class="hint">${T().bdHint}</span>`;
+  }
+
+  document.getElementById('explodeBtn').addEventListener('click', () => setMode(true));
+  document.getElementById('assembleBtn').addEventListener('click', () => setMode(false));
+  document.getElementById('langBtn').addEventListener('click', () => {
+    lang = (lang === 'zh') ? 'en' : 'zh';
+    localStorage.setItem('starship-lang', lang);
+    updateLang();
+  });
+
+  updateLang();
+  </script>
+</body>
+</html>
