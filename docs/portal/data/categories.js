@@ -136,8 +136,10 @@ window.CATEGORIES = [
         id: "china-dynasty",
         name: "中华朝代",
         emoji: "🐉",
+        refs: { title: "明朝完整历史", emoji: "🏯", desc: "十六帝 + 核心人物 + 大事年表（1368–1644）", url: "../history-kids/ming.html" },
         topics: [
-          { id: "dynasties", title: "中华历史朝代", emoji: "🐉", desc: "从夏商周到现代的五千年", url: "../history-kids/index.html", ready: true }
+          { id: "dynasties", title: "中华历史朝代", emoji: "🐉", desc: "从夏商周到现代的五千年", url: "../history-kids/index.html", ready: true },
+          { id: "ming-history", title: "明朝完整历史", emoji: "🏯", desc: "1368–1644：16 位皇帝 + 核心人物 + 大事年表", url: "../history-kids/ming.html", ready: true }
         ]
       },
       {

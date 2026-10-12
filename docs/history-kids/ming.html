@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>明朝历史 · 完整版（1368–1644）</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka+One&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --space-deep:#0D1B2A; --space-purple:#1B0033; --star-gold:#FFD166;
+      --rocket-red:#EF476F; --star-white:#E8F1FF; --tech-green:#06D6A0;
+      --ming:#E65100; --ming-light:#FF8C42; --jade:#3DBE8B; --imperial:#D4AF37;
+      --radius-lg:28px; --radius-md:18px; --shadow:0 12px 30px rgba(0,0,0,.35);
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'ZCOOL KuaiLe','Nunito',sans-serif; background:linear-gradient(160deg,#2A0E02 0%,var(--space-purple) 45%,var(--space-deep) 100%); background-attachment:fixed; color:var(--star-white); overflow-x:hidden; line-height:1.75; }
+    #starfield { position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+    .topbar,header,section,footer { position:relative; z-index:1; }
+
+    .topbar { position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:14px 22px; background:rgba(13,27,42,.62); backdrop-filter:blur(8px); z-index:50; }
+    .logo { font-family:'Fredoka One',cursive; font-size:22px; color:var(--imperial); }
+    .nav-right { display:flex; align-items:center; gap:14px; }
+    .nav-links a { color:var(--star-white); text-decoration:none; margin-left:13px; font-size:14.5px; opacity:.85; transition:color .2s,transform .2s; }
+    .nav-links a:hover { color:var(--star-gold); transform:translateY(-2px); }
+    .lang-btn { font-family:'ZCOOL KuaiLe',sans-serif; border:2px solid var(--imperial); background:transparent; color:var(--imperial); border-radius:999px; padding:6px 16px; font-size:15px; cursor:pointer; transition:transform .15s,background .2s; }
+    .lang-btn:hover { transform:scale(1.06); background:rgba(212,175,55,.15); }
+
+    .hero { min-height:76vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:96px 20px 40px; }
+    .hero-icon { font-size:86px; animation:floaty 3.4s ease-in-out infinite; filter:drop-shadow(0 8px 16px rgba(212,175,55,.45)); }
+    .hero-title { font-family:'Fredoka One',cursive; font-size:clamp(34px,8vw,68px); margin:10px 0; text-shadow:0 4px 0 rgba(230,81,0,.55); }
+    .hero-title .hl { color:var(--imperial); }
+    .hero-sub { font-size:clamp(15px,4vw,21px); margin-bottom:8px; opacity:.92; max-width:760px; }
+    .hero-count { margin-top:18px; font-size:17px; color:var(--ming-light); background:rgba(255,140,66,.12); border:2px solid var(--ming-light); border-radius:var(--radius-md); padding:10px 22px; }
+    .scroll-hint { margin-top:32px; font-size:16px; color:var(--star-gold); animation:bounce 1.4s infinite; }
+
+    .section { padding:58px 20px; max-width:1080px; margin:0 auto; }
+    .section-title { font-family:'Fredoka One',cursive; font-size:clamp(23px,5.6vw,38px); text-align:center; color:var(--imperial); margin-bottom:12px; }
+    .section-desc { text-align:center; font-size:17px; opacity:.85; margin-bottom:28px; max-width:820px; margin-left:auto; margin-right:auto; }
+
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; }
+    .card { background:rgba(232,241,255,.06); border:2px solid rgba(232,241,255,.12); border-radius:var(--radius-lg); padding:20px 18px; box-shadow:var(--shadow); transition:transform .2s,border-color .2s; }
+    .card:hover { transform:translateY(-6px); border-color:var(--ming-light); }
+    .card .big { font-family:'Fredoka One',cursive; font-size:27px; color:var(--imperial); }
+    .card h3 { color:var(--tech-green); font-size:18px; margin:6px 0; }
+    .card p { font-size:15px; }
+
+    /* 帝王 explorer */
+    .emp-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; }
+    .emp-card { background:rgba(232,241,255,.06); border:2px solid rgba(232,241,255,.12); border-radius:var(--radius-md); padding:14px 10px; text-align:center; cursor:pointer; transition:transform .18s,border-color .18s,background .18s; }
+    .emp-card:hover { transform:translateY(-5px); border-color:var(--imperial); }
+    .emp-card.active { border-color:var(--imperial); background:rgba(212,175,55,.16); box-shadow:0 0 0 3px rgba(212,175,55,.3); }
+    .emp-card .e-icon { font-size:30px; }
+    .emp-card .e-name { font-size:15.5px; margin-top:4px; color:var(--tech-green); }
+    .emp-card .e-era { font-size:12.5px; opacity:.8; }
+    .emp-detail { margin-top:20px; background:rgba(6,214,160,.08); border:2px solid var(--tech-green); border-radius:var(--radius-lg); padding:22px; min-height:120px; }
+    .emp-detail h3 { color:var(--imperial); font-size:22px; }
+    .emp-detail .meta { font-size:14px; opacity:.85; margin:6px 0 12px; }
+    .emp-detail .meta b { color:var(--star-gold); }
+    .emp-detail p { font-size:16px; }
+    .emp-detail .fact { margin-top:12px; font-size:15px; background:rgba(255,209,102,.1); border-left:4px solid var(--star-gold); padding:10px 14px; border-radius:10px; }
+    .emp-detail .fact b { color:var(--star-gold); }
+
+    /* 权力结构（拆解） */
+    .struct { display:flex; flex-direction:column; gap:14px; align-items:center; }
+    .struct-row { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+    .node { background:rgba(232,241,255,.07); border:2px solid rgba(232,241,255,.16); border-radius:var(--radius-md); padding:12px 16px; text-align:center; cursor:pointer; min-width:120px; transition:transform .18s,border-color .18s,background .18s; }
+    .node:hover { transform:translateY(-4px); border-color:var(--ming-light); }
+    .node.active { border-color:var(--imperial); background:rgba(212,175,55,.16); }
+    .node .n-icon { font-size:24px; }
+    .node .n-name { font-size:14.5px; color:var(--tech-green); }
+    .node.top { border-color:var(--imperial); background:rgba(212,175,55,.1); }
+    .struct-info { margin-top:18px; background:rgba(255,140,66,.1); border:2px solid var(--ming-light); border-radius:var(--radius-md); padding:18px; font-size:15.5px; min-height:96px; }
+    .struct-info b { color:var(--ming-light); }
+    .arrow { color:var(--star-gold); font-size:20px; opacity:.7; }
+
+    /* 人物分组 */
+    .figgroup { margin-bottom:26px; }
+    .figgroup h3 { color:var(--imperial); font-size:20px; margin-bottom:12px; text-align:center; }
+    .fig-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+    .fig { background:rgba(232,241,255,.06); border:2px solid rgba(232,241,255,.12); border-radius:var(--radius-md); padding:16px; transition:transform .2s,border-color .2s; }
+    .fig:hover { transform:translateY(-5px); border-color:var(--jade); }
+    .fig .f-top { display:flex; align-items:center; gap:10px; }
+    .fig .f-icon { font-size:28px; }
+    .fig .f-name { font-size:17px; color:var(--tech-green); }
+    .fig .f-role { font-size:12.5px; opacity:.78; }
+    .fig p { font-size:14.5px; margin-top:8px; }
+
+    /* 年表 */
+    .timeline { max-width:880px; margin:0 auto; }
+    .tl-item { display:grid; grid-template-columns:96px 1fr; gap:16px; padding:11px 0; border-bottom:1px dashed rgba(232,241,255,.14); }
+    .tl-item:last-child { border-bottom:none; }
+    .tl-year { font-family:'Fredoka One',cursive; font-size:17px; color:var(--imperial); }
+    .tl-body { font-size:15.5px; }
+    .tl-body b { color:var(--tech-green); }
+
+    /* 兴亡脉络 */
+    .stages { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; }
+    .stage { background:rgba(232,241,255,.06); border:2px solid rgba(232,241,255,.12); border-left:6px solid var(--ming-light); border-radius:var(--radius-md); padding:18px; }
+    .stage .s-range { font-family:'Fredoka One',cursive; font-size:15px; color:var(--star-gold); }
+    .stage h3 { color:var(--tech-green); font-size:18px; margin:4px 0 8px; }
+    .stage p { font-size:14.5px; }
+
+    .footer { text-align:center; padding:66px 20px 90px; }
+    .footer-title { font-family:'Fredoka One',cursive; font-size:30px; color:var(--tech-green); margin-bottom:14px; }
+    .footer p { font-size:17px; max-width:680px; margin:0 auto 10px; }
+    .footer-sign { color:var(--star-gold); margin-top:18px; }
+    .hint { opacity:.8; }
+
+    @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+    @media (max-width:620px) { .nav-links a { margin-left:7px; font-size:12.5px; } .topbar { padding:10px 14px; } .tl-item { grid-template-columns:70px 1fr; gap:10px; } }
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+
+  <nav class="topbar">
+    <span class="logo" id="ui-brand">🏯 明朝 · 大明王朝</span>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#hero" id="ui-nav-hero">开始</a>
+        <a href="#overview" id="ui-nav-overview">总览</a>
+        <a href="#emperors" id="ui-nav-emperors">十六帝</a>
+        <a href="#structure" id="ui-nav-structure">权力结构</a>
+        <a href="#figures" id="ui-nav-figures">核心人物</a>
+        <a href="#events" id="ui-nav-events">大事年表</a>
+      </div>
+      <button class="lang-btn" id="langBtn">EN</button>
+    </div>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-icon">🏯</div>
+    <h1 class="hero-title"><span id="ui-hero-pre">大明王朝</span><br /><span class="hl" id="ui-hero-hl">明朝完整历史</span></h1>
+    <p class="hero-sub" id="ui-hero-sub"></p>
+    <div class="hero-count" id="heroCount"></div>
+    <div class="scroll-hint" id="ui-scroll">👇 往下滚，从开国到覆亡，一次看全</div>
+  </header>
+
+  <section id="overview" class="section">
+    <h2 class="section-title" id="ui-ov-title">📜 明朝总览</h2>
+    <p class="section-desc" id="ui-ov-desc"></p>
+    <div class="cards" id="overview"></div>
+  </section>
+
+  <section id="emperors" class="section">
+    <h2 class="section-title" id="ui-emp-title">👑 明朝十六帝（1368–1644）</h2>
+    <p class="section-desc" id="ui-emp-desc"></p>
+    <div class="emp-grid" id="empGrid"></div>
+    <div class="emp-detail" id="empDetail"></div>
+  </section>
+
+  <section id="structure" class="section">
+    <h2 class="section-title" id="ui-st-title">🏛️ 拆解：明朝的权力结构</h2>
+    <p class="section-desc" id="ui-st-desc"></p>
+    <div class="struct" id="struct"></div>
+    <div class="struct-info" id="structInfo"></div>
+  </section>
+
+  <section id="figures" class="section">
+    <h2 class="section-title" id="ui-fig-title">⭐ 明朝核心人物</h2>
+    <p class="section-desc" id="ui-fig-desc"></p>
+    <div id="figures"></div>
+  </section>
+
+  <section id="events" class="section">
+    <h2 class="section-title" id="ui-ev-title">📅 明朝大事年表</h2>
+    <p class="section-desc" id="ui-ev-desc"></p>
+    <div class="timeline" id="timeline"></div>
+  </section>
+
+  <section id="stages" class="section">
+    <h2 class="section-title" id="ui-sg-title">📈 明朝兴亡脉络</h2>
+    <p class="section-desc" id="ui-sg-desc"></p>
+    <div class="stages" id="stages"></div>
+  </section>
+
+  <footer class="footer">
+    <h2 class="footer-title" id="ui-ft-title">🌈 一句话记住明朝</h2>
+    <p id="ui-ft-p1"></p>
+    <p id="ui-ft-p2"></p>
+    <p class="footer-sign" id="ui-ft-sign">—— 给喜欢历史的小朋友 💫</p>
+  </footer>
+
+  <script>
+  /* ===== 星空背景 ===== */
+  (function starfield() {
+    const canvas = document.getElementById('starfield'); const ctx = canvas.getContext('2d'); let stars = [];
+    function resize(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; initStars(); }
+    function initStars(){ const c=Math.floor((canvas.width*canvas.height)/6500);
+      stars = Array.from({length:c},()=>({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*1.5+0.4, a:Math.random(), speed:Math.random()*0.02+0.005, color:Math.random()>0.5?'#FFD166':'#FFE0B2' })); }
+    function draw(){ ctx.clearRect(0,0,canvas.width,canvas.height); stars.forEach(s=>{ s.a+=s.speed; const al=0.35+Math.abs(Math.sin(s.a))*0.6; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=s.color; ctx.globalAlpha=al; ctx.fill(); }); ctx.globalAlpha=1; requestAnimationFrame(draw); }
+    window.addEventListener('resize',resize); resize(); draw();
+  })();
+
+  /* ===== 语言包 ===== */
+  const I18N = {
+    zh: {
+      brand:"🏯 明朝 · 大明王朝", navHero:"开始", navOverview:"总览", navEmperors:"十六帝", navStructure:"权力结构", navFigures:"核心人物", navEvents:"大事年表",
+      heroPre:"大明王朝", heroHl:"明朝完整历史",
+      heroSub:"1368 年朱元璋在南京称帝，到 1644 年崇祯自缢煤山——276 年、16 位皇帝，从「天子守国门」到「君王死社稷」。",
+      heroCount:"📅 1368–1644 · 共 276 年 · 16 位皇帝 · 都城：南京 → 北京",
+      scroll:"👇 往下滚，从开国到覆亡，一次看全",
+      ovTitle:"📜 明朝总览", ovDesc:"明朝（1368–1644）是中国历史上最后一个由汉族建立的大一统王朝，共传十二世、十六帝。",
+      empTitle:"👑 明朝十六帝（1368–1644）", empDesc:"点一位皇帝，看他的一生。明朝皇位继承按「父死子继」为主，其间有两次特殊：英宗两次登基、嘉靖以藩王入继。",
+      empPick:"👆 点上面一位皇帝，看他的故事",
+      stTitle:"🏛️ 拆解：明朝的权力结构", stDesc:"明朝的权力像一座金字塔。点每一层，看看它是干什么的——朱元璋还废掉了延续千年的「丞相」。",
+      stHint:"👆 点一个机构，看看它是干什么的",
+      stL1:"最高权力", stL2:"中央决策与行政", stL3:"监察与特务", stL4:"地方治理",
+      figTitle:"⭐ 明朝核心人物", figDesc:"除了皇帝，明朝还有许多改变历史的人：开国元勋、名臣良将、文人科学家，也有权宦与末路英雄。",
+      evTitle:"📅 明朝大事年表", evDesc:"从建国到覆亡，这 19 个时刻改变了明朝的命运。",
+      sgTitle:"📈 明朝兴亡脉络", sgDesc:"把 276 年分成 5 个阶段，一眼看懂明朝是怎么从强盛走向灭亡的。",
+      ftTitle:"🌈 一句话记住明朝", ftP1:"「天子守国门，君王死社稷」——明成祖迁都北京，把国都放在最前线；末代皇帝崇祯不逃不降，自缢煤山。",
+      ftP2:"明朝留下了紫禁城、长城、郑和的航迹，也留下了《本草纲目》《天工开物》《永乐大典》。", ftSign:"—— 给喜欢历史的小朋友 💫", langOther:"EN"
+    },
+    en: {
+      brand:"🏯 Ming · Great Ming", navHero:"Start", navOverview:"Overview", navEmperors:"16 Emperors", navStructure:"Power", navFigures:"People", navEvents:"Timeline",
+      heroPre:"The Great Ming", heroHl:"A Complete History",
+      heroSub:"From Zhu Yuanzhang proclaiming the Ming at Nanjing in 1368 to Chongzhen's death on Coal Hill in 1644 — 276 years and 16 emperors.",
+      heroCount:"📅 1368–1644 · 276 years · 16 emperors · Capital: Nanjing → Beijing",
+      scroll:"👇 Scroll down for the whole story, from founding to fall",
+      ovTitle:"📜 Ming overview", ovDesc:"The Ming (1368–1644) was the last unified dynasty founded by the Han Chinese, spanning 12 generations and 16 emperors.",
+      empTitle:"👑 The 16 Ming emperors (1368–1644)", empDesc:"Tap an emperor to see his life. Succession was mostly father-to-son, with two exceptions: Yingzong reigned twice, and Jiajing entered as a prince.",
+      empPick:"👆 Tap an emperor above to see his story",
+      stTitle:"🏛️ Exploded view: how Ming power worked", stDesc:"Ming power was like a pyramid. Tap each layer to see its job — Zhu Yuanzhang even abolished the age-old office of prime minister.",
+      stHint:"👆 Tap an institution to see what it did",
+      stL1:"Supreme power", stL2:"Central government", stL3:"Surveillance & secret police", stL4:"Local rule",
+      figTitle:"⭐ Key figures of the Ming", figDesc:"Beyond the emperors, many people changed Ming history: founding heroes, great ministers and generals, scholars and scientists — plus powerful eunuchs and tragic heroes.",
+      evTitle:"📅 Ming timeline of major events", evDesc:"From founding to fall, these 19 moments changed the dynasty's fate.",
+      sgTitle:"📈 The rise and fall of the Ming", sgDesc:"Five stages over 276 years show how the Ming went from strength to collapse.",
+      ftTitle:"🌈 The Ming in one line", ftP1:"\"The Son of Heaven guards the gate of the nation\" — Yongle moved the capital to Beijing, right at the frontier; the last emperor, Chongzhen, neither fled nor surrendered.",
+      ftP2:"The Ming left the Forbidden City, the Great Wall and Zheng He's voyages — and the Compendium of Materia Medica, Tiangong Kaiwu and the Yongle Encyclopedia.", ftSign:"—— For kids who love history 💫", langOther:"中文"
+    }
+  };
+
+  /* ===== 总览 ===== */
+  const OVERVIEW = [
+    { big:"1368–1644", labelZh:"存续时间", labelEn:"Years", descZh:"共 276 年，传十二世、十六帝。", descEn:"276 years, 12 generations, 16 emperors." },
+    { big:"南京 → 北京", labelZh:"都城", labelEn:"Capital", descZh:"朱元璋定都南京，明成祖朱棣 1421 年迁都北京。", descEn:"Founded at Nanjing; Yongle moved the capital to Beijing in 1421." },
+    { big:"朱元璋", labelZh:"开国皇帝", labelEn:"Founder", descZh:"出身贫农，当过放牛娃与和尚，最终建立大明。", descEn:"A poor farmer's son, cowherd and monk who founded the Ming." },
+    { big:"崇祯 朱由检", labelZh:"末代皇帝", labelEn:"Last emperor", descZh:"1644 年李自成破北京，崇祯自缢，明朝灭亡。", descEn:"In 1644 Li Zicheng took Beijing; Chongzhen hanged himself, ending the Ming." },
+    { big:"紫禁城 · 长城", labelZh:"代表工程", labelEn:"Great works", descZh:"营建紫禁城（故宫）、重修长城、编《永乐大典》。", descEn:"Built the Forbidden City, rebuilt the Great Wall, compiled the Yongle Encyclopedia." },
+    { big:"郑和下西洋", labelZh:"走向海洋", labelEn:"To the seas", descZh:"1405 年起七下西洋，最远到达非洲东海岸。", descEn:"Seven voyages from 1405, reaching the east coast of Africa." }
+  ];
+
+  /* ===== 十六帝 ===== */
+  const EMPERORS = [
+    { id:"taizu", icon:"👑", nameZh:"明太祖 朱元璋", nameEn:"Taizu (Zhu Yuanzhang)", eraZh:"洪武", eraEn:"Hongwu", yearsZh:"1368–1398（31 年）", yearsEn:"1368–1398 (31 yrs)",
+      deedZh:`贫苦出身，当过放牛娃和和尚，参加红巾军起义后崛起，1368 年在南京称帝、国号「大明」。他<b>废除丞相</b>、设锦衣卫、严惩贪官、推行屯田与卫所制，奠定了明朝的根基。`,
+      deedEn:`Born poor — a cowherd and a monk — he rose through the Red Turban rebels and proclaimed the Ming at Nanjing in 1368. He <b>abolished the prime minister</b>, created the Embroidered Uniform Guard, cracked down on corruption and set up the military-farming system, laying the dynasty's foundations.`,
+      factZh:`他原名朱重八，因为家里穷，小时候真的给地主放过牛。`, factEn:`His original name was Zhu Chongba; as a boy he really did herd cattle for a landlord.` },
+    { id:"jianwen", icon:"📜", nameZh:"明惠帝 朱允炆", nameEn:"Jianwen (Zhu Yunwen)", eraZh:"建文", eraEn:"Jianwen", yearsZh:"1398–1402（4 年）", yearsEn:"1398–1402 (4 yrs)",
+      deedZh:`朱元璋的孙子。即位后推行「建文新政」并<b>削藩</b>，触怒叔父朱棣，引发「靖难之役」。南京城破后下落不明——一说自焚，一说出逃为僧。`,
+      deedEn:`Zhu Yuanzhang's grandson. He pushed the "Jianwen reforms" and tried to <b>curb the princes</b>, angering his uncle Zhu Di and sparking the Jingnan Campaign. After Nanjing fell he vanished — some say he died in a fire, others that he fled as a monk.`,
+      factZh:`建文帝到底去了哪里，是中国历史上有名的谜团之一。`, factEn:`Where Jianwen went is one of the famous mysteries of Chinese history.` },
+    { id:"yongle", icon:"🏯", nameZh:"明成祖 朱棣", nameEn:"Yongle (Zhu Di)", eraZh:"永乐", eraEn:"Yongle", yearsZh:"1402–1424（22 年）", yearsEn:"1402–1424 (22 yrs)",
+      deedZh:`以「靖难」夺位。他<b>迁都北京</b>、营建紫禁城、派<b>郑和七下西洋</b>、编成《永乐大典》、五次亲征漠北、设立内阁，是明朝最有作为的皇帝之一。`,
+      deedEn:`Took the throne through the Jingnan Campaign. He <b>moved the capital to Beijing</b>, built the Forbidden City, sent <b>Zheng He on seven voyages</b>, compiled the Yongle Encyclopedia, led five campaigns into the steppe and created the Grand Secretariat — one of the Ming's greatest rulers.`,
+      factZh:`《永乐大典》约 3.7 亿字，是古代世界最大的百科全书。`, factEn:`The Yongle Encyclopedia had about 370 million characters — the largest encyclopedia of the ancient world.` },
+    { id:"hongxi", icon:"🌾", nameZh:"明仁宗 朱高炽", nameEn:"Hongxi (Zhu Gaochi)", eraZh:"洪熙", eraEn:"Hongxi", yearsZh:"1424–1425（不足 1 年）", yearsEn:"1424–1425 (under 1 yr)",
+      deedZh:`在位仅约十个月，但为人宽厚：平反冤狱、减轻赋税、停止下西洋，与儿子宣宗并称「<b>仁宣之治</b>」的开端。`,
+      deedEn:`Reigned only about ten months but was generous — reversing unjust cases, cutting taxes and halting the ocean voyages. With his son Xuande he began the "<b>Ren-Xuan Flourishing Age</b>."`,
+      factZh:`他在位不到一年，却被后人认为是一代仁君。`, factEn:`He ruled for less than a year, yet is remembered as a benevolent ruler.` },
+    { id:"xuande", icon:"🏺", nameZh:"明宣宗 朱瞻基", nameEn:"Xuande (Zhu Zhanji)", eraZh:"宣德", eraEn:"Xuande", yearsZh:"1425–1435（10 年）", yearsEn:"1425–1435 (10 yrs)",
+      deedZh:`与其父共成「仁宣之治」，政治清明、经济繁荣。他本人擅长书画，<b>宣德青花瓷</b>是瓷器史上的巅峰。`,
+      deedEn:`With his father he ruled the Ren-Xuan Flourishing Age — clean government and prosperity. A fine painter himself, his reign gave us <b>Xuande blue-and-white porcelain</b>, a peak of ceramic art.`,
+      factZh:`宣德青花瓷现在价值连城，一件就能换一栋房子。`, factEn:`Xuande blue-and-white porcelain is priceless today — one piece could buy a house.` },
+    { id:"yingzong", icon:"⚔️", nameZh:"明英宗 朱祁镇", nameEn:"Yingzong (Zhu Qizhen)", eraZh:"正统 · 天顺", eraEn:"Zhengtong · Tianshun", yearsZh:"1435–1449、1457–1464", yearsEn:"1435–1449, 1457–1464",
+      deedZh:`年少即位。1449 年亲征瓦剌，在<b>土木堡惨败被俘</b>；被放回后遭软禁，1457 年发动「<b>夺门之变</b>」复位。土木之变是明朝由盛转衰的转折点。`,
+      deedEn:`Took the throne young. In 1449 he marched against the Oirat and was <b>captured at Tumu Fortress</b>. After his release he was kept under house arrest, then retook the throne in 1457 in the <b>Gate-Seizing Coup</b>. Tumu was the turning point from Ming's peak.`,
+      factZh:`明朝 16 位皇帝里，他是唯一一位两次登基的。`, factEn:`Of the 16 Ming emperors, he was the only one to reign twice.` },
+    { id:"jingtai", icon:"🛡️", nameZh:"明代宗 朱祁钰", nameEn:"Jingtai (Zhu Qiyu)", eraZh:"景泰", eraEn:"Jingtai", yearsZh:"1449–1457（8 年）", yearsEn:"1449–1457 (8 yrs)",
+      deedZh:`土木之变后临危即位，任用于谦打赢<b>北京保卫战</b>，保住了明朝。他还在位期间出现了「景泰蓝」工艺。`,
+      deedEn:`Rushed to the throne after Tumu. He appointed Yu Qian, whose <b>defense of Beijing</b> saved the dynasty. "Jingtai blue" (cloisonné) art flourished in his reign.`,
+      factZh:`「景泰蓝」就是用他的年号命名的。`, factEn:`"Jingtai blue" cloisonné is named after his reign title.` },
+    { id:"chenghua", icon:"🍵", nameZh:"明宪宗 朱见深", nameEn:"Chenghua (Zhu Jianshen)", eraZh:"成化", eraEn:"Chenghua", yearsZh:"1464–1487（23 年）", yearsEn:"1464–1487 (23 yrs)",
+      deedZh:`英宗之子。在位期间设立<b>西厂</b>、宠信万贵妃；「成化斗彩鸡缸杯」是瓷器珍品。`,
+      deedEn:`Son of Yingzong. He created the <b>Western Depot</b> secret police and favored Consort Wan; the Chenghua doucai "chicken cup" is a celebrated porcelain.`,
+      factZh:`一只成化斗彩鸡缸杯，曾拍出 2 亿多元人民币。`, factEn:`A single Chenghua chicken cup once sold for over 200 million yuan.` },
+    { id:"hongzhi", icon:"💛", nameZh:"明孝宗 朱祐樘", nameEn:"Hongzhi (Zhu Youtang)", eraZh:"弘治", eraEn:"Hongzhi", yearsZh:"1487–1505（18 年）", yearsEn:"1487–1505 (18 yrs)",
+      deedZh:`勤政爱民、虚心纳谏、任用贤臣，史称「<b>弘治中兴</b>」。他一生只娶了一位皇后，是中国历史上少见的专情皇帝。`,
+      deedEn:`Diligent and open to advice, he employed able ministers in the <b>Hongzhi Restoration</b>. He married only one empress — rare among Chinese emperors.`,
+      factZh:`他是中国历史上唯一只娶一位妻子的皇帝。`, factEn:`He is the only Chinese emperor known to have married just one woman.` },
+    { id:"zhengde", icon:"🎭", nameZh:"明武宗 朱厚照", nameEn:"Zhengde (Zhu Houzhao)", eraZh:"正德", eraEn:"Zhengde", yearsZh:"1505–1521（16 年）", yearsEn:"1505–1521 (16 yrs)",
+      deedZh:`生性好玩、不爱上朝，自封「威武大将军」。在位期间宦官<b>刘瑾</b>专权；宁王朱宸濠之乱被<b>王阳明</b>迅速平定。`,
+      deedEn:`Fun-loving and rarely at court, he styled himself "Great General." The eunuch <b>Liu Jin</b> dominated; Prince Ning's rebellion was swiftly crushed by <b>Wang Yangming</b>.`,
+      factZh:`他给自己封了个「大将军」的官，还想亲自带兵打仗。`, factEn:`He gave himself the title of "Great General" and wanted to lead troops in person.` },
+    { id:"jiajing", icon:"⛩️", nameZh:"明世宗 朱厚熜", nameEn:"Jiajing (Zhu Houcong)", eraZh:"嘉靖", eraEn:"Jiajing", yearsZh:"1521–1566（45 年）", yearsEn:"1521–1566 (45 yrs)",
+      deedZh:`以藩王入继大统，因「<b>大礼议</b>」与群臣激烈冲突。晚年沉迷修道、长期不上朝，<b>严嵩</b>专权，东南<b>倭患</b>严重。`,
+      deedEn:`A prince who became emperor and clashed with officials in the <b>Great Rites Controversy</b>. Later he obsessed over Daoist rites and rarely held court; <b>Yan Song</b> dominated while <b>Japanese pirates</b> ravaged the coast.`,
+      factZh:`嘉靖皇帝 20 多年不上朝，却始终牢牢掌握着权力。`, factEn:`Jiajing held no court for over 20 years, yet never lost his grip on power.` },
+    { id:"longqing", icon:"⚖️", nameZh:"明穆宗 朱载坖", nameEn:"Longqing (Zhu Zaiji)", eraZh:"隆庆", eraEn:"Longqing", yearsZh:"1566–1572（6 年）", yearsEn:"1566–1572 (6 yrs)",
+      deedZh:`在位虽短，但推行「<b>隆庆开关</b>」（开放海上贸易）与「隆庆和议」（与蒙古俺答议和）。海瑞、戚继光、张居正都在这一时期崭露头角。`,
+      deedEn:`A short reign, but he opened maritime trade (the <b>Longqing Opening</b>) and made peace with the Mongol Altan Khan. Hai Rui, Qi Jiguang and Zhang Juzheng rose in this era.`,
+      factZh:`「隆庆开关」之后，大量白银从海外流入中国。`, factEn:`After the Longqing Opening, huge amounts of silver flowed into China.` },
+    { id:"wanli", icon:"🕰️", nameZh:"明神宗 朱翊钧", nameEn:"Wanli (Zhu Yijun)", eraZh:"万历", eraEn:"Wanli", yearsZh:"1572–1620（48 年）", yearsEn:"1572–1620 (48 yrs)",
+      deedZh:`10 岁即位，前期在<b>张居正</b>辅政下推行「万历新政」，国势中兴；亲政后发动「<b>万历三大征</b>」（宁夏、朝鲜、播州）；后期长期怠政，明朝走向衰落。`,
+      deedEn:`Crowned at ten, he backed <b>Zhang Juzheng's</b> reforms for a revival; later he waged the "<b>Three Great Campaigns</b>" (Ningxia, Korea, Bozhou). In his later years he withdrew from governing, and the Ming slid toward decline.`,
+      factZh:`他在位 48 年，是明朝在位最久的皇帝，却近 30 年不上朝。`, factEn:`He reigned 48 years — the longest of the Ming — yet held no court for nearly 30.` },
+    { id:"taichang", icon:"🍂", nameZh:"明光宗 朱常洛", nameEn:"Taichang (Zhu Changluo)", eraZh:"泰昌", eraEn:"Taichang", yearsZh:"1620（29 天）", yearsEn:"1620 (29 days)",
+      deedZh:`在位仅 <b>29 天</b>，因「<b>红丸案</b>」暴亡，是明朝在位最短的皇帝。`,
+      deedEn:`Reigned only <b>29 days</b> and died suddenly in the "<b>Red Pill Case</b>" — the Ming's shortest-reigning emperor.`,
+      factZh:`他只当了一个月的皇帝，年号「泰昌」几乎没来得及用。`, factEn:`He was emperor for barely a month; his era name was hardly used.` },
+    { id:"tianqi", icon:"🪚", nameZh:"明熹宗 朱由校", nameEn:"Tianqi (Zhu Youxiao)", eraZh:"天启", eraEn:"Tianqi", yearsZh:"1620–1627（7 年）", yearsEn:"1620–1627 (7 yrs)",
+      deedZh:`痴迷木工（「木匠皇帝」），把朝政交给宦官<b>魏忠贤</b>，阉党专权、<b>东林党</b>人惨遭迫害；后金在辽东崛起。`,
+      deedEn:`Obsessed with carpentry (the "Carpenter Emperor"), he left government to the eunuch <b>Wei Zhongxian</b>, whose faction persecuted the <b>Donglin</b> scholars; the Later Jin rose in Liaodong.`,
+      factZh:`他亲手做的木器精巧得连专业工匠都佩服。`, factEn:`His wooden creations were so fine that even professional craftsmen admired them.` },
+    { id:"chongzhen", icon:"🕯️", nameZh:"明思宗 朱由检", nameEn:"Chongzhen (Zhu Youjian)", eraZh:"崇祯", eraEn:"Chongzhen", yearsZh:"1627–1644（17 年）", yearsEn:"1627–1644 (17 yrs)",
+      deedZh:`即位后铲除魏忠贤、勤于政事，但内忧外患（农民起义、后金/清、财政崩溃）积重难返。1644 年李自成攻破北京，他<b>自缢于煤山</b>，明朝灭亡。`,
+      deedEn:`He eliminated Wei Zhongxian and worked hard, but peasant revolts, the rising Qing and fiscal collapse overwhelmed him. In 1644 Li Zicheng took Beijing; he <b>hanged himself on Coal Hill</b>, ending the Ming.`,
+      factZh:`崇祯非常勤政，常常批阅奏章到深夜，却无力回天。`, factEn:`Chongzhen worked tirelessly, often reading memorials late into the night — yet could not save the dynasty.` }
+  ];
+
+  /* ===== 权力结构 ===== */
+  const STRUCT = [
+    { id:"emperor", row:0, icon:"👑", nameZh:"皇帝", nameEn:"Emperor", infoZh:`<b>皇帝</b>：明朝的最高统治者。朱元璋废除丞相后，皇帝直接统领六部，权力高度集中——所以明朝的皇帝忙不忙，直接决定国家好坏。`, infoEn:`<b>Emperor</b>: the supreme ruler. After Zhu Yuanzhang abolished the prime minister, the emperor directly led the Six Ministries — power was highly centralized.` },
+    { id:"cabinet", row:1, icon:"📜", nameZh:"内阁（首辅）", nameEn:"Grand Secretariat", infoZh:`<b>内阁</b>：皇帝的「秘书团」，由大学士组成，首席称<b>首辅</b>。张居正就是以首辅身份主持改革的。`, infoEn:`<b>Grand Secretariat</b>: the emperor's "secretariat" of grand secretaries; its head was the Senior Grand Secretary — the post Zhang Juzheng used to drive reform.` },
+    { id:"six", row:1, icon:"🏢", nameZh:"六部", nameEn:"Six Ministries", infoZh:`<b>六部</b>：吏、户、礼、兵、刑、工六个部门，分别管官员、钱粮、礼仪、军事、刑法、工程，是国家运转的骨架。`, infoEn:`<b>Six Ministries</b>: Personnel, Revenue, Rites, War, Justice and Works — the skeleton of the state.` },
+    { id:"sili", row:2, icon:"🕯️", nameZh:"司礼监（宦官）", nameEn:"Eunuch Directorate", infoZh:`<b>司礼监</b>：宦官机构，负责「批红」（代皇帝批奏章）。它常与内阁相互制衡，明朝中后期宦官专权多源于此。`, infoEn:`<b>Eunuch Directorate</b>: eunuchs who "signed off" on memorials for the emperor. It checked the Secretariat — the source of eunuch power in the Ming's later years.` },
+    { id:"jinyi", row:2, icon:"🗡️", nameZh:"锦衣卫", nameEn:"Embroidered Guard", infoZh:`<b>锦衣卫</b>：皇帝的亲军与特务机构，可直接逮捕、审讯官员百姓，让人人自危。`, infoEn:`<b>Embroidered Uniform Guard</b>: the emperor's bodyguard and secret police, able to arrest and interrogate anyone directly.` },
+    { id:"changwei", row:2, icon:"👁️", nameZh:"东厂 / 西厂", nameEn:"Eastern/Western Depot", infoZh:`<b>东厂、西厂</b>：由宦官掌管的特务机构，比锦衣卫更让人害怕。东厂设于永乐年间，西厂设于成化年间。`, infoEn:`<b>Eastern & Western Depots</b>: eunuch-run secret police, even more feared than the Guard. The Eastern Depot was set up under Yongle, the Western under Chenghua.` },
+    { id:"local", row:3, icon:"🏛️", nameZh:"地方：三司", nameEn:"Provinces: Three Commissions", infoZh:`<b>地方</b>：设「三司」——布政使司（民政财政）、按察使司（司法监察）、都指挥使司（军事），三者互相牵制，防止地方坐大。`, infoEn:`<b>Local rule</b>: three commissions per province — civil administration, judicial surveillance and military — each checking the others so no region grew too strong.` }
+  ];
+
+  /* ===== 核心人物 ===== */
+  const FIGURES = [
+    { groupZh:"🏇 开国元勋", groupEn:"🏇 Founding heroes", items:[
+      { icon:"🧠", nameZh:"刘伯温（刘基）", nameEn:"Liu Bowen", descZh:"朱元璋的首席谋士，民间称他「诸葛亮再世」，据传帮助定下灭元方略。", descEn:"Zhu Yuanzhang's chief strategist, likened to Zhuge Liang; credited with the plan to topple the Yuan." },
+      { icon:"⚔️", nameZh:"徐达", nameEn:"Xu Da", descZh:"明朝开国第一功臣，率军北伐攻入大都，灭亡元朝。", descEn:"The Ming's foremost founding general, whose northern campaign took the Yuan capital and ended the Yuan." },
+      { icon:"🐎", nameZh:"常遇春", nameEn:"Chang Yuchun", descZh:"勇冠三军的猛将，号称「常十万」，北伐途中病逝。", descEn:"A fearless general nicknamed \"Chang of 100,000\"; he died on the northern campaign." }
+    ]},
+    { groupZh:"🏛️ 名臣良将", groupEn:"🏛️ Great ministers & generals", items:[
+      { icon:"⛵", nameZh:"郑和", nameEn:"Zheng He", descZh:"1405 年起七下西洋，率当时世界最大的船队最远到达非洲东海岸。", descEn:"From 1405 he led seven voyages with the world's largest fleet, reaching the east coast of Africa." },
+      { icon:"🛡️", nameZh:"于谦", nameEn:"Yu Qian", descZh:"土木之变后指挥北京保卫战，力挽狂澜；「粉身碎骨浑不怕，要留清白在人间」。", descEn:"He commanded Beijing's defense after Tumu, saving the dynasty; famous for the line \"I fear no shattering, if I leave my name clean.\"" },
+      { icon:"📊", nameZh:"张居正", nameEn:"Zhang Juzheng", descZh:"万历初年首辅，推行「一条鞭法」等改革，是明朝最后的强力改革家。", descEn:"Senior Grand Secretary in Wanli's early years; his reforms (including the Single Whip) were the Ming's last great renewal." },
+      { icon:"🧧", nameZh:"海瑞", nameEn:"Hai Rui", descZh:"著名清官，人称「海青天」，一生刚直，甚至敢上书痛骂皇帝。", descEn:"A legendary incorruptible official, \"Hai the Clear Sky,\" who even dared to write a memorial scolding the emperor." },
+      { icon:"🏹", nameZh:"戚继光", nameEn:"Qi Jiguang", descZh:"抗倭名将，组建「戚家军」、创「鸳鸯阵」，著有《纪效新书》。", descEn:"The famous anti-pirate general who built the Qi Army and the \"mandarin duck formation,\" author of a classic military manual." },
+      { icon:"🛡️", nameZh:"袁崇焕", nameEn:"Yuan Chonghuan", descZh:"明末抗清名将，宁远大捷重创后金，后遭反间被冤杀。", descEn:"A late-Ming general who badly beat the Later Jin at Ningyuan, later executed after a smear campaign." }
+    ]},
+    { groupZh:"📚 文人 · 科学家", groupEn:"📚 Scholars & scientists", items:[
+      { icon:"🧘", nameZh:"王阳明（王守仁）", nameEn:"Wang Yangming", descZh:"心学宗师，提出「知行合一」「致良知」，还曾率军平定宁王之乱。", descEn:"Founder of the School of Mind (\"unity of knowledge and action\"), who also crushed Prince Ning's rebellion." },
+      { icon:"🌿", nameZh:"李时珍", nameEn:"Li Shizhen", descZh:"历时 27 年著《本草纲目》，收录药物 1892 种，被誉为「东方药物巨典」。", descEn:"Spent 27 years on the Compendium of Materia Medica, listing 1,892 medicines — a masterpiece of pharmacology." },
+      { icon:"⚙️", nameZh:"宋应星", nameEn:"Song Yingxing", descZh:"著《天工开物》，记录农业与手工业技术，被称为「17 世纪工艺百科全书」。", descEn:"Author of Tiangong Kaiwu, a record of farming and craft techniques — a 17th-century technological encyclopedia." },
+      { icon:"📐", nameZh:"徐光启", nameEn:"Xu Guangqi", descZh:"科学家，与利玛窦合译《几何原本》，著《农政全书》。", descEn:"A scientist who co-translated Euclid's Elements with Matteo Ricci and wrote an agricultural compendium." },
+      { icon:"🥾", nameZh:"徐霞客", nameEn:"Xu Xiake", descZh:"旅行家，30 多年走遍大江南北，写下《徐霞客游记》，最早科学考察喀斯特地貌。", descEn:"A traveler who spent 30+ years across China, writing a famous travelogue and pioneering study of karst landscapes." },
+      { icon:"🎭", nameZh:"汤显祖", nameEn:"Tang Xianzu", descZh:"戏剧大师，代表作《牡丹亭》，被称为「东方的莎士比亚」。", descEn:"A great playwright, best known for The Peony Pavilion — called the \"Shakespeare of the East.\"" },
+      { icon:"🖌️", nameZh:"唐寅（唐伯虎）", nameEn:"Tang Yin (Tang Bohu)", descZh:"「江南四大才子」之首，诗书画三绝，一生坎坷。", descEn:"The leading \"Jiangnan talent,\" master of poetry, calligraphy and painting — though his life was full of hardship." }
+    ]},
+    { groupZh:"⚖️ 权宦与末路人物", groupEn:"⚖️ Eunuchs & the last days", items:[
+      { icon:"👁️", nameZh:"魏忠贤", nameEn:"Wei Zhongxian", descZh:"天启年间权宦，自称「九千岁」，阉党之首，残酷迫害东林党人。", descEn:"The all-powerful eunuch of Tianqi's reign, called \"Nine-Thousand Years,\" who brutally persecuted the Donglin scholars." },
+      { icon:"🕯️", nameZh:"严嵩", nameEn:"Yan Song", descZh:"嘉靖年间内阁首辅，专权 20 年，贪腐误国。", descEn:"Senior Grand Secretary under Jiajing who dominated for 20 years through corruption and intrigue." },
+      { icon:"🌾", nameZh:"李自成", nameEn:"Li Zicheng", descZh:"明末农民起义领袖，提出「均田免赋」，1644 年攻破北京。", descEn:"A late-Ming peasant rebel leader who promised land and no taxes; he took Beijing in 1644." },
+      { icon:"🌊", nameZh:"郑成功", nameEn:"Zheng Chenggong", descZh:"民族英雄，1662 年收复台湾，驱逐荷兰殖民者。", descEn:"A national hero who retook Taiwan in 1662, expelling the Dutch colonists." }
+    ]}
+  ];
+
+  /* ===== 大事年表 ===== */
+  const EVENTS = [
+    { yearZh:"1368", yearEn:"1368", titleZh:"明朝建立", titleEn:"The Ming is founded", descZh:"朱元璋在南京称帝，国号大明，年号洪武。", descEn:"Zhu Yuanzhang proclaims the Ming at Nanjing, era name Hongwu." },
+    { yearZh:"1380", yearEn:"1380", titleZh:"胡惟庸案，废除丞相", titleEn:"Hu Weiyong case; the prime minister abolished", descZh:"朱元璋借胡惟庸案废中书省与丞相，皇权空前集中。", descEn:"Zhu Yuanzhang abolishes the prime minister, concentrating power in the throne." },
+    { yearZh:"1399", yearEn:"1399", titleZh:"靖难之役爆发", titleEn:"Jingnan Campaign begins", descZh:"燕王朱棣以「清君侧」为名起兵，与建文帝争夺皇位。", descEn:"Prince Zhu Di rebels against Emperor Jianwen in a war for the throne." },
+    { yearZh:"1402", yearEn:"1402", titleZh:"朱棣即位（明成祖）", titleEn:"Zhu Di takes the throne", descZh:"南京城破，朱棣登基，改元永乐。", descEn:"Nanjing falls; Zhu Di becomes emperor, era name Yongle." },
+    { yearZh:"1405", yearEn:"1405", titleZh:"郑和首次下西洋", titleEn:"Zheng He's first voyage", descZh:"率 200 多艘船、2 万多人远航，最远到达非洲东海岸。", descEn:"He sails with 200+ ships and 20,000+ men, reaching the east coast of Africa." },
+    { yearZh:"1421", yearEn:"1421", titleZh:"迁都北京", titleEn:"Capital moves to Beijing", descZh:"紫禁城落成，北京成为明朝都城，「天子守国门」。", descEn:"The Forbidden City is completed; Beijing becomes the capital — \"the Son of Heaven guards the gate.\"" },
+    { yearZh:"1449", yearEn:"1449", titleZh:"土木堡之变", titleEn:"Tumu Crisis", descZh:"英宗亲征瓦剌兵败被俘，明朝由盛转衰的转折点。", descEn:"Yingzong is captured by the Oirat — the turning point from Ming's peak." },
+    { yearZh:"1450", yearEn:"1450", titleZh:"北京保卫战", titleEn:"Defense of Beijing", descZh:"于谦率军击退瓦剌，保住了明朝。", descEn:"Yu Qian repels the Oirat and saves the dynasty." },
+    { yearZh:"1457", yearEn:"1457", titleZh:"夺门之变", titleEn:"Gate-Seizing Coup", descZh:"英宗复位，改元天顺。", descEn:"Yingzong retakes the throne, era name Tianshun." },
+    { yearZh:"1487", yearEn:"1487", titleZh:"弘治中兴", titleEn:"Hongzhi Restoration", descZh:"孝宗勤政纳谏，明朝出现一段中兴局面。", descEn:"Emperor Hongzhi rules diligently, bringing a revival." },
+    { yearZh:"1521", yearEn:"1521", titleZh:"大礼议之争", titleEn:"Great Rites Controversy", descZh:"嘉靖帝与群臣就礼制激烈冲突，皇权与文官集团关系紧张。", descEn:"Jiajing clashes with officials over ritual, straining throne–bureaucracy ties." },
+    { yearZh:"1553", yearEn:"1553", titleZh:"倭寇大举侵扰东南", titleEn:"Wokou raids intensify", descZh:"戚继光、俞大猷组建新军抗倭，逐渐平定倭患。", descEn:"Qi Jiguang and Yu Dayou raise new armies and gradually defeat the pirates." },
+    { yearZh:"1567", yearEn:"1567", titleZh:"隆庆开关", titleEn:"Longqing Opening", descZh:"开放海上贸易，大量白银流入中国。", descEn:"Maritime trade opens; huge silver inflows follow." },
+    { yearZh:"1572", yearEn:"1572", titleZh:"万历新政（张居正改革）", titleEn:"Wanli reforms begin", descZh:"张居正推行一条鞭法等改革，国库充盈、国力回升。", descEn:"Zhang Juzheng's reforms (including the Single Whip) refill the treasury and revive the state." },
+    { yearZh:"1592", yearEn:"1592", titleZh:"万历朝鲜之役", titleEn:"Imjin War", descZh:"明朝出兵援朝抗击日本，是「万历三大征」之一。", descEn:"The Ming sends troops to Korea against Japan — one of the \"Three Great Campaigns.\"" },
+    { yearZh:"1619", yearEn:"1619", titleZh:"萨尔浒之战", titleEn:"Battle of Sarhu", descZh:"明军大败于后金，辽东局势急转直下。", descEn:"The Ming is crushed by the Later Jin; Liaodong rapidly deteriorates." },
+    { yearZh:"1626", yearEn:"1626", titleZh:"宁远大捷", titleEn:"Ningyuan victory", descZh:"袁崇焕以红夷大炮重创后金，努尔哈赤不久去世。", descEn:"Yuan Chonghuan mauls the Later Jin with cannon; Nurhaci soon dies." },
+    { yearZh:"1644", yearEn:"1644", titleZh:"明朝灭亡", titleEn:"The Ming falls", descZh:"李自成攻破北京，崇祯帝自缢煤山，明朝灭亡。", descEn:"Li Zicheng takes Beijing; Emperor Chongzhen hangs himself on Coal Hill." },
+    { yearZh:"1662", yearEn:"1662", titleZh:"郑成功收复台湾", titleEn:"Zheng Chenggong retakes Taiwan", descZh:"南明将领郑成功驱逐荷兰殖民者，收复台湾。", descEn:"The Southern Ming loyalist Zheng Chenggong expels the Dutch and retakes Taiwan." }
+  ];
+
+  /* ===== 兴亡脉络 ===== */
+  const STAGES = [
+    { icon:"🌱", rangeZh:"1368–1398", rangeEn:"1368–1398", titleZh:"开国奠基 · 洪武之治", titleEn:"Founding · Hongwu rule", descZh:"朱元璋驱逐元朝、统一天下，废丞相、兴屯田、惩贪官，为明朝打下根基。", descEn:"Zhu Yuanzhang expels the Yuan and unifies China, abolishing the premiership and building the state's foundations." },
+    { icon:"☀️", rangeZh:"1402–1435", rangeEn:"1402–1435", titleZh:"鼎盛 · 永乐盛世与仁宣之治", titleEn:"Peak · Yongle & Ren-Xuan", descZh:"迁都北京、郑和下西洋、编《永乐大典》；随后仁宗、宣宗与民休息，国泰民安。", descEn:"Capital moved to Beijing, Zheng He's voyages, the Yongle Encyclopedia — then the Ren-Xuan age of peace and prosperity." },
+    { icon:"⚠️", rangeZh:"1449–1521", rangeEn:"1449–1521", titleZh:"由盛转衰 · 土木之变到正德荒嬉", titleEn:"Turning point · Tumu to Zhengde", descZh:"土木堡之变重创明朝；虽有于谦力挽狂澜、弘治中兴，但宦官与边患问题渐显。", descEn:"Tumu cripples the dynasty; Yu Qian saves it and Hongzhi revives it, yet eunuch power and frontier threats grow." },
+    { icon:"🔧", rangeZh:"1521–1620", rangeEn:"1521–1620", titleZh:"危机与改革 · 嘉靖到万历", titleEn:"Crisis & reform · Jiajing to Wanli", descZh:"倭患、党争、财政危机不断；隆庆开关、张居正改革一度中兴，万历后期怠政埋下祸根。", descEn:"Pirates, factionalism and fiscal crisis; the Longqing Opening and Zhang Juzheng's reforms revive it briefly, but Wanli's withdrawal sows ruin." },
+    { icon:"🔥", rangeZh:"1620–1644", rangeEn:"1620–1644", titleZh:"覆亡 · 阉党、民变与后金", titleEn:"Collapse · eunuchs, revolt, Later Jin", descZh:"魏忠贤乱政、农民起义四起、后金（清）崛起；1644 年北京陷落，崇祯自缢，明朝灭亡。", descEn:"Wei Zhongxian's misrule, mass revolts and the rise of the Later Jin (Qing); Beijing falls in 1644 and Chongzhen dies — the Ming ends." }
+  ];
+
+  /* ===== 渲染 ===== */
+  let lang = localStorage.getItem('ming-lang') || 'zh';
+  const T = () => I18N[lang];
+  const zh = (a,b) => lang === 'zh' ? a : b;
+  let curEmp = 'taizu';
+
+  function applyUI() {
+    const t = T();
+    document.getElementById('ui-brand').textContent = t.brand;
+    document.getElementById('ui-nav-hero').textContent = t.navHero;
+    document.getElementById('ui-nav-overview').textContent = t.navOverview;
+    document.getElementById('ui-nav-emperors').textContent = t.navEmperors;
+    document.getElementById('ui-nav-structure').textContent = t.navStructure;
+    document.getElementById('ui-nav-figures').textContent = t.navFigures;
+    document.getElementById('ui-nav-events').textContent = t.navEvents;
+    document.getElementById('ui-hero-pre').textContent = t.heroPre;
+    document.getElementById('ui-hero-hl').textContent = t.heroHl;
+    document.getElementById('ui-hero-sub').textContent = t.heroSub;
+    document.getElementById('heroCount').textContent = t.heroCount;
+    document.getElementById('ui-scroll').textContent = t.scroll;
+    document.getElementById('ui-ov-title').textContent = t.ovTitle;
+    document.getElementById('ui-ov-desc').textContent = t.ovDesc;
+    document.getElementById('ui-emp-title').textContent = t.empTitle;
+    document.getElementById('ui-emp-desc').textContent = t.empDesc;
+    document.getElementById('ui-st-title').textContent = t.stTitle;
+    document.getElementById('ui-st-desc').textContent = t.stDesc;
+    document.getElementById('ui-fig-title').textContent = t.figTitle;
+    document.getElementById('ui-fig-desc').textContent = t.figDesc;
+    document.getElementById('ui-ev-title').textContent = t.evTitle;
+    document.getElementById('ui-ev-desc').textContent = t.evDesc;
+    document.getElementById('ui-sg-title').textContent = t.sgTitle;
+    document.getElementById('ui-sg-desc').textContent = t.sgDesc;
+    document.getElementById('ui-ft-title').textContent = t.ftTitle;
+    document.getElementById('ui-ft-p1').textContent = t.ftP1;
+    document.getElementById('ui-ft-p2').textContent = t.ftP2;
+    document.getElementById('ui-ft-sign').textContent = t.ftSign;
+    document.getElementById('langBtn').textContent = t.langOther;
+  }
+
+  function renderOverview() {
+    document.getElementById('overview').innerHTML = OVERVIEW.map(o => `
+      <div class="card"><div class="big">${o.big}</div><h3>${zh(o.labelZh,o.labelEn)}</h3><p>${zh(o.descZh,o.descEn)}</p></div>`).join('');
+  }
+
+  function renderEmperors() {
+    document.getElementById('empGrid').innerHTML = EMPERORS.map(e => `
+      <div class="emp-card${e.id===curEmp?' active':''}" data-id="${e.id}">
+        <div class="e-icon">${e.icon}</div>
+        <div class="e-name">${zh(e.nameZh,e.nameEn)}</div>
+        <div class="e-era">${zh(e.eraZh,e.eraEn)} · ${zh(e.yearsZh,e.yearsEn)}</div>
+      </div>`).join('');
+    document.querySelectorAll('.emp-card').forEach(c => c.addEventListener('click', () => { curEmp = c.dataset.id; renderEmperors(); showEmp(); }));
+    showEmp();
+  }
+  function showEmp() {
+    const e = EMPERORS.find(x => x.id === curEmp); if (!e) return;
+    document.getElementById('empDetail').innerHTML = `
+      <h3>${e.icon} ${zh(e.nameZh,e.nameEn)}</h3>
+      <div class="meta">年号 <b>${zh(e.eraZh,e.eraEn)}</b> · 在位 <b>${zh(e.yearsZh,e.yearsEn)}</b></div>
+      <p>${zh(e.deedZh,e.deedEn)}</p>
+      <div class="fact">🤓 ${zh(e.factZh,e.factEn)}</div>`;
+  }
+
+  function renderStruct() {
+    const rows = {};
+    STRUCT.forEach(n => { (rows[n.row] = rows[n.row] || []).push(n); });
+    const labels = [T().stL1, T().stL2, T().stL3, T().stL4];
+    let html = '';
+    Object.keys(rows).sort().forEach((r, i) => {
+      if (i > 0) html += `<div class="arrow">▼</div>`;
+      html += `<div style="text-align:center;font-size:13px;opacity:.75;margin-top:4px">${labels[r]}</div>`;
+      html += `<div class="struct-row">` + rows[r].map(n => `
+        <div class="node${n.row===0?' top':''}" data-id="${n.id}"><div class="n-icon">${n.icon}</div><div class="n-name">${zh(n.nameZh,n.nameEn)}</div></div>`).join('') + `</div>`;
+    });
+    document.getElementById('struct').innerHTML = html;
+    document.querySelectorAll('.node').forEach(nd => nd.addEventListener('click', () => {
+      document.querySelectorAll('.node').forEach(x => x.classList.remove('active'));
+      nd.classList.add('active');
+      const n = STRUCT.find(s => s.id === nd.dataset.id);
+      document.getElementById('structInfo').innerHTML = zh(n.infoZh, n.infoEn);
+    }));
+    const info = document.getElementById('structInfo');
+    if (!info.querySelector('b')) info.innerHTML = `<span class="hint">${T().stHint}</span>`;
+  }
+
+  function renderFigures() {
+    document.getElementById('figures').innerHTML = FIGURES.map(g => `
+      <div class="figgroup">
+        <h3>${zh(g.groupZh,g.groupEn)}</h3>
+        <div class="fig-grid">
+          ${g.items.map(f => `
+            <div class="fig">
+              <div class="f-top"><span class="f-icon">${f.icon}</span><div><div class="f-name">${zh(f.nameZh,f.nameEn)}</div></div></div>
+              <p>${zh(f.descZh,f.descEn)}</p>
+            </div>`).join('')}
+        </div>
+      </div>`).join('');
+  }
+
+  function renderEvents() {
+    document.getElementById('timeline').innerHTML = EVENTS.map(e => `
+      <div class="tl-item">
+        <div class="tl-year">${zh(e.yearZh,e.yearEn)}</div>
+        <div class="tl-body"><b>${zh(e.titleZh,e.titleEn)}</b> — ${zh(e.descZh,e.descEn)}</div>
+      </div>`).join('');
+  }
+
+  function renderStages() {
+    document.getElementById('stages').innerHTML = STAGES.map(s => `
+      <div class="stage">
+        <div class="s-range">${s.icon} ${zh(s.rangeZh,s.rangeEn)}</div>
+        <h3>${zh(s.titleZh,s.titleEn)}</h3>
+        <p>${zh(s.descZh,s.descEn)}</p>
+      </div>`).join('');
+  }
+
+  function updateLang() {
+    applyUI(); renderOverview(); renderEmperors(); renderStruct(); renderFigures(); renderEvents(); renderStages();
+  }
+
+  document.getElementById('langBtn').addEventListener('click', () => {
+    lang = (lang === 'zh') ? 'en' : 'zh';
+    localStorage.setItem('ming-lang', lang);
+    updateLang();
+  });
+
+  updateLang();
+  </script>
+</body>
+</html>

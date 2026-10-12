@@ -106,6 +106,12 @@ function showEraModal(eraId) {
         <div class="modal-kids-label">🤓 小朋友会喜欢</div>
         <div class="modal-kids-text">${era.kidsFact}</div>
       </div>
+
+      ${era.detailUrl ? `
+        <div style="margin-top:20px;text-align:center">
+          <a class="btn btn-primary" href="${era.detailUrl}" style="display:inline-block;text-decoration:none">📖 查看完整「${era.name}」历史 →</a>
+        </div>
+      ` : ''}
     </div>
   `;
 
