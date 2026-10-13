@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<base href="../" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于马斯克的一切 · 研判看板</title>
+<!-- 统一模板生成：docs/insights/_templates/dashboard.html + generate.js -->
+<style>
+  :root{--bg:#e8eaf1;--panel:#ffffff;--panel2:#f3f5fa;--ink:#2a3140;--muted:#5c6577;--muted2:#3a4252;--line:#d5dae6;--accent:#1f5ec9;--accentSoft:rgba(31,94,201,.08);--warn:#a86f0e;--peak:#c13a31;--good:#17613d;--dim:#0e7fa8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:30px 20px 60px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#ffffff 0%,var(--bg) 260px);}
+  .wrap{max-width:1060px;margin:0 auto;}
+  header{margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--accent);}
+  .crumb{font-size:13px;color:var(--muted);}
+  .crumb a{color:var(--accent);text-decoration:none;font-weight:700;}
+  h1{font-size:27px;font-weight:800;color:#1a2233;margin:8px 0 6px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:13.5px;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+  .badge{background:var(--accentSoft);border:1px solid #cdd7ee;color:var(--accent);border-radius:999px;font-size:12px;padding:3px 13px;font-weight:700;}
+  section{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:13px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(35,45,75,.06);overflow:hidden;}
+  section.warnside{border-top-color:var(--warn);}
+  section h2{font-size:17px;font-weight:800;color:#1b2333;margin-bottom:12px;display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  section h2 .idx{background:var(--accent);color:#fff;border-radius:7px;min-width:26px;height:25px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;padding:0 7px;letter-spacing:.5px;}
+  .lead{font-size:15px;color:var(--muted2);line-height:1.85;}
+  .lead b,.lead strong,section p b{color:#1b2333;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;}
+  .cell b{display:block;font-size:14.5px;font-weight:800;color:#1c2433;margin-bottom:8px;letter-spacing:.2px;}
+  .cell p{font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .tbd,.focus,.trend,.tline,.tag,.flag,.hl,.risk{display:inline-block;padding:1px 9px;border-radius:7px;font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.7;}
+  .flag,.tbd{color:#b4530a;background:#ffe3b3;}
+  .focus{color:#a0149b;background:#f6c7f7;border:1px solid #efb3ef;}
+  .trend{color:#5b43ce;background:#e3d9ff;}
+  .tline{color:#1f5ec9;background:#e7edfa;}
+  .tag{color:#24518f;background:#e9eefc;}
+  .hl,.risk{color:#b02a26;background:#fbe8e6;}
+  .good{color:#17613d;background:#e2f1e9;}
+  .hand{color:var(--good);font-weight:700;}
+  .new{color:var(--good);font-weight:700;}
+  .table a,.cell a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid #b9c8ec;}
+  .table a:hover,.cell a:hover{border-bottom-color:var(--accent);color:#143f96;}
+  .timeline{list-style:none;margin-top:6px;}
+  .timeline li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .timeline li b{color:#16202f;}
+  .timeline li:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}}
+  .table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+  .table th{text-align:left;color:var(--accent);font-weight:700;background:var(--accentSoft);border-bottom:1px solid var(--line);padding:9px 10px;}
+  .table td{padding:9px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;color:var(--muted2);}
+  .table tbody tr:nth-child(even){background:#fafbff;}
+  .table tbody tr:hover{background:#f2f5fd;}
+  .cheq label{display:block;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted2);}
+  .cheq label:last-child{border-bottom:none;}
+  .cheq input{margin-right:9px;accent-color:var(--accent);}
+  .callout{background:var(--accentSoft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted2);margin-top:12px;}
+  .callout .cl{font-weight:800;color:var(--accent);margin-bottom:4px;}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px;color:#5d6678;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="crumb"><a href="../../index.html">个人洞察</a> / 关于马斯克的一切</div>
+    <h1>关于马斯克的一切 · 研判看板</h1>
+    <div class="sub">每日快讯+高质清单 · 数据窗 2026-10-07~2026-10-10 · 执行日 2026-10-10</div>
+    <div class="sub" style="margin-top:2px;">本期新增 3 入库 + 5 待核；高质条目库延续累积，含官方一手（白宫/FCC/NASA）+ 国际权威媒体（路透/CNBC）</div>
+    <div class="badges"><span class="badge">每日研判</span><span class="badge">星链移动运营商化</span><span class="badge">国家科学奖章</span><span class="badge">800MHz频谱收购·15000颗D2D卫星</span></div>
+    <div class="sub" style="margin-top:8px;font-size:12.5px;">历史归档（每日快照）：<a href="./archive/2026-09-24.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;">2026-09-24</a><a href="./archive/2026-09-25.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-25</a><a href="./archive/2026-09-26.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-26</a><a href="./archive/2026-09-28.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-28</a><a href="./archive/2026-10-03.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-03</a><a href="./archive/2026-10-09.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-09</a><a href="./archive/2026-10-10.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-10</a></div>
+  </header>
+
+  <section>
+    <h2><span class="idx">◎</span> 较上次运行变化清单（自动区）</h2>
+    <div class="grid">
+      <div class="cell"><b>➕ 新增（本窗）+8</b><ul class="timeline" style="margin-top:6px"><li>SpaceX拟80亿美元收购Grain Management全美800MHz频谱、星链直连手机升级地面移动运营商（10-08 入库）</li><li>FCC批准SpaceX 15000颗低轨直连设备（D2D）卫星星座：MSS频谱内发射、支持原生通话/流媒体（10-07 入库）</li><li>特朗普向马斯克颁发国家科学奖章：称『当代爱迪生』『国家瑰宝』，黄仁勋/苏姿丰/布林同获表彰（10-08 入库）</li><li>马斯克X发帖讽刺称安巴尼为『印度真正的老板』：星链入印舆论战延续（10-09 待核）</li><li>特斯拉欧洲弃用FSD品牌名、改称『辅助驾驶』：德国监管认定原名具误导性（10-09 待核）</li><li>特斯拉上海工厂9月销量95,366辆（同比+5%、连续11个月增长）（10-09 待核）</li><li>Boring Company完成阿联酋主导30亿美元融资轮并与阿布扎比ADPIC签署地下隧道协议（10-08 待核）</li><li>马斯克澄清Terafab由特斯拉与SpaceX共同运营：初期投资100-200亿美元、英特尔与台积电协助（10-09 待核）</li></ul></div>
+      <div class="cell"><b>♻ 修正 / 升级</b><ul class="timeline" style="margin-top:6px"><li>星链直连手机从『Gen3十万颗入轨申请』升级为『频谱收购（80亿美元）+15000颗D2D获批』双轨落地，Starlink Mobile正式对标电信运营商</li><li>星链入印从『炮轰寡头+政府否认』升级为『安巴尼讽刺帖』：马斯克舆论战工具箱持续加码</li></ul></div>
+      <div class="cell"><b>⏸ 未变（延续判断）</b><ul class="timeline" style="margin-top:6px"><li>星舰IFT-15目标NET 10/19（B22+S42低温测试完成）：无新增权威确认，维持待核观察</li><li>xAI收购X（330亿美元口径）仍无高权威媒体确认，维持待核</li><li>Optimus量产（内存下调+约5000台订单）：10月『周产千台』兑现窗口未变</li><li>特斯拉Q3财报（10月下旬）：盈利质量验证窗口未变</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">①</span> 本期综述</h2>
+    <div class="cell" style="margin-bottom:12px"><b>已沉淀事实</b><p><b>星链移动战略成形（本窗沉淀）：</b>SpaceX以80亿美元现金收购Grain Management全美800MHz低频段频谱、叠加FCC批准的15000颗低轨D2D直连卫星星座，Starlink Mobile从『卫星直连补充』升级为『地面+卫星融合』的移动运营商布局，消息公布后美国三大电信股（T-Mobile/AT&T/Verizon）下跌4%~7%。<b>政商关系里程碑：</b>特朗普在白宫『科学：新黄金时代』峰会向马斯克颁发国家科学奖章，称其为『当代爱迪生』『国家瑰宝』，系其两任期内首次颁发该奖章。<b>星链入印舆论战延续：</b>马斯克10/9再发X帖讽刺安巴尼为『印度真正的老板』，指向Starlink入印多年延迟。<b>特斯拉中国企稳：</b>上海工厂9月批发销量95,366辆、同比+5%连续11个月增长（乘联会口径）。<b>既有事实延续：</b>星舰IFT-14首次真正入轨、Q3交付486,532辆超预期、Optimus量产前奏（约5000台订单）、马斯克任五角大楼『子午线计划』联合牵头人。</p></div>
+    <div class="cell">
+      <b>最新趋势速递（本章新增）</b>
+      <ul class="timeline" style="margin-top:8px"><li><span class="trend">星链移动运营商化</span>　80亿美元频谱收购+FCC批准15000颗D2D卫星双落地，Starlink Mobile补齐低频穿透短板、正式切入美国移动通信市场；三大电信股集体承压（T-Mobile跌6.38%），星链从『补充网络』走向『正面竞争』，通信产业格局进入重构前夜。</li><li><span class="trend">政商关系回暖至峰值</span>　特朗普两任期内首次颁发国家科学奖章即授予马斯克，与『当代爱迪生/国家瑰宝』定性叠加；伴随子午线计划牵头人、金穹承包商身份，马斯克在美政府体系内的话语权与合同预期同步走强，政治风险敞口与绑定程度同升。</li><li><span class="tline">星链入印舆论战升级</span>　从10/7炮轰『寡头』到10/9讽刺帖点名安巴尼，马斯克以X平台高频施压印度审批；印度政府已否认偏袒，舆论战或加速监管博弈，但Jio等本土利益与电信监管独立性仍是最终变量。</li><li><span class="focus">特斯拉欧洲合规 vs 命名叙事</span>　德国监管认定FSD品牌名误导、特斯拉欧洲改称『辅助驾驶』，与在中国市场的增长回正（9月上海95,366辆、11连增）并行；智驾命名合规调整或成欧洲扩张前提，品牌叙事与监管口径再平衡。</li></ul>
+    </div>
+  </section>
+
+
+  <section>
+    <h2><span class="idx">②</span> 趋势与规律</h2>
+    <div class="grid"><div class="cell"><b>星链：从卫星直连到『移动运营商』的跃迁</b><p>80亿美元收购800MHz低频频谱（补室内/穿透短板）+FCC批准15000颗MSS频谱D2D卫星（原生通话/流媒体），叠加既有2GHz中频段容量，星链『地面+卫星融合』网络闭环成形；伯恩斯坦等分析认为SpaceX正复制当年颠覆卫星通信的逻辑切入电信，FCC审批为最大不确定项。</p></div><div class="cell"><b>政商绑定：国家科学奖章的信号价值</b><p>马斯克获国家科学奖章、特朗普称『国家瑰宝』，与子午线计划（联合牵头人）、金穹（SpaceX主要承包商）、DOGE遗产（特朗普10/9再度背书）构成完整政商叙事；对SpaceX/Starlink政府合同、特斯拉联邦政策环境均为利好信号，但深度绑定也放大单一政治周期风险。</p></div><div class="cell"><b>星链入印：舆论战工具箱持续加码</b><p>炮轰→讽刺帖→点名，马斯克把X平台当市场准入杠杆；印度政府否认偏袒后舆情进入拉锯，星链在印度/越南/巴西等新兴市场的准入节奏将决定海外增长曲线，中期看频谱分配与落地牌照。</p></div><div class="cell"><b>特斯拉：中国回正+欧洲合规并行</b><p>上海工厂9月95,366辆（+5%、11连增）显示中国市场企稳（叠加Q3尾款立减）；欧洲弃用FSD品牌名反映监管收紧智驾命名；10/12-18巴黎车展将展出Cybercab、Optimus Gen 2与FSD试驾，欧洲扩张节奏进入验证期。</p></div></div>
+    <h2 style="margin-top:18px">关键时间线（近段）</h2>
+    <ul class="timeline"><li><b>2026-10-09</b>　<span class="new">特斯拉上海工厂9月销量95,366辆（同比+5%、连续11个月增长）；特斯拉欧洲弃用FSD品牌名改称『辅助驾驶』；马斯克X发帖讽刺安巴尼为『印度真正的老板』</span></li><li><b>2026-10-08</b>　<span class="new">SpaceX官宣80亿美元收购Grain全美800MHz频谱（路透等多源）；特朗普向马斯克颁发国家科学奖章；Boring Company与阿布扎比ADPIC签约+完成阿联酋30亿美元融资；NASA确认Crew-12溅落返航</span></li><li><b>2026-10-07</b>　<span class="new">FCC批准SpaceX 15000颗低轨D2D直连卫星星座（MSS频谱）；马斯克炮轰印度电信寡头、印度政府否认偏袒；Grok Bot接入外部模型择优路由（背景）</span></li><li><b>2026-10-03</b>　X平台周六停服、马斯克宣布回归24/7工作模式（窗口外背景）</li><li><b>2026-10-02</b>　马斯克下调AI5/AI6内存为Optimus量产让路；SpaceX市值破2万亿美元（背景）</li><li><b>2026-10-01</b>　Neuralink 5万小时预训练、BCI速度11.32BPS；Optimus首批约5000台订单（背景）</li><li><b>2026-09-30</b>　马斯克任『子午线计划』联合牵头人；特斯拉Q3交付486,532辆超预期（背景）</li><li><b>2026-10-12</b>　（窗口）巴黎车展10/12-18：特斯拉展出Cybercab、Optimus Gen 2与FSD试驾（法国未批FSD）</li><li><b>2026-10-19</b>　（窗口）星舰IFT-15目标不早于10/19（B22+S42低温测试完成，待官方确认）</li><li><b>2026-10-下旬</b>　（窗口）特斯拉Q3财报：盈利质量（毛利率/储能/单车收入）验证窗口</li></ul>
+  </section>
+
+  <section>
+    <h2><span class="idx">③</span> 研判与方向</h2>
+    <div class="grid"><div class="cell"><b>星链移动：频谱+星座双落地，正面切入电信市场</b><p>80亿美元频谱收购与15000颗D2D获批构成『地面+卫星』闭环，Starlink Mobile若按计划商用，将在偏远地区/漫游/应急通信等场景直接分流电信运营商收入；关注FCC交割审批、套餐定价与T-Mobile等既有合作关系的再平衡，中期或引发监管反垄断审视。</p></div><div class="cell"><b>国家科学奖章：政商关系强绑定，政府合同预期升温</b><p>马斯克获最高级别国家科学奖章，叠加子午线计划牵头人身份，SpaceX/Starlink在美政府体系内的话语权显著增强；利好金穹/星舰等国防航天合同预期，但『深度绑定单一政治周期』的风险也同步累积，需观察奖章后的实际合同增量而非仅象征意义。</p></div><div class="cell"><b>星链入印：舆论战或加速监管博弈，中期看频谱与牌照</b><p>马斯克将X平台作为市场准入杠杆持续施压，印度政府否认偏袒后进入拉锯；短期看印度电信部表态与许可节奏，中期看频谱分配与落地牌照；若僵局延续则转入长期博弈，舆论热度本身不必然转化为审批进度。</p></div><div class="cell"><b>特斯拉：中国企稳+欧洲合规，双线验证中</b><p>上海9月回正（11连增）叠加Q3尾款立减显示中国需求企稳；欧洲弃用FSD品牌名反映监管收紧智驾命名，巴黎车展（10/12-18）Cybercab/Optimus/FSD展示为欧洲节奏试金石；Q3财报（10月下旬）将验证盈利质量与Optimus量产兑现度。</p></div></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">④</span> 关联脉络</h2>
+    <div class="grid2">
+      <div class="cell"><b>传导链（本轮更新）</b><ul class="timeline" style="margin-top:6px"><li>SpaceX 80亿美元收购800MHz频谱 ⇄ FCC批准15000颗D2D卫星 ⇄ Starlink Mobile地面+卫星融合 ⇄ 正面挑战美国电信三巨头</li><li>特朗普颁发国家科学奖章 ⇄ 政商关系回暖至峰值 ⇄ 子午线计划/金穹合同预期强化</li><li>马斯克X讽刺帖点名安巴尼 ⇄ 星链入印舆论战升级 ⇄ 印度电信审批博弈与频谱分配</li><li>上海工厂9月回正（11连增） ⇄ 中国需求企稳 ⇄ Q3财报盈利质量验证窗口</li><li>欧洲弃用FSD品牌名 ⇄ 德国监管认定误导 ⇄ 智驾命名合规与欧洲扩张再平衡</li></ul></div>
+      <div class="cell"><b>外部接口</b><ul class="timeline" style="margin-top:6px"><li>FCC ↔ 频谱收购交割审批与15000颗D2D星座监管</li><li>T-Mobile/AT&T/Verizon ↔ 星链移动业务竞争与既有合作再平衡</li><li>信实Jio/印度电信部 ↔ 星链入印许可与频谱分配</li><li>白宫/特朗普 ↔ 国家科学奖章后的政府合同走向（金穹/星舰）</li><li>德国监管（KBA） ↔ 特斯拉FSD欧洲命名合规</li><li>阿布扎比ADPIC ↔ Boring Company隧道合作与阿联酋融资</li><li>巴黎车展（10/12-18） ↔ Cybercab/Optimus Gen 2/FSD欧洲展示</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑤</span> 待观察信号（leading indicators）</h2>
+    <div class="cheq"><label><input type="checkbox"> <span class="focus">FCC对SpaceX-Grain频谱收购的审批进展与交割条件</span></label><label><input type="checkbox"> <span class="focus">Starlink Mobile商用套餐/定价时间表，以及T-Mobile等电信三巨头的应对</span></label><label><input type="checkbox"> <span class="focus">星链印度官方许可表态：安巴尼讽刺帖后印度电信部/频谱分配进展</span></label><label><input type="checkbox"> <span class="focus">国家科学奖章后的政府合同增量：金穹/星舰/国防航天订单</span></label><label><input type="checkbox"> Terafab官方确认与融资细节（100-200亿美元、英特尔/台积电角色）</label><label><input type="checkbox"> 特斯拉欧洲FSD改名后的合规口径与后续国家推广节奏</label><label><input type="checkbox"> 巴黎车展（10/12-18）Cybercab/Optimus Gen 2展示与反馈</label><label><input type="checkbox"> 星舰IFT-15官方时间表确认（NET 10/19）与入轨/助推器捕获结果</label><label><input type="checkbox"> 特斯拉Q3财报（10月下旬）：毛利率/储能盈利/单车收入</label><label><input type="checkbox"> xAI收购X（330亿美元口径）是否获高权威媒体确认</label></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑥</span> 高质条目 <span style="font-size:12px;font-weight:400;color:var(--muted);">（★=本窗新增）</span></h2>
+    <table class="table">
+      <thead><tr><th>日期</th><th>条目</th><th>来源</th><th>维度</th><th>反馈</th></tr></thead>
+      <tbody><tr><td>2026-10-09</td><td><span class="flag"><a href="https://invezz.com/sg/news/2026/10/09/why-is-tesla-stock-gaining-today/" target="_blank" rel="noopener">★ 特斯拉上海工厂9月销量95,366辆（同比+5%、连续11个月增长）：乘联会口径、Model Y/3折扣持续</a></span></td><td>乘联会数据/Invezz</td><td>商业公司</td><td class="hand">无</td></tr><tr><td>2026-10-09</td><td><span class="flag"><a href="https://chartexchange.com/symbol/nasdaq-tsla/" target="_blank" rel="noopener">★ 特斯拉欧洲弃用FSD品牌名、改称『辅助驾驶』：德国监管认定原名具误导性、美国市场保留</a></span></td><td>CNBC</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-09</td><td><span class="flag"><a href="https://invezz.com/sg/news/2026/10/09/why-is-tesla-stock-gaining-today/" target="_blank" rel="noopener">★ 马斯克澄清Terafab由特斯拉与SpaceX共同运营：初期投资100-200亿美元、英特尔与台积电协助</a></span></td><td>Invezz</td><td>商业公司</td><td class="hand">无</td></tr><tr><td>2026-10-09</td><td><span class="flag"><a href="https://artifex.news/article71565795-ece/" target="_blank" rel="noopener">★ 马斯克X发帖讽刺称安巴尼为『印度真正的老板』：延续星链入印对峙</a></span></td><td>Artifex.News/Daily Kiran（X原发帖）</td><td>政治言论</td><td class="hand">无</td></tr><tr><td>2026-10-08</td><td><a href="https://www.nasa.gov/blogs/spacestation/2026/10/08/nasas-spacex-crew-12-dragon-splashes-down-at-1134-a-m-edt/" target="_blank" rel="noopener">SpaceX Crew-12龙飞船成功溅落返航：在轨237天、4次出舱，NASA官方确认</a></td><td>NASA官方博客</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-08</td><td><a href="https://m.thepaper.cn/newsDetail_forward_34219672" target="_blank" rel="noopener">★ SpaceX拟80亿美元收购Grain Management全美800MHz频谱，星链直连手机升级地面移动运营商</a></td><td>Reuters/澎湃新闻/金融界/新浪财经</td><td>财务资本</td><td class="hand">无</td></tr><tr><td>2026-10-08</td><td><a href="https://www.whitehouse.gov/releases/2026/10/president-trump-presents-national-medals-of-science-and-national-medals-of-technology-and-innovation/" target="_blank" rel="noopener">★ 特朗普向马斯克颁发国家科学奖章：称其『当代爱迪生』『国家瑰宝』，黄仁勋/苏姿丰/布林同获表彰</a></td><td>白宫官网官方公告/大皖新闻/NDTV</td><td>政治言论</td><td class="hand">无</td></tr><tr><td>2026-10-08</td><td><span class="flag"><a href="https://www.thenationalnews.com/news/uae/2026/10/08/musks-boring-company-to-explore-underground-tunnel-projects-in-abu-dhabi/" target="_blank" rel="noopener">★ Boring Company完成阿联酋主导30亿美元融资轮并与阿布扎比ADPIC签署地下隧道协议</a></span></td><td>The National</td><td>财务资本</td><td class="hand">无</td></tr><tr><td>2026-10-07</td><td><a href="https://bdnews24.com/technology/dde4voyg00" target="_blank" rel="noopener">马斯克炮轰印度电信寡头阻挠星链进入印度，印度政府否认审批偏袒</a></td><td>Reuters/观察者网/财联社</td><td>政治言论</td><td class="hand">无</td></tr><tr><td>2026-10-07</td><td><span class="flag"><a href="https://36kr.com/p/4017174108655748" target="_blank" rel="noopener">Grok Bot接入Claude Opus 5.5等外部模型：择优路由『谁好用就用谁』（待核）</a></span></td><td>36氪/9to5Mac/Infobae</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-07</td><td><span class="flag"><a href="https://cryptobriefing.com/grok-bot-native-x-search-100-posts/" target="_blank" rel="noopener">Grok Bot新增X平台原生搜索：单提示可分析100+帖子、可起草不可发布（待核）</a></span></td><td>CryptoBriefing</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-07</td><td><span class="flag"><a href="https://www.spacelaunchschedule.com/news/starship-flight-15-launch-date-how-to-watch/" target="_blank" rel="noopener">星舰IFT-15目标不早于10/19：Booster22+Ship42低温测试完成、或尝试助推器捕获（待核）</a></span></td><td>Space Launch Schedule/SpaceX France</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-07</td><td><a href="https://www.satellitetoday.com/connectivity/2026/10/07/fcc-grants-spacex-approval-for-15000-direct-to-device-satellites-in-mss-spectrum/" target="_blank" rel="noopener">★ FCC批准SpaceX 15000颗低轨直连设备（D2D）卫星星座：MSS频谱内发射、支持原生通话/流媒体</a></td><td>FCC官方/Via Satellite/CBS News/TechSpot</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-03</td><td><span class="flag"><a href="https://manilatimes.com/elon-musk-announces-shift-in-focus-following-brief-outage-of-social-media-platform-x" target="_blank" rel="noopener">X平台周六大面积停服（4万+用户受限）、马斯克称协同攻击后宣布回归24/7工作模式（待核）</a></span></td><td>Manila Times/London Daily</td><td>商业公司</td><td class="hand">无</td></tr><tr><td>2026-10-02</td><td><a href="http://m.toutiao.com/group/7691967509373469210/" target="_blank" rel="noopener">马斯克下调特斯拉AI5/AI6芯片内存为Optimus量产让路：AI5砍半至72GB LP5、AI6降至144GB LP6</a></td><td>财联社/华尔街见闻/中关村在线</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-02</td><td><a href="http://m.toutiao.com/group/7692197610232365602/" target="_blank" rel="noopener">SpaceX四名宇航员8小时快速对接国际空间站创美国航天速度纪录，市值破2万亿美元</a></td><td>新浪财经/证券时报（援引法新社/AP）</td><td>财务资本</td><td class="hand">无</td></tr><tr><td>2026-10-01</td><td><a href="https://neuralink.com/updates/pretraining-on-50000-hours/" target="_blank" rel="noopener">Neuralink用5万小时未标注脑数据预训练，BCI速度创11.32BPS纪录、数周免重标定</a></td><td>Neuralink官方/第三方解读</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-01</td><td><span class="flag"><a href="https://www.nasaspaceflight.com/2026/09/starship-14-orbit-flight-15/" target="_blank" rel="noopener">星舰IFT-15或10月发射：FAA公告显露两个追加窗口，飞行后审查进行中</a></span></td><td>NASASpaceFlight/Behind the Black</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-01</td><td><span class="flag"><a href="https://finance.sina.com.cn/tech/digi/2026-10-02/doc-initviif1436268.shtml" target="_blank" rel="noopener">马斯克：星舰未来在月球部署『巨型望远镜』、望重塑天体物理学（待核）</a></span></td><td>新浪科技/IT之家</td><td>产品技术</td><td class="hand">无</td></tr><tr><td>2026-10-01</td><td><span class="flag"><a href="https://www.benzinga.com/markets/tech/26/10/62125996/elon-musk-tesla-optimus-memory-micron-humanoid-robots" target="_blank" rel="noopener">特斯拉首批约5000台Optimus大额零部件订单已下、正审计中国供应商（待核）</a></span></td><td>Benzinga/The Information</td><td>商业公司</td><td class="hand">无</td></tr></tbody>
+    </table>
+  </section>
+
+  <footer>本页由主题跟踪流水线（采集 → 精筛 → 洞察研判 → 呈现 · 统一模板 dashboard.html + generate.js 生成）产出；反馈列对应飞书条目库赞/踩，用于反哺后续研判。</footer>
+</div>
+</body>
+</html>
