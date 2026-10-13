@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<base href="../" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于卫星和火箭发射的一切 · 研判看板</title>
+<!-- 统一模板生成：docs/insights/_templates/dashboard.html + generate.js -->
+<style>
+  :root{--bg:#e8eaf1;--panel:#ffffff;--panel2:#f3f5fa;--ink:#2a3140;--muted:#5c6577;--muted2:#3a4252;--line:#d5dae6;--accent:#1f5ec9;--accentSoft:rgba(31,94,201,.08);--warn:#a86f0e;--peak:#c13a31;--good:#17613d;--dim:#0e7fa8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:30px 20px 60px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#ffffff 0%,var(--bg) 260px);}
+  .wrap{max-width:1060px;margin:0 auto;}
+  header{margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--accent);}
+  .crumb{font-size:13px;color:var(--muted);}
+  .crumb a{color:var(--accent);text-decoration:none;font-weight:700;}
+  h1{font-size:27px;font-weight:800;color:#1a2233;margin:8px 0 6px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:13.5px;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+  .badge{background:var(--accentSoft);border:1px solid #cdd7ee;color:var(--accent);border-radius:999px;font-size:12px;padding:3px 13px;font-weight:700;}
+  section{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:13px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(35,45,75,.06);overflow:hidden;}
+  section.warnside{border-top-color:var(--warn);}
+  section h2{font-size:17px;font-weight:800;color:#1b2333;margin-bottom:12px;display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  section h2 .idx{background:var(--accent);color:#fff;border-radius:7px;min-width:26px;height:25px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;padding:0 7px;letter-spacing:.5px;}
+  .lead{font-size:15px;color:var(--muted2);line-height:1.85;}
+  .lead b,.lead strong,section p b{color:#1b2333;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;}
+  .cell b{display:block;font-size:14.5px;font-weight:800;color:#1c2433;margin-bottom:8px;letter-spacing:.2px;}
+  .cell p{font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .tbd,.focus,.trend,.tline,.tag,.flag,.hl,.risk{display:inline-block;padding:1px 9px;border-radius:7px;font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.7;}
+  .flag,.tbd{color:#b4530a;background:#ffe3b3;}
+  .focus{color:#a0149b;background:#f6c7f7;border:1px solid #efb3ef;}
+  .trend{color:#5b43ce;background:#e3d9ff;}
+  .tline{color:#1f5ec9;background:#e7edfa;}
+  .tag{color:#24518f;background:#e9eefc;}
+  .hl,.risk{color:#b02a26;background:#fbe8e6;}
+  .good{color:#17613d;background:#e2f1e9;}
+  .hand{color:var(--good);font-weight:700;}
+  .new{color:var(--good);font-weight:700;}
+  .table a,.cell a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid #b9c8ec;}
+  .table a:hover,.cell a:hover{border-bottom-color:var(--accent);color:#143f96;}
+  .timeline{list-style:none;margin-top:6px;}
+  .timeline li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .timeline li b{color:#16202f;}
+  .timeline li:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}}
+  .table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+  .table th{text-align:left;color:var(--accent);font-weight:700;background:var(--accentSoft);border-bottom:1px solid var(--line);padding:9px 10px;}
+  .table td{padding:9px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;color:var(--muted2);}
+  .table tbody tr:nth-child(even){background:#fafbff;}
+  .table tbody tr:hover{background:#f2f5fd;}
+  .cheq label{display:block;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted2);}
+  .cheq label:last-child{border-bottom:none;}
+  .cheq input{margin-right:9px;accent-color:var(--accent);}
+  .callout{background:var(--accentSoft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted2);margin-top:12px;}
+  .callout .cl{font-weight:800;color:var(--accent);margin-bottom:4px;}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px;color:#5d6678;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="crumb"><a href="../../index.html">个人洞察</a> / 关于卫星和火箭发射的一切</div>
+    <h1>关于卫星和火箭发射的一切 · 研判看板</h1>
+    <div class="sub">每日研判 · 执行日 2026-10-10 · 数据窗 2026-10-08~2026-10-10 · 东八区</div>
+    <div class="sub" style="margin-top:2px;">汇总 58 条跨源权威条目（发射清单 22 + 条目库 36）· 本窗抓取 32 / 入库 10 / 判重丢弃 22（另修正既有记录 2 条）</div>
+    <div class="badges"><span class="badge">发射动态</span><span class="badge">长十二·低轨27组</span><span class="badge">星座组网</span><span class="badge">国际动态</span></div>
+    <div class="sub" style="margin-top:8px;font-size:12.5px;">历史归档（每日快照）：<a href="./archive/2026-09-24.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;">2026-09-24</a><a href="./archive/2026-09-25.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-25</a><a href="./archive/2026-09-26.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-26</a><a href="./archive/2026-09-28.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-28</a><a href="./archive/2026-10-08.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-08</a><a href="./archive/2026-10-10.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-10</a></div>
+  </header>
+
+  <section>
+    <h2><span class="idx">◎</span> 较上次运行变化清单（自动区）</h2>
+    <div class="grid">
+      <div class="cell"><b>➕ 新增（本窗）+9</b><ul class="timeline" style="margin-top:6px"><li>中国 长征十二号(10/10 03:27)成功发射卫星互联网低轨27组，长征系列第671次发射，中国商业火箭公司总承包</li><li>JAXA确认H3 F10 10/20 04:41 JST发射MMX火星探测/采样任务(种子岛LA-Y2)</li><li>SpaceX猎鹰9 SDA传输层A窗口两度调整，现瞄准10/10 07:29 UTC(北京15:29)再试</li><li>星舰IFT-15准备推进：Ship 42低温测试，非官方NET 11/8；Flight 16或12/10前后</li><li>蓝色起源New Glenn目标2026年12月恢复飞行(Blue Ring为任务载荷)</li><li>Amazon Leo(柯伊伯)第1000颗卫星制造完成，已发射396颗，年内启动初始服务</li><li>星链Starlink 15-25窗口瞄准10/12 23:00 UTC自范登堡发射(27颗)</li><li>俄罗斯联盟-5(Sunkar)首次试验发射再度推迟(待核)</li><li>印度Gaganyaan-1首次无人试飞组装启动，2026年11月窗口待公布</li></ul></div>
+      <div class="cell"><b>♻ 修正 / 升级</b><ul class="timeline" style="margin-top:6px"><li>发射清单 SDA Tranche 1 状态由「异常」更新为「待发」：10/5中止后窗口两度调整，现瞄准10/10 07:29 UTC再试</li><li>发射清单 H3 MMX 日期由10/19更新为10/20（JAXA官方窗口 04:41:03 JST，备选10/21起）</li></ul></div>
+      <div class="cell"><b>⏸ 未变（延续判断）</b><ul class="timeline" style="margin-top:6px"><li>中国商业航天高密度发射与低轨组网延续：星网约200颗/千帆256颗；南海10/10-11窗口已由长十二低轨27组兑现</li><li>星链高频组网、星舰V3部署路径延续；Starlink在轨超11000颗</li><li>全球发射多极化延续：欧/印/韩独立入轨能力扩散与星座商业化竞速</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">①</span> 本期综述</h2>
+    <div class="cell" style="margin-bottom:12px"><b>已沉淀事实</b><p>全球航天进入高密度、多极化发射周期：中国9/14-20一周六发、超30星入轨，星网(GW)在轨约200颗、千帆256颗，长征系列累计第670次(9/24)；美国SpaceX 2026年Falcon 9入轨约110次，星舰IFT-14(9/28)首次进入地球轨道并部署26颗Starlink V3，星链在轨超11000颗；欧洲凭光谱号实现大陆首次商业入轨、Vega-C(9/15)发Sentinel-3C+FLEX；日本H3恢复连续成功、H3 F10将发MMX(10/20)；印度Vikram-1私营轨道首飞、Gaganyaan-1组装启动；韩国世界号第5次(10/7)成功、NEONSAT微星座组网启动。</p></div>
+    <div class="cell">
+      <b>最新趋势速递（本章新增）</b>
+      <ul class="timeline" style="margin-top:8px"><li><span class="tline">核心事件</span>　长征十二号(10/10 03:27)成功发射卫星互联网低轨27组、长征系列第671次——低轨组网三周三组(25组9/17、26组9/23、27组10/10)，中国低轨互联网星座组网进入稳定快节奏。</li><li><span class="trend">主趋势</span>　SDA Tranche 1窗口两度调整后瞄准10/10 07:29 UTC再试；美军PWSA中继星座采购与SpaceX可复用火箭(一级B1103首飞)绑定延续，发射窗口不确定性不改变依赖格局。</li><li><span class="focus">聚焦</span>　美国商业供给面修复并行：星舰IFT-15(Ship 42低温测试、非官方NET 11/8)、New Glenn目标12月复飞、Amazon Leo第1000颗卫星产能——美低轨宽带与运力双主线齐头并进。</li></ul>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">★</span> 各国发射概览<span style="color:var(--muted);font-size:12px;margin-left:8px;">年度发射数为公开口径近似值，标★为本次更新</span></h2>
+    <table class="table"><thead><tr><th>国家</th><th>年度发射数</th><th>主力火箭</th><th>年内亮点</th></tr></thead><tbody><tr><td><span class='flag'>🇺🇸</span> 美国</td><td>约110次★<br>(至10/8 Falcon 9口径)</td><td>猎鹰9 / 重型 / 星舰 / 电子号</td><td>星舰IFT-14首入轨部署26颗V3；SDA Tranche 1改期10/10再试；New Glenn目标12月复飞；Amazon Leo第1000颗卫星★</td></tr><tr><td><span class='flag'>🇨🇳</span> 中国</td><td>长征系列累计第671次★(10/10)<br>商业火箭高密度</td><td>长征系列 / 力箭 / 朱雀 / 快舟</td><td>长十二发低轨27组(10/10)、三周三组；星网约200颗、千帆256颗；9月一周六发超30星</td></tr><tr><td><span class='flag'>🇷🇺</span> 俄罗斯</td><td>—</td><td>联盟2.1b / 安加拉</td><td>9月联盟连发(军用+进步MS-35)；联盟-5首试再推迟(待核)；东方发射场台位年维护完成</td></tr><tr><td><span class='flag'>🇪🇺</span> 欧洲</td><td>—</td><td>Ariane 6 / Vega-C / 光谱号</td><td>光谱号欧洲大陆首次商业入轨；Vega-C发Sentinel-3C+FLEX；Themis演示器第2次总演练；窗口期无新发射</td></tr><tr><td><span class='flag'>🇯🇵</span> 日本</td><td>—</td><td>H3 / 艾普斯龙</td><td>H3九号机发「引路」7号恢复连续成功；H3 F10定档10/20发MMX火星采样★</td></tr><tr><td><span class='flag'>🇮🇳</span> 印度</td><td>—</td><td>PSLV / LVM3 / Vikram-1</td><td>7/18 Vikram-1私营轨道首飞；Gaganyaan-1无人试飞组装启动(11月窗口待公布)★</td></tr><tr><td><span class='flag'>🇰🇷</span> 韩国</td><td>—</td><td>世界号Nuri</td><td>10/7第5次发射成功、15星全入轨、NEONSAT组网启动；第6次瞄准2027下半年</td></tr></tbody></table>
+    <div class="sub" style="margin-top:8px;font-size:12px;">年度发射数口径：美国为 SpaceX Falcon 9 入轨统计(第三方追踪，截至10/8约110次)；中国为长征系列累计飞行次数(中国航天科技集团，10/10)；俄/欧/日/印/韩未获官方统一口径，以事件驱动显示为「—」；韩国第6次为KASA官方口径(2027下半年)。</div>
+  </section>
+  <section>
+    <h2><span class="idx">★</span> 发射清单<span style="color:var(--muted);font-size:12px;margin-left:8px;">近期任务摘要，最新在前；状态色：成功=绿 / 异常=红 / 待发=橙</span></h2>
+    <table class="table"><thead><tr><th>国家</th><th>日期</th><th>火箭</th><th>载荷任务</th><th>发射场</th><th>状态</th></tr></thead><tbody><tr><td><span class='flag'>🇨🇳</span> 中国</td><td>10-10</td><td>长征十二号</td><td>卫星互联网低轨27组卫星</td><td>海南商业发射场</td><td><span class='good'>成功</span> ★</td></tr><tr><td><span class='flag'>🇺🇸</span> 美国</td><td>10-10</td><td>猎鹰9号</td><td>SDA Tranche 1(21颗数据中继星)</td><td>范登堡SLC-4E</td><td><span class='tbd'>待发</span> ★</td></tr><tr><td><span class='flag'>🇯🇵</span> 日本</td><td>10-20</td><td>H3 F10</td><td>MMX火星卫星探测/采样</td><td>种子岛LA-Y2</td><td><span class='tbd'>待发</span> ★</td></tr><tr><td><span class='flag'>🇰🇷</span> 韩国</td><td>10-07</td><td>世界号Nuri</td><td>NEONSAT微星座5颗+10颗立方星(15颗)</td><td>罗老宇宙中心</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇺🇸</span> 美国</td><td>09-28</td><td>星舰IFT-14</td><td>首次入轨+26颗Starlink V3</td><td>Starbase博卡奇卡</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇺🇸</span> 美国</td><td>09-26</td><td>猎鹰9号</td><td>USSF-385(美太空军机密军星)</td><td>范登堡SLC-4E</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇺🇸</span> 美国</td><td>09-26</td><td>电子号Electron</td><td>StriX-13(合成孔径雷达星)</td><td>新西兰玛希亚LC-1</td><td><span class='tbd'>待发</span></td></tr><tr><td><span class='flag'>🇨🇳</span> 中国</td><td>09-24</td><td>长征六号改</td><td>遥感四十号04组卫星</td><td>太原发射中心</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇨🇳</span> 中国</td><td>09-23</td><td>长征八号甲</td><td>卫星互联网低轨26组</td><td>海南商业发射场</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇨🇳</span> 中国</td><td>09-20</td><td>力箭一号</td><td>秦岭01/02等9颗卫星</td><td>东风商业试验区</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇷🇺</span> 俄罗斯</td><td>09-18</td><td>联盟2.1b</td><td>军用卫星</td><td>普列谢茨克</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇷🇺</span> 俄罗斯</td><td>09-16</td><td>联盟2.1b</td><td>进步MS-35补给ISS</td><td>拜科努尔</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇪🇺</span> 欧洲</td><td>09-15</td><td>Vega-C(VV30)</td><td>哥白尼Sentinel-3C+FLEX</td><td>库鲁欧洲太空港</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇩🇪</span> 德国(欧)</td><td>09-06</td><td>光谱号Spectrum</td><td>5颗立方星+实验(SSO)</td><td>挪威安多亚</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇯🇵</span> 日本</td><td>08-11</td><td>H3九号机</td><td>准天顶「引路」7号</td><td>种子岛吉信</td><td><span class='good'>成功</span></td></tr><tr><td><span class='flag'>🇮🇳</span> 印度</td><td>07-18</td><td>Vikram-1</td><td>Aagaman商业载荷</td><td>斯里哈里科塔</td><td><span class='good'>成功</span></td></tr></tbody></table>
+    <div class="sub" style="margin-top:8px;font-size:12px;">★=本窗新增/状态更新；SDA Tranche 1于10/5中止后窗口两度调整，现瞄准10/10 07:29 UTC(北京15:29)再试；H3 MMX按JAXA窗口10/20 04:41 JST(北京03:41)；待发任务为官方宣布的计划窗口；明细与链接见下方「高质条目」及飞书多维表格「发射清单」表。</div>
+  </section>
+
+  <section>
+    <h2><span class="idx">②</span> 趋势与规律</h2>
+    <div class="grid"><div class="cell"><b>中国低轨组网稳定快节奏</b><p>长十二(10/10 03:27)发低轨27组、长征系列第671次；叠加长八甲(9/23)、长十二(9/17)，低轨互联网组网三周三组；海南商业发射场连续承接，组网节奏与发射工位复用趋于稳定。</p></div><div class="cell"><b>SDA改期与PWSA依赖</b><p>T1TL-A两度改期后瞄准10/10 07:29 UTC再试，箭体载荷状态健康；作为PWSA传输层第4次生产发射(21颗诺格制造、B1103首飞+陆地回收)，美军中继星座仍高度绑定Falcon 9可复用运力。</p></div><div class="cell"><b>美国商业供给面修复</b><p>星舰IFT-15推进(Ship 42低温测试，非官方NET 11/8)；New Glenn目标12月复飞；Amazon Leo第1000颗卫星(已发射396颗)并称年内启动初始服务——美低轨宽带与运力双主线并行。</p></div><div class="cell"><b>新兴航天多线并进</b><p>韩国世界号第6次瞄准2027下半年；印度Gaganyaan-1无人试飞组装启动(11月窗口待公布)；俄罗斯联盟-5首试再推迟(待核)；欧洲Themis演示器第2次总演练——多国入轨能力与星座商业化竞速。</p></div></div>
+    <h2 style="margin-top:18px">关键时间线（近段）</h2>
+    <ul class="timeline"><li><b>10-10</b>　<span class="new">长征十二号成功发射卫星互联网低轨27组(海南商业发射场，长征系列第671次)</span></li><li><b>10-10</b>　<span class="new">SDA Tranche 1瞄准07:29 UTC(北京15:29)自范登堡SLC-4E再试(两度改期)</span></li><li><b>10-09</b>　<span class="new">NASASpaceflight：星舰IFT-15(Ship 42)低温测试推进，非官方NET 11/8</span></li><li><b>10-08</b>　<span class="new">Amazon Leo(柯伊伯)完成第1000颗卫星制造，年内启动初始服务</span></li><li><b>10-08</b>　<span class="new">俄罗斯联盟-5首次试验发射再度推迟(待核)</span></li><li><b>10-07</b>　韩国世界号第5次发射成功，15星全入轨，NEONSAT微星座组网启动</li><li><b>10-06</b>　中国自研通信卫星系统完成南北极间视频通话</li><li><b>10-05</b>　FAA发布五项商业航天许可改革提案；猎鹰9 SDA Tranche 1最后一分钟中止</li><li><b>09-28</b>　星舰IFT-14首次进入地球轨道，部署26颗Starlink V3后提前受控溅落</li></ul>
+  </section>
+
+  <section>
+    <h2><span class="idx">③</span> 研判与方向</h2>
+    <div class="grid"><div class="cell"><b>中国低轨组网进入稳定快节奏</b><p>三周三组(25/26/27组)、长十二+长八甲双箭接力，海南商业发射场工位复用成熟；若节奏维持，星网GW与千帆在轨规模将继续攀升，后续关注组次载荷披露与手机直连服务窗口。</p></div><div class="cell"><b>SDA改期不改变PWSA依赖</b><p>两度中止暴露发射窗口不确定性，但美军PWSA中继/跟踪层采购仍高度绑定Falcon 9；B1103首飞+陆上回收验证复用新批次，短期看10/10窗口成败，中期看发射频率对高密度星座部署的支撑。</p></div><div class="cell"><b>美国商业供给面修复</b><p>New Glenn目标12月复飞、Amazon Leo千颗卫星产能、星舰V3部署路径三线并行，未来2-3季度美低轨宽带(Kuiper vs Starlink)与运力供给将同步放量；需跟踪Vulcan/Ariane 6『数周内』发射窗口与Kuiper初始服务落地。</p></div></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">④</span> 关联脉络</h2>
+    <div class="grid2">
+      <div class="cell"><b>传导链（本轮更新）</b><ul class="timeline" style="margin-top:6px"><li>长十二低轨27组(10/10) → 中国低轨组网三周三组 → 星网GW在轨攀升 → 手机直连/宽带服务窗口</li><li>SDA T1TL-A两度改期(现瞄准10/10再试) → 美军PWSA中继星座进度 → 高密度对抗星座部署节奏</li><li>New Glenn 12月复飞 + Amazon Leo千颗产能 → Kuiper初始服务(年内) → 美低轨宽带双雄竞争</li></ul></div>
+      <div class="cell"><b>外部接口</b><ul class="timeline" style="margin-top:6px"><li>军事航天：SDA T1TL-A 10/10 07:29 UTC再试(B1103首飞、LZ-4回收)；USSF-385机密任务成功</li><li>日本侧：H3 F10 10/20发MMX火星采样(种子岛LA-Y2)；艾普斯龙S验证机推进</li><li>印度侧：Gaganyaan-1无人试飞组装启动(LVM3载人适配版，11月窗口待公布)；Skyroot Vikram-1商业窗口扩展</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑤</span> 待观察信号（leading indicators）</h2>
+    <div class="cheq"><label><input type="checkbox"> <span class="focus">SDA Tranche 1 10/10 07:29 UTC(北京15:29)再试是否成功</span></label><label><input type="checkbox"> <span class="focus">星舰IFT-15(Ship 42低温测试)非官方NET 11/8的推进节奏</span></label><label><input type="checkbox"> 星链Starlink 15-25 10/12 23:00 UTC范登堡发射(第三方日程，待官方确认)</label><label><input type="checkbox"> H3 F10 10/20 04:41 JST MMX发射窗口是否如期</label><label><input type="checkbox"> New Glenn 12月复飞与Amazon Leo年内初始服务落地</label><label><input type="checkbox"> FAA五项商业航天许可改革提案11/4开放意见后的落地节奏</label><label><input type="checkbox"> Gaganyaan-1无人试飞最终发射日期公布</label></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑥</span> 高质条目 <span style="font-size:12px;font-weight:400;color:var(--muted);">（★=本窗新增）</span></h2>
+    <table class="table">
+      <thead><tr><th>日期</th><th>条目</th><th>来源</th><th>维度</th><th>反馈</th></tr></thead>
+      <tbody><tr><td>2026-10-10</td><td><a href="http://www3.xinhuanet.com/20261010/b9d7d13480c54145b957c3547f3619ed/c.html" target="_blank" rel="noopener">★ 长征十二号成功发射卫星互联网低轨27组卫星</a></td><td>新华网/人民日报</td><td>发射动态·星座进展</td><td class="hand">—</td></tr><tr><td>2026-10-10</td><td><a href="https://spaceflightnow.com/2026/10/09/spacex-to-make-another-attempt-to-launch-21-data-satellites-for-space-development-agency/" target="_blank" rel="noopener">★ SpaceX猎鹰9 SDA传输层A发射窗口再推迟至10/10再试</a></td><td>Spaceflight Now</td><td>发射动态</td><td class="hand">—</td></tr><tr><td>2026-10-10</td><td><span class="flag"><a href="https://tlpnetwork.com/tlp_launch/falcon-9-block-5-starlink-group-15-25/" target="_blank" rel="noopener">★ 星链Starlink 15-25发射窗口瞄准10/12 23:00 UTC</a></span></td><td>TLP Network/RocketLaunch.org</td><td>发射动态</td><td class="hand">—</td></tr><tr><td>2026-10-10</td><td><a href="https://www.jaxa.jp/press/2026/08/20260820-1_j.html" target="_blank" rel="noopener">★ JAXA确认H3 F10任务10/20发射MMX火星探测器</a></td><td>JAXA</td><td>发射动态</td><td class="hand">—</td></tr><tr><td>2026-10-10</td><td><span class="flag"><a href="https://www.isro.gov.in/ISRO_HINDI/LVM3_first_uncrewed_flight_Gaganyaan.html" target="_blank" rel="noopener">★ 印度Gaganyaan-1首次无人试飞组装启动，发射日期待公布</a></span></td><td>ISRO</td><td>发射动态·产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-09</td><td><span class="flag"><a href="https://www.nasaspaceflight.com/2026/10/ship-40-returns-ship-42-more-testing/" target="_blank" rel="noopener">★ 星舰IFT-15准备推进：Ship 42低温测试，非官方NET 11/8</a></span></td><td>NASASpaceflight</td><td>发射动态·产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-09</td><td><span class="flag"><a href="https://newspaceeconomy.ca/2026/10/09/what-does-blue-origins-december-2026-target-mean-for-new-glenns-return-to-flight/" target="_blank" rel="noopener">★ 蓝色起源New Glenn目标2026年12月恢复飞行</a></span></td><td>New Space Economy</td><td>商业公司·发射动态</td><td class="hand">—</td></tr><tr><td>2026-10-08</td><td><span class="flag"><a href="https://www.satellitetoday.com/manufacturing/2026/10/08/amazon-hits-1000-sat-milestone-blue-origin-bolsters-sat-manufacturing/" target="_blank" rel="noopener">★ Amazon Leo(柯伊伯)第1000颗卫星制造完成，已发射396颗</a></span></td><td>Via Satellite</td><td>星座进展·商业公司</td><td class="hand">—</td></tr><tr><td>2026-10-08</td><td><span class="flag"><a href="https://lookintothe.space/ru/kosmicheskie-novosti/roskosmos" target="_blank" rel="noopener">★ 俄罗斯联盟-5(Sunkar)首次试验发射再度推迟</a></span></td><td>LookIntoTheSpace(转述)</td><td>发射动态</td><td class="hand">—</td></tr><tr><td>2026-10-07</td><td><a href="https://chinese.korea.net/NewsFocus/Sci-Tech/view?articleId=299680" target="_blank" rel="noopener">韩国『世界号』第5次发射定档10月7日 首搭NEONSAT星座开启微卫星组网</a></td><td>韩国宇宙航空厅(KASA)/korea.net</td><td>发射动态·星座进展</td><td class="hand">—</td></tr><tr><td>2026-10-07</td><td><a href="https://app.xinhuanet.com/news/article.html?articleId=202610079c568ee04f2f41c3a73345148f4b6d0a" target="_blank" rel="noopener">韩国『世界号』第5次发射成功：15颗卫星全部入轨，开启NEONSAT微星座组网</a></td><td>韩国宇宙航空厅(KASA)/新华社</td><td>发射动态·星座进展</td><td class="hand">—</td></tr><tr><td>2026-10-06</td><td><span class="flag"><a href="https://www.cctvplus.com/news/20261006/8502497.shtml#!language=1" target="_blank" rel="noopener">中国自研通信卫星系统完成南北极间视频通话</a></span></td><td>CCTVplus</td><td>星座进展·产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-05</td><td><a href="https://www.federalregister.gov/documents/2026/10/05/2026-20388/streamlining-flight-safety-analysis-methodology-means-of-compliance" target="_blank" rel="noopener">FAA发布五项商业航天发射与再入许可改革提案</a></td><td>Federal Register(FAA)</td><td>法律监管·政策监管</td><td class="hand">—</td></tr><tr><td>2026-10-05</td><td><a href="https://spaceflightnow.com/2026/10/04/live-coverage-spacex-to-launch-21-data-transport-satellites-for-the-space-development-agency/" target="_blank" rel="noopener">SpaceX猎鹰9执行SDA Tranche 1任务最后一分钟中止，改期10/8再试</a></td><td>Spaceflight Now/NASASpaceFlight</td><td>发射动态</td><td class="hand">—</td></tr><tr><td>2026-09-28</td><td><a href="https://aviationweek.com/space/launch-vehicles-propulsion/faa-clears-spacex-starship-14-flight" target="_blank" rel="noopener">FAA授予SpaceX星舰IFT-14发射与再入许可 计划9月28日首次轨道级飞行</a></td><td>Aviation Week(FAA)</td><td>法律监管·产品技术·发射动态</td><td class="hand">—</td></tr><tr><td>2026-09-28</td><td><a href="https://www.nasaspaceflight.com/2026/09/starship-flight-14-orbit/" target="_blank" rel="noopener">星舰Starship IFT-14首次进入轨道：部署26颗Starlink V3，上升段引擎异常致任务缩短</a></td><td>NASASpaceFlight/CGTN</td><td>发射动态·产品技术</td><td class="hand">—</td></tr></tbody>
+    </table>
+  </section>
+
+  <footer>本页由主题跟踪流水线（采集 → 精筛 → 洞察研判 → 呈现 · 统一模板 dashboard.html + generate.js 生成）产出；反馈列对应飞书条目库赞/踩，用于反哺后续研判。</footer>
+</div>
+</body>
+</html>
