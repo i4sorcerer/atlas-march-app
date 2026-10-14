@@ -342,6 +342,16 @@ window.CATEGORIES = [
         ]
       },
       {
+        id: "car",
+        name: "汽车",
+        emoji: "🚙",
+        refs: { title: "汽车构造与分类", emoji: "🔧", desc: "汽车构造拆解 + 汽车分类（双语）", url: "../car/car.html" },
+        topics: [
+          { id: "car-structure", title: "汽车构造（核心）", emoji: "🔧", desc: "把汽车拆开看：发动机 / 变速箱 / 底盘 / 悬挂…", url: "../car/car.html#structure", ready: true },
+          { id: "car-classify", title: "汽车分类", emoji: "📚", desc: "按用途 / 动力 / 车身 / 驱动 / 自动驾驶分类", url: "../car/car.html#classify", ready: true }
+        ]
+      },
+      {
         id: "robot",
         name: "机器人与AI",
         emoji: "🤖",

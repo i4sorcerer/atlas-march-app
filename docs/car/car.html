@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>汽车构造与分类 · 汽车是怎么造出来的</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka+One&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --space-deep:#0D1B2A; --space-purple:#1B0033; --star-gold:#FFD166;
+      --rocket-red:#EF476F; --star-white:#E8F1FF; --tech-green:#06D6A0;
+      --car-blue:#3D7EFF; --car-cyan:#31D0E0; --radius-lg:28px; --radius-md:18px;
+      --shadow:0 12px 30px rgba(0,0,0,.35);
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'ZCOOL KuaiLe','Nunito',sans-serif; background:linear-gradient(160deg,#0A1A33 0%,var(--space-purple) 48%,var(--space-deep) 100%); background-attachment:fixed; color:var(--star-white); overflow-x:hidden; line-height:1.75; }
+    #starfield { position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+    .topbar,header,section,footer { position:relative; z-index:1; }
+
+    .topbar { position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:14px 22px; background:rgba(13,27,42,.62); backdrop-filter:blur(8px); z-index:50; }
+    .logo { font-family:'Fredoka One',cursive; font-size:22px; color:var(--star-gold); }
+    .nav-right { display:flex; align-items:center; gap:14px; }
+    .nav-links a { color:var(--star-white); text-decoration:none; margin-left:13px; font-size:14.5px; opacity:.85; transition:color .2s,transform .2s; }
+    .nav-links a:hover { color:var(--star-gold); transform:translateY(-2px); }
+    .lang-btn { font-family:'ZCOOL KuaiLe',sans-serif; border:2px solid var(--star-gold); background:transparent; color:var(--star-gold); border-radius:999px; padding:6px 16px; font-size:15px; cursor:pointer; transition:transform .15s,background .2s; }
+    .lang-btn:hover { transform:scale(1.06); background:rgba(255,209,102,.15); }
+
+    .hero { min-height:76vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:96px 20px 40px; }
+    .hero-icon { font-size:86px; animation:floaty 3.2s ease-in-out infinite; filter:drop-shadow(0 8px 16px rgba(61,126,255,.5)); }
+    .hero-title { font-family:'Fredoka One',cursive; font-size:clamp(34px,8vw,66px); margin:10px 0; text-shadow:0 4px 0 rgba(61,126,255,.55); }
+    .hero-title .hl { color:var(--star-gold); }
+    .hero-sub { font-size:clamp(15px,4vw,21px); margin-bottom:8px; opacity:.92; max-width:760px; }
+    .hero-count { margin-top:18px; font-size:17px; color:var(--car-cyan); background:rgba(49,208,224,.12); border:2px solid var(--car-cyan); border-radius:var(--radius-md); padding:10px 22px; }
+    .scroll-hint { margin-top:32px; font-size:16px; color:var(--star-gold); animation:bounce 1.4s infinite; }
+
+    .section { padding:58px 20px; max-width:1080px; margin:0 auto; }
+    .section-title { font-family:'Fredoka One',cursive; font-size:clamp(23px,5.6vw,38px); text-align:center; color:var(--star-gold); margin-bottom:12px; }
+    .section-desc { text-align:center; font-size:17px; opacity:.85; margin-bottom:28px; max-width:820px; margin-left:auto; margin-right:auto; }
+
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; }
+    .card { background:rgba(232,241,255,.06); border:2px solid rgba(232,241,255,.12); border-radius:var(--radius-lg); padding:20px 18px; box-shadow:var(--shadow); transition:transform .2s,border-color .2s; }
+    .card:hover { transform:translateY(-6px); border-color:var(--car-cyan); }
+    .card .big { font-family:'Fredoka One',cursive; font-size:26px; color:var(--star-gold); }
+    .card h3 { color:var(--tech-green); font-size:18px; margin:6px 0; }
+    .card p { font-size:15px; }
+
+    /* 汽车拆解 */
+    .breakdown-wrap { display:flex; flex-direction:column; gap:20px; align-items:center; }
+    .car-stage { position:relative; width:100%; max-width:660px; height:360px; flex:0 0 auto; }
+    .car-shadow { position:absolute; left:50%; bottom:14%; transform:translateX(-50%); width:74%; height:10px; background:rgba(0,0,0,.35); border-radius:50%; filter:blur(6px); transition:opacity .5s; }
+    .car-silhouette { position:absolute; left:50%; bottom:22%; transform:translateX(-50%); width:76%; height:30%;
+      background:linear-gradient(180deg,#eaf1f8,#b9c5d2); border-radius:18px 34px 12px 12px; box-shadow:inset 0 0 0 2px rgba(255,255,255,.25),0 10px 24px rgba(0,0,0,.35); transition:opacity .5s; }
+    .car-cabin { position:absolute; left:50%; bottom:48%; transform:translateX(-50%); width:44%; height:22%;
+      background:linear-gradient(180deg,#f0f5fb,#c6d0db); border-radius:26px 30px 4px 4px; transition:opacity .5s; }
+    .car-wheel { position:absolute; bottom:16%; width:64px; height:64px; border-radius:50%; background:radial-gradient(circle at 50% 50%,#4a5560 0 42%,#20262e 43% 100%); box-shadow:inset 0 0 0 4px #66727f; transition:opacity .5s; }
+    .car-wheel.w1 { left:22%; } .car-wheel.w2 { left:64%; }
+    .car-stage.exploded-mode .car-silhouette,
+    .car-stage.exploded-mode .car-cabin,
+    .car-stage.exploded-mode .car-wheel,
+    .car-stage.exploded-mode .car-shadow { opacity:.12; }
+    .part { position:absolute; font-size:30px; cursor:pointer; transition:left .6s cubic-bezier(.34,1.56,.64,1), top .6s cubic-bezier(.34,1.56,.64,1), filter .2s; filter:drop-shadow(0 4px 8px rgba(0,0,0,.45)); text-align:center; transform:translate(-50%,-50%); z-index:3; }
+    .part:hover { filter:drop-shadow(0 0 14px var(--star-gold)); }
+    .part.active { filter:drop-shadow(0 0 16px var(--star-gold)); }
+    .part .part-label { display:block; font-size:11.5px; color:var(--star-white); margin-top:2px; white-space:nowrap; background:rgba(13,27,42,.55); padding:1px 6px; border-radius:8px; }
+    .breakdown-side { width:100%; max-width:660px; }
+    .part-info { margin-top:12px; background:rgba(6,214,160,.1); border:2px solid var(--tech-green); border-radius:var(--radius-md); padding:18px; font-size:16px; min-height:110px; }
+    .part-info b { color:var(--tech-green); }
+    .btn { font-family:'ZCOOL KuaiLe',sans-serif; border:none; border-radius:var(--radius-md); padding:12px 20px; font-size:17px; cursor:pointer; background:var(--rocket-red); color:#fff; box-shadow:var(--shadow); transition:transform .15s cubic-bezier(.34,1.56,.64,1),filter .2s; margin:4px 6px 4px 0; }
+    .btn:hover { transform:scale(1.06) rotate(-1deg); filter:brightness(1.1); }
+    .btn-ghost { background:transparent; border:2px solid var(--tech-green); color:var(--tech-green); }
+
+    /* 分类 */
+    .cgroup { margin-bottom:26px; }
+    .cgroup h3 { color:var(--star-gold); font-size:20px; margin-bottom:12px; text-align:center; }
+    .chips { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+    .chip { background:rgba(232,241,255,.07); border:2px solid rgba(232,241,255,.16); border-radius:999px; padding:8px 16px; font-size:14.5px; transition:transform .18s,border-color .18s; }
+    .chip:hover { transform:translateY(-4px); border-color:var(--car-cyan); }
+    .chip b { color:var(--tech-green); }
+
+    /* 对比表 */
+    .cmp { width:100%; border-collapse:collapse; font-size:15px; }
+    .cmp th, .cmp td { text-align:left; padding:11px 12px; border-bottom:1px solid rgba(232,241,255,.14); vertical-align:top; }
+    .cmp th { color:var(--star-gold); font-family:'Fredoka One',cursive; font-weight:400; }
+    .cmp td:first-child { color:var(--car-cyan); }
+
+    .note { background:rgba(232,241,255,.06); border:2px dashed rgba(232,241,255,.25); border-radius:var(--radius-lg); padding:22px; margin-top:22px; font-size:15.5px; }
+    .note h3 { color:var(--star-gold); font-size:19px; margin-bottom:10px; }
+    .note ul { padding-left:22px; } .note li { margin-bottom:6px; }
+
+    .footer { text-align:center; padding:66px 20px 90px; }
+    .footer-title { font-family:'Fredoka One',cursive; font-size:30px; color:var(--tech-green); margin-bottom:14px; }
+    .footer p { font-size:17px; max-width:680px; margin:0 auto 10px; }
+    .footer-sign { color:var(--star-gold); margin-top:18px; }
+    .hint { opacity:.8; }
+
+    @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+    @media (max-width:620px) { .nav-links a { margin-left:7px; font-size:12.5px; } .topbar { padding:10px 14px; } .car-stage { height:300px; } .part { font-size:26px; } }
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+
+  <nav class="topbar">
+    <span class="logo" id="ui-brand">🚗 汽车小百科</span>
+    <div class="nav-right">
+      <div class="nav-links">
+        <a href="#hero" id="ui-nav-hero">开始</a>
+        <a href="#overview" id="ui-nav-overview">总览</a>
+        <a href="#structure" id="ui-nav-structure">汽车构造</a>
+        <a href="#classify" id="ui-nav-classify">汽车分类</a>
+        <a href="#compare" id="ui-nav-compare">油车 vs 电车</a>
+      </div>
+      <button class="lang-btn" id="langBtn">EN</button>
+    </div>
+  </nav>
+
+  <header id="hero" class="hero">
+    <div class="hero-icon">🚗</div>
+    <h1 class="hero-title"><span id="ui-hero-pre">汽车</span><br /><span class="hl" id="ui-hero-hl">构造与分类</span></h1>
+    <p class="hero-sub" id="ui-hero-sub"></p>
+    <div class="hero-count" id="heroCount"></div>
+    <div class="scroll-hint" id="ui-scroll">👇 往下滚，把一辆汽车拆开看看</div>
+  </header>
+
+  <section id="overview" class="section">
+    <h2 class="section-title" id="ui-ov-title">🔎 汽车是什么？</h2>
+    <p class="section-desc" id="ui-ov-desc"></p>
+    <div class="cards" id="overview"></div>
+  </section>
+
+  <section id="structure" class="section">
+    <h2 class="section-title" id="ui-st-title">🔧 拆解：汽车的构造（核心）</h2>
+    <p class="section-desc" id="ui-st-desc"></p>
+    <div class="breakdown-wrap">
+      <div class="car-stage" id="carStage">
+        <div class="car-shadow"></div>
+        <div class="car-silhouette"></div>
+        <div class="car-cabin"></div>
+        <div class="car-wheel w1"></div>
+        <div class="car-wheel w2"></div>
+      </div>
+      <div class="breakdown-side">
+        <div>
+          <button class="btn" id="explodeBtn">🔧 拆开看看</button>
+          <button class="btn btn-ghost" id="assembleBtn">🧩 装回去</button>
+        </div>
+        <div class="part-info" id="partInfo"><span class="hint" id="ui-st-hint">👈 点汽车上的小零件，听听它是干嘛的</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="classify" class="section">
+    <h2 class="section-title" id="ui-cl-title">📚 汽车怎么分类？</h2>
+    <p class="section-desc" id="ui-cl-desc"></p>
+    <div id="classify"></div>
+  </section>
+
+  <section id="compare" class="section">
+    <h2 class="section-title" id="ui-cmp-title">⚡ 燃油车 vs 电动车</h2>
+    <p class="section-desc" id="ui-cmp-desc"></p>
+    <table class="cmp"><thead id="cmpHead"></thead><tbody id="cmpBody"></tbody></table>
+    <div class="note" id="evNote"></div>
+  </section>
+
+  <footer class="footer">
+    <h2 class="footer-title" id="ui-ft-title">🌈 一句话记住汽车</h2>
+    <p id="ui-ft-p1"></p>
+    <p id="ui-ft-p2"></p>
+    <p class="footer-sign" id="ui-ft-sign">—— 给喜欢机械的小朋友 💫</p>
+  </footer>
+
+  <script>
+  /* ===== 星空背景 ===== */
+  (function starfield() {
+    const canvas = document.getElementById('starfield'); const ctx = canvas.getContext('2d'); let stars = [];
+    function resize(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; initStars(); }
+    function initStars(){ const c=Math.floor((canvas.width*canvas.height)/6500);
+      stars = Array.from({length:c},()=>({ x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*1.5+0.4, a:Math.random(), speed:Math.random()*0.02+0.005, color:Math.random()>0.5?'#FFD166':'#BFE9FF' })); }
+    function draw(){ ctx.clearRect(0,0,canvas.width,canvas.height); stars.forEach(s=>{ s.a+=s.speed; const al=0.35+Math.abs(Math.sin(s.a))*0.6; ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fillStyle=s.color; ctx.globalAlpha=al; ctx.fill(); }); ctx.globalAlpha=1; requestAnimationFrame(draw); }
+    window.addEventListener('resize',resize); resize(); draw();
+  })();
+
+  /* ===== 语言包 ===== */
+  const I18N = {
+    zh: {
+      brand:"🚗 汽车小百科", navHero:"开始", navOverview:"总览", navStructure:"汽车构造", navClassify:"汽车分类", navCompare:"油车 vs 电车",
+      heroPre:"汽车", heroHl:"构造与分类",
+      heroSub:"一辆汽车由成千上万个零件组成。先弄懂它「由什么造出来」，再学会「怎么分类」——你就能看懂路上的每一辆车。",
+      heroCount:"🚗 核心是「构造」：动力 · 底盘 · 车身 · 电气，四大块",
+      scroll:"👇 往下滚，把一辆汽车拆开看看",
+      ovTitle:"🔎 汽车是什么？", ovDesc:"汽车是能自己跑、载人载货的轮式交通工具。它由「动力、底盘、车身、电气」四大部分组成，通常分为燃油车和电动车两大类。",
+      stTitle:"🔧 拆解：汽车的构造（核心）", stDesc:"下面是一辆汽车的侧视图。点任意零件看讲解，或点「拆开看看」把它拆成零件！",
+      stHint:"👈 点汽车上的小零件，听听它是干嘛的", explode:"🔧 拆开看看", assemble:"🧩 装回去",
+      clTitle:"📚 汽车怎么分类？", clDesc:"同一辆汽车，可以从很多角度来分类：按用途、按动力、按车身、按驱动，还有按自动化程度。",
+      cmpTitle:"⚡ 燃油车 vs 电动车", cmpDesc:"两种主流动力方式，结构差别很大。",
+      cmpItem:"对比项", cmpFuel:"燃油车", cmpEv:"电动车",
+      evH3:"🔋 为什么电动车结构更简单？",
+      evLi1:"电动车没有发动机、变速箱、排气系统，用「电池 + 电机」直接驱动车轮。",
+      evLi2:"所以电动车的零件更少、保养更省事（不用换机油、火花塞）。",
+      evLi3:"但电池又大又重，续航和充电速度是它的新挑战。",
+      ftTitle:"🌈 一句话记住汽车", ftP1:"汽车 = 动力系统 + 底盘 + 车身 + 电气。发动机是心脏，底盘是骨架，车身是外壳，电气是神经。",
+      ftP2:"把它拆开看一遍，你就再也不会觉得汽车是「一个黑盒子」了。", ftSign:"—— 给喜欢机械的小朋友 💫", langOther:"EN"
+    },
+    en: {
+      brand:"🚗 Car Basics", navHero:"Start", navOverview:"Overview", navStructure:"Structure", navClassify:"Types", navCompare:"Fuel vs EV",
+      heroPre:"Cars", heroHl:"Structure & Types",
+      heroSub:"A car is made of thousands of parts. Learn what it's built from, then how cars are classified — and you can read every car on the road.",
+      heroCount:"🚗 The core is STRUCTURE: power · chassis · body · electrics",
+      scroll:"👇 Scroll down and take a car apart",
+      ovTitle:"🔎 What is a car?", ovDesc:"A car is a wheeled vehicle that moves itself and carries people or goods. It has four main groups — power, chassis, body and electrics — and comes in two big families: fuel and electric.",
+      stTitle:"🔧 Exploded view: how a car is built (core)", stDesc:"Here's a car in side view. Tap any part to learn, or hit “Take apart” to split it into pieces!",
+      stHint:"👈 Tap a part on the car to hear what it does", explode:"🔧 Take apart", assemble:"🧩 Put back",
+      clTitle:"📚 How are cars classified?", clDesc:"The same car can be sorted in many ways: by use, by power, by body style, by drive — and by how self-driving it is.",
+      cmpTitle:"⚡ Fuel cars vs electric cars", cmpDesc:"Two main ways to power a car — with very different structures.",
+      cmpItem:"Item", cmpFuel:"Fuel car", cmpEv:"Electric car",
+      evH3:"🔋 Why is an EV simpler inside?",
+      evLi1:"An EV has no engine, no transmission and no exhaust — a battery and a motor drive the wheels directly.",
+      evLi2:"So it has fewer parts and needs less servicing (no oil or spark plugs to change).",
+      evLi3:"But the battery is big and heavy, and range and charging speed are its new challenges.",
+      ftTitle:"🌈 The car in one line", ftP1:"Car = power system + chassis + body + electrics. The engine is the heart, the chassis the skeleton, the body the shell, the electrics the nerves.",
+      ftP2:"Take it apart once, and a car will never feel like a black box again.", ftSign:"—— For kids who love machines 💫", langOther:"中文"
+    }
+  };
+
+  /* ===== 总览 ===== */
+  const OVERVIEW = [
+    { big:"4 大块", labelZh:"基本组成", labelEn:"Four groups", descZh:"动力系统、底盘、车身、电气设备。", descEn:"Power system, chassis, body and electrics." },
+    { big:"发动机", labelZh:"汽车的心脏", labelEn:"The heart", descZh:"燃油车靠它把燃料变成动力；电动车用电机代替。", descEn:"Turns fuel into power in a fuel car; an EV uses a motor instead." },
+    { big:"底盘", labelZh:"汽车的骨架", labelEn:"The skeleton", descZh:"传动、行驶、转向、制动四大系统都在底盘上。", descEn:"Drivetrain, suspension, steering and brakes all live on the chassis." },
+    { big:"2 大类", labelZh:"动力方式", labelEn:"Two families", descZh:"燃油车与电动车，结构差别很大。", descEn:"Fuel cars and electric cars — very different inside." },
+    { big:"L0–L5", labelZh:"自动驾驶分级", labelEn:"Autonomy levels", descZh:"从完全人工驾驶到完全自动驾驶，共 6 级。", descEn:"Six levels, from fully manual to fully self-driving." },
+    { big:"上万个", labelZh:"零件数量", labelEn:"Parts count", descZh:"一辆汽车大约有 3 万个零件！", descEn:"A car has roughly 30,000 parts!" }
+  ];
+
+  /* ===== 汽车构造部件 ===== */
+  const PARTS = [
+    { id:"body", emoji:"🚗", labelZh:"车身", labelEn:"Body", x:50, y:26, ex:50, ey:5,
+      infoZh:`<b>车身</b>：汽车的外壳与座舱，既决定好不好看，也负责保护车内的人——碰撞时它会“吸能”变形，把冲击力挡在外面。`,
+      infoEn:`<b>Body</b>: the shell and cabin. It looks good and protects people inside — in a crash it crumples to absorb the impact.` },
+    { id:"engine", emoji:"⚙️", labelZh:"发动机", labelEn:"Engine", x:17, y:48, ex:3, ey:28,
+      infoZh:`<b>发动机</b>：汽车的“心脏”，把汽油或柴油燃烧的能量变成动力。电动车则用电机代替它。`,
+      infoEn:`<b>Engine</b>: the car's "heart," turning burning petrol or diesel into power. Electric cars replace it with a motor.` },
+    { id:"transmission", emoji:"🔧", labelZh:"变速箱", labelEn:"Transmission", x:33, y:54, ex:16, ey:70,
+      infoZh:`<b>变速箱</b>：把发动机的转速和力量“变速”后传给车轮，让汽车能起步、加速、爬坡。`,
+      infoEn:`<b>Transmission</b>: changes the engine's speed and torque before sending it to the wheels, so the car can start, accelerate and climb.` },
+    { id:"chassis", emoji:"🧱", labelZh:"底盘", labelEn:"Chassis", x:50, y:68, ex:50, ey:92,
+      infoZh:`<b>底盘</b>：汽车的“骨架”，承载发动机、车身和乘客，并把所有系统连成一个整体。`,
+      infoEn:`<b>Chassis</b>: the car's "skeleton," carrying the engine, body and passengers and tying every system together.` },
+    { id:"suspension", emoji:"🪃", labelZh:"悬挂系统", labelEn:"Suspension", x:23, y:72, ex:4, ey:82,
+      infoZh:`<b>悬挂系统</b>：连接车身与车轮的“弹簧 + 减震器”，吸收路面颠簸，让乘坐更平稳舒服。`,
+      infoEn:`<b>Suspension</b>: springs and shock absorbers linking body and wheels, soaking up bumps for a smoother ride.` },
+    { id:"steering", emoji:"🎡", labelZh:"转向系统", labelEn:"Steering", x:35, y:62, ex:30, ey:34,
+      infoZh:`<b>转向系统</b>：你转动方向盘，它通过齿轮和拉杆让前轮转向，汽车才能拐弯。`,
+      infoEn:`<b>Steering</b>: when you turn the wheel, gears and rods angle the front wheels so the car can turn.` },
+    { id:"brakes", emoji:"🛑", labelZh:"制动系统", labelEn:"Brakes", x:65, y:74, ex:66, ey:96,
+      infoZh:`<b>制动系统</b>：刹车盘与刹车片互相摩擦，把汽车的速度变成热量，让它稳稳停下来。`,
+      infoEn:`<b>Brakes</b>: discs and pads rub together, turning speed into heat so the car stops safely.` },
+    { id:"wheels", emoji:"🛞", labelZh:"车轮与轮胎", labelEn:"Wheels & tires", x:76, y:74, ex:92, ey:84,
+      infoZh:`<b>车轮与轮胎</b>：汽车唯一接触地面的部件。轮胎的花纹负责抓地，也影响噪音和油耗。`,
+      infoEn:`<b>Wheels & tires</b>: the only parts touching the ground. Tread grips the road and affects noise and fuel use.` },
+    { id:"battery", emoji:"🔋", labelZh:"电气与电池", labelEn:"Electrics & battery", x:62, y:46, ex:96, ey:26,
+      infoZh:`<b>电气系统</b>：蓄电池、发电机、车载电脑和灯光。电动车的大电池包还能直接驱动电机。`,
+      infoEn:`<b>Electrical system</b>: battery, alternator, onboard computers and lights. In an EV, the big battery pack also powers the motor.` },
+    { id:"exhaust", emoji:"💨", labelZh:"排气系统", labelEn:"Exhaust", x:88, y:64, ex:98, ey:60,
+      infoZh:`<b>排气系统</b>：把发动机的废气排出去，并用消音器降低噪音。电动车没有它！`,
+      infoEn:`<b>Exhaust</b>: carries waste gases away and muffles the noise. EVs don't have one!` }
+  ];
+
+  /* ===== 分类 ===== */
+  const CLASSIFY = [
+    { titleZh:"按用途分", titleEn:"By use", items:[
+      { zh:"轿车", en:"Sedan" }, { zh:"SUV 运动型多用途车", en:"SUV" }, { zh:"MPV 多用途汽车", en:"MPV" },
+      { zh:"跑车", en:"Sports car" }, { zh:"皮卡", en:"Pickup" }, { zh:"货车", en:"Truck" }, { zh:"客车/大巴", en:"Bus" }
+    ]},
+    { titleZh:"按动力分", titleEn:"By power", items:[
+      { zh:"汽油车", en:"Petrol" }, { zh:"柴油车", en:"Diesel" }, { zh:"纯电动车 BEV", en:"Battery EV" },
+      { zh:"油电混动 HEV", en:"Hybrid" }, { zh:"插电混动 PHEV", en:"Plug-in hybrid" }, { zh:"增程式 EREV", en:"Range-extender EV" }, { zh:"氢燃料电池 FCEV", en:"Hydrogen fuel cell" }
+    ]},
+    { titleZh:"按车身分", titleEn:"By body style", items:[
+      { zh:"三厢轿车", en:"Three-box sedan" }, { zh:"两厢车", en:"Hatchback" }, { zh:"掀背车", en:"Liftback" },
+      { zh:"旅行车", en:"Wagon / Estate" }, { zh:"敞篷车", en:"Convertible" }, { zh:"硬顶跑车", en:"Coupé" }
+    ]},
+    { titleZh:"按驱动分", titleEn:"By drive", items:[
+      { zh:"前驱 FWD", en:"Front-wheel drive" }, { zh:"后驱 RWD", en:"Rear-wheel drive" }, { zh:"四驱 AWD / 4WD", en:"All-wheel / 4-wheel drive" }
+    ]},
+    { titleZh:"按自动驾驶分（L0–L5）", titleEn:"By autonomy (L0–L5)", items:[
+      { zh:"L0 完全人工", en:"L0 – fully manual" }, { zh:"L1 辅助驾驶", en:"L1 – driver assist" }, { zh:"L2 部分自动", en:"L2 – partial" },
+      { zh:"L3 有条件自动", en:"L3 – conditional" }, { zh:"L4 高度自动", en:"L4 – high" }, { zh:"L5 完全自动", en:"L5 – full" }
+    ]}
+  ];
+
+  /* ===== 对比 ===== */
+  const COMPARE = [
+    { itemZh:"动力来源", itemEn:"Power source", fuelZh:"汽油 / 柴油发动机", fuelEn:"Petrol or diesel engine", evZh:"电池 + 电动机", evEn:"Battery + electric motor" },
+    { itemZh:"能量补给", itemEn:"Refuelling", fuelZh:"去加油站加油（几分钟）", fuelEn:"Fill up at a station (a few minutes)", evZh:"充电桩充电（半小时以上）", evEn:"Charge at a plug (half an hour or more)" },
+    { itemZh:"核心部件", itemEn:"Key parts", fuelZh:"发动机 + 变速箱 + 排气", fuelEn:"Engine + transmission + exhaust", evZh:"电池包 + 电机（结构更简单）", evEn:"Battery pack + motor (simpler)" },
+    { itemZh:"起步加速", itemEn:"Off the line", fuelZh:"需要转速上来才有劲", fuelEn:"Needs revs to build power", evZh:"电机一踩就来，起步更快", evEn:"Instant torque — quicker off the line" },
+    { itemZh:"尾气排放", itemEn:"Emissions", fuelZh:"有尾气排放", fuelEn:"Emits exhaust gases", evZh:"行驶时零尾气", evEn:"Zero tailpipe emissions" },
+    { itemZh:"续航与补能", itemEn:"Range & refuelling", fuelZh:"加满油跑得远，加油快", fuelEn:"Long range, fast to refuel", evZh:"续航受电池限制，充电较慢", evEn:"Range limited by battery, slower to recharge" }
+  ];
+
+  /* ===== 渲染 ===== */
+  let lang = localStorage.getItem('car-lang') || 'zh';
+  const T = () => I18N[lang];
+  const zh = (a,b) => lang === 'zh' ? a : b;
+
+  function applyUI() {
+    const t = T();
+    document.getElementById('ui-brand').textContent = t.brand;
+    document.getElementById('ui-nav-hero').textContent = t.navHero;
+    document.getElementById('ui-nav-overview').textContent = t.navOverview;
+    document.getElementById('ui-nav-structure').textContent = t.navStructure;
+    document.getElementById('ui-nav-classify').textContent = t.navClassify;
+    document.getElementById('ui-nav-compare').textContent = t.navCompare;
+    document.getElementById('ui-hero-pre').textContent = t.heroPre;
+    document.getElementById('ui-hero-hl').textContent = t.heroHl;
+    document.getElementById('ui-hero-sub').textContent = t.heroSub;
+    document.getElementById('heroCount').textContent = t.heroCount;
+    document.getElementById('ui-scroll').textContent = t.scroll;
+    document.getElementById('ui-ov-title').textContent = t.ovTitle;
+    document.getElementById('ui-ov-desc').textContent = t.ovDesc;
+    document.getElementById('ui-st-title').textContent = t.stTitle;
+    document.getElementById('ui-st-desc').textContent = t.stDesc;
+    document.getElementById('ui-st-hint').textContent = t.stHint;
+    document.getElementById('explodeBtn').textContent = t.explode;
+    document.getElementById('assembleBtn').textContent = t.assemble;
+    document.getElementById('ui-cl-title').textContent = t.clTitle;
+    document.getElementById('ui-cl-desc').textContent = t.clDesc;
+    document.getElementById('ui-cmp-title').textContent = t.cmpTitle;
+    document.getElementById('ui-cmp-desc').textContent = t.cmpDesc;
+    document.getElementById('ui-ft-title').textContent = t.ftTitle;
+    document.getElementById('ui-ft-p1').textContent = t.ftP1;
+    document.getElementById('ui-ft-p2').textContent = t.ftP2;
+    document.getElementById('ui-ft-sign').textContent = t.ftSign;
+    document.getElementById('langBtn').textContent = t.langOther;
+    document.getElementById('evNote').innerHTML = `<h3>${t.evH3}</h3><ul><li>${t.evLi1}</li><li>${t.evLi2}</li><li>${t.evLi3}</li></ul>`;
+    document.getElementById('cmpHead').innerHTML = `<tr><th>${t.cmpItem}</th><th>${t.cmpFuel}</th><th>${t.cmpEv}</th></tr>`;
+  }
+
+  function renderOverview() {
+    document.getElementById('overview').innerHTML = OVERVIEW.map(o => `
+      <div class="card"><div class="big">${o.big}</div><h3>${zh(o.labelZh,o.labelEn)}</h3><p>${zh(o.descZh,o.descEn)}</p></div>`).join('');
+  }
+
+  function renderClassify() {
+    document.getElementById('classify').innerHTML = CLASSIFY.map(g => `
+      <div class="cgroup">
+        <h3>${zh(g.titleZh,g.titleEn)}</h3>
+        <div class="chips">${g.items.map(i => `<span class="chip">${zh(i.zh,i.en)}</span>`).join('')}</div>
+      </div>`).join('');
+  }
+
+  function renderCompare() {
+    document.getElementById('cmpBody').innerHTML = COMPARE.map(r => `
+      <tr><td>${zh(r.itemZh,r.itemEn)}</td><td>${zh(r.fuelZh,r.fuelEn)}</td><td>${zh(r.evZh,r.evEn)}</td></tr>`).join('');
+  }
+
+  function renderParts() {
+    const stage = document.getElementById('carStage');
+    const info = document.getElementById('partInfo');
+    PARTS.forEach(p => {
+      const el = document.createElement('div');
+      el.className = 'part assembled'; el.dataset.id = p.id;
+      el.style.left = p.x + '%'; el.style.top = p.y + '%';
+      el.innerHTML = `${p.emoji}<span class="part-label">${zh(p.labelZh,p.labelEn)}</span>`;
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.part').forEach(x => x.classList.remove('active'));
+        el.classList.add('active');
+        info.innerHTML = zh(p.infoZh, p.infoEn);
+      });
+      stage.appendChild(el);
+    });
+  }
+
+  function setMode(exploded) {
+    const stage = document.getElementById('carStage');
+    stage.classList.toggle('exploded-mode', exploded);
+    document.querySelectorAll('.part').forEach((el, i) => {
+      const p = PARTS[i];
+      el.classList.toggle('exploded', exploded);
+      el.classList.toggle('assembled', !exploded);
+      el.style.left = (exploded ? p.ex : p.x) + '%';
+      el.style.top = (exploded ? p.ey : p.y) + '%';
+      el.querySelector('.part-label').textContent = zh(p.labelZh, p.labelEn);
+    });
+  }
+
+  function updateLang() {
+    applyUI(); renderOverview(); renderClassify(); renderCompare(); renderParts();
+    const info = document.getElementById('partInfo');
+    if (!info.querySelector('b')) info.innerHTML = `<span class="hint">${T().stHint}</span>`;
+  }
+
+  document.getElementById('explodeBtn').addEventListener('click', () => setMode(true));
+  document.getElementById('assembleBtn').addEventListener('click', () => setMode(false));
+  document.getElementById('langBtn').addEventListener('click', () => {
+    lang = (lang === 'zh') ? 'en' : 'zh';
+    localStorage.setItem('car-lang', lang);
+    updateLang();
+  });
+
+  updateLang();
+  </script>
+</body>
+</html>
