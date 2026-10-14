@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>汽车构造与分类 · 汽车是怎么造出来的</title>
+  <title>纯电动汽车 · 全车拆解（从整车到零件）</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fredoka+One&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
@@ -28,69 +28,72 @@
     .lang-btn { font-family:'ZCOOL KuaiLe',sans-serif; border:2px solid var(--star-gold); background:transparent; color:var(--star-gold); border-radius:999px; padding:6px 16px; font-size:15px; cursor:pointer; transition:transform .15s,background .2s; }
     .lang-btn:hover { transform:scale(1.06); background:rgba(255,209,102,.15); }
 
-    .hero { min-height:76vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:96px 20px 40px; }
-    .hero-icon { font-size:86px; animation:floaty 3.2s ease-in-out infinite; filter:drop-shadow(0 8px 16px rgba(61,126,255,.5)); }
-    .hero-title { font-family:'Fredoka One',cursive; font-size:clamp(34px,8vw,66px); margin:10px 0; text-shadow:0 4px 0 rgba(61,126,255,.55); }
+    .hero { min-height:70vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:96px 20px 34px; }
+    .hero-icon { font-size:82px; animation:floaty 3.2s ease-in-out infinite; filter:drop-shadow(0 8px 16px rgba(61,126,255,.5)); }
+    .hero-title { font-family:'Fredoka One',cursive; font-size:clamp(32px,7.5vw,62px); margin:10px 0; text-shadow:0 4px 0 rgba(61,126,255,.55); }
     .hero-title .hl { color:var(--star-gold); }
-    .hero-sub { font-size:clamp(15px,4vw,21px); margin-bottom:8px; opacity:.92; max-width:760px; }
+    .hero-sub { font-size:clamp(15px,4vw,21px); margin-bottom:8px; opacity:.92; max-width:780px; }
     .hero-count { margin-top:18px; font-size:17px; color:var(--car-cyan); background:rgba(49,208,224,.12); border:2px solid var(--car-cyan); border-radius:var(--radius-md); padding:10px 22px; }
-    .scroll-hint { margin-top:32px; font-size:16px; color:var(--star-gold); animation:bounce 1.4s infinite; }
+    .scroll-hint { margin-top:30px; font-size:16px; color:var(--star-gold); animation:bounce 1.4s infinite; }
 
-    .section { padding:58px 20px; max-width:1080px; margin:0 auto; }
+    .section { padding:56px 20px; max-width:1080px; margin:0 auto; }
     .section-title { font-family:'Fredoka One',cursive; font-size:clamp(23px,5.6vw,38px); text-align:center; color:var(--star-gold); margin-bottom:12px; }
-    .section-desc { text-align:center; font-size:17px; opacity:.85; margin-bottom:28px; max-width:820px; margin-left:auto; margin-right:auto; }
+    .section-desc { text-align:center; font-size:17px; opacity:.85; margin-bottom:26px; max-width:820px; margin-left:auto; margin-right:auto; }
 
-    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; }
-    .card { background:rgba(232,241,255,.06); border:2px solid rgba(232,241,255,.12); border-radius:var(--radius-lg); padding:20px 18px; box-shadow:var(--shadow); transition:transform .2s,border-color .2s; }
-    .card:hover { transform:translateY(-6px); border-color:var(--car-cyan); }
-    .card .big { font-family:'Fredoka One',cursive; font-size:26px; color:var(--star-gold); }
-    .card h3 { color:var(--tech-green); font-size:18px; margin:6px 0; }
-    .card p { font-size:15px; }
+    /* ===== 拆解 ===== */
+    .explorer { background:rgba(232,241,255,.05); border:2px solid rgba(232,241,255,.12); border-radius:var(--radius-lg); padding:20px; box-shadow:var(--shadow); }
+    .car-wrap { display:flex; flex-direction:column; align-items:center; gap:10px; }
+    .car-svg { width:100%; max-width:720px; height:auto; display:block; }
+    .car-svg .car-body { fill:url(#bodyGrad); stroke:rgba(255,255,255,.35); stroke-width:2; }
+    .car-svg .car-glass { fill:#0E2233; opacity:.85; }
+    .car-svg .tire { fill:#1b2027; stroke:#5d6a78; stroke-width:3; }
+    .car-svg .rim { fill:url(#rimGrad); }
+    .car-svg .hub { fill:#3a4553; }
+    .car-svg .spoke { stroke:#9fb0c0; stroke-width:3; stroke-linecap:round; }
+    .car-svg .line { stroke:rgba(255,255,255,.35); stroke-width:2; fill:none; }
+    .car-svg .hl { fill:#FFE9A8; }
+    .car-svg .tl { fill:#FF5A5A; }
+    .car-svg .port { fill:none; stroke:#31D0E0; stroke-width:3; }
+    .car-svg .zone { opacity:0; transition:opacity .35s; pointer-events:none; }
+    .car-svg .zone rect, .car-svg .zone path { fill:rgba(255,209,102,.30); stroke:var(--star-gold); stroke-width:2; stroke-dasharray:6 5; }
+    .car-svg .zone.on { opacity:1; }
+    .syschips { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:6px; }
+    .syschip { background:rgba(232,241,255,.07); border:2px solid rgba(232,241,255,.18); border-radius:999px; padding:9px 16px; font-size:15px; cursor:pointer; transition:transform .18s,border-color .18s,background .18s; }
+    .syschip:hover { transform:translateY(-4px); border-color:var(--car-cyan); }
+    .syschip.active { border-color:var(--star-gold); background:rgba(212,175,55,.18); }
 
-    /* 汽车拆解 */
-    .breakdown-wrap { display:flex; flex-direction:column; gap:20px; align-items:center; }
-    .car-stage { position:relative; width:100%; max-width:660px; height:360px; flex:0 0 auto; }
-    .car-shadow { position:absolute; left:50%; bottom:14%; transform:translateX(-50%); width:74%; height:10px; background:rgba(0,0,0,.35); border-radius:50%; filter:blur(6px); transition:opacity .5s; }
-    .car-silhouette { position:absolute; left:50%; bottom:22%; transform:translateX(-50%); width:76%; height:30%;
-      background:linear-gradient(180deg,#eaf1f8,#b9c5d2); border-radius:18px 34px 12px 12px; box-shadow:inset 0 0 0 2px rgba(255,255,255,.25),0 10px 24px rgba(0,0,0,.35); transition:opacity .5s; }
-    .car-cabin { position:absolute; left:50%; bottom:48%; transform:translateX(-50%); width:44%; height:22%;
-      background:linear-gradient(180deg,#f0f5fb,#c6d0db); border-radius:26px 30px 4px 4px; transition:opacity .5s; }
-    .car-wheel { position:absolute; bottom:16%; width:64px; height:64px; border-radius:50%; background:radial-gradient(circle at 50% 50%,#4a5560 0 42%,#20262e 43% 100%); box-shadow:inset 0 0 0 4px #66727f; transition:opacity .5s; }
-    .car-wheel.w1 { left:22%; } .car-wheel.w2 { left:64%; }
-    .car-stage.exploded-mode .car-silhouette,
-    .car-stage.exploded-mode .car-cabin,
-    .car-stage.exploded-mode .car-wheel,
-    .car-stage.exploded-mode .car-shadow { opacity:.12; }
-    .part { position:absolute; font-size:30px; cursor:pointer; transition:left .6s cubic-bezier(.34,1.56,.64,1), top .6s cubic-bezier(.34,1.56,.64,1), filter .2s; filter:drop-shadow(0 4px 8px rgba(0,0,0,.45)); text-align:center; transform:translate(-50%,-50%); z-index:3; }
-    .part:hover { filter:drop-shadow(0 0 14px var(--star-gold)); }
-    .part.active { filter:drop-shadow(0 0 16px var(--star-gold)); }
-    .part .part-label { display:block; font-size:11.5px; color:var(--star-white); margin-top:2px; white-space:nowrap; background:rgba(13,27,42,.55); padding:1px 6px; border-radius:8px; }
-    .breakdown-side { width:100%; max-width:660px; }
-    .part-info { margin-top:12px; background:rgba(6,214,160,.1); border:2px solid var(--tech-green); border-radius:var(--radius-md); padding:18px; font-size:16px; min-height:110px; }
-    .part-info b { color:var(--tech-green); }
-    .btn { font-family:'ZCOOL KuaiLe',sans-serif; border:none; border-radius:var(--radius-md); padding:12px 20px; font-size:17px; cursor:pointer; background:var(--rocket-red); color:#fff; box-shadow:var(--shadow); transition:transform .15s cubic-bezier(.34,1.56,.64,1),filter .2s; margin:4px 6px 4px 0; }
-    .btn:hover { transform:scale(1.06) rotate(-1deg); filter:brightness(1.1); }
-    .btn-ghost { background:transparent; border:2px solid var(--tech-green); color:var(--tech-green); }
+    .crumbs { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:20px 0 14px; font-size:15px; }
+    .crumb { cursor:pointer; padding:4px 12px; border-radius:999px; background:rgba(232,241,255,.08); border:1px solid rgba(232,241,255,.16); transition:border-color .18s,color .18s; }
+    .crumb:hover { border-color:var(--car-cyan); color:var(--car-cyan); }
+    .crumb.cur { background:rgba(212,175,55,.18); border-color:var(--star-gold); color:var(--star-gold); cursor:default; }
+    .crumb-sep { opacity:.5; }
 
-    /* 分类 */
-    .cgroup { margin-bottom:26px; }
-    .cgroup h3 { color:var(--star-gold); font-size:20px; margin-bottom:12px; text-align:center; }
-    .chips { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
-    .chip { background:rgba(232,241,255,.07); border:2px solid rgba(232,241,255,.16); border-radius:999px; padding:8px 16px; font-size:14.5px; transition:transform .18s,border-color .18s; }
-    .chip:hover { transform:translateY(-4px); border-color:var(--car-cyan); }
-    .chip b { color:var(--tech-green); }
+    .cur-node { display:flex; align-items:flex-start; gap:12px; background:rgba(6,214,160,.08); border:2px solid var(--tech-green); border-radius:var(--radius-md); padding:16px 18px; margin-bottom:18px; }
+    .cur-node .cn-icon { font-size:38px; line-height:1; }
+    .cur-node h3 { color:var(--tech-green); font-size:20px; }
+    .cur-node p { font-size:15.5px; margin-top:4px; }
 
-    /* 对比表 */
-    .cmp { width:100%; border-collapse:collapse; font-size:15px; }
-    .cmp th, .cmp td { text-align:left; padding:11px 12px; border-bottom:1px solid rgba(232,241,255,.14); vertical-align:top; }
-    .cmp th { color:var(--star-gold); font-family:'Fredoka One',cursive; font-weight:400; }
-    .cmp td:first-child { color:var(--car-cyan); }
+    .children { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+    .child { background:rgba(232,241,255,.06); border:2px solid rgba(232,241,255,.13); border-radius:var(--radius-md); padding:15px 14px; cursor:pointer; transition:transform .18s,border-color .18s,background .18s; }
+    .child:hover { transform:translateY(-5px); border-color:var(--car-cyan); background:rgba(49,208,224,.08); }
+    .child.leaf:hover { border-color:var(--star-gold); background:rgba(255,209,102,.08); }
+    .child .c-top { display:flex; align-items:center; gap:10px; }
+    .child .c-icon { font-size:26px; }
+    .child .c-name { font-size:16.5px; color:var(--tech-green); }
+    .child .c-sub { font-size:13px; opacity:.75; }
+    .child p { font-size:14px; margin-top:8px; opacity:.9; }
+    .child .c-count { display:inline-block; margin-top:8px; font-size:12px; padding:1px 9px; border-radius:999px; background:rgba(255,209,102,.16); border:1px solid var(--star-gold); color:var(--star-gold); }
+    .child.leaf .c-count { display:none; }
+    .empty-hint { text-align:center; font-size:15px; opacity:.75; padding:14px; }
 
-    .note { background:rgba(232,241,255,.06); border:2px dashed rgba(232,241,255,.25); border-radius:var(--radius-lg); padding:22px; margin-top:22px; font-size:15.5px; }
-    .note h3 { color:var(--star-gold); font-size:19px; margin-bottom:10px; }
-    .note ul { padding-left:22px; } .note li { margin-bottom:6px; }
+    /* 速查 */
+    .quick { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+    .qcard { background:rgba(232,241,255,.06); border:2px solid rgba(232,241,255,.12); border-radius:var(--radius-md); padding:18px; }
+    .qcard h3 { color:var(--star-gold); font-size:18px; margin-bottom:10px; text-align:center; }
+    .chips { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; }
+    .chip { background:rgba(232,241,255,.07); border:1px solid rgba(232,241,255,.18); border-radius:999px; padding:6px 13px; font-size:14px; }
 
-    .footer { text-align:center; padding:66px 20px 90px; }
+    .footer { text-align:center; padding:64px 20px 90px; }
     .footer-title { font-family:'Fredoka One',cursive; font-size:30px; color:var(--tech-green); margin-bottom:14px; }
     .footer p { font-size:17px; max-width:680px; margin:0 auto 10px; }
     .footer-sign { color:var(--star-gold); margin-top:18px; }
@@ -98,21 +101,19 @@
 
     @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
     @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
-    @media (max-width:620px) { .nav-links a { margin-left:7px; font-size:12.5px; } .topbar { padding:10px 14px; } .car-stage { height:300px; } .part { font-size:26px; } }
+    @media (max-width:620px) { .nav-links a { margin-left:7px; font-size:12.5px; } .topbar { padding:10px 14px; } .explorer { padding:14px; } }
   </style>
 </head>
 <body>
   <canvas id="starfield"></canvas>
 
   <nav class="topbar">
-    <span class="logo" id="ui-brand">🚗 汽车小百科</span>
+    <span class="logo" id="ui-brand">🚗 汽车全拆解</span>
     <div class="nav-right">
       <div class="nav-links">
         <a href="#hero" id="ui-nav-hero">开始</a>
-        <a href="#overview" id="ui-nav-overview">总览</a>
-        <a href="#structure" id="ui-nav-structure">汽车构造</a>
-        <a href="#classify" id="ui-nav-classify">汽车分类</a>
-        <a href="#compare" id="ui-nav-compare">油车 vs 电车</a>
+        <a href="#breakdown" id="ui-nav-bd">全车拆解</a>
+        <a href="#types" id="ui-nav-types">车型速查</a>
       </div>
       <button class="lang-btn" id="langBtn">EN</button>
     </div>
@@ -120,50 +121,87 @@
 
   <header id="hero" class="hero">
     <div class="hero-icon">🚗</div>
-    <h1 class="hero-title"><span id="ui-hero-pre">汽车</span><br /><span class="hl" id="ui-hero-hl">构造与分类</span></h1>
+    <h1 class="hero-title"><span id="ui-hero-pre">纯电动汽车</span><br /><span class="hl" id="ui-hero-hl">全车拆解</span></h1>
     <p class="hero-sub" id="ui-hero-sub"></p>
     <div class="hero-count" id="heroCount"></div>
-    <div class="scroll-hint" id="ui-scroll">👇 往下滚，把一辆汽车拆开看看</div>
+    <div class="scroll-hint" id="ui-scroll">👇 往下滚，一层层拆开一辆电动车</div>
   </header>
 
-  <section id="overview" class="section">
-    <h2 class="section-title" id="ui-ov-title">🔎 汽车是什么？</h2>
-    <p class="section-desc" id="ui-ov-desc"></p>
-    <div class="cards" id="overview"></div>
-  </section>
+  <section id="breakdown" class="section">
+    <h2 class="section-title" id="ui-bd-title">🔧 从整车到零件：一层层拆开看</h2>
+    <p class="section-desc" id="ui-bd-desc"></p>
+    <div class="explorer">
+      <div class="car-wrap">
+        <svg class="car-svg" viewBox="0 0 680 320" id="carSvg" aria-hidden="true">
+          <defs>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#eef4fb"/><stop offset="55%" stop-color="#aebccb"/><stop offset="100%" stop-color="#7f8d9c"/>
+            </linearGradient>
+            <linearGradient id="rimGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e6edf5"/><stop offset="100%" stop-color="#8d99a7"/>
+            </linearGradient>
+          </defs>
 
-  <section id="structure" class="section">
-    <h2 class="section-title" id="ui-st-title">🔧 拆解：汽车的构造（核心）</h2>
-    <p class="section-desc" id="ui-st-desc"></p>
-    <div class="breakdown-wrap">
-      <div class="car-stage" id="carStage">
-        <div class="car-shadow"></div>
-        <div class="car-silhouette"></div>
-        <div class="car-cabin"></div>
-        <div class="car-wheel w1"></div>
-        <div class="car-wheel w2"></div>
+          <ellipse cx="340" cy="292" rx="272" ry="13" fill="rgba(0,0,0,.35)"/>
+
+          <!-- 高亮区域（选中系统时显示） -->
+          <g class="zone" data-zone="three-e"><rect x="152" y="196" width="368" height="30" rx="12"/></g>
+          <g class="zone" data-zone="chassis"><rect x="120" y="198" width="130" height="78" rx="18"/><rect x="430" y="198" width="130" height="78" rx="18"/></g>
+          <g class="zone" data-zone="body"><rect x="66" y="96" width="548" height="150" rx="26"/></g>
+          <g class="zone" data-zone="interior"><rect x="266" y="116" width="222" height="80" rx="16"/></g>
+
+          <!-- 车身 -->
+          <path class="car-body" d="M72,226 C72,206 78,188 98,182 L176,166 C198,162 216,158 234,154 L270,120 C284,108 302,102 324,102 L432,102 C454,102 472,108 488,122 L560,156 C590,164 608,184 608,210 L608,226 Z"/>
+          <path class="car-glass" d="M282,138 L318,110 C324,106 330,104 338,104 L360,104 L360,138 Z"/>
+          <path class="car-glass" d="M374,104 L428,104 C440,104 450,108 458,116 L484,138 L374,138 Z"/>
+          <line class="line" x1="366" y1="138" x2="366" y2="224"/>
+          <rect class="line" x="344" y="150" width="26" height="7" rx="3" fill="none"/>
+          <!-- 后视镜 -->
+          <path class="line" d="M272,130 l-16,-4 l4,-12 l18,6 Z" fill="#cfd8e3" stroke="rgba(255,255,255,.4)"/>
+          <!-- 雨刮 -->
+          <line class="line" x1="300" y1="136" x2="336" y2="118"/>
+          <line class="line" x1="344" y1="136" x2="380" y2="118"/>
+          <!-- 大灯 / 尾灯 / 充电口 -->
+          <path class="hl" d="M84,190 C96,184 112,182 124,184 L122,196 C108,196 94,198 86,200 Z"/>
+          <path class="tl" d="M600,196 C592,192 580,190 570,190 L570,202 C580,202 590,204 598,206 Z"/>
+          <circle class="port" cx="556" cy="170" r="9"/>
+          <!-- 保险杠 -->
+          <line class="line" x1="74" y1="216" x2="140" y2="216"/>
+          <line class="line" x1="540" y1="216" x2="606" y2="216"/>
+
+          <!-- 车轮 -->
+          <g class="wheel">
+            <circle class="tire" cx="185" cy="234" r="44"/>
+            <circle class="rim" cx="185" cy="234" r="24"/>
+            <circle class="hub" cx="185" cy="234" r="7"/>
+            <line class="spoke" x1="185" y1="214" x2="185" y2="254"/>
+            <line class="spoke" x1="165" y1="234" x2="205" y2="234"/>
+            <line class="spoke" x1="171" y1="220" x2="199" y2="248"/>
+            <line class="spoke" x1="199" y1="220" x2="171" y2="248"/>
+          </g>
+          <g class="wheel">
+            <circle class="tire" cx="495" cy="234" r="44"/>
+            <circle class="rim" cx="495" cy="234" r="24"/>
+            <circle class="hub" cx="495" cy="234" r="7"/>
+            <line class="spoke" x1="495" y1="214" x2="495" y2="254"/>
+            <line class="spoke" x1="475" y1="234" x2="515" y2="234"/>
+            <line class="spoke" x1="481" y1="220" x2="509" y2="248"/>
+            <line class="spoke" x1="509" y1="220" x2="481" y2="248"/>
+          </g>
+        </svg>
+        <div class="syschips" id="syschips"></div>
       </div>
-      <div class="breakdown-side">
-        <div>
-          <button class="btn" id="explodeBtn">🔧 拆开看看</button>
-          <button class="btn btn-ghost" id="assembleBtn">🧩 装回去</button>
-        </div>
-        <div class="part-info" id="partInfo"><span class="hint" id="ui-st-hint">👈 点汽车上的小零件，听听它是干嘛的</span></div>
-      </div>
+
+      <div class="crumbs" id="crumbs"></div>
+      <div class="cur-node" id="curNode"></div>
+      <div class="children" id="children"></div>
     </div>
   </section>
 
-  <section id="classify" class="section">
-    <h2 class="section-title" id="ui-cl-title">📚 汽车怎么分类？</h2>
-    <p class="section-desc" id="ui-cl-desc"></p>
-    <div id="classify"></div>
-  </section>
-
-  <section id="compare" class="section">
-    <h2 class="section-title" id="ui-cmp-title">⚡ 燃油车 vs 电动车</h2>
-    <p class="section-desc" id="ui-cmp-desc"></p>
-    <table class="cmp"><thead id="cmpHead"></thead><tbody id="cmpBody"></tbody></table>
-    <div class="note" id="evNote"></div>
+  <section id="types" class="section">
+    <h2 class="section-title" id="ui-ty-title">📚 车型速查（一页看懂怎么叫）</h2>
+    <p class="section-desc" id="ui-ty-desc"></p>
+    <div class="quick" id="quick"></div>
   </section>
 
   <footer class="footer">
@@ -187,223 +225,337 @@
   /* ===== 语言包 ===== */
   const I18N = {
     zh: {
-      brand:"🚗 汽车小百科", navHero:"开始", navOverview:"总览", navStructure:"汽车构造", navClassify:"汽车分类", navCompare:"油车 vs 电车",
-      heroPre:"汽车", heroHl:"构造与分类",
-      heroSub:"一辆汽车由成千上万个零件组成。先弄懂它「由什么造出来」，再学会「怎么分类」——你就能看懂路上的每一辆车。",
-      heroCount:"🚗 核心是「构造」：动力 · 底盘 · 车身 · 电气，四大块",
-      scroll:"👇 往下滚，把一辆汽车拆开看看",
-      ovTitle:"🔎 汽车是什么？", ovDesc:"汽车是能自己跑、载人载货的轮式交通工具。它由「动力、底盘、车身、电气」四大部分组成，通常分为燃油车和电动车两大类。",
-      stTitle:"🔧 拆解：汽车的构造（核心）", stDesc:"下面是一辆汽车的侧视图。点任意零件看讲解，或点「拆开看看」把它拆成零件！",
-      stHint:"👈 点汽车上的小零件，听听它是干嘛的", explode:"🔧 拆开看看", assemble:"🧩 装回去",
-      clTitle:"📚 汽车怎么分类？", clDesc:"同一辆汽车，可以从很多角度来分类：按用途、按动力、按车身、按驱动，还有按自动化程度。",
-      cmpTitle:"⚡ 燃油车 vs 电动车", cmpDesc:"两种主流动力方式，结构差别很大。",
-      cmpItem:"对比项", cmpFuel:"燃油车", cmpEv:"电动车",
-      evH3:"🔋 为什么电动车结构更简单？",
-      evLi1:"电动车没有发动机、变速箱、排气系统，用「电池 + 电机」直接驱动车轮。",
-      evLi2:"所以电动车的零件更少、保养更省事（不用换机油、火花塞）。",
-      evLi3:"但电池又大又重，续航和充电速度是它的新挑战。",
-      ftTitle:"🌈 一句话记住汽车", ftP1:"汽车 = 动力系统 + 底盘 + 车身 + 电气。发动机是心脏，底盘是骨架，车身是外壳，电气是神经。",
-      ftP2:"把它拆开看一遍，你就再也不会觉得汽车是「一个黑盒子」了。", ftSign:"—— 给喜欢机械的小朋友 💫", langOther:"EN"
+      brand:"🚗 汽车全拆解", navHero:"开始", navBd:"全车拆解", navTypes:"车型速查",
+      heroPre:"纯电动汽车", heroHl:"全车拆解",
+      heroSub:"以一辆纯电动汽车为例，从「整车 → 系统 → 总成 → 零件」一层层拆开——连轮胎、雨刮器、引擎盖、充电口盖这些细小零件都在里面。",
+      heroCount:"🔧 4 大系统 · 21 个总成 · 100+ 个零件，全部双语讲解",
+      scroll:"👇 往下滚，一层层拆开一辆电动车",
+      bdTitle:"🔧 从整车到零件：一层层拆开看", bdDesc:"点上面 4 个系统按钮，或直接点下面的卡片往下钻；面包屑可以随时回到上一层。",
+      tyTitle:"📚 车型速查（一页看懂怎么叫）", tyDesc:"分类不用记太多，记住最常见的两种叫法就够了。",
+      ftTitle:"🌈 一句话记住汽车", ftP1:"汽车 = 三电系统 + 底盘 + 车身 + 内饰电气。电池是油箱，电机是心脏，底盘是腿脚，车身是皮肤，内饰电气是神经。",
+      ftP2:"从整车拆到一颗电芯、一片刹车片、一根雨刮，你就真的「看懂」一辆车了。", ftSign:"—— 给喜欢机械的小朋友 💫",
+      cntAssemblies:(n)=>`${n} 个总成`, cntParts:(n)=>`${n} 个零件`, root:"整车",
+      langOther:"EN"
     },
     en: {
-      brand:"🚗 Car Basics", navHero:"Start", navOverview:"Overview", navStructure:"Structure", navClassify:"Types", navCompare:"Fuel vs EV",
-      heroPre:"Cars", heroHl:"Structure & Types",
-      heroSub:"A car is made of thousands of parts. Learn what it's built from, then how cars are classified — and you can read every car on the road.",
-      heroCount:"🚗 The core is STRUCTURE: power · chassis · body · electrics",
-      scroll:"👇 Scroll down and take a car apart",
-      ovTitle:"🔎 What is a car?", ovDesc:"A car is a wheeled vehicle that moves itself and carries people or goods. It has four main groups — power, chassis, body and electrics — and comes in two big families: fuel and electric.",
-      stTitle:"🔧 Exploded view: how a car is built (core)", stDesc:"Here's a car in side view. Tap any part to learn, or hit “Take apart” to split it into pieces!",
-      stHint:"👈 Tap a part on the car to hear what it does", explode:"🔧 Take apart", assemble:"🧩 Put back",
-      clTitle:"📚 How are cars classified?", clDesc:"The same car can be sorted in many ways: by use, by power, by body style, by drive — and by how self-driving it is.",
-      cmpTitle:"⚡ Fuel cars vs electric cars", cmpDesc:"Two main ways to power a car — with very different structures.",
-      cmpItem:"Item", cmpFuel:"Fuel car", cmpEv:"Electric car",
-      evH3:"🔋 Why is an EV simpler inside?",
-      evLi1:"An EV has no engine, no transmission and no exhaust — a battery and a motor drive the wheels directly.",
-      evLi2:"So it has fewer parts and needs less servicing (no oil or spark plugs to change).",
-      evLi3:"But the battery is big and heavy, and range and charging speed are its new challenges.",
-      ftTitle:"🌈 The car in one line", ftP1:"Car = power system + chassis + body + electrics. The engine is the heart, the chassis the skeleton, the body the shell, the electrics the nerves.",
-      ftP2:"Take it apart once, and a car will never feel like a black box again.", ftSign:"—— For kids who love machines 💫", langOther:"中文"
+      brand:"🚗 Car Teardown", navHero:"Start", navBd:"Teardown", navTypes:"Types",
+      heroPre:"Electric Car", heroHl:"Full Teardown",
+      heroSub:"Using a battery electric car as the example, we take it apart level by level — from whole car → systems → assemblies → parts, down to tires, wipers, the hood and the charge-port cover.",
+      heroCount:"🔧 4 systems · 21 assemblies · 100+ parts, all bilingual",
+      scroll:"👇 Scroll down and take an EV apart, layer by layer",
+      bdTitle:"🔧 Whole car → parts: drill down", bdDesc:"Tap one of the 4 system buttons, or tap the cards below to drill deeper; the breadcrumb takes you back up.",
+      tyTitle:"📚 Car types at a glance", tyDesc:"No need to memorise much — just the most common ways we name cars.",
+      ftTitle:"🌈 The car in one line", ftP1:"Car = three electrics + chassis + body + interior & electrics. The battery is the tank, the motor the heart, the chassis the legs, the body the skin, the electrics the nerves.",
+      ftP2:"Teardown from the whole car down to a single cell, a brake pad or a wiper — and you truly understand a car.", ftSign:"—— For kids who love machines 💫",
+      cntAssemblies:(n)=>`${n} assemblies`, cntParts:(n)=>`${n} parts`, root:"Whole car",
+      langOther:"中文"
     }
   };
 
-  /* ===== 总览 ===== */
-  const OVERVIEW = [
-    { big:"4 大块", labelZh:"基本组成", labelEn:"Four groups", descZh:"动力系统、底盘、车身、电气设备。", descEn:"Power system, chassis, body and electrics." },
-    { big:"发动机", labelZh:"汽车的心脏", labelEn:"The heart", descZh:"燃油车靠它把燃料变成动力；电动车用电机代替。", descEn:"Turns fuel into power in a fuel car; an EV uses a motor instead." },
-    { big:"底盘", labelZh:"汽车的骨架", labelEn:"The skeleton", descZh:"传动、行驶、转向、制动四大系统都在底盘上。", descEn:"Drivetrain, suspension, steering and brakes all live on the chassis." },
-    { big:"2 大类", labelZh:"动力方式", labelEn:"Two families", descZh:"燃油车与电动车，结构差别很大。", descEn:"Fuel cars and electric cars — very different inside." },
-    { big:"L0–L5", labelZh:"自动驾驶分级", labelEn:"Autonomy levels", descZh:"从完全人工驾驶到完全自动驾驶，共 6 级。", descEn:"Six levels, from fully manual to fully self-driving." },
-    { big:"上万个", labelZh:"零件数量", labelEn:"Parts count", descZh:"一辆汽车大约有 3 万个零件！", descEn:"A car has roughly 30,000 parts!" }
-  ];
+  /* ===== 汽车构造树（纯电动汽车） ===== */
+  const TREE = {
+    id:"root", emoji:"🚗", zh:"纯电动汽车", en:"Battery Electric Car",
+    descZh:"纯电动汽车（BEV）没有发动机和变速箱，靠「动力电池 + 驱动电机」直接驱动车轮。下面我们把它拆成 4 大系统，再一路拆到最小的零件。",
+    descEn:"A battery electric car (BEV) has no engine and no gearbox — a battery pack and an electric motor drive the wheels directly. Below we split it into 4 systems and drill all the way down to the smallest parts.",
+    children:[
+      { id:"three-e", emoji:"⚡", zone:"three-e", zh:"三电系统", en:"Three Electrics",
+        descZh:"电动车的核心：电池（储能）、电机（出力）、电控（指挥）。相当于燃油车的发动机 + 油箱。",
+        descEn:"The EV's core: battery (stores energy), motor (makes power), electronics (commands it). It replaces the engine and fuel tank.",
+        children:[
+          { id:"battery", emoji:"🔋", zh:"动力电池包", en:"Battery pack", descZh:"电动车的“油箱”，由几百到几千个电芯组成，装在底盘下方。", descEn:"The EV's “fuel tank,” made of hundreds to thousands of cells, mounted under the floor.",
+            children:[
+              { id:"cell", emoji:"🔋", zh:"电芯", en:"Cell", descZh:"最小的储能单元，形状像一节大号电池。", descEn:"The smallest energy-storing unit, shaped like a giant battery." },
+              { id:"module", emoji:"🧱", zh:"模组", en:"Module", descZh:"把许多电芯成组装配在一起。", descEn:"Many cells grouped and assembled together." },
+              { id:"packcase", emoji:"📦", zh:"电池包外壳", en:"Pack case", descZh:"坚固的金属外壳，保护电芯不受撞击。", descEn:"A strong metal shell protecting the cells from impact." },
+              { id:"bms", emoji:"🧠", zh:"BMS 电池管理系统", en:"BMS (battery management)", descZh:"电池的“管家”，监控每颗电芯的温度和电量。", descEn:"The battery's “manager,” watching each cell's temperature and charge." },
+              { id:"coolplate", emoji:"❄️", zh:"液冷板", en:"Cooling plate", descZh:"给电池降温或加热，保持最佳工作温度。", descEn:"Cools or warms the pack to keep the best working temperature." },
+              { id:"hvharness", emoji:"🔌", zh:"高压线束", en:"High-voltage harness", descZh:"输送高压电的“大血管”。", descEn:"The “big blood vessels” carrying high-voltage power." },
+              { id:"vent", emoji:"💨", zh:"泄压阀", en:"Vent valve", descZh:"电池异常时自动泄压，保证安全。", descEn:"Releases pressure automatically if the pack misbehaves, for safety." }
+            ]},
+          { id:"motor", emoji:"⚙️", zh:"驱动电机", en:"Drive motor", descZh:"把电能变成转动，直接驱动车轮，不需要变速箱。", descEn:"Turns electricity into rotation and drives the wheels — no gearbox needed.",
+            children:[
+              { id:"stator", emoji:"⭕", zh:"定子", en:"Stator", descZh:"通电后产生磁场的外圈线圈。", descEn:"The outer coil ring that creates a magnetic field when powered." },
+              { id:"rotor", emoji:"🌀", zh:"转子", en:"Rotor", descZh:"被磁场推着高速旋转的内芯，每分钟能转上万圈。", descEn:"The inner core spun at high speed by the field — up to tens of thousands of rpm." },
+              { id:"motorcase", emoji:"🥫", zh:"电机壳体", en:"Motor housing", descZh:"包裹定子与转子，并帮助散热。", descEn:"Wraps the stator and rotor and helps shed heat." },
+              { id:"reducer", emoji:"🔧", zh:"减速器", en:"Reducer", descZh:"把电机的高转速降下来，变成更大的力量。", descEn:"Steps the motor's high speed down into more torque." },
+              { id:"halfshaft", emoji:"🦴", zh:"半轴", en:"Half shaft", descZh:"把动力从减速器传给车轮的传动轴。", descEn:"The shaft sending drive from the reducer to the wheel." }
+            ]},
+          { id:"mcu", emoji:"🎛️", zh:"电机控制器", en:"Motor controller", descZh:"电机的大脑，控制电流大小，决定车快不快、省不省电。", descEn:"The motor's brain, controlling current — how fast and how efficient the car is.",
+            children:[
+              { id:"powerstage", emoji:"🔲", zh:"功率模块（IGBT / SiC）", en:"Power module (IGBT/SiC)", descZh:"每秒开关上万次的“电子电闸”，控制电流。", descEn:"An “electronic switch” flipping tens of thousands of times a second." },
+              { id:"ctrlboard", emoji:"🧩", zh:"控制电路板", en:"Control board", descZh:"负责计算并发出控制指令。", descEn:"Does the computing and sends the commands." },
+              { id:"heatsink", emoji:"🌡️", zh:"散热器", en:"Heat sink", descZh:"帮控制器快速降温，避免过热。", descEn:"Cools the controller quickly so it doesn't overheat." }
+            ]},
+          { id:"charge", emoji:"🔌", zh:"充电系统", en:"Charging system", descZh:"给电池“加油”的通道。", descEn:"The route that “refuels” the battery.",
+            children:[
+              { id:"dcfc", emoji:"⚡", zh:"快充口（直流）", en:"DC fast-charge port", descZh:"大功率充电，半小时左右能充进大半电量。", descEn:"High-power charging — most of the battery in about half an hour." },
+              { id:"acport", emoji:"🔋", zh:"慢充口（交流）", en:"AC charge port", descZh:"家用慢充，充一整晚刚好充满。", descEn:"Home charging — a full night tops it up." },
+              { id:"portcover", emoji:"🚪", zh:"充电口盖", en:"Charge port cover", descZh:"保护充电口不进水和灰尘的盖子。", descEn:"A cover keeping water and dust out of the port." },
+              { id:"obc", emoji:"📦", zh:"车载充电机 OBC", en:"Onboard charger (OBC)", descZh:"把家里的交流电变成电池能用的直流电。", descEn:"Turns household AC into the DC the battery needs." }
+            ]},
+          { id:"hvdist", emoji:"🔀", zh:"高压配电与转换", en:"HV distribution", descZh:"把高压电分配到全车各个用电部件。", descEn:"Distributes high-voltage power to every part that needs it.",
+            children:[
+              { id:"pdu", emoji:"🧰", zh:"高压配电盒 PDU", en:"HV distribution box (PDU)", descZh:"高压电的“配电箱”。", descEn:"The high-voltage “distribution board.”" },
+              { id:"dcdc", emoji:"🔻", zh:"DC-DC 转换器", en:"DC-DC converter", descZh:"把高压电变成 12V，供小电瓶和电器使用。", descEn:"Steps high voltage down to 12V for the small battery and devices." },
+              { id:"relay", emoji:"🔘", zh:"高压继电器", en:"HV relay", descZh:"高压电路的总开关，接通或切断。", descEn:"The main switch that connects or cuts the high-voltage circuit." }
+            ]}
+        ]},
 
-  /* ===== 汽车构造部件 ===== */
-  const PARTS = [
-    { id:"body", emoji:"🚗", labelZh:"车身", labelEn:"Body", x:50, y:26, ex:50, ey:5,
-      infoZh:`<b>车身</b>：汽车的外壳与座舱，既决定好不好看，也负责保护车内的人——碰撞时它会“吸能”变形，把冲击力挡在外面。`,
-      infoEn:`<b>Body</b>: the shell and cabin. It looks good and protects people inside — in a crash it crumples to absorb the impact.` },
-    { id:"engine", emoji:"⚙️", labelZh:"发动机", labelEn:"Engine", x:17, y:48, ex:3, ey:28,
-      infoZh:`<b>发动机</b>：汽车的“心脏”，把汽油或柴油燃烧的能量变成动力。电动车则用电机代替它。`,
-      infoEn:`<b>Engine</b>: the car's "heart," turning burning petrol or diesel into power. Electric cars replace it with a motor.` },
-    { id:"transmission", emoji:"🔧", labelZh:"变速箱", labelEn:"Transmission", x:33, y:54, ex:16, ey:70,
-      infoZh:`<b>变速箱</b>：把发动机的转速和力量“变速”后传给车轮，让汽车能起步、加速、爬坡。`,
-      infoEn:`<b>Transmission</b>: changes the engine's speed and torque before sending it to the wheels, so the car can start, accelerate and climb.` },
-    { id:"chassis", emoji:"🧱", labelZh:"底盘", labelEn:"Chassis", x:50, y:68, ex:50, ey:92,
-      infoZh:`<b>底盘</b>：汽车的“骨架”，承载发动机、车身和乘客，并把所有系统连成一个整体。`,
-      infoEn:`<b>Chassis</b>: the car's "skeleton," carrying the engine, body and passengers and tying every system together.` },
-    { id:"suspension", emoji:"🪃", labelZh:"悬挂系统", labelEn:"Suspension", x:23, y:72, ex:4, ey:82,
-      infoZh:`<b>悬挂系统</b>：连接车身与车轮的“弹簧 + 减震器”，吸收路面颠簸，让乘坐更平稳舒服。`,
-      infoEn:`<b>Suspension</b>: springs and shock absorbers linking body and wheels, soaking up bumps for a smoother ride.` },
-    { id:"steering", emoji:"🎡", labelZh:"转向系统", labelEn:"Steering", x:35, y:62, ex:30, ey:34,
-      infoZh:`<b>转向系统</b>：你转动方向盘，它通过齿轮和拉杆让前轮转向，汽车才能拐弯。`,
-      infoEn:`<b>Steering</b>: when you turn the wheel, gears and rods angle the front wheels so the car can turn.` },
-    { id:"brakes", emoji:"🛑", labelZh:"制动系统", labelEn:"Brakes", x:65, y:74, ex:66, ey:96,
-      infoZh:`<b>制动系统</b>：刹车盘与刹车片互相摩擦，把汽车的速度变成热量，让它稳稳停下来。`,
-      infoEn:`<b>Brakes</b>: discs and pads rub together, turning speed into heat so the car stops safely.` },
-    { id:"wheels", emoji:"🛞", labelZh:"车轮与轮胎", labelEn:"Wheels & tires", x:76, y:74, ex:92, ey:84,
-      infoZh:`<b>车轮与轮胎</b>：汽车唯一接触地面的部件。轮胎的花纹负责抓地，也影响噪音和油耗。`,
-      infoEn:`<b>Wheels & tires</b>: the only parts touching the ground. Tread grips the road and affects noise and fuel use.` },
-    { id:"battery", emoji:"🔋", labelZh:"电气与电池", labelEn:"Electrics & battery", x:62, y:46, ex:96, ey:26,
-      infoZh:`<b>电气系统</b>：蓄电池、发电机、车载电脑和灯光。电动车的大电池包还能直接驱动电机。`,
-      infoEn:`<b>Electrical system</b>: battery, alternator, onboard computers and lights. In an EV, the big battery pack also powers the motor.` },
-    { id:"exhaust", emoji:"💨", labelZh:"排气系统", labelEn:"Exhaust", x:88, y:64, ex:98, ey:60,
-      infoZh:`<b>排气系统</b>：把发动机的废气排出去，并用消音器降低噪音。电动车没有它！`,
-      infoEn:`<b>Exhaust</b>: carries waste gases away and muffles the noise. EVs don't have one!` }
-  ];
+      { id:"chassis", emoji:"🛞", zone:"chassis", zh:"底盘与行驶", en:"Chassis & running gear",
+        descZh:"让车能跑、能拐、能停的“腿脚”：车轮、制动、悬挂、转向和底盘框架。",
+        descEn:"The “legs” that let a car roll, turn and stop: wheels, brakes, suspension, steering and the chassis frame.",
+        children:[
+          { id:"wheel", emoji:"🛞", zh:"车轮", en:"Wheel", descZh:"汽车唯一接触地面的部件。", descEn:"The only part of the car touching the ground.",
+            children:[
+              { id:"tire", emoji:"⚫", zh:"轮胎", en:"Tire", descZh:"橡胶外圈，胎面花纹负责抓地，里面充满空气。", descEn:"The rubber outer ring — its tread grips the road; filled with air." },
+              { id:"rim", emoji:"⭕", zh:"轮辋（轮毂）", en:"Rim", descZh:"金属轮圈，轮胎就装在它上面。", descEn:"The metal wheel the tire is mounted on." },
+              { id:"bolts", emoji:"🔩", zh:"轮毂螺栓", en:"Wheel bolts", descZh:"把车轮牢牢固定在车轴上的螺栓。", descEn:"Bolts clamping the wheel to the axle." },
+              { id:"valve", emoji:"💨", zh:"气门嘴", en:"Valve stem", descZh:"给轮胎打气的地方。", descEn:"Where you pump air into the tire." },
+              { id:"tpms", emoji:"📶", zh:"胎压传感器", en:"TPMS sensor", descZh:"监测轮胎气压，太低会报警。", descEn:"Monitors tire pressure and warns if it's too low." }
+            ]},
+          { id:"brake", emoji:"🛑", zh:"制动系统", en:"Brakes", descZh:"让汽车减速和停下来的系统。", descEn:"The system that slows and stops the car.",
+            children:[
+              { id:"disc", emoji:"💿", zh:"刹车盘", en:"Brake disc", descZh:"随车轮一起转动的金属圆盘。", descEn:"The metal disc that spins with the wheel." },
+              { id:"pad", emoji:"🟫", zh:"刹车片", en:"Brake pad", descZh:"夹住刹车盘的摩擦片，会磨损需要更换。", descEn:"The friction pad clamping the disc; it wears and must be replaced." },
+              { id:"caliper", emoji:"🗜️", zh:"刹车卡钳", en:"Brake caliper", descZh:"像钳子一样夹紧刹车片。", descEn:"Clamps the pads like a pair of pliers." },
+              { id:"brakeline", emoji:"🧵", zh:"刹车油管", en:"Brake line", descZh:"传递刹车压力的管路。", descEn:"The pipe carrying brake pressure." },
+              { id:"epb", emoji:"🅿️", zh:"电子驻车 EPB", en:"Electric parking brake", descZh:"电子手刹，停车时自动锁住车轮。", descEn:"The electronic handbrake that locks the wheels when parked." },
+              { id:"bpedal", emoji:"🦶", zh:"制动踏板", en:"Brake pedal", descZh:"你脚下踩的那个刹车。", descEn:"The pedal your foot presses to brake." }
+            ]},
+          { id:"susp", emoji:"🪃", zh:"悬挂系统", en:"Suspension", descZh:"连接车身与车轮，吸收路面颠簸。", descEn:"Links body and wheels, soaking up bumps.",
+            children:[
+              { id:"damper", emoji:"🛢️", zh:"减震器", en:"Shock absorber", descZh:"抑制弹簧弹跳的“打气筒”。", descEn:"A “pump” that damps the spring's bouncing." },
+              { id:"spring", emoji:"🌀", zh:"螺旋弹簧", en:"Coil spring", descZh:"支撑车身重量、吸收冲击。", descEn:"Supports the car's weight and absorbs impacts." },
+              { id:"arm", emoji:"🦾", zh:"摆臂", en:"Control arm", descZh:"连接车轮与车架的铰链臂。", descEn:"The hinged arm linking wheel and frame." },
+              { id:"subframe", emoji:"🧱", zh:"副车架", en:"Subframe", descZh:"悬挂和电机的安装支架。", descEn:"The bracket that mounts suspension and motor." },
+              { id:"arb", emoji:"➖", zh:"防倾杆", en:"Anti-roll bar", descZh:"拐弯时减少车身侧倾。", descEn:"Reduces body lean in corners." },
+              { id:"bushing", emoji:"⚫", zh:"衬套", en:"Bushing", descZh:"橡胶垫，减少震动和噪音。", descEn:"Rubber cushions that cut vibration and noise." }
+            ]},
+          { id:"steer", emoji:"🎡", zh:"转向系统", en:"Steering", descZh:"让车按你的意思拐弯。", descEn:"Lets the car turn where you want.",
+            children:[
+              { id:"swheel", emoji:"🎡", zh:"方向盘", en:"Steering wheel", descZh:"你手里握着的那个圆盘。", descEn:"The wheel your hands hold." },
+              { id:"column", emoji:"➖", zh:"转向柱", en:"Steering column", descZh:"连接方向盘与转向机的轴。", descEn:"The shaft linking wheel and steering gear." },
+              { id:"sgear", emoji:"⚙️", zh:"转向机", en:"Steering gear", descZh:"把转动变成左右移动的机构。", descEn:"Turns rotation into side-to-side motion." },
+              { id:"tierod", emoji:"🔗", zh:"转向拉杆", en:"Tie rod", descZh:"推着前轮转向的杆。", descEn:"The rod pushing the front wheels to steer." },
+              { id:"eps", emoji:"⚡", zh:"电动助力 EPS", en:"Electric power steering", descZh:"电机帮你更省力地打方向。", descEn:"A motor helping you turn with less effort." }
+            ]},
+          { id:"frame", emoji:"🧱", zh:"底盘框架", en:"Chassis frame", descZh:"汽车底部的承力骨架。", descEn:"The load-bearing frame under the car.",
+            children:[
+              { id:"skirt", emoji:"🧱", zh:"底盘框架", en:"Chassis frame", descZh:"钢或铝制的承力骨架，连接所有系统。", descEn:"A steel or aluminium frame tying all systems together." },
+              { id:"tray", emoji:"🔋", zh:"电池托板", en:"Battery tray", descZh:"把电池包固定在底盘下面的托板。", descEn:"The tray bolting the battery pack under the floor." }
+            ]}
+        ]},
 
-  /* ===== 分类 ===== */
-  const CLASSIFY = [
-    { titleZh:"按用途分", titleEn:"By use", items:[
-      { zh:"轿车", en:"Sedan" }, { zh:"SUV 运动型多用途车", en:"SUV" }, { zh:"MPV 多用途汽车", en:"MPV" },
-      { zh:"跑车", en:"Sports car" }, { zh:"皮卡", en:"Pickup" }, { zh:"货车", en:"Truck" }, { zh:"客车/大巴", en:"Bus" }
+      { id:"body", emoji:"🚗", zone:"body", zh:"车身与外观", en:"Body & exterior",
+        descZh:"汽车的外壳与覆盖件：决定长相，也在碰撞时保护车里的人。",
+        descEn:"The shell and panels: they give the car its look and protect people in a crash.",
+        children:[
+          { id:"structure", emoji:"🦴", zh:"车身骨架", en:"Body structure", descZh:"白车身是汽车最坚固的部分。", descEn:"The body-in-white is the car's strongest part.",
+            children:[
+              { id:"biw", emoji:"🦴", zh:"白车身", en:"Body-in-white", descZh:"焊接好的车身骨架，还没上漆装件。", descEn:"The welded body shell before paint and trim." },
+              { id:"beam", emoji:"🛡️", zh:"防撞梁", en:"Crash beam", descZh:"前后保险杠里的钢梁，撞车时先挡一下。", descEn:"Steel beams inside the bumpers that take the first hit." },
+              { id:"crumple", emoji:"📉", zh:"吸能盒", en:"Crush can", descZh:"碰撞时故意变形，把冲击力“吃掉”。", descEn:"Deliberately crumples in a crash to absorb the impact." },
+              { id:"doorbeam", emoji:"🚪", zh:"车门防撞梁", en:"Door beam", descZh:"车门里的横向钢梁，保护侧面碰撞。", descEn:"A cross beam inside the door for side impacts." }
+            ]},
+          { id:"hood", emoji:"🪝", zh:"引擎盖与前舱", en:"Hood & front bay", descZh:"车头那一块可以打开的盖子。", descEn:"The openable cover at the front.",
+            children:[
+              { id:"hoodpanel", emoji:"🪝", zh:"引擎盖", en:"Hood", descZh:"车头的盖板；电动车下面常常不是发动机，而是前备箱。", descEn:"The front cover — under it an EV often has a front trunk, not an engine." },
+              { id:"frunk", emoji:"🧳", zh:"前备箱", en:"Frunk", descZh:"电动车特有的前置储物箱。", descEn:"The front storage box unique to EVs." },
+              { id:"latch", emoji:"🔒", zh:"引擎盖锁", en:"Hood latch", descZh:"锁住引擎盖的卡扣，双重保险更安全。", descEn:"The catch locking the hood — often double-latched for safety." },
+              { id:"strut", emoji:"🪄", zh:"气撑杆", en:"Gas strut", descZh:"帮你轻松撑起引擎盖。", descEn:"Helps hold the hood open easily." }
+            ]},
+          { id:"door", emoji:"🚪", zh:"车门", en:"Doors", descZh:"进出汽车的通道。", descEn:"The way in and out of the car.",
+            children:[
+              { id:"doorpanel", emoji:"🚪", zh:"车门", en:"Door", descZh:"车门总成，里面有防撞梁和升降器。", descEn:"The door assembly, holding the beam and window lift." },
+              { id:"glass", emoji:"🪟", zh:"车窗玻璃", en:"Window glass", descZh:"钢化玻璃，碎了会变成小颗粒，不易扎人。", descEn:"Tempered glass — it shatters into small, safer pieces." },
+              { id:"lifter", emoji:"⬆️", zh:"车窗升降器", en:"Window regulator", descZh:"让车窗上下移动的机构。", descEn:"The mechanism that raises and lowers the window." },
+              { id:"handle", emoji:"✋", zh:"门把手", en:"Door handle", descZh:"拉开车门的地方。", descEn:"Where you pull to open the door." },
+              { id:"lock", emoji:"🔒", zh:"门锁", en:"Door lock", descZh:"锁住车门的机构。", descEn:"The mechanism that locks the door." },
+              { id:"mirror", emoji:"🪞", zh:"后视镜", en:"Side mirror", descZh:"看后面的“小镜子”，可以电动调节。", descEn:"The mirror for looking back — often power-adjustable." }
+            ]},
+          { id:"wiper", emoji:"🌧️", zh:"雨刮器", en:"Wipers", descZh:"下雨天帮你刮干净挡风玻璃。", descEn:"They sweep the windshield clean in the rain.",
+            children:[
+              { id:"blade", emoji:"🌧️", zh:"雨刮片", en:"Wiper blade", descZh:"橡胶条，直接负责刮水。", descEn:"The rubber strip that actually wipes the water." },
+              { id:"warm", emoji:"➖", zh:"雨刮臂", en:"Wiper arm", descZh:"压着雨刮片的金属臂。", descEn:"The metal arm pressing the blade to the glass." },
+              { id:"wmot", emoji:"⚙️", zh:"雨刮电机", en:"Wiper motor", descZh:"让雨刮来回摆动的电机。", descEn:"The motor that swings the wipers back and forth." },
+              { id:"nozzle", emoji:"💧", zh:"玻璃水喷嘴", en:"Washer nozzle", descZh:"喷玻璃水的小嘴。", descEn:"The tiny nozzle that sprays washer fluid." }
+            ]},
+          { id:"lamp", emoji:"💡", zh:"灯具", en:"Lights", descZh:"照亮路面，也告诉别人你要干什么。", descEn:"They light the road and tell others what you'll do.",
+            children:[
+              { id:"headlight", emoji:"💡", zh:"前大灯", en:"Headlight", descZh:"车头的照明灯，现在多是 LED。", descEn:"The front lamp — usually LED today." },
+              { id:"drl", emoji:"✨", zh:"日行灯", en:"Daytime running light", descZh:"白天也亮着的小灯，让别人更容易看见你。", descEn:"A small light on by day so others see you." },
+              { id:"taillight", emoji:"🔴", zh:"尾灯", en:"Taillight", descZh:"车尾的红色灯，刹车时更亮。", descEn:"The red rear lamp, brighter when braking." },
+              { id:"turn", emoji:"🟠", zh:"转向灯", en:"Turn signal", descZh:"一闪一闪，表示要转弯或变道。", descEn:"Blinks to show you're turning or changing lanes." },
+              { id:"fog", emoji:"🌫️", zh:"雾灯", en:"Fog light", descZh:"雾天用的穿透力强的灯。", descEn:"A piercing lamp for foggy days." }
+            ]},
+          { id:"cover", emoji:"🧩", zh:"外部覆盖件", en:"Exterior panels", descZh:"车身上的“皮肤”和装饰件。", descEn:"The car's “skin” and trim.",
+            children:[
+              { id:"bumperF", emoji:"🧩", zh:"前保险杠", en:"Front bumper", descZh:"车头的塑料罩，里面藏着防撞梁。", descEn:"The plastic front cover, hiding a crash beam." },
+              { id:"bumperR", emoji:"🧩", zh:"后保险杠", en:"Rear bumper", descZh:"车尾的塑料罩。", descEn:"The plastic cover at the rear." },
+              { id:"fender", emoji:"🪝", zh:"翼子板", en:"Fender", descZh:"车轮上方的车身板。", descEn:"The panel above the wheel." },
+              { id:"windshield", emoji:"🪟", zh:"挡风玻璃", en:"Windshield", descZh:"前挡玻璃，夹层玻璃，更安全。", descEn:"The front glass — laminated for safety." },
+              { id:"sunroof", emoji:"☀️", zh:"天窗", en:"Sunroof", descZh:"车顶的玻璃窗，可以打开透气。", descEn:"A glass panel in the roof that can open." }
+            ]}
+        ]},
+
+      { id:"interior", emoji:"🪑", zone:"interior", zh:"内饰与电气", en:"Interior & electrics",
+        descZh:"车里你摸得到、看得见的部分，以及控制全车的“神经系统”。",
+        descEn:"Everything you can touch and see inside — plus the “nervous system” that runs the car.",
+        children:[
+          { id:"seat", emoji:"💺", zh:"座椅", en:"Seats", descZh:"让你坐得舒服又安全。", descEn:"They keep you comfortable and safe.",
+            children:[
+              { id:"cushion", emoji:"💺", zh:"坐垫", en:"Seat cushion", descZh:"屁股下面那一块。", descEn:"The part you sit on." },
+              { id:"backrest", emoji:"🪑", zh:"靠背", en:"Backrest", descZh:"后背靠着的那一块。", descEn:"The part your back rests on." },
+              { id:"headrest", emoji:"🧸", zh:"头枕", en:"Headrest", descZh:"保护脖子的枕头，追尾时很重要。", descEn:"The pillow protecting your neck — vital in a rear-end crash." },
+              { id:"rail", emoji:"➖", zh:"座椅滑轨", en:"Seat rail", descZh:"前后调节座椅的轨道。", descEn:"The track letting the seat slide forward and back." },
+              { id:"adjust", emoji:"⚙️", zh:"电动调节电机", en:"Power seat motor", descZh:"电动调节座椅角度的电机。", descEn:"The motor adjusting the seat angle." }
+            ]},
+          { id:"cockpit", emoji:"🎛️", zh:"驾驶区", en:"Cockpit", descZh:"开车的人面对的地方。", descEn:"What the driver faces.",
+            children:[
+              { id:"dash", emoji:"🎛️", zh:"仪表台", en:"Dashboard", descZh:"前排的大台面，装着屏幕和出风口。", descEn:"The big front panel holding the screen and vents." },
+              { id:"screen", emoji:"📺", zh:"中控屏", en:"Touchscreen", descZh:"中间的大屏幕，控制导航、空调和音乐。", descEn:"The centre screen for nav, climate and music." },
+              { id:"cluster", emoji:"📟", zh:"仪表盘", en:"Instrument cluster", descZh:"显示车速、电量、续航等信息。", descEn:"Shows speed, charge and range." },
+              { id:"swbuttons", emoji:"🔘", zh:"方向盘按键", en:"Steering-wheel buttons", descZh:"音量、巡航、接电话等按键。", descEn:"Buttons for volume, cruise, calls and more." },
+              { id:"shifter", emoji:"🕹️", zh:"换挡杆", en:"Gear selector", descZh:"挂前进挡、倒挡或停车挡。", descEn:"Selects drive, reverse or park." },
+              { id:"apedal", emoji:"🦶", zh:"加速踏板", en:"Accelerator pedal", descZh:"电动车的“电门”，踩下去就走。", descEn:"The EV's “throttle” — press to go." }
+            ]},
+          { id:"safety", emoji:"🛡️", zh:"安全系统", en:"Safety systems", descZh:"关键时刻保护车上的每一个人。", descEn:"They protect everyone on board at the critical moment.",
+            children:[
+              { id:"airbag", emoji:"🛡️", zh:"安全气囊", en:"Airbag", descZh:"碰撞瞬间弹出的气垫，几十毫秒内充气。", descEn:"A cushion inflating in milliseconds during a crash." },
+              { id:"belt", emoji:"🎗️", zh:"安全带", en:"Seatbelt", descZh:"把你牢牢固定在座位上的带子。", descEn:"The strap holding you firmly in your seat." },
+              { id:"csensor", emoji:"📳", zh:"碰撞传感器", en:"Crash sensor", descZh:"感知碰撞并触发气囊和安全带预紧。", descEn:"Senses a crash and triggers airbags and belt tensioners." },
+              { id:"radar", emoji:"📡", zh:"倒车雷达", en:"Parking radar", descZh:"超声波探头，“滴滴”提醒离障碍物多远。", descEn:"Ultrasonic sensors that beep as you near an obstacle." },
+              { id:"camera", emoji:"📷", zh:"摄像头", en:"Camera", descZh:"倒车影像和辅助驾驶的“眼睛”。", descEn:"The “eyes” for reversing and driver assist." }
+            ]},
+          { id:"ac", emoji:"❄️", zh:"空调系统", en:"Air conditioning", descZh:"让车内冬暖夏凉。", descEn:"Keeps the cabin cool in summer and warm in winter.",
+            children:[
+              { id:"compressor", emoji:"🌀", zh:"电动压缩机", en:"Electric compressor", descZh:"制冷的核心，电动车用电动版（靠电池驱动）。", descEn:"The heart of cooling — an electric one in EVs, run off the battery." },
+              { id:"condenser", emoji:"♨️", zh:"冷凝器", en:"Condenser", descZh:"把热量散发到车外。", descEn:"Dumps heat outside the car." },
+              { id:"evaporator", emoji:"❄️", zh:"蒸发器", en:"Evaporator", descZh:"吹出冷风的部件。", descEn:"The part that blows out cold air." },
+              { id:"filter", emoji:"🌬️", zh:"空调滤芯", en:"Cabin air filter", descZh:"过滤灰尘和花粉，要定期更换。", descEn:"Filters dust and pollen; replace it regularly." },
+              { id:"ventout", emoji:"💨", zh:"出风口", en:"Air vent", descZh:"吹风的口子，可以调方向。", descEn:"The adjustable vents blowing air." }
+            ]},
+          { id:"electric", emoji:"🔌", zh:"电气设备", en:"Electrics", descZh:"车里的“神经系统”。", descEn:"The car's “nervous system.”",
+            children:[
+              { id:"bat12", emoji:"🔋", zh:"12V 蓄电池", en:"12V battery", descZh:"给车灯、电脑、门锁供电的小电瓶。", descEn:"The small battery powering lights, computers and locks." },
+              { id:"ecu", emoji:"🧠", zh:"车载电脑 ECU", en:"Onboard computer (ECU)", descZh:"汽车的“大脑”，处理各种指令。", descEn:"The car's “brain,” processing commands." },
+              { id:"harness", emoji:"🧵", zh:"线束", en:"Wiring harness", descZh:"像神经一样连满全车的电线束。", descEn:"The cable bundles running through the car like nerves." },
+              { id:"audio", emoji:"🔊", zh:"音响", en:"Speakers", descZh:"放音乐、听广播。", descEn:"For music and radio." },
+              { id:"lightsw", emoji:"🔘", zh:"灯光开关", en:"Light switch", descZh:"控制车灯的开与关。", descEn:"Turns the lights on and off." },
+              { id:"wctrl", emoji:"🌧️", zh:"雨刮控制", en:"Wiper control", descZh:"控制雨刮的快慢和间歇。", descEn:"Controls wiper speed and intervals." }
+            ]}
+        ]}
+    ]
+  };
+
+  /* ===== 车型速查（精简） ===== */
+  const QUICK = [
+    { titleZh:"按动力（最常见）", titleEn:"By power (most common)", items:[
+      { zh:"燃油车", en:"Petrol/Diesel" }, { zh:"油电混动 HEV", en:"Hybrid" }, { zh:"插电混动 PHEV", en:"Plug-in hybrid" }, { zh:"纯电动 BEV", en:"Battery EV" }, { zh:"增程式 EREV", en:"Range-extender EV" }
     ]},
-    { titleZh:"按动力分", titleEn:"By power", items:[
-      { zh:"汽油车", en:"Petrol" }, { zh:"柴油车", en:"Diesel" }, { zh:"纯电动车 BEV", en:"Battery EV" },
-      { zh:"油电混动 HEV", en:"Hybrid" }, { zh:"插电混动 PHEV", en:"Plug-in hybrid" }, { zh:"增程式 EREV", en:"Range-extender EV" }, { zh:"氢燃料电池 FCEV", en:"Hydrogen fuel cell" }
-    ]},
-    { titleZh:"按车身分", titleEn:"By body style", items:[
-      { zh:"三厢轿车", en:"Three-box sedan" }, { zh:"两厢车", en:"Hatchback" }, { zh:"掀背车", en:"Liftback" },
-      { zh:"旅行车", en:"Wagon / Estate" }, { zh:"敞篷车", en:"Convertible" }, { zh:"硬顶跑车", en:"Coupé" }
-    ]},
-    { titleZh:"按驱动分", titleEn:"By drive", items:[
-      { zh:"前驱 FWD", en:"Front-wheel drive" }, { zh:"后驱 RWD", en:"Rear-wheel drive" }, { zh:"四驱 AWD / 4WD", en:"All-wheel / 4-wheel drive" }
-    ]},
-    { titleZh:"按自动驾驶分（L0–L5）", titleEn:"By autonomy (L0–L5)", items:[
-      { zh:"L0 完全人工", en:"L0 – fully manual" }, { zh:"L1 辅助驾驶", en:"L1 – driver assist" }, { zh:"L2 部分自动", en:"L2 – partial" },
-      { zh:"L3 有条件自动", en:"L3 – conditional" }, { zh:"L4 高度自动", en:"L4 – high" }, { zh:"L5 完全自动", en:"L5 – full" }
+    { titleZh:"按车身（最常见）", titleEn:"By body (most common)", items:[
+      { zh:"轿车", en:"Sedan" }, { zh:"SUV", en:"SUV" }, { zh:"MPV", en:"MPV" }, { zh:"跑车", en:"Sports car" }, { zh:"皮卡", en:"Pickup" }
     ]}
-  ];
-
-  /* ===== 对比 ===== */
-  const COMPARE = [
-    { itemZh:"动力来源", itemEn:"Power source", fuelZh:"汽油 / 柴油发动机", fuelEn:"Petrol or diesel engine", evZh:"电池 + 电动机", evEn:"Battery + electric motor" },
-    { itemZh:"能量补给", itemEn:"Refuelling", fuelZh:"去加油站加油（几分钟）", fuelEn:"Fill up at a station (a few minutes)", evZh:"充电桩充电（半小时以上）", evEn:"Charge at a plug (half an hour or more)" },
-    { itemZh:"核心部件", itemEn:"Key parts", fuelZh:"发动机 + 变速箱 + 排气", fuelEn:"Engine + transmission + exhaust", evZh:"电池包 + 电机（结构更简单）", evEn:"Battery pack + motor (simpler)" },
-    { itemZh:"起步加速", itemEn:"Off the line", fuelZh:"需要转速上来才有劲", fuelEn:"Needs revs to build power", evZh:"电机一踩就来，起步更快", evEn:"Instant torque — quicker off the line" },
-    { itemZh:"尾气排放", itemEn:"Emissions", fuelZh:"有尾气排放", fuelEn:"Emits exhaust gases", evZh:"行驶时零尾气", evEn:"Zero tailpipe emissions" },
-    { itemZh:"续航与补能", itemEn:"Range & refuelling", fuelZh:"加满油跑得远，加油快", fuelEn:"Long range, fast to refuel", evZh:"续航受电池限制，充电较慢", evEn:"Range limited by battery, slower to recharge" }
   ];
 
   /* ===== 渲染 ===== */
   let lang = localStorage.getItem('car-lang') || 'zh';
+  let path = [];   // 从 TREE 顶层往下走的 id 序列
   const T = () => I18N[lang];
   const zh = (a,b) => lang === 'zh' ? a : b;
+
+  function nodeAt(p){ let n = TREE; for (const id of p){ n = (n.children||[]).find(c=>c.id===id) || n; } return n; }
+  function isLeaf(n){ return !n.children || n.children.length === 0; }
 
   function applyUI() {
     const t = T();
     document.getElementById('ui-brand').textContent = t.brand;
     document.getElementById('ui-nav-hero').textContent = t.navHero;
-    document.getElementById('ui-nav-overview').textContent = t.navOverview;
-    document.getElementById('ui-nav-structure').textContent = t.navStructure;
-    document.getElementById('ui-nav-classify').textContent = t.navClassify;
-    document.getElementById('ui-nav-compare').textContent = t.navCompare;
+    document.getElementById('ui-nav-bd').textContent = t.navBd;
+    document.getElementById('ui-nav-types').textContent = t.navTypes;
     document.getElementById('ui-hero-pre').textContent = t.heroPre;
     document.getElementById('ui-hero-hl').textContent = t.heroHl;
     document.getElementById('ui-hero-sub').textContent = t.heroSub;
     document.getElementById('heroCount').textContent = t.heroCount;
     document.getElementById('ui-scroll').textContent = t.scroll;
-    document.getElementById('ui-ov-title').textContent = t.ovTitle;
-    document.getElementById('ui-ov-desc').textContent = t.ovDesc;
-    document.getElementById('ui-st-title').textContent = t.stTitle;
-    document.getElementById('ui-st-desc').textContent = t.stDesc;
-    document.getElementById('ui-st-hint').textContent = t.stHint;
-    document.getElementById('explodeBtn').textContent = t.explode;
-    document.getElementById('assembleBtn').textContent = t.assemble;
-    document.getElementById('ui-cl-title').textContent = t.clTitle;
-    document.getElementById('ui-cl-desc').textContent = t.clDesc;
-    document.getElementById('ui-cmp-title').textContent = t.cmpTitle;
-    document.getElementById('ui-cmp-desc').textContent = t.cmpDesc;
+    document.getElementById('ui-bd-title').textContent = t.bdTitle;
+    document.getElementById('ui-bd-desc').textContent = t.bdDesc;
+    document.getElementById('ui-ty-title').textContent = t.tyTitle;
+    document.getElementById('ui-ty-desc').textContent = t.tyDesc;
     document.getElementById('ui-ft-title').textContent = t.ftTitle;
     document.getElementById('ui-ft-p1').textContent = t.ftP1;
     document.getElementById('ui-ft-p2').textContent = t.ftP2;
     document.getElementById('ui-ft-sign').textContent = t.ftSign;
     document.getElementById('langBtn').textContent = t.langOther;
-    document.getElementById('evNote').innerHTML = `<h3>${t.evH3}</h3><ul><li>${t.evLi1}</li><li>${t.evLi2}</li><li>${t.evLi3}</li></ul>`;
-    document.getElementById('cmpHead').innerHTML = `<tr><th>${t.cmpItem}</th><th>${t.cmpFuel}</th><th>${t.cmpEv}</th></tr>`;
   }
 
-  function renderOverview() {
-    document.getElementById('overview').innerHTML = OVERVIEW.map(o => `
-      <div class="card"><div class="big">${o.big}</div><h3>${zh(o.labelZh,o.labelEn)}</h3><p>${zh(o.descZh,o.descEn)}</p></div>`).join('');
+  function renderChips() {
+    document.getElementById('syschips').innerHTML = TREE.children.map(s => `
+      <div class="syschip${path[0]===s.id?' active':''}" data-sys="${s.id}">${s.emoji} ${zh(s.zh,s.en)}</div>`).join('');
+    document.querySelectorAll('.syschip').forEach(c => c.addEventListener('click', () => { path = [c.dataset.sys]; renderAll(); }));
   }
 
-  function renderClassify() {
-    document.getElementById('classify').innerHTML = CLASSIFY.map(g => `
-      <div class="cgroup">
-        <h3>${zh(g.titleZh,g.titleEn)}</h3>
+  function highlightZone() {
+    const sel = path[0] || null;
+    document.querySelectorAll('#carSvg .zone').forEach(z => z.classList.toggle('on', z.dataset.zone === sel));
+  }
+
+  function renderCrumbs() {
+    const t = T();
+    let acc = [];
+    const crumbs = [{ label: t.root, p: [] }];
+    for (const id of path) { acc = [...acc, id]; const n = nodeAt(acc); crumbs.push({ label: zh(n.zh, n.en), p: [...acc] }); }
+    document.getElementById('crumbs').innerHTML = crumbs.map((c, i) => {
+      const last = i === crumbs.length - 1;
+      return `<span class="crumb${last?' cur':''}" data-p='${JSON.stringify(c.p)}'>${c.label}</span>` + (last ? '' : '<span class="crumb-sep">›</span>');
+    }).join('');
+    document.querySelectorAll('.crumb').forEach(el => {
+      if (el.classList.contains('cur')) return;
+      el.addEventListener('click', () => { path = JSON.parse(el.dataset.p); renderAll(); });
+    });
+  }
+
+  function renderCurrent() {
+    const cur = nodeAt(path);
+    document.getElementById('curNode').innerHTML = `
+      <div class="cn-icon">${cur.emoji}</div>
+      <div><h3>${zh(cur.zh,cur.en)}</h3><p>${zh(cur.descZh,cur.descEn)}</p></div>`;
+  }
+
+  function renderChildren() {
+    const cur = nodeAt(path);
+    const t = T();
+    const box = document.getElementById('children');
+    if (isLeaf(cur)) { box.innerHTML = `<div class="empty-hint">${zh('🎉 已经拆到最小的零件啦，点上面的面包屑回去继续看。','🎉 This is the smallest part — use the breadcrumb above to go back.')}</div>`; return; }
+    box.innerHTML = cur.children.map(c => {
+      const leaf = isLeaf(c);
+      const cnt = leaf ? '' : `<span class="c-count">${c.children.length > 6 || (c.children[0] && c.children[0].children) ? t.cntAssemblies(c.children.length) : t.cntParts(c.children.length)}</span>`;
+      return `<div class="child${leaf?' leaf':''}" data-id="${c.id}">
+        <div class="c-top"><span class="c-icon">${c.emoji}</span><div><div class="c-name">${zh(c.zh,c.en)}</div></div></div>
+        <p>${zh(c.descZh,c.descEn)}</p>${cnt}
+      </div>`;
+    }).join('');
+    box.querySelectorAll('.child').forEach(el => el.addEventListener('click', () => { path = [...path, el.dataset.id]; renderAll(); }));
+  }
+
+  function renderQuick() {
+    document.getElementById('quick').innerHTML = QUICK.map(g => `
+      <div class="qcard"><h3>${zh(g.titleZh,g.titleEn)}</h3>
         <div class="chips">${g.items.map(i => `<span class="chip">${zh(i.zh,i.en)}</span>`).join('')}</div>
       </div>`).join('');
   }
 
-  function renderCompare() {
-    document.getElementById('cmpBody').innerHTML = COMPARE.map(r => `
-      <tr><td>${zh(r.itemZh,r.itemEn)}</td><td>${zh(r.fuelZh,r.fuelEn)}</td><td>${zh(r.evZh,r.evEn)}</td></tr>`).join('');
+  function renderAll() {
+    applyUI(); renderChips(); highlightZone(); renderCrumbs(); renderCurrent(); renderChildren(); renderQuick();
   }
 
-  function renderParts() {
-    const stage = document.getElementById('carStage');
-    const info = document.getElementById('partInfo');
-    PARTS.forEach(p => {
-      const el = document.createElement('div');
-      el.className = 'part assembled'; el.dataset.id = p.id;
-      el.style.left = p.x + '%'; el.style.top = p.y + '%';
-      el.innerHTML = `${p.emoji}<span class="part-label">${zh(p.labelZh,p.labelEn)}</span>`;
-      el.addEventListener('click', () => {
-        document.querySelectorAll('.part').forEach(x => x.classList.remove('active'));
-        el.classList.add('active');
-        info.innerHTML = zh(p.infoZh, p.infoEn);
-      });
-      stage.appendChild(el);
-    });
-  }
-
-  function setMode(exploded) {
-    const stage = document.getElementById('carStage');
-    stage.classList.toggle('exploded-mode', exploded);
-    document.querySelectorAll('.part').forEach((el, i) => {
-      const p = PARTS[i];
-      el.classList.toggle('exploded', exploded);
-      el.classList.toggle('assembled', !exploded);
-      el.style.left = (exploded ? p.ex : p.x) + '%';
-      el.style.top = (exploded ? p.ey : p.y) + '%';
-      el.querySelector('.part-label').textContent = zh(p.labelZh, p.labelEn);
-    });
-  }
-
-  function updateLang() {
-    applyUI(); renderOverview(); renderClassify(); renderCompare(); renderParts();
-    const info = document.getElementById('partInfo');
-    if (!info.querySelector('b')) info.innerHTML = `<span class="hint">${T().stHint}</span>`;
-  }
-
-  document.getElementById('explodeBtn').addEventListener('click', () => setMode(true));
-  document.getElementById('assembleBtn').addEventListener('click', () => setMode(false));
   document.getElementById('langBtn').addEventListener('click', () => {
     lang = (lang === 'zh') ? 'en' : 'zh';
     localStorage.setItem('car-lang', lang);
-    updateLang();
+    renderAll();
   });
 
-  updateLang();
+  renderAll();
   </script>
 </body>
 </html>

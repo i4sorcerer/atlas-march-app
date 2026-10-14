@@ -345,10 +345,9 @@ window.CATEGORIES = [
         id: "car",
         name: "汽车",
         emoji: "🚙",
-        refs: { title: "汽车构造与分类", emoji: "🔧", desc: "汽车构造拆解 + 汽车分类（双语）", url: "../car/car.html" },
+        refs: { title: "纯电动汽车全车拆解", emoji: "🔧", desc: "整车 → 系统 → 总成 → 零件，一层层拆开（双语）", url: "../car/car.html" },
         topics: [
-          { id: "car-structure", title: "汽车构造（核心）", emoji: "🔧", desc: "把汽车拆开看：发动机 / 变速箱 / 底盘 / 悬挂…", url: "../car/car.html#structure", ready: true },
-          { id: "car-classify", title: "汽车分类", emoji: "📚", desc: "按用途 / 动力 / 车身 / 驱动 / 自动驾驶分类", url: "../car/car.html#classify", ready: true }
+          { id: "car-structure", title: "纯电动汽车全车拆解", emoji: "🔧", desc: "以纯电车为例：4 大系统 / 21 总成 / 100+ 零件，逐层拆解（双语）", url: "../car/car.html#breakdown", ready: true }
         ]
       },
       {
