@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<base href="../" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>关于马斯克的一切 · 研判看板</title>
+<!-- 统一模板生成：docs/insights/_templates/dashboard.html + generate.js -->
+<style>
+  :root{--bg:#e8eaf1;--panel:#ffffff;--panel2:#f3f5fa;--ink:#2a3140;--muted:#5c6577;--muted2:#3a4252;--line:#d5dae6;--accent:#1f5ec9;--accentSoft:rgba(31,94,201,.08);--warn:#a86f0e;--peak:#c13a31;--good:#17613d;--dim:#0e7fa8;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7;padding:30px 20px 60px;}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#ffffff 0%,var(--bg) 260px);}
+  .wrap{max-width:1060px;margin:0 auto;}
+  header{margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--accent);}
+  .crumb{font-size:13px;color:var(--muted);}
+  .crumb a{color:var(--accent);text-decoration:none;font-weight:700;}
+  h1{font-size:27px;font-weight:800;color:#1a2233;margin:8px 0 6px;letter-spacing:.3px;}
+  .sub{color:var(--muted);font-size:13.5px;}
+  .badges{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 8px;}
+  .badge{background:var(--accentSoft);border:1px solid #cdd7ee;color:var(--accent);border-radius:999px;font-size:12px;padding:3px 13px;font-weight:700;}
+  section{background:var(--panel);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:13px;padding:20px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(35,45,75,.06);overflow:hidden;}
+  section.warnside{border-top-color:var(--warn);}
+  section h2{font-size:17px;font-weight:800;color:#1b2333;margin-bottom:12px;display:flex;align-items:center;gap:10px;padding-bottom:9px;border-bottom:1px solid var(--line);letter-spacing:.2px;}
+  section h2 .idx{background:var(--accent);color:#fff;border-radius:7px;min-width:26px;height:25px;display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:800;padding:0 7px;letter-spacing:.5px;}
+  .lead{font-size:15px;color:var(--muted2);line-height:1.85;}
+  .lead b,.lead strong,section p b{color:#1b2333;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:10px;}
+  .cell{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:15px 17px;}
+  .cell b{display:block;font-size:14.5px;font-weight:800;color:#1c2433;margin-bottom:8px;letter-spacing:.2px;}
+  .cell p{font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .tbd,.focus,.trend,.tline,.tag,.flag,.hl,.risk{display:inline-block;padding:1px 9px;border-radius:7px;font-size:11.5px;font-weight:700;letter-spacing:.2px;line-height:1.7;}
+  .flag,.tbd{color:#b4530a;background:#ffe3b3;}
+  .focus{color:#a0149b;background:#f6c7f7;border:1px solid #efb3ef;}
+  .trend{color:#5b43ce;background:#e3d9ff;}
+  .tline{color:#1f5ec9;background:#e7edfa;}
+  .tag{color:#24518f;background:#e9eefc;}
+  .hl,.risk{color:#b02a26;background:#fbe8e6;}
+  .good{color:#17613d;background:#e2f1e9;}
+  .hand{color:var(--good);font-weight:700;}
+  .new{color:var(--good);font-weight:700;}
+  .table a,.cell a{color:var(--accent);font-weight:600;text-decoration:none;border-bottom:1px solid #b9c8ec;}
+  .table a:hover,.cell a:hover{border-bottom-color:var(--accent);color:#143f96;}
+  .timeline{list-style:none;margin-top:6px;}
+  .timeline li{position:relative;padding-left:18px;margin-bottom:8px;font-size:13.5px;color:var(--muted2);line-height:1.75;}
+  .timeline li b{color:#16202f;}
+  .timeline li:before{content:"";position:absolute;left:4px;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}}
+  .table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13px;}
+  .table th{text-align:left;color:var(--accent);font-weight:700;background:var(--accentSoft);border-bottom:1px solid var(--line);padding:9px 10px;}
+  .table td{padding:9px 10px;border-bottom:1px solid #edf0f6;vertical-align:top;color:var(--muted2);}
+  .table tbody tr:nth-child(even){background:#fafbff;}
+  .table tbody tr:hover{background:#f2f5fd;}
+  .cheq label{display:block;font-size:14px;padding:8px 0;border-bottom:1px dashed var(--line);color:var(--muted2);}
+  .cheq label:last-child{border-bottom:none;}
+  .cheq input{margin-right:9px;accent-color:var(--accent);}
+  .callout{background:var(--accentSoft);border-left:3px solid var(--accent);border-radius:8px;padding:12px 14px;font-size:14px;color:var(--muted2);margin-top:12px;}
+  .callout .cl{font-weight:800;color:var(--accent);margin-bottom:4px;}
+  footer{margin-top:26px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:14px;color:#5d6678;}
+  /* —— 马斯克帝国关系网图（固定板块，仅马斯克主题渲染；新增样式，不改动上方既有规则） —— */
+  .empire{overflow-x:auto;}
+  .empire svg{width:100%;height:auto;display:block;min-width:860px;}
+  .empire .gbox{fill:#f7f9fd;stroke:#c9d4ea;stroke-width:1.4;stroke-dasharray:6 4;}
+  .empire .gtit{font-size:13.5px;font-weight:800;fill:#1f5ec9;letter-spacing:.3px;}
+  .empire .gsub{font-size:11px;fill:#8a93a8;}
+  .empire .hub{fill:#1f5ec9;stroke:#143f96;stroke-width:2;}
+  .empire .hubt{fill:#ffffff;font-size:15px;font-weight:800;}
+  .empire .hubs{fill:#cfe0fb;font-size:11px;font-weight:600;}
+  .empire .co{fill:#ffffff;stroke:#1f5ec9;stroke-width:1.8;}
+  .empire .cot{fill:#1b2333;font-size:13.5px;font-weight:800;}
+  .empire .pr{fill:#eef3fd;stroke:#9fb6e0;stroke-width:1.2;}
+  .empire .prt{fill:#3a4252;font-size:12px;font-weight:700;}
+  .empire .hist{fill:#f1f2f6;stroke:#b9bfcd;stroke-width:1.2;stroke-dasharray:4 3;}
+  .empire .histt{fill:#6b7386;font-size:12px;font-weight:700;}
+  .empire .ext{fill:#fdf3e6;stroke:#d9a441;stroke-width:1.5;stroke-dasharray:6 4;}
+  .empire .extt{fill:#8a5a10;font-size:12.5px;font-weight:800;}
+  .empire .ln{stroke:#1f5ec9;stroke-width:1.9;fill:none;}
+  .empire .dl{stroke:#a86f0e;stroke-width:1.6;fill:none;stroke-dasharray:7 5;}
+  .empire .kn{fill:#1f5ec9;}
+  .empire .lg{font-size:11.5px;fill:#5c6577;}
+  .empire .lgb{fill:#9fb6e0;}
+  .syn{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+  .syn span{background:var(--accentSoft);border:1px solid #cdd7ee;color:#2456c4;border-radius:999px;font-size:12px;padding:3px 11px;font-weight:700;letter-spacing:.1px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="crumb"><a href="../../index.html">个人洞察</a> / 关于马斯克的一切</div>
+    <h1>关于马斯克的一切 · 研判看板</h1>
+    <div class="sub">每日研判 · 执行日 2026-10-14 · 数据窗 近48小时（10-12~10-14）· 来源口径：官方/一手 + 权威媒体 + 垂直媒体</div>
+    <div class="sub" style="margin-top:2px;">条目库累计 161 条 · 本窗抓取 40 条 / 入库 15（含待核 3）/ 丢弃 25（重复与低分）</div>
+    <div class="badges"><span class="badge">每日研判</span><span class="badge">近48小时</span><span class="badge">中英双语检索</span><span class="badge">统一模板生成</span><span class="badge">飞书条目库 161 条</span><span class="badge">本窗 +15</span></div>
+    <div class="sub" style="margin-top:8px;font-size:12.5px;">历史归档（每日快照）：<a href="./archive/2026-09-24.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;">2026-09-24</a><a href="./archive/2026-09-25.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-25</a><a href="./archive/2026-09-26.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-26</a><a href="./archive/2026-09-28.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-09-28</a><a href="./archive/2026-10-03.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-03</a><a href="./archive/2026-10-09.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-09</a><a href="./archive/2026-10-10.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-10</a><a href="./archive/2026-10-13.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-13</a><a href="./archive/2026-10-14.html" style="color:#2456c4;font-weight:700;text-decoration:underline;background:rgba(36,86,196,.10);padding:2px 9px;border-radius:6px;margin-left:6px;">2026-10-14</a></div>
+  </header>
+
+  <section>
+    <h2><span class="idx">◎</span> 较上次运行变化清单（自动区）</h2>
+    <div class="grid">
+      <div class="cell"><b>➕ 新增（本窗）+15</b><ul class="timeline" style="margin-top:6px"><li>SpaceX申请得州星舰年发射456次、FAA启动环境审查：拟将星基地频次推至近每日一发（10-14 入库）</li><li>星舰IFT-13飞船Ship 40意外在印度洋再入幸存、已运回星基地（10-14 入库）</li><li>马斯克：星舰下次飞行将尝试完整回收轨道级火箭（全箭回收目标）（10-14 入库）</li><li>马斯克宣布得州芯片开发工厂计划：特斯拉+SpaceX加速芯片设计（10-14 入库）</li><li>特斯拉奥斯汀Cybercab车队突破300辆，AI软件主管称达拉斯『很快』开通（10-14 入库）</li><li>特斯拉得州Robotaxi注册总数达739辆、其中Cybercab 319辆，Model Y停在420（10-14 入库）</li><li>The Information：特斯拉拟2027年底前面向公众销售Optimus，产量环比增约十倍（10-14 入库）</li><li>马斯克披露Optimus手部工程难题与缓慢爬坡：中国磁体限制曾延误2-3个月（10-14 入库）</li><li>SpaceX因AI安全传票将出席纽约市议会听证会作证（10-14 入库）</li><li>马斯克转推放大得州候选人Talarico精神健康阴谋论、获数十万曝光（10-14 入库）</li><li>马斯克America PAC因向科罗拉多选民发送『误导性』投票短信遭质疑（10-14 入库）</li><li>桑德斯抨击马斯克中期选举砸3.66亿美元助共和党：『Stop Musk, Stop Oligarchy』（10-14 入库）</li><li>外媒：SpaceX股价下跌致马斯克单日身家缩水约286亿美元（多空口径矛盾 · 10-14 待核）</li><li>X限制Grok AI图像生成工具：涉非合意深度伪造内容反弹（10-14 待核）</li><li>xAI与X正最终测试Grok Bot与X Chat私信打通、对话历史跨平台同步（10-14 待核）</li></ul></div>
+      <div class="cell"><b>♻ 修正 / 升级</b><ul class="timeline" style="margin-top:6px"><li>星舰复用叙事升级：从『首次 ship catch（约四周）』推进到『首次完整回收轨道级火箭（全箭回收）』，并有Ship 40印度洋再入幸存实物证据回运星基地</li><li>星舰发射密度从『每年最多5次』跃升到申请『每年456次』并进入FAA环境审查：监管线正式从单次发射许可扩展到超高频次运行审批</li><li>Cybercab放量获官方口径确认：奥斯汀车队300+辆（首月约8倍增长）、达拉斯为下一站、得州注册自动驾驶车合计739辆</li><li>Optimus商业化时间表明确：The Information报道目标2027年底前面向公众销售，产量Q2→8月约增十倍，与手部工程与供应链难题并存</li><li>马斯克财富口径出现多空矛盾：单日缩水286亿美元（跌出千亿）与单日回升220亿美元（重回1万亿）同日见报，转待核待权威榜单核实</li><li>政治线从『最大金主』升级为『反噬显性化』：桑德斯公开抨击、America PAC科罗拉多短信争议、放大候选人阴谋论三面承压</li></ul></div>
+      <div class="cell"><b>⏸ 未变（延续判断）</b><ul class="timeline" style="margin-top:6px"><li>Terafab垂直一体化主线延续：得州芯片开发工厂计划为工程侧再进一步，『每年10套芯片设计』口径未变</li><li>SpaceX发债400亿美元购英伟达芯片的信用约束未变（CDS利差194bp纪录高位）</li><li>xAI收购X（330亿美元口径）仍无高权威媒体确认，维持待核</li><li>NHTSA Robotaxi学区超速缺陷调查与英加Grok深度伪造调查两条监管线仍在推进</li><li>特斯拉Q3财报（10月下旬）与11/3中期选举两大验证节点未变</li><li>Optimus量产与中国磁体/稀土供应链保障仍是核心变量</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">①</span> 本期综述</h2>
+    <div class="cell" style="margin-bottom:12px"><b>已沉淀事实</b><p><b>已沉淀事实（上期及更早）：</b>星链移动战略成形——SpaceX以80亿美元收购Grain Management全美800MHz频谱、FCC批准15000颗低轨D2D卫星，Starlink Mobile走向『地面+卫星融合』运营商；政商关系里程碑——特朗普颁发国家科学奖章、称『当代爱迪生/国家瑰宝』；星舰IFT-14首次真正入轨；特斯拉Q3交付486,532辆超预期、上海工厂9月95,366辆连续11个月增长；马斯克成为2026中期选举已知最大捐款人（约3.66亿美元）；SpaceX『发债400亿美元买英伟达芯片』激进算力扩张、CDS利差194bp新高；星舰复用下一步为史上首次飞船捕获（ship catch）；Grok Bot上线代客购物结账；Optimus曾因稀土磁体限制延误2-3个月；NHTSA对Robotaxi学区超速启动缺陷调查（涉约1000台）；Terafab每年制造测试约10套芯片设计；英加监管就Grok非合意深度伪造加大调查；马斯克在华称中国AI单位算力产出近全球顶尖、2-3年可补齐算力缺口。</p><p><b>本窗新增沉淀：</b>星舰复用目标上调为『完整回收轨道级火箭（全箭回收）』，并有Ship 40印度洋再入幸存回运星基地的实物证据；SpaceX申请得州星舰年发射456次、FAA启动环境审查，发射密度监管从单次许可进入超高频次审批阶段；Cybercab放量获官方确认——奥斯汀300+辆、达拉斯为下一站、得州Robotaxi注册合计739辆；The Information报道特斯拉目标2027年底前向公众销售Optimus、产量Q2→8月约增十倍；马斯克宣布得州芯片开发工厂计划，Terafab工程侧再进一步；政治面三线承压——桑德斯公开抨击3.66亿美元助选、America PAC科罗拉多短信争议、放大Talarico阴谋论遭媒体批评；SpaceX因AI安全传票出席纽约市议会听证；X限制Grok图像生成工具应对深度伪造反弹。</p></div>
+    <div class="cell">
+      <b>最新趋势速递（本章新增）</b>
+      <ul class="timeline" style="margin-top:8px"><li><span class="focus">全箭回收</span>　马斯克称星舰下次飞行将尝试完整回收轨道级火箭（全箭回收）；此前ship catch『约四周』目标与此衔接，年底双体一同着陆返回星际基地为阶段验收</li><li><span class="focus">超高频发射</span>　SpaceX申请得州星舰年发射456次（现许可每年最多5次、2026年迄今仅3次），FAA启动环境审查；叠加路州最高1000亿美元发射场计划，发射基础设施进入『近每日一发』的规划口径</li><li><span class="trend">Cybercab放量</span>　奥斯汀Cybercab车队突破300辆（首月约8倍增长）、AI软件主管确认达拉斯『很快』开通；得州Robotaxi注册合计739辆，Model Y数量停在420——车型结构向专用车型倾斜</li><li><span class="trend">Optimus时间表</span>　The Information报道特斯拉拟2027年底前面向公众销售Optimus，产量Q2→8月约增十倍（每周数十台→数百台）；同期马斯克披露手部工程难题、初期爬坡缓慢</li><li><span class="tbd">政治反噬</span>　桑德斯『Stop Musk, Stop Oligarchy』公开抨击3.66亿美元助选；America PAC科罗拉多『误导性』投票短信遭质疑；马斯克放大Talarico阴谋论获数十万曝光被批『放大器效应』</li><li><span class="tbd">财富口径</span>　SpaceX股价波动致马斯克单日身家『缩水286亿美元跌出千亿』与『回升220亿重回1万亿』两套口径同日见报，多空矛盾转待核</li><li><b>监管扩容</b>　SpaceX因AI安全传票出席纽约市议会听证；X在深度伪造反弹后限制Grok图像生成工具——监管面从联邦延伸到地方议会与产品功能层</li></ul>
+    </div>
+  </section>
+
+
+  <section>
+    <h2><span class="idx">②</span> 趋势与规律</h2>
+    <div class="grid"><div class="cell"><b>星舰：从单次许可到超高频次运行审批</b><p>年发射456次申请意味着监管对象从『每一次发射』变成『常态化运行的发射场』，FAA环境审查成为节奏上限的实际约束；『全箭回收』若在下次飞行验证，复用闭环补齐，2027发射密度与Starlink V3部署速度将同步上修。两者互为条件：回收能力决定高频次是否经济，环评通过决定高频次是否合法。</p></div><div class="cell"><b>Cybercab：放量与监管摩擦并行</b><p>奥斯汀300+辆、达拉斯下一站、得州注册739辆——车队规模进入快速爬坡期；但NHTSA学区超速缺陷调查（涉约1000台）仍悬而未决，若坐实将触发软件召回与区域限速策略，直接对冲放量节奏。车型结构上Model Y数量停滞、Cybercab占比上升，显示资源集中投向专用车型。</p></div><div class="cell"><b>Optimus：2027零售目标与爬坡现实</b><p>The Information报道的2027年底前公众销售目标，与产量十倍增长、手部工程难题、磁体延误复盘并存；量产瓶颈已从『能不能造』转向『手部可靠性+供应链保障+成本』。中国磁体供应仍是最大的单一外部变量。</p></div><div class="cell"><b>政治面：最大金主的多线承压</b><p>3.66亿美元助选获桑德斯『Stop Oligarchy』公开抨击，America PAC投票短信遭合规质疑，X平台放大阴谋论被批『放大器效应』——政治投入的回报预期与声誉/合规成本同步上升，11/3中期选举是集中结算点。</p></div><div class="cell"><b>AI监管纵深：从联邦到地方、从平台到产品</b><p>SpaceX因AI安全传票出席纽约市议会听证，与英加Grok深度伪造调查、X限制Grok图像生成工具形成三层结构：地方议会盯AI安全、跨境监管盯内容治理、产品层靠功能限制自救——xAI规模化的外部约束从单一监管者扩展为多层监管网络。</p></div><div class="cell"><b>芯片自主：Terafab工程侧再进一步</b><p>马斯克宣布得州芯片开发工厂计划以加速设计，与Terafab『每年测试10套芯片设计』『1太瓦算力目标』形成设计—制造—验证的完整链条；台积电『讨论中、可能有进展』的表态为外部代工关系留下窗口。</p></div></div>
+    <h2 style="margin-top:18px">关键时间线（近段）</h2>
+    <ul class="timeline"><li><b>2026-10-14</b>　<span class="new">本期执行（第三窗）：抓取40条、入库15条（含待核3）、丢弃25条；快照归档至 archive/2026-10-14.html</span></li><li><b>2026-10-14</b>　<span class="new">SpaceX申请得州星舰年发射456次、FAA启动环境审查；Ship 40运回星基地；马斯克：下次飞行尝试完整回收轨道级火箭；得州芯片开发工厂计划宣布</span></li><li><b>2026-10-13</b>　<span class="new">奥斯汀Cybercab车队300+辆、达拉斯『很快』开通；Optimus目标2027年底公众销售（The Information）；SpaceX出席纽约市议会AI安全听证；桑德斯抨击3.66亿美元助选；马斯克身家口径多空矛盾见报</span></li><li><b>2026-10-12</b>　得州Robotaxi注册达739辆（Cybercab 319/Model Y 420）；Optimus手部工程与磁体延误复盘；X Takeover活动披露量产爬坡难题</li><li><b>2026-10-13</b>　（上窗）NHTSA Robotaxi学区超速缺陷调查；Terafab每年10套芯片设计；在华表态中国AI算力2-3年补齐；英加Grok深度伪造调查</li><li><b>2026-10-12</b>　（上窗）中期选举3.66亿美元成最大金主；首次ship catch目标（约四周）；SpaceX拟发债400亿美元购英伟达芯片、CDS 194bp</li><li><b>2026-10-下旬</b>　<span class="tbd">特斯拉Q3财报：毛利率/储能盈利/单车收入验证窗口（前瞻）</span></li><li><b>2026-11-03</b>　<span class="tbd">美国中期选举投票：马斯克政治投入的直接检验节点（前瞻）</span></li><li><b>2026-11-08</b>　<span class="tbd">星舰IFT-15暂定窗口（大摩口径，未获官方确认）（前瞻）</span></li></ul>
+  </section>
+
+  <section>
+    <h2><span class="idx">③</span> 研判与方向</h2>
+    <div class="grid"><div class="cell"><b>星舰：456次环评与全箭回收的节奏博弈</b><p>456次/年申请把监管瓶颈从单次发射移到FAA环境审查，审查周期与『全箭回收』验证进度共同决定2027发射密度；若两者都落地，Starlink V3部署与SpaceX估值叙事同步加速，任一受挫则高频次计划退守为中期愿景。建议以FAA审查节点与下次飞行回收结果为双主指标。</p></div><div class="cell"><b>Cybercab放量的监管对冲</b><p>300+辆与739辆注册表明放量已成事实，但NHTSA缺陷调查若升级为召回，软件限速策略将直接压缩奥斯汀/达拉斯的运营效率。放量与监管形成『先提速、后整改』的节拍，关注调查是否给出正式结论及特斯拉的限速OTA方案。</p></div><div class="cell"><b>Optimus 2027零售目标的可信度</b><p>十倍产量增长与手部工程难题同时被披露，说明爬坡真实但瓶颈未解；2027年底公众销售是激进承诺，其可信度取决于手部良率、磁体供应国产化替代与成本曲线三条线。维持『时间表可外推、兑现需打折』的判断。</p></div><div class="cell"><b>政治反噬的量级与结算点</b><p>桑德斯抨击、PAC短信争议、阴谋论放大三线并进，短期是声誉与合规成本，11/3选举是回报兑现的结算点；若共和党保住国会，政府合同与监管预期受益，若失利则『深度绑定』风险集中暴露。政治面已成为估值的事件风险源而非背景噪音。</p></div><div class="cell"><b>AI监管多层化对xAI的累积约束</b><p>纽约市议会听证、英加跨境调查、X自我限制图像工具，显示监管不再是单点而是多层网络；xAI的商业化（Grok订阅、Agent交易、图像生成）每条线都对应一个潜在监管抓手。合规能力正在成为与算力并列的规模化前提。</p></div></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">④</span> 关联脉络</h2>
+    <div class="grid2">
+      <div class="cell"><b>传导链（本轮更新）</b><ul class="timeline" style="margin-top:6px"><li>年发射456次申请 ⇄ FAA环境审查 ⇄ 路州1000亿美元发射场计划 ⇄ 发射基础设施超高频化</li><li>全箭回收目标 ⇄ 下次飞行ship catch ⇄ 双体一同着陆（年底） ⇄ 2027发射密度与Starlink V3部署</li><li>Ship 40再入幸存回运 ⇄ 再入热防护实物数据 ⇄ 复用可靠性验证 ⇄ 回收成功率上行</li><li>奥斯汀300+辆 ⇄ 达拉斯下一站 ⇄ 得州注册739辆 ⇄ Cybercab放量与区域扩张</li><li>Cybercab放量 ⇄ NHTSA学区超速缺陷调查 ⇄ 软件召回/限速策略风险 ⇄ 运营节奏对冲</li><li>Optimus 2027零售目标 ⇄ 产量十倍增长 ⇄ 手部工程与磁体供应瓶颈 ⇄ 中国稀土/磁体供应链</li><li>得州芯片开发工厂 ⇄ Terafab每年10套芯片设计 ⇄ 台积电『讨论中』窗口 ⇄ 自研芯片垂直一体化</li><li>3.66亿美元助选 ⇄ 桑德斯『Stop Oligarchy』抨击 ⇄ America PAC短信争议 ⇄ 政治回报与反噬同源</li><li>放大Talarico阴谋论 ⇄ X平台放大器效应 ⇄ 广告主与内容治理压力 ⇄ 平台声誉风险</li><li>SpaceX AI安全传票 ⇄ 纽约市议会听证 ⇄ 地方AI监管介入 ⇄ 多层监管网络成型</li><li>Grok图像生成限制 ⇄ 英加深度伪造调查 ⇄ X内容治理 ⇄ xAI商业化合规成本</li></ul></div>
+      <div class="cell"><b>外部接口</b><ul class="timeline" style="margin-top:6px"><li>FAA ↔ 456次申请环评节点、下次飞行回收许可</li><li>NHTSA ↔ Robotaxi缺陷调查结论与可能的软件召回</li><li>纽约市议会 ↔ SpaceX AI安全听证的证词与后续立法动向</li><li>英国Ofcom/加拿大隐私机构 ↔ Grok图像生成治理与处罚口径</li><li>美联储/信用市场 ↔ SpaceX 400亿美元发债定价与CDS利差走向</li><li>美国联邦选举委员会 ↔ 11/3前America PAC合规与后续捐款披露</li><li>英伟达/台积电 ↔ 芯片采购交付与Terafab分工（台积电讨论中）</li><li>中国稀土/磁体供应 ↔ Optimus量产爬坡保障</li><li>特斯拉Q3财报（10月下旬） ↔ 盈利质量与Optimus/Cybercab投入强度</li><li>xAI-X整合 ↔ 330亿美元收购口径的高权威确认；Grok Bot与X私信打通落地进度</li><li>The Information/权威榜单 ↔ Optimus零售时间表与马斯克身家口径核实</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="idx">◆</span> 马斯克帝国关系网图<span style="color:var(--muted);font-size:12px;margin-left:8px;">固定板块 · 每期输出 · 节点=飞书主题词典全量词条（商业公司无遗漏）</span></h2>
+    <div class="empire">
+<svg viewBox="0 0 1000 710" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="马斯克帝国关系网图">
+  <!-- 四大业务集群 -->
+  <rect class="gbox" x="18" y="14" width="444" height="272" rx="14"/><text class="gtit" x="34" y="38">汽车 · 能源与机器人（Tesla 体系）</text><text class="gsub" x="34" y="56">档案词条：Gigafactory / Optimus / FSD / Cybercab · Robotaxi</text>
+  <rect class="gbox" x="538" y="14" width="444" height="272" rx="14"/><text class="gtit" x="554" y="38">航天 · 卫星与发射（SpaceX 体系）</text><text class="gsub" x="554" y="56">档案词条：Starlink 星链 / Starship 星舰</text>
+  <rect class="gbox" x="18" y="398" width="444" height="218" rx="14"/><text class="gtit" x="34" y="422">AI · 模型与社交（xAI / X 体系）</text><text class="gsub" x="34" y="440">档案词条：xAI / Grok / X（原Twitter）</text>
+  <rect class="gbox" x="538" y="398" width="444" height="218" rx="14"/><text class="gtit" x="554" y="422">前沿医疗与基建</text><text class="gsub" x="554" y="440">档案词条：Neuralink / The Boring Company</text>
+  <!-- 枢纽辐射线：马斯克 → 各集群核心公司 -->
+  <path class="ln" d="M382,210 L466,295"/>
+  <path class="ln" d="M618,210 L534,295"/>
+  <path class="ln" d="M455,455 L466,365"/>
+  <path class="ln" d="M437,560 H495 V370"/>
+  <path class="ln" d="M510,370 V560 H772"/>
+  <path class="ln" d="M510,470 H556"/>
+  <path class="dl" d="M500,370 V626"/>
+  <!-- 集群内部归属线 -->
+  <path class="ln" style="stroke-width:1.3" d="M210,462 H303"/>
+  <!-- 中心：马斯克 -->
+  <ellipse class="hub" cx="500" cy="330" rx="70" ry="40"/><text class="hubt" x="500" y="326" text-anchor="middle" dominant-baseline="middle">Elon Musk</text><text class="hubs" x="500" y="347" text-anchor="middle">马斯克 · 帝国中枢</text>
+  <!-- Tesla 体系 -->
+  <ellipse class="co" cx="382" cy="176" rx="72" ry="34"/><text class="cot" x="382" y="177" text-anchor="middle" dominant-baseline="middle">Tesla 特斯拉</text>
+  <rect class="pr" x="40" y="76" width="150" height="40" rx="9"/><text class="prt" x="115" y="97" text-anchor="middle" dominant-baseline="middle">Gigafactory 超级工厂</text>
+  <rect class="pr" x="204" y="76" width="130" height="40" rx="9"/><text class="prt" x="269" y="97" text-anchor="middle" dominant-baseline="middle">Optimus 人形机器人</text>
+  <rect class="pr" x="348" y="76" width="92" height="40" rx="9"/><text class="prt" x="394" y="97" text-anchor="middle" dominant-baseline="middle">FSD 全自动驾驶</text>
+  <rect class="pr" x="40" y="136" width="186" height="40" rx="9"/><text class="prt" x="133" y="157" text-anchor="middle" dominant-baseline="middle">Cybercab / Robotaxi</text>
+  <rect class="hist" x="40" y="196" width="178" height="40" rx="9"/><text class="histt" x="129" y="217" text-anchor="middle" dominant-baseline="middle">SolarCity（历史并入）</text>
+  <!-- SpaceX 体系 -->
+  <ellipse class="co" cx="618" cy="176" rx="72" ry="34"/><text class="cot" x="618" y="177" text-anchor="middle" dominant-baseline="middle">SpaceX</text>
+  <rect class="pr" x="700" y="76" width="150" height="40" rx="9"/><text class="prt" x="775" y="97" text-anchor="middle" dominant-baseline="middle">Starlink 星链</text>
+  <rect class="pr" x="700" y="136" width="150" height="40" rx="9"/><text class="prt" x="775" y="157" text-anchor="middle" dominant-baseline="middle">Starship 星舰</text>
+  <text class="lg" x="700" y="212">载人/货运龙飞船 · 猎鹰9（运载背景）</text>
+  <!-- xAI / X 体系 -->
+  <ellipse class="co" cx="380" cy="455" rx="75" ry="34"/><text class="cot" x="380" y="456" text-anchor="middle" dominant-baseline="middle">xAI</text>
+  <ellipse class="co" cx="372" cy="560" rx="65" ry="32"/><text class="cot" x="372" y="561" text-anchor="middle" dominant-baseline="middle">X 平台</text>
+  <rect class="pr" x="60" y="440" width="150" height="44" rx="9"/><text class="prt" x="135" y="463" text-anchor="middle" dominant-baseline="middle">Grok / Grok Bot</text>
+  <text class="lg" x="34" y="606">注：xAI 收购 X（330 亿美元口径 · 待核）</text>
+  <!-- Neuralink / Boring -->
+  <ellipse class="co" cx="640" cy="470" rx="84" ry="34"/><text class="cot" x="640" y="471" text-anchor="middle" dominant-baseline="middle">Neuralink</text>
+  <ellipse class="co" cx="860" cy="560" rx="88" ry="34"/><text class="cot" x="860" y="561" text-anchor="middle" dominant-baseline="middle">The Boring Company</text>
+  <text class="lg" x="560" y="606">隧道延伸：拉斯维加斯环 · 迪拜 Loop · 阿布扎比</text>
+  <!-- 政治接口 -->
+  <rect class="ext" x="410" y="626" width="180" height="46" rx="10"/>
+  <text class="extt" x="500" y="645" text-anchor="middle" dominant-baseline="middle">DOGE 政府效率部</text>
+  <text class="lg" x="500" y="663" text-anchor="middle">政治接口 · 非商业实体</text>
+  <!-- 图例 -->
+  <ellipse class="co" cx="30" cy="690" rx="9" ry="7"/><text class="lg" x="46" y="694">公司主体（档案词条）</text>
+  <rect class="pr" x="170" y="683" width="24" height="14" rx="4"/><text class="lg" x="200" y="694">核心业务/产品</text>
+  <rect class="hist" x="310" y="683" width="24" height="14" rx="4"/><text class="lg" x="340" y="694">历史·已并入</text>
+  <line class="ln" x1="440" y1="690" x2="474" y2="690"/><text class="lg" x="480" y="694">马斯克控制/创立</text>
+  <line class="dl" x1="600" y1="690" x2="634" y2="690"/><text class="lg" x="640" y="694">政治接口（虚线）</text>
+  <text class="lg" x="740" y="694">节点=飞书主题词典全量 15 词条（商业公司无遗漏）</text>
+</svg></div>
+    <div class="syn"><span>Tesla 斥资约 20 亿美元投资 xAI（2026-01 Series E）</span><span>Grok → X 生态 + Tesla 车机 / Robotaxi 语音任务</span><span>SpaceX 发债 400 亿美元购英伟达芯片 ⇄ SpaceXSI（原xAI部门）算力</span><span>Terafab：特斯拉 + SpaceX 自研芯片，降依赖英伟达/台积电</span><span>Starlink D2D 频谱 ⇄ X 内容分发与账号体系</span><span>Optimus 量产 ⇄ 中国供应链（磁体/审厂）</span></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑤</span> 待观察信号（leading indicators）</h2>
+    <div class="cheq"><label><input type="checkbox"> <span class="focus">FAA对星舰456次/年申请的环境审查节点与初步结论</span></label><label><input type="checkbox"> <span class="focus">星舰下次飞行是否兑现『完整回收轨道级火箭』，FAA窗口与Ship/Booster测试进展</span></label><label><input type="checkbox"> <span class="focus">NHTSA Robotaxi缺陷调查是否升级为正式调查/召回，限速OTA方案</span></label><label><input type="checkbox"> 达拉斯Cybercab开通时间与得州注册车辆数（739→更高）的周度变化</label><label><input type="checkbox"> <span class="focus">Optimus产量爬坡数据与2027零售目标的官方口径跟进</span></label><label><input type="checkbox"> <span class="focus">11/3中期选举前马斯克后续捐款、站台与America PAC合规处理</span></label><label><input type="checkbox"> SpaceX 400亿美元发债定价、评级口径与CDS利差走向</label><label><input type="checkbox"> 纽约市议会AI安全听证证词内容与地方监管后续</label><label><input type="checkbox"> 英加对Grok图像生成的调查节点；X限制措施的产品形态变化</label><label><input type="checkbox"> <span class="focus">特斯拉Q3财报（10月下旬）：毛利率/储能盈利/Cybercab投入</span></label><label><input type="checkbox"> Terafab得州芯片开发工厂选址/进度与台积电合作是否落地</label><label><input type="checkbox"> xAI收购X（330亿美元口径）是否获高权威媒体确认；Grok Bot-X私信打通上线</label><label><input type="checkbox"> 马斯克财富多空口径的权威榜单核实结果</label></div>
+  </section>
+
+  <section>
+    <h2><span class="idx">⑥</span> 高质条目 <span style="font-size:12px;font-weight:400;color:var(--muted);">（★=本窗新增）</span></h2>
+    <table class="table">
+      <thead><tr><th>日期</th><th>条目</th><th>来源</th><th>维度</th><th>反馈</th></tr></thead>
+      <tbody><tr><td>2026-10-14</td><td><a href="http://m.toutiao.com/group/7696312753702699560/" target="_blank" rel="noopener">★ SpaceX申请得州星舰年发射456次，FAA启动环境审查：拟将星基地飞行频次推至近每日一发</a></td><td>IT之家</td><td>法律监管</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://spacepolicyonline.com/news/ship-40-back-at-starbase-after-surprise-reentry-survival/" target="_blank" rel="noopener">★ 星舰IFT-13飞船Ship 40意外在印度洋再入幸存，已运回星基地（10-13）</a></td><td>SpacePolicyOnline</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://www.tokenpost.com/news/technology/31126" target="_blank" rel="noopener">★ 马斯克：星舰下次飞行将尝试完整回收轨道级火箭（全箭回收目标）</a></td><td>TokenPost</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://www.gurufocus.com/news/9120320/tesla-plans-chip-development-factory-in-texas-to-accelerate-design-process" target="_blank" rel="noopener">★ 马斯克宣布得州芯片开发工厂计划：特斯拉+SpaceX加速芯片设计（10-13 一手）</a></td><td>GuruFocus</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://evwire.com/p/tesla-cybercab-dallas-next-300-austin-fleet" target="_blank" rel="noopener">★ 特斯拉奥斯汀Cybercab车队突破300辆，AI软件主管：达拉斯『很快』开通</a></td><td>EVwire</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://www.humanoidsdaily.com/news/musk-optimus-hand-challenges-production-ramp-x-takeover" target="_blank" rel="noopener">★ 马斯克披露Optimus手部工程难题与缓慢爬坡：中国磁体出口限制曾延误2-3个月</a></td><td>Humanoids Daily</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://manhattandaily.com/elon-musks-spacex-set-to-testify-at-nyc-council-hearing-on-ai-safety-after-getting-subpoena/" target="_blank" rel="noopener">★ SpaceX因AI安全传票将出席纽约市议会听证会作证</a></td><td>Manhattan Daily</td><td>法律监管</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://www.inquirer.com/politics/election/elon-musk-x-posts-conspiracy-theory-james-talarico-mental-health-hospital-texas-seante-20261013.html" target="_blank" rel="noopener">★ 马斯克转推放大得州参议员候选人Talarico精神健康阴谋论，获数十万曝光</a></td><td>The Philadelphia Inquirer</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://www.ibtimes.co.uk/elon-musk-america-pac-colorado-ballot-texts-1825250" target="_blank" rel="noopener">★ 马斯克America PAC因向科罗拉多选民发送『误导性』投票短信遭质疑</a></td><td>IBTimes UK</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://m.economictimes.com/tech/technology/stop-musk-stop-oligarchy-spacex-ceo-elon-musk-slammed-over-spending-366-mil-on-republican-party-in-us-midterm/amp_articleshow/134910938.cms" target="_blank" rel="noopener">★ 桑德斯抨击马斯克中期选举砸3.66亿美元助共和党：『Stop Musk, Stop Oligarchy』</a></td><td>The Economic Times</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><span class="flag"><a href="https://forbes.pe/negocios/2026-10-13/elon-musk-ya-no-es-billonario-tras-perder-mas-de-us28-000-millones-por-caida-de-las-acciones-de-spacex/" target="_blank" rel="noopener">★ 外媒：SpaceX股价下跌致马斯克单日身家缩水约286亿美元（口径待核）</a></span></td><td>Forbes Perú</td><td>财务资本</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><span class="flag"><a href="https://www.techshotsapp.com/security/x-restricts-grok-ai-image-tool-following-backlash-over-explicit-deepfake-content" target="_blank" rel="noopener">★ X限制Grok AI图像生成工具：涉非合意深度伪造内容反弹（再监管动态）</a></span></td><td>Techshots</td><td>法律监管</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><span class="flag"><a href="https://www.basenor.com/blogs/news/grok-bots-expanding-capabilities-4-details-that-matter" target="_blank" rel="noopener">★ xAI与X正最终测试Grok Bot与X Chat DM打通、对话历史跨平台同步（待核）</a></span></td><td>Basenor</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><a href="https://www.teslaoracle.com/2026/10/12/tesla-scales-cybercabs-in-texas-and-halts-the-number-of-model-y-robotaxis/" target="_blank" rel="noopener">★ 特斯拉得州Robotaxi注册总数达739辆，其中Cybercab 319辆；Model Y Robotaxi数量停在420</a></td><td>Tesla Oracle</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><a href="https://www.alltechnerd.com/tesla-targets-public-sales-of-optimus-humanoid-robots-by-late-2027/" target="_blank" rel="noopener">★ The Information：特斯拉拟2027年底前面向公众销售Optimus，产量季度环比增约十倍</a></td><td>All Tech Nerd（转述The Information）</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="http://m.toutiao.com/group/7696043868759884338/" target="_blank" rel="noopener">NHTSA对特斯拉Robotaxi学区超速启动缺陷调查：涉约1000台Model Y与Cybercab（10-09启动）</a></td><td>IT之家</td><td>法律监管</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="http://m.toutiao.com/group/7696067807632441898/" target="_blank" rel="noopener">马斯克披露Terafab规划：特斯拉与SpaceX拟在得州工厂每年制造测试约10套芯片设计</a></td><td>金融界</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="https://stcn.com/article/kx-tag-detail.html?tag=QK4fqOoxNPb7" target="_blank" rel="noopener">马斯克在华表态：中国AI大模型单位算力产出几乎全球顶尖，2-3年可补齐算力缺口</a></td><td>证券时报</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><a href="http://m.toutiao.com/group/7695978683990802978/" target="_blank" rel="noopener">马斯克：AI正被『枪指着头』逼着答题，呼吁开发者善待AI</a></td><td>快科技/新浪财经</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><span class="flag"><a href="https://scand.ai/scandal/musk-anthropic-maven-bias-controversy" target="_blank" rel="noopener">马斯克批Anthropic与Palantir合作，称Grok是『未被阉割』的中立替代（待核）</a></span></td><td>SCAND.Ai</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-10-13</td><td><span class="flag"><a href="https://ic24news.com/news/spacex-launches-starship-on-test-flight-with-the-most-advanced-starlinks" target="_blank" rel="noopener">SpaceX星舰上周五升空搭载20颗最先进星链卫星（待核）</a></span></td><td>IC24 News</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><a href="http://m.toutiao.com/group/7696005380035314219/" target="_blank" rel="noopener">马斯克中期选举周期已投入约3.66亿美元成最大金主：7月以来2.76亿助共和党保国会</a></td><td>纽约时报（京报网转载）</td><td>政治言论</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><a href="https://www.benzinga.com/markets/tech/26/10/62292420/elon-musk-says-terafab-could-rank-among-top-20-of-country-gdps-as-tesla-and-spacex-build-massive-texas-chip-empire" target="_blank" rel="noopener">马斯克称Terafab体量可比肩『全球前20大经济体GDP』：特斯拉与SpaceX共建德州芯片帝国</a></td><td>Benzinga</td><td>商业公司</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><a href="https://tsnmedia.org/musk-next-starship-flight-first-ship-catch-about-four-weeks/" target="_blank" rel="noopener">马斯克：下次星舰飞行将首次尝试捕获飞船（ship catch），约四周后进行</a></td><td>tsnmedia（马斯克帖转述）</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><a href="http://m.toutiao.com/group/7695988328524431898/" target="_blank" rel="noopener">大摩：星舰第15次试飞是SpaceX重大催化剂、尚有80%上涨空间；IFT-15暂定11月8日</a></td><td>和讯网（摩根士丹利研报）</td><td>财务资本</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><a href="https://tldrdailynews.com/news/business/business/spacex-credit-risk-hits-record-high-after-dollar40bn-ai-debt-push-iwmwgg6u6f" target="_blank" rel="noopener">SpaceX拟发债400亿美元采购英伟达芯片，CDS利差升至194bp纪录高位</a></td><td>tl;dr daily news</td><td>财务资本</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><span class="flag"><a href="https://manilatimes.com/elon-musk-announces-shift-in-focus-following-brief-outage-of-social-media-platform-x" target="_blank" rel="noopener">X平台短暂宕机后马斯克宣布调整工作关注方向（待核）</a></span></td><td>Manila Times</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><span class="flag"><a href="https://panamatimes.com/elon-musk-says-he-s-sold-enough-stock-to-reach-10-sale-goal-slams-california-for-overtaxation" target="_blank" rel="noopener">马斯克称已卖出足够特斯拉股票达成10%减持目标、痛批加州重税（待核）</a></span></td><td>Panama Times（Babylon Bee访谈转述）</td><td>财务资本</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><span class="flag"><a href="https://cryptobriefing.com/tesla-grok-bot-cybercab-voice-tasks/" target="_blank" rel="noopener">Grok Bot在特斯拉robotaxi（Cybercab/Model Y）上线语音代客任务（待核）</a></span></td><td>cryptobriefing</td><td>产品技术</td><td class="hand">—</td></tr><tr><td>2026-10-12</td><td><a href="https://www-ak-ms.foxbusiness.com/fox-news-tech/elon-musk-calls-waymo-cars-pet-destroyers-robotaxi-rivals-clash-over-safety" target="_blank" rel="noopener">马斯克称Waymo是『宠物杀手』，特斯拉Robotaxi上线夜间宠物检测功能</a></td><td>Fox Business</td><td>产品技术</td><td class="hand">—</td></tr></tbody>
+    </table>
+  </section>
+
+  <footer>本页由主题跟踪流水线（采集 → 精筛 → 洞察研判 → 呈现 · 统一模板 dashboard.html + generate.js 生成）产出；反馈列对应飞书条目库赞/踩，用于反哺后续研判。</footer>
+</div>
+</body>
+</html>
