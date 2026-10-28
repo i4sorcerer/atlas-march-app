@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🚀 长征五号 · 好奇星球</title>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family:'ZCOOL KuaiLe','Nunito',sans-serif; color:#eaf2ff; min-height:100vh;
+    background: radial-gradient(ellipse at 50% -10%, #1a3a5c 0%, #0f2038 45%, #081420 100%);
+    background-attachment: fixed; overflow-x: hidden; line-height: 1.9; }
+  .stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .stars span { position: absolute; color: #fff; opacity: .7; animation: tw 3s ease-in-out infinite; }
+  @keyframes tw { 50% { opacity: .15; transform: scale(.6); } }
+  .wrap { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 24px 16px 80px; }
+  .hero { text-align: center; padding: 30px 10px 18px; }
+  .rocket-big { font-size: 90px; display: inline-block; animation: lift 3.5s ease-in-out infinite; cursor: pointer; }
+  @keyframes lift { 0%,100%{ transform: translateY(0) rotate(-2deg);} 50%{ transform: translateY(-14px) rotate(2deg);} }
+  .hero h1 { font-family:'Fredoka One','ZCOOL KuaiLe'; font-size: 44px; color:#fff; margin: 4px 0; text-shadow: 0 3px 0 #ff6f91; }
+  .hero .tag { color:#ffd166; font-size: 21px; }
+  .hero .lead { color:#cfe0ff; font-size: 17px; margin: 12px auto 0; max-width: 640px; }
+  section.block { background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); border-radius: 24px; padding: 22px; margin: 18px 0; box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+  section.block h2 { font-size: 27px; color:#ffd166; margin-bottom: 14px; }
+  section.block p, section.block li { font-size: 17px; color:#eaf2ff; }
+  ul.clean { padding-left: 22px; } ul.clean li { margin-bottom: 7px; }
+  .stats { display:grid; grid-template-columns: repeat(auto-fit, minmax(130px,1fr)); gap: 12px; }
+  .stat { background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius: 18px; padding: 16px 10px; text-align:center; cursor: pointer; transition: transform .15s, border-color .15s; }
+  .stat:hover, .stat.active { transform: scale(1.04); border-color: #ffd166; }
+  .stat .num { font-family:'Fredoka One'; font-size: 26px; color:#06d6a0; }
+  .stat .lab { color:#bcd2ff; font-size: 13px; margin-top: 4px; }
+  .stat.china { background: linear-gradient(135deg, rgba(239,71,111,.25), rgba(255,209,102,.18)); }
+  .rocket-stage { display:flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
+  .rocket-svg-box { flex: 0 0 auto; background: rgba(0,0,0,.25); border-radius: 18px; padding: 10px; }
+  .rocket-part-hit { cursor: pointer; transition: transform .15s; }
+  .rocket-part-hit:hover { transform: scale(1.04); }
+  .rocket-part-hit.active .part-fill { fill: #ffd166; }
+  .part-detail { flex: 1; min-width: 240px; background: rgba(0,0,0,.25); border-radius: 18px; padding: 16px; min-height: 200px; }
+  .part-detail h3 { font-size: 22px; color:#ff6f91; margin-bottom: 8px; }
+  .part-detail p { font-size: 16px; }
+  .part-hint { color:#ffd166; font-size: 14px; margin-top: 8px; }
+  .countdown { text-align:center; }
+  .cd-num { font-family:'Fredoka One'; font-size: 80px; color:#ffd166; line-height: 1; margin: 8px 0; }
+  .cd-num.go { color:#06d6a0; animation: pulse .5s ease; }
+  @keyframes pulse { 50% { transform: scale(1.25); } }
+  .btn { font-family: inherit; cursor: pointer; border:none; border-radius: 999px; padding: 12px 26px; font-size: 18px; color:#0a0e22; background:#ffd166; box-shadow: 0 6px 0 #c79a2e; transition: .12s; margin: 6px; }
+  .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #c79a2e; }
+  .btn.alt { background:#06d6a0; box-shadow: 0 6px 0 #04936f; color:#06241c; }
+  .flame { font-size: 50px; height: 56px; opacity: 0; transition: opacity .2s; }
+  .flame.show { opacity: 1; animation: flick .25s infinite alternate; }
+  @keyframes flick { to { transform: scaleY(1.2) translateY(4px); } }
+  .event { display:flex; gap: 14px; align-items:center; background: rgba(255,255,255,.05); border-left: 5px solid #ff6f91; border-radius: 14px; padding: 14px; margin-bottom: 12px; cursor: pointer; transition: transform .15s; }
+  .event:hover { transform: translateX(6px); }
+  .event .e-emoji { font-size: 44px; }
+  .event h3 { font-size: 19px; color:#fff; }
+  .event p { font-size: 15px; color:#cfe0ff; }
+  .quiz-q { margin-bottom: 16px; }
+  .quiz-q p { font-size: 18px; margin-bottom: 8px; color:#fff; }
+  .opt { display:block; width:100%; text-align:left; cursor:pointer; font-family:inherit; font-size:16px; color:#eaf2ff; background: rgba(255,255,255,.07); border:2px solid transparent; border-radius: 14px; padding:10px 14px; margin-bottom:8px; transition:.15s; }
+  .opt:hover { border-color:#ffd166; }
+  .opt.correct { background: rgba(6,214,160,.28); border-color:#06d6a0; }
+  .opt.wrong { background: rgba(239,71,111,.28); border-color:#ef476f; }
+  .quiz-result { font-size: 20px; color:#ffd166; margin-top: 10px; min-height: 28px; }
+  .back-hint { text-align:center; color:#bcd2ff; font-size:15px; margin-top: 14px; }
+  .toolbar { position: sticky; top: 0; z-index: 5; background: rgba(8,20,32,.85); backdrop-filter: blur(6px); border-radius: 0 0 18px 18px; padding: 8px 14px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-bottom: 14px; }
+  .toolbar a { color:#ffd166; text-decoration:none; font-size: 15px; background: rgba(255,255,255,.08); padding:6px 14px; border-radius:999px; }
+  .fun-fact { background: linear-gradient(135deg, rgba(255,209,102,.15), rgba(239,71,111,.1)); border: 2px dashed rgba(255,209,102,.4); border-radius: 18px; padding: 16px; margin-top: 16px; font-size: 16px; }
+</style>
+</head>
+<body>
+<div class="stars" id="stars" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="toolbar">
+    <a href="#hero">🚀 出发</a><a href="#struct">🔧 拆一拆</a><a href="#launch">📢 发射!</a><a href="#quiz">🎮 考考你</a>
+  </div>
+  <section class="hero" id="hero">
+    <span class="rocket-big" id="rocketBig" title="点我！">🚀</span>
+    <h1>长征五号</h1>
+    <div class="tag">外号"胖五"的中国最强火箭 🇨🇳</div>
+    <p class="lead">它圆圆胖胖的，力气却超大！专门送最重的太空快递——空间站和探测器！点火箭试试～</p>
+  </section>
+  <section class="block">
+    <h2>🌟 它是谁？</h2>
+    <p>长征五号（CZ-5）是中国<span style="color:#ffd166;font-weight:bold">最强壮的火箭</span>，因为它身体特别粗，所以大家亲切地叫它<span style="color:#06d6a0;font-weight:bold">"胖五"</span>！它负责把最重的货物送上天，像太空里的大卡车。</p>
+    <div class="fun-fact">🤓 <b>小朋友要知道：</b>祝融号火星车、嫦娥五号月球探测器、天宫空间站……这些大宝贝都是胖五送上去的！</div>
+  </section>
+  <section class="block">
+    <h2>📏 它有多厉害？（点数字看秘密）</h2>
+    <div class="stats" id="stats">
+      <div class="stat" data-info="它有20层楼那么高，差不多和小朋友跑20层楼梯一样！"><div class="num">≈57米</div><div class="lab">身高</div></div>
+      <div class="stat" data-info="它的腰围最粗有5米，所以大家叫它胖五！"><div class="num">5米</div><div class="lab">腰围(最粗)</div></div>
+      <div class="stat china" data-info="它能举起25吨的东西，差不多等于5头大象！"><div class="num">25吨</div><div class="lab">运力</div></div>
+      <div class="stat" data-info="起飞时重达869吨，像600多辆小汽车叠一起！"><div class="num">869吨</div><div class="lab">起飞重量</div></div>
+      <div class="stat china" data-info="烧的是液氢液氧，排出的是水蒸气，超环保！"><div class="num">环保</div><div class="lab">燃料类型</div></div>
+    </div>
+    <p class="part-hint" id="statHint">👆 点方块看看秘密～</p>
+  </section>
+  <section class="block" id="struct">
+    <h2>🔧 火箭大拆解（点零件看说明）</h2>
+    <div class="rocket-stage">
+      <div class="rocket-svg-box">
+        <svg width="150" height="400" viewBox="0 0 150 400">
+          <g class="rocket-part-hit" data-part="top" tabindex="0">
+            <path class="part-fill" d="M75 8 C95 40 100 65 100 90 L50 90 C50 65 55 40 75 8 Z" fill="#ff6f91"/>
+            <text x="75" y="65" font-size="14" fill="#fff" text-anchor="middle">🛰️</text>
+          </g>
+          <g class="rocket-part-hit" data-part="second" tabindex="0">
+            <rect class="part-fill" x="52" y="95" width="46" height="100" rx="8" fill="#5b7cfa"/>
+            <text x="75" y="150" font-size="12" fill="#fff" text-anchor="middle">二级</text>
+          </g>
+          <g class="rocket-part-hit" data-part="core" tabindex="0">
+            <rect class="part-fill" x="40" y="200" width="70" height="130" rx="12" fill="#ffd166"/>
+            <text x="75" y="270" font-size="13" fill="#0a0e22" text-anchor="middle">核心级</text>
+          </g>
+          <g class="rocket-part-hit" data-part="boost" tabindex="0">
+            <rect class="part-fill" x="8" y="220" width="26" height="100" rx="8" fill="#06d6a0"/>
+            <rect class="part-fill" x="116" y="220" width="26" height="100" rx="8" fill="#06d6a0"/>
+            <text x="75" y="190" font-size="11" fill="#ffd166" text-anchor="middle">4个助推器</text>
+          </g>
+          <g class="rocket-part-hit" data-part="engine" tabindex="0">
+            <path class="part-fill" d="M40 330 L110 330 L98 360 L52 360 Z" fill="#ef476f"/>
+            <text x="75" y="350" font-size="11" fill="#fff" text-anchor="middle">发动机</text>
+          </g>
+        </svg>
+      </div>
+      <div class="part-detail" id="partDetail">
+        <h3>👈 点左边的火箭零件</h3><p>每一块都有自己的任务！</p>
+      </div>
+    </div>
+  </section>
+  <section class="block countdown" id="launch">
+    <h2>📢 一起发射胖五！</h2><p>点"开始倒计时"，一起数 3、2、1，点火！🚀</p>
+    <div class="cd-num" id="cdNum">10</div>
+    <div class="flame" id="flame">🔥🔥🔥</div>
+    <div><button class="btn" id="cdStart">▶ 开始倒计时</button><button class="btn alt" id="cdReset">↺ 重来</button></div>
+    <p class="part-hint" id="cdMsg">准备好了吗？</p>
+  </section>
+  <section class="block" id="quiz">
+    <h2>🎮 考考你！</h2>
+    <div class="quiz-q" data-answer="b"><p>1. 大家为什么叫它"胖五"？</p>
+      <button class="opt" data-v="a">A. 它很胖，跑不快</button><button class="opt" data-v="b">B. 它身体粗粗壮壮的</button><button class="opt" data-v="c">C. 它喜欢吃胖</button></div>
+    <div class="quiz-q" data-answer="a"><p>2. 长征五号烧什么燃料？</p>
+      <button class="opt" data-v="a">A. 液氢和液氧</button><button class="opt" data-v="b">B. 汽油</button><button class="opt" data-v="c">C. 柴油</button></div>
+    <div class="quiz-q" data-answer="c"><p>3. 谁坐着长征五号去了火星？</p>
+      <button class="opt" data-v="a">A. 小猫咪</button><button class="opt" data-v="b">B. 嫦娥</button><button class="opt" data-v="c">C. 祝融号火星车</button></div>
+    <div class="quiz-q" data-answer="b"><p>4. 胖五有几个助推器？</p>
+      <button class="opt" data-v="a">A. 2个</button><button class="opt" data-v="b">B. 4个</button><button class="opt" data-v="c">C. 8个</button></div>
+    <div class="quiz-result" id="quizResult"></div>
+  </section>
+  <p class="back-hint">👈 想看更多火箭？回目录看看～</p>
+</div>
+<script>
+  (function(){const b=document.getElementById("stars");let h="";for(let i=0;i<45;i++){const x=(Math.random()*100).toFixed(1),y=(Math.random()*100).toFixed(1),s=(7+Math.random()*14).toFixed(0),d=(Math.random()*3).toFixed(1);h+=`<span style="left:${x}%;top:${y}%;font-size:${s}px;animation-delay:${d}s">${Math.random()>.5?'✦':'✧'}</span>`}b.innerHTML=h})();
+  document.getElementById("rocketBig").addEventListener("click",function(){this.style.transition="transform .6s cubic-bezier(.3,1.6,.5,1)";this.style.transform="translateY(-160px) rotate(8deg)";setTimeout(()=>{this.style.transform=""},650)});
+  document.getElementById("stats").addEventListener("click",e=>{const el=e.target.closest(".stat");if(!el)return;document.querySelectorAll(".stat").forEach(s=>s.classList.remove("active"));el.classList.add("active");document.getElementById("statHint").textContent="💡 "+(el.dataset.info||"")});
+  const PARTS={top:{t:"🛰️ 头罩（最上面）",d:"尖尖的头罩像帽子，保护卫星或探测器不被大气摩擦弄坏。"},second:{t:"🔵 二级（中间）",d:"一级用完了，二级接着点火，把货物推到更高的太空。"},core:{t:"🟡 核心级（大身子）",d:"这是胖五最粗的地方！直径5米，里面装满燃料，是最重要的大身体。"},boost:{t:"🟢 4个助推器",d:"两边各有2个小帮手，一起使劲把胖五推上天！"},engine:{t:"🔴 发动机",d:"最底下喷火的地方，烧液氢液氧，排出的是干净的水蒸气！"}};
+  document.querySelectorAll(".rocket-part-hit").forEach(g=>{const show=()=>{document.querySelectorAll(".rocket-part-hit").forEach(x=>x.classList.remove("active"));g.classList.add("active");const p=PARTS[g.dataset.part];document.getElementById("partDetail").innerHTML=`<h3>${p.t}</h3><p>${p.d}</p>`};g.addEventListener("click",show);g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();show()}})});
+  let cdTimer=null;const cdNum=document.getElementById("cdNum"),cdMsg=document.getElementById("cdMsg"),flame=document.getElementById("flame");
+  document.getElementById("cdStart").addEventListener("click",()=>{clearInterval(cdTimer);let n=10;cdNum.textContent=n;cdNum.classList.remove("go");flame.classList.remove("show");cdMsg.textContent="数到0就点火！🚀";cdTimer=setInterval(()=>{n--;if(n>0){cdNum.textContent=n}else if(n===0){cdNum.textContent="点火!";cdNum.classList.add("go");flame.classList.add("show");cdMsg.textContent="嗖——！胖五飞上天啦！🎉";playSound("launch")}else{clearInterval(cdTimer)}},800)});
+  document.getElementById("cdReset").addEventListener("click",()=>{clearInterval(cdTimer);cdNum.textContent="10";cdNum.classList.remove("go");flame.classList.remove("show");cdMsg.textContent="准备好就按开始吧！"});
+  let audioCtx=null;
+  function playSound(type){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const osc=audioCtx.createOscillator();const gain=audioCtx.createGain();osc.connect(gain);gain.connect(audioCtx.destination);if(type==="correct"){osc.frequency.value=784;osc.type="sine";gain.gain.setValueAtTime(.15,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.3);osc.start();osc.stop(audioCtx.currentTime+.3)}else if(type==="wrong"){osc.frequency.value=196;osc.type="sawtooth";gain.gain.setValueAtTime(.08,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.25);osc.start();osc.stop(audioCtx.currentTime+.25)}else if(type==="launch"){osc.frequency.setValueAtTime(120,audioCtx.currentTime);osc.frequency.exponentialRampToValueAtTime(900,audioCtx.currentTime+.6);osc.type="triangle";gain.gain.setValueAtTime(.18,audioCtx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.7);osc.start();osc.stop(audioCtx.currentTime+.7)}}catch(e){}}
+
+  const qs=document.querySelectorAll(".quiz-q");qs.forEach(q=>{q.querySelectorAll(".opt").forEach(btn=>{btn.addEventListener("click",()=>{if(q.dataset.done)return;q.dataset.done="1";const ans=q.dataset.answer;q.querySelectorAll(".opt").forEach(b=>{if(b.dataset.v===ans)b.classList.add("correct")});if(btn.dataset.v!==ans)btn.classList.add("wrong");playSound(btn.dataset.v===ans?"correct":"wrong")})})});
+  document.addEventListener("click",()=>{if(document.querySelectorAll('.quiz-q[data-done="1"]').length===qs.length){let right=0;qs.forEach(q=>{if(!q.querySelector(".opt.wrong"))right++});const r=document.getElementById("quizResult");r.textContent=`🏅 你答对 ${right} / ${qs.length} 题！`+(right===qs.length?" 你就是火箭小博士！🚀":" 再看看上面的内容吧～");reportQuiz(right,qs.length)}});
+  function reportQuiz(score,total){const payload={type:"quiz-result",topicId:"cz5",title:"长征五号",emoji:"🚀",score,total};if(window.parent&&window.parent!==window)window.parent.postMessage(payload,"*")}
+</script>
+</body>
+</html>

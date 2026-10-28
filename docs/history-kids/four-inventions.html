@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>📜 四大发明 · 儿童互动百科</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background: #FFF8E7; color: #2C3E50; line-height: 1.6; overflow-x: hidden; }
+  :root { --ink:#2C3E50; --paper:#FFFBEB; --red:#C0392B; --gold:#D4A017; --green:#27AE60; }
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; gap: 12px; padding: 12px 24px; background: var(--red); flex-wrap: wrap; box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+  nav .logo { font-size: 24px; font-weight: 900; color: #fff; }
+  nav a { color: #fff; text-decoration: none; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 999px; transition: .2s; }
+  nav a:hover { background: rgba(255,255,255,.25); }
+  .hero { min-height: 88vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #FDEBD0 0%, #FFF8E7 50%, #FDEBD0 100%); position: relative; overflow: hidden; }
+  .scroll-big { font-size: 100px; cursor: pointer; transition: transform .5s cubic-bezier(.3,1.6,.5,1); display: inline-block; }
+  .scroll-big:hover { transform: scale(1.1) rotate(-3deg); }
+  .hero h1 { font-size: clamp(36px,6vw,64px); font-weight: 900; color: var(--ink); margin: 8px 0; }
+  .hero .tag { font-size: 20px; color: var(--red); font-weight: 700; }
+  .hero .lead { max-width: 640px; margin-top: 14px; font-size: 17px; color: #5D6D7E; }
+  .deco { position: absolute; font-size: 44px; opacity: .5; animation: float 5s ease-in-out infinite; }
+  .deco:nth-child(1){top:12%;left:8%}.deco:nth-child(2){top:20%;right:10%;animation-delay:.8s}.deco:nth-child(3){top:60%;left:6%;animation-delay:1.6s}.deco:nth-child(4){top:70%;right:8%;animation-delay:2.4s}
+  @keyframes float { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-18px) rotate(8deg)} }
+  section.block { max-width: 900px; margin: 24px auto; padding: 0 20px; }
+  .card { background: #fff; border-radius: 20px; padding: 28px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.08); border-left: 6px solid var(--red); }
+  .card h2 { font-size: 24px; color: var(--ink); margin-bottom: 14px; }
+  .card p { font-size: 16px; color: #34495E; margin-bottom: 10px; }
+  .inventions { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .inv { background: var(--paper); border: 2px solid var(--gold); border-radius: 18px; padding: 24px; cursor: pointer; transition: transform .2s, box-shadow .2s; }
+  .inv:hover, .inv.active { transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,0,0,.12); border-color: var(--red); }
+  .inv .emoji { font-size: 56px; }
+  .inv h3 { font-size: 20px; color: var(--red); margin: 10px 0 6px; }
+  .inv .who { font-size: 12px; color: #5D6D7E; font-weight: 700; }
+  .inv .desc { font-size: 15px; color: #34495E; margin-top: 10px; display: none; }
+  .inv.active .desc { display: block; }
+  .fun-fact { background: linear-gradient(135deg, rgba(212,160,23,.15), rgba(192,57,43,.08)); border: 2px dashed var(--gold); border-radius: 16px; padding: 18px; font-size: 16px; }
+  .fun-fact b { color: var(--red); }
+  .steps { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 16px; }
+  .step { background: #fff; border: 2px solid var(--green); border-radius: 14px; padding: 14px 18px; text-align: center; cursor: pointer; transition: transform .2s, border-color .2s; min-width: 140px; }
+  .step:hover, .step.active { transform: scale(1.05); border-color: var(--red); }
+  .step .num { font-size: 24px; font-weight: 900; color: var(--green); }
+  .step .lab { font-size: 13px; color: #5D6D7E; margin-top: 4px; }
+  .step-detail { text-align: center; font-size: 15px; color: var(--green); font-weight: 700; margin-top: 12px; min-height: 40px; max-width: 560px; margin-left: auto; margin-right: auto; }
+  .quiz-q { background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+  .quiz-q p { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 10px; }
+  .opt { display: block; width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px; border-radius: 12px; background: var(--paper); border: 2px solid transparent; cursor: pointer; font-size: 15px; transition: .15s; }
+  .opt:hover { border-color: var(--red); }
+  .opt.correct { background: #D5F5E3; border-color: #27AE60; color: #1E8449; font-weight: 700; }
+  .opt.wrong { background: #FADBD8; border-color: #E74C3C; color: #C0392B; font-weight: 700; }
+  .quiz-result { text-align: center; font-size: 20px; color: var(--red); font-weight: 900; margin-top: 16px; min-height: 28px; }
+  footer { text-align: center; padding: 40px 20px; background: var(--red); color: #fff; font-size: 15px; }
+</style>
+</head>
+<body>
+<nav>
+  <span class="logo">📜</span>
+  <a href="#hero">出发</a><a href="#four">四大发明</a><a href="#paper">造纸</a><a href="#quiz">考考你</a>
+</nav>
+<header class="hero" id="hero">
+  <span class="deco">📜</span><span class="deco">🧭</span><span class="deco">🎆</span><span class="deco">🖨️</span>
+  <span class="scroll-big" id="scrollBig">📜</span>
+  <h1>四大发明</h1>
+  <div class="tag">改变世界的中国智慧</div>
+  <p class="lead">造纸术、印刷术、火药、指南针——这四样东西改变了中国，也改变了全世界！来认识一下它们吧。</p>
+</header>
+<section class="block">
+  <div class="card">
+    <h2>🌟 什么是四大发明？</h2>
+    <p>中国的<span style="color:var(--red);font-weight:bold">四大发明</span>是最厉害的四样古代发明，它们让全世界都变得更加方便、更加聪明。很多国家都是跟着中国学会用它们的呢！</p>
+    <p>下面点一点，认识它们每一位！</p>
+  </div>
+</section>
+<section class="block" id="four">
+  <div class="card">
+    <h2>📜 四大发明（点一下听听故事）</h2>
+    <div class="inventions">
+      <div class="inv" data-i="0"><div class="emoji">📄</div><h3>造纸术</h3><div class="who">蔡伦 · 东汉 · 公元105年</div><div class="desc">在纸发明之前，人们在竹简上写字，太重了！蔡伦用树皮、破布、渔网做出又轻又便宜的纸，让所有人都能读书写字。这是人类历史上最重要的发明之一！</div></div>
+      <div class="inv" data-i="1"><div class="emoji">🔤</div><h3>印刷术</h3><div class="who">毕昇 · 北宋 · 公元1041年</div><div class="desc">在没有印刷之前，每个字都要用手抄，太累了！毕昇发明了活字印刷——把字刻在小方块上，排好了就印，用完了拆掉再用。比欧洲早了400年！</div></div>
+      <div class="inv" data-i="2"><div class="emoji">🧭</div><h3>指南针</h3><div class="who">北宋 · 公元11世纪</div><div class="desc">磁铁有一头永远指向南方！中国人最早发现这个秘密，并把它做成指南针装在船上，帮水手在大海上找到方向。没有指南针，哥伦布根本找不到美洲！</div></div>
+      <div class="inv" data-i="3"><div class="emoji">🎆</div><h3>火药</h3><div class="who">唐朝道士 · 公元9世纪</div><div class="desc">炼丹的道士想找长生不老药，结果不小心发明了火药！它一开始用来放烟花，后来用在打仗上。现在的火箭、烟花、鞭炮，都是它的后代。</div></div>
+    </div>
+  </div>
+</section>
+<section class="block" id="paper">
+  <div class="card">
+    <h2>📄 纸是怎么做出来的？（点步骤看看）</h2>
+    <p>跟着下面的步骤，看看古时候的人怎么把树皮变成纸！</p>
+    <div class="steps" id="stepsGrid">
+      <div class="step" data-info="把树皮、破布、旧渔网收集起来，泡在水里泡软！"><div class="num">1️⃣</div><div class="lab">收集材料</div></div>
+      <div class="step" data-info="把泡软的材料捣烂，变成一锅黏黏的纸浆。"><div class="num">2️⃣</div><div class="lab">捣成浆</div></div>
+      <div class="step" data-info="用细细的竹帘子捞一勺纸浆，铺平了晾干，就是一张纸！"><div class="num">3️⃣</div><div class="lab">抄纸</div></div>
+      <div class="step" data-info="把湿纸一张张揭开，贴在墙上晒干，纸就做好了！"><div class="num">4️⃣</div><div class="lab">晒干</div></div>
+    </div>
+    <div class="step-detail" id="stepDetail">👆 点上面的步骤看看～</div>
+  </div>
+</section>
+<section class="block">
+  <div class="card">
+    <h2>✨ 有趣的事</h2>
+    <div class="fun-fact">🤓 <b>你知道吗？</b>四大发明传到欧洲后，帮他们结束了「黑暗时代」，开启了文艺复兴和大航海时代。所以中国的发明真的改变了整个世界！</div>
+  </div>
+</section>
+<section class="block" id="quiz">
+  <div class="card">
+    <h2>🎮 考考你！</h2>
+    <div class="quiz-q" data-answer="a"><p>1. 四大发明是指哪四个？</p>
+      <button class="opt" data-v="a">A. 造纸、印刷、火药、指南针</button><button class="opt" data-v="b">B. 汽车、飞机、轮船、火车</button><button class="opt" data-v="c">C. 电灯、电话、电视、电脑</button></div>
+    <div class="quiz-q" data-answer="b"><p>2. 谁改进了造纸术？</p>
+      <button class="opt" data-v="a">A. 李白</button><button class="opt" data-v="b">B. 蔡伦</button><button class="opt" data-v="c">C. 孔子</button></div>
+    <div class="quiz-q" data-answer="c"><p>3. 指南针是帮什么用的？</p>
+      <button class="opt" data-v="a">A. 看时间</button><button class="opt" data-v="b">B. 量身高</button><button class="opt" data-v="c">C. 找方向</button></div>
+    <div class="quiz-q" data-answer="a"><p>4. 火药最早是谁发明的？</p>
+      <button class="opt" data-v="a">A. 中国唐朝的道士</button><button class="opt" data-v="b">B. 罗马士兵</button><button class="opt" data-v="c">C. 埃及法老</button></div>
+    <div class="quiz-q" data-answer="b"><p>5. 活字印刷是谁发明的？</p>
+      <button class="opt" data-v="a">A. 蔡伦</button><button class="opt" data-v="b">B. 毕昇</button><button class="opt" data-v="c">C. 张衡</button></div>
+    <div class="quiz-result" id="quizResult"></div>
+  </div>
+</section>
+<footer>📜 四大发明 · 好奇星球 · 给 5 岁小朋友的互动百科</footer>
+<script>
+  document.getElementById("scrollBig").addEventListener("click",function(){this.style.transform="scale(1.3) rotate(15deg)";setTimeout(()=>{this.style.transform=""},500)});
+  document.querySelectorAll(".inv").forEach(el=>el.addEventListener("click",()=>{const was=el.classList.contains("active");document.querySelectorAll(".inv").forEach(x=>x.classList.remove("active"));if(!was)el.classList.add("active")}));
+  document.getElementById("stepsGrid").addEventListener("click",e=>{const el=e.target.closest(".step");if(!el)return;document.querySelectorAll(".step").forEach(s=>s.classList.remove("active"));el.classList.add("active");document.getElementById("stepDetail").textContent="💡 "+(el.dataset.info||"")});
+let audioCtx=null;function playSound(t){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator();const g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);if(t==="correct"){o.frequency.value=784;o.type="sine";g.gain.setValueAtTime(.15,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.3);o.start();o.stop(audioCtx.currentTime+.3)}else if(t==="wrong"){o.frequency.value=196;o.type="sawtooth";g.gain.setValueAtTime(.08,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.25);o.start();o.stop(audioCtx.currentTime+.25)}else if(t==="build"){o.frequency.value=1046;o.type="sine";g.gain.setValueAtTime(.12,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.2);o.start();o.stop(audioCtx.currentTime+.2)}}catch(e){}}
+  
+  const qs=document.querySelectorAll(".quiz-q");qs.forEach(q=>{q.querySelectorAll(".opt").forEach(btn=>{btn.addEventListener("click",()=>{if(q.dataset.done)return;q.dataset.done="1";const ans=q.dataset.answer;q.querySelectorAll(".opt").forEach(b=>{if(b.dataset.v===ans)b.classList.add("correct")});if(btn.dataset.v!==ans)btn.classList.add("wrong");playSound(btn.dataset.v===ans?"correct":"wrong")})})});
+  document.addEventListener("click",()=>{if(document.querySelectorAll('.quiz-q[data-done="1"]').length===qs.length){let right=0;qs.forEach(q=>{if(!q.querySelector(".opt.wrong"))right++});const r=document.getElementById("quizResult");r.textContent=`🏅 你答对 ${right} / ${qs.length} 题！`+(right===qs.length?" 你就是发明小博士！📜":" 再看看上面的内容吧～");reportQuiz(right,qs.length)}});
+  function reportQuiz(score,total){const payload={type:"quiz-result",topicId:"four-inventions",title:"四大发明",emoji:"📜",score,total};if(window.parent&&window.parent!==window)window.parent.postMessage(payload,"*")}
+</script>
+</body>
+</html>

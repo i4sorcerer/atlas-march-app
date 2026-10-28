@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔺 古埃及 · 儿童互动百科</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "PingFang SC","Microsoft YaHei",sans-serif; background: #FFF8E7; color: #2C3E50; line-height: 1.6; overflow-x: hidden; }
+  :root { --sand:#F4D03F; --nile:#2471A3; --gold:#D4A017; --brick:#E67E22; --papyrus:#FFFBEB; --dark:#2C3E50; }
+  nav { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; gap: 12px; padding: 12px 24px; background: var(--gold); flex-wrap: wrap; box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+  nav .logo { font-size: 24px; font-weight: 900; color: var(--dark); }
+  nav a { color: var(--dark); text-decoration: none; font-weight: 700; font-size: 14px; padding: 6px 14px; border-radius: 999px; transition: .2s; }
+  nav a:hover { background: rgba(255,255,255,.4); }
+  .hero { min-height: 88vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; background: linear-gradient(135deg, #FDEBD0 0%, #FFF8E7 50%, #FDEBD0 100%); position: relative; overflow: hidden; }
+  .pyramid { font-size: 100px; cursor: pointer; transition: transform .5s cubic-bezier(.3,1.6,.5,1); display: inline-block; }
+  .pyramid:hover { transform: scale(1.1) rotate(-3deg); }
+  .hero h1 { font-size: clamp(36px,6vw,64px); font-weight: 900; color: var(--dark); margin: 8px 0; }
+  .hero .tag { font-size: 20px; color: var(--nile); font-weight: 700; }
+  .hero .lead { max-width: 640px; margin-top: 14px; font-size: 17px; color: #5D6D7E; }
+  .deco { position: absolute; font-size: 44px; opacity: .5; animation: float 5s ease-in-out infinite; }
+  .deco:nth-child(1){top:12%;left:8%;animation-delay:0s}.deco:nth-child(2){top:20%;right:10%;animation-delay:.8s}.deco:nth-child(3){top:60%;left:6%;animation-delay:1.6s}.deco:nth-child(4){top:70%;right:8%;animation-delay:2.4s}
+  @keyframes float { 0%,100%{transform:translateY(0) rotate(0)} 50%{transform:translateY(-18px) rotate(8deg)} }
+  section.block { max-width: 900px; margin: 24px auto; padding: 0 20px; }
+  .card { background: #fff; border-radius: 20px; padding: 28px; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.08); border-left: 6px solid var(--gold); }
+  .card h2 { font-size: 24px; color: var(--dark); margin-bottom: 14px; }
+  .card p { font-size: 16px; color: #34495E; margin-bottom: 10px; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-top: 14px; }
+  .fact { background: var(--papyrus); border: 2px solid var(--sand); border-radius: 14px; padding: 14px; text-align: center; cursor: pointer; transition: transform .2s, border-color .2s; }
+  .fact:hover, .fact.active { transform: scale(1.05); border-color: var(--nile); }
+  .fact .num { font-size: 28px; font-weight: 900; color: var(--nile); }
+  .fact .lab { font-size: 12px; color: #5D6D7E; margin-top: 4px; }
+  .fact-hint { text-align: center; font-size: 14px; color: var(--nile); margin-top: 12px; font-weight: 600; min-height: 22px; }
+  .fun-fact { background: linear-gradient(135deg, rgba(212,160,23,.15), rgba(36,113,163,.1)); border: 2px dashed var(--gold); border-radius: 16px; padding: 18px; font-size: 16px; }
+  .fun-fact b { color: var(--nile); }
+  /* 神明卡片 */
+  .gods { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .god { background: #fff; border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: transform .2s, box-shadow .2s; border: 2px solid transparent; }
+  .god:hover, .god.active { transform: translateY(-6px); box-shadow: 0 10px 28px rgba(0,0,0,.14); border-color: var(--gold); }
+  .god .emoji { font-size: 52px; margin-bottom: 8px; }
+  .god .name { font-size: 19px; font-weight: 800; color: var(--dark); }
+  .god .role { font-size: 13px; color: #5D6D7E; margin-top: 4px; }
+  .god .desc { font-size: 14px; color: #34495E; margin-top: 10px; display: none; }
+  .god.active .desc { display: block; }
+  /* 象形文字互动 */
+  .hiero-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 12px; }
+  .hiero { background: var(--papyrus); border: 2px solid var(--sand); border-radius: 12px; padding: 14px; text-align: center; cursor: pointer; transition: transform .2s; }
+  .hiero:hover { transform: scale(1.1); border-color: var(--nile); }
+  .hiero .glyph { font-size: 36px; }
+  .hiero .mean { font-size: 11px; color: #5D6D7E; margin-top: 4px; }
+  /* 金字塔拼图 */
+  .pyramid-layers { display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 20px auto; max-width: 420px; }
+  .pl-row { display: flex; gap: 4px; justify-content: center; }
+  .pl-block { width: 40px; height: 22px; background: var(--brick); border-radius: 4px; cursor: pointer; transition: transform .15s, background .15s; }
+  .pl-block:hover { transform: scale(1.15); background: var(--gold); }
+  .pl-block.done { background: var(--gold); cursor: default; }
+  .pl-msg { text-align: center; font-size: 17px; color: var(--nile); font-weight: 700; margin-top: 12px; min-height: 24px; }
+  /* 测验 */
+  .quiz-q { background: #fff; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0,0,0,.06); }
+  .quiz-q p { font-size: 17px; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+  .opt { display: block; width: 100%; text-align: left; padding: 12px 16px; margin-bottom: 8px; border-radius: 12px; background: var(--papyrus); border: 2px solid transparent; cursor: pointer; font-size: 15px; transition: .15s; }
+  .opt:hover { border-color: var(--nile); }
+  .opt.correct { background: #D5F5E3; border-color: #27AE60; color: #1E8449; font-weight: 700; }
+  .opt.wrong { background: #FADBD8; border-color: #E74C3C; color: #C0392B; font-weight: 700; }
+  .quiz-result { text-align: center; font-size: 20px; color: var(--nile); font-weight: 900; margin-top: 16px; min-height: 28px; }
+  footer { text-align: center; padding: 40px 20px; background: var(--gold); color: var(--dark); font-size: 15px; }
+</style>
+</head>
+<body>
+<nav>
+  <span class="logo">🔺</span>
+  <a href="#hero">出发</a><a href="#facts">数字</a><a href="#gods">神明</a><a href="#hiero">象形字</a><a href="#pyramid">拼金字塔</a><a href="#quiz">考考你</a>
+</nav>
+<header class="hero" id="hero">
+  <span class="deco">🐫</span><span class="deco">☀️</span><span class="deco">🌵</span><span class="deco">📜</span>
+  <span class="pyramid" id="pyramidBig" title="点我！">🔺</span>
+  <h1>古埃及</h1>
+  <div class="tag">尼罗河边的神秘国度</div>
+  <p class="lead">这里有巨大的金字塔、神奇的神明，还有让人猜不透的象形文字。跟着我一起去看看吧！</p>
+</header>
+<section class="block">
+  <div class="card">
+    <h2>🌟 古埃及在哪里？</h2>
+    <p>古埃及在非洲的<span style="color:var(--nile);font-weight:bold">尼罗河</span>旁边。这条大河每年都会"发脾气"发大水，把河两岸的泥土变得肥肥的，人们就在那里种麦子、养牛羊。所以古埃及人特别感谢尼罗河！</p>
+    <p>古埃及有 3000 多年的历史，比我们中国的夏朝还要早呢！</p>
+  </div>
+</section>
+<section class="block" id="facts">
+  <div class="card">
+    <h2>📏 有多厉害？（点数字看秘密）</h2>
+    <div class="facts" id="factsGrid">
+      <div class="fact" data-info="胡夫金字塔有近5000年历史，是世界七大奇迹之一！"><div class="num">≈146米</div><div class="lab">胡夫金字塔高</div></div>
+      <div class="fact" data-info="古埃及文明持续了3000多年，超长待机！"><div class="num">3000+</div><div class="lab">历史(年)</div></div>
+      <div class="fact" data-info="金字塔用了230万块大石头，每块都有汽车那么重！"><div class="num">230万</div><div class="lab">石头(块)</div></div>
+      <div class="fact" data-info="古埃及人有700多个神，每个人管不同的事情！"><div class="num">700+</div><div class="lab">神明(位)</div></div>
+      <div class="fact" data-info="象形文字有700多个符号，像画画一样写字！"><div class="num">700+</div><div class="lab">象形字(个)</div></div>
+      <div class="fact" data-info="法老戴的蓝色头巾叫「nemes」，是国王专属的帽子！"><div class="num">👑</div><div class="lab">法老的王冠</div></div>
+    </div>
+    <p class="fact-hint" id="factHint">👆 点方块看看秘密～</p>
+  </div>
+</section>
+<section class="block">
+  <div class="card">
+    <h2>✨ 有趣的事</h2>
+    <div class="fun-fact">🤓 <b>木乃伊的秘密：</b>古埃及人相信人死后会复活，所以把法老的身体做成"木乃伊"保存起来，等他复活再用！</div>
+  </div>
+</section>
+<section class="block" id="gods">
+  <div class="card">
+    <h2>🏛️ 神明们（点一下听听故事）</h2>
+    <p>古埃及人相信有很多神，每位神都管不同的事情。点一点，看看他们是谁！</p>
+    <div class="gods" id="godsGrid"></div>
+  </div>
+</section>
+<section class="block" id="hiero">
+  <div class="card">
+    <h2>📜 象形文字（点一下学一个）</h2>
+    <p>古埃及人写的字像画画一样！每个符号代表一个东西或一个声音。点一点看看它们是什么意思～</p>
+    <div class="hiero-grid" id="hieroGrid"></div>
+  </div>
+</section>
+<section class="block" id="pyramid">
+  <div class="card">
+    <h2>🧱 你来拼一座金字塔！</h2>
+    <p>从下往上点积木，把金字塔拼好！</p>
+    <div class="pyramid-layers" id="pyramidLayers"></div>
+    <div class="pl-msg" id="plMsg">点最下面一层的积木开始拼～</div>
+  </div>
+</section>
+<section class="block" id="quiz">
+  <div class="card">
+    <h2>🎮 考考你！</h2>
+    <div class="quiz-q" data-answer="a"><p>1. 古埃及最重要的河流是？</p>
+      <button class="opt" data-v="a">A. 尼罗河</button><button class="opt" data-v="b">B. 长江</button><button class="opt" data-v="c">C. 黄河</button></div>
+    <div class="quiz-q" data-answer="b"><p>2. 古埃及的国王叫什么？</p>
+      <button class="opt" data-v="a">A. 皇帝</button><button class="opt" data-v="b">B. 法老</button><button class="opt" data-v="c">C. 天皇</button></div>
+    <div class="quiz-q" data-answer="c"><p>3. 古埃及人为什么做木乃伊？</p>
+      <button class="opt" data-v="a">A. 好玩</button><button class="opt" data-v="b">B. 太冷了</button><button class="opt" data-v="c">C. 相信人会复活</button></div>
+    <div class="quiz-q" data-answer="a"><p>4. 古埃及人写的字叫什么？</p>
+      <button class="opt" data-v="a">A. 象形文字</button><button class="opt" data-v="b">B. 拼音</button><button class="opt" data-v="c">C. 英文</button></div>
+    <div class="quiz-q" data-answer="b"><p>5. 最大的金字塔是谁的？</p>
+      <button class="opt" data-v="a">A. 图坦卡蒙</button><button class="opt" data-v="b">B. 胡夫</button><button class="opt" data-v="c">C. 克娄巴特拉</button></div>
+    <div class="quiz-result" id="quizResult"></div>
+  </div>
+</section>
+<footer>🔺 古埃及 · 好奇星球 · 给 5 岁小朋友的互动百科</footer>
+<script>
+  document.getElementById("pyramidBig").addEventListener("click",function(){this.style.transform="scale(1.3) rotate(15deg)";setTimeout(()=>{this.style.transform=""},500)});
+  document.getElementById("factsGrid").addEventListener("click",e=>{const el=e.target.closest(".fact");if(!el)return;document.querySelectorAll(".fact").forEach(f=>f.classList.remove("active"));el.classList.add("active");document.getElementById("factHint").textContent="💡 "+(el.dataset.info||"")});
+  const GODS=[{emoji:"☀️",name:"拉",role:"太阳神",desc:"太阳神拉是最厉害的神！他每天坐着太阳船在天上飞来飞去。"},{emoji:"🐕",name:"阿努比斯",role:"冥界之神",desc:"阿努比斯长着狼头，负责照顾去世的人，帮他们走好最后的路。"},{emoji:"👁️",name:"荷鲁斯",role:"天空之神",desc:"荷鲁斯是鹰头神，他的眼睛叫「荷鲁斯之眼」，是保护的象征。"},{emoji:"🌊",name:"伊西斯",role:"魔法女神",desc:"伊西斯是很厉害的魔法女神，也是荷鲁斯的妈妈。"},{emoji:"🐊",name:"索贝克",role:"鳄鱼神",desc:"索贝克长着鳄鱼头，住在尼罗河里，负责保护河流。"}];
+  const gg=document.getElementById("godsGrid");gg.innerHTML=GODS.map((g,i)=>`<div class="god" data-i="${i}"><div class="emoji">${g.emoji}</div><div class="name">${g.name}</div><div class="role">${g.role}</div><div class="desc">${g.desc}</div></div>`).join("");
+  gg.addEventListener("click",e=>{const el=e.target.closest(".god");if(!el)return;const was=el.classList.contains("active");document.querySelectorAll(".god").forEach(x=>x.classList.remove("active"));if(!was)el.classList.add("active")});
+  const HIERO=[{glyph:"𓂀",mean:"眼睛"},{glyph:"𓅓",mean:"猫头鹰"},{glyph:"𓆓",mean:"蛇"},{glyph:"𓊖",mean:"房子"},{glyph:"𓅱",mean:"小鸡"},{glyph:"𓆣",mean:"甲虫"},{glyph:"𓄿",mean:"秃鹫"},{glyph:"𓍿",mean:"面包"},{glyph:"𓎡",mean:"篮子"},{glyph:"𓋹",mean:"生命"}];
+  const hg=document.getElementById("hieroGrid");hg.innerHTML=HIERO.map(h=>`<div class="hiero"><div class="glyph">${h.glyph}</div><div class="mean">${h.mean}</div></div>`).join("");
+  const LAYERS=7;const plBox=document.getElementById("pyramidLayers");let placed=0;
+  function renderPyramid(){plBox.innerHTML="";for(let r=0;r<LAYERS;r++){const row=document.createElement("div");row.className="pl-row";const n=LAYERS-r;for(let c=0;c<n;c++){const b=document.createElement("div");b.className="pl-block"+(r<placed?" done":"");b.dataset.row=r;b.addEventListener("click",()=>{const rowN=parseInt(b.dataset.row);if(rowN===placed){placed++;playSound("build");renderPyramid();document.getElementById("plMsg").textContent=placed===LAYERS?"🎉 太棒了！你拼出了一座金字塔！":"很好！继续往上一层～"}else if(rowN<placed){/*already done*/}else{document.getElementById("plMsg").textContent="👆 先把下面一层拼好，再拼上面！"}});row.appendChild(b)}plBox.appendChild(row)}}
+  renderPyramid();
+let audioCtx=null;function playSound(t){try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator();const g=audioCtx.createGain();o.connect(g);g.connect(audioCtx.destination);if(t==="correct"){o.frequency.value=784;o.type="sine";g.gain.setValueAtTime(.15,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.3);o.start();o.stop(audioCtx.currentTime+.3)}else if(t==="wrong"){o.frequency.value=196;o.type="sawtooth";g.gain.setValueAtTime(.08,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.25);o.start();o.stop(audioCtx.currentTime+.25)}else if(t==="build"){o.frequency.value=1046;o.type="sine";g.gain.setValueAtTime(.12,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+.2);o.start();o.stop(audioCtx.currentTime+.2)}}catch(e){}}
+  
+  const qs=document.querySelectorAll(".quiz-q");qs.forEach(q=>{q.querySelectorAll(".opt").forEach(btn=>{btn.addEventListener("click",()=>{if(q.dataset.done)return;q.dataset.done="1";const ans=q.dataset.answer;q.querySelectorAll(".opt").forEach(b=>{if(b.dataset.v===ans)b.classList.add("correct")});if(btn.dataset.v!==ans)btn.classList.add("wrong");playSound(btn.dataset.v===ans?"correct":"wrong")})})});
+  document.addEventListener("click",()=>{if(document.querySelectorAll('.quiz-q[data-done="1"]').length===qs.length){let right=0;qs.forEach(q=>{if(!q.querySelector(".opt.wrong"))right++});const r=document.getElementById("quizResult");r.textContent=`🏅 你答对 ${right} / ${qs.length} 题！`+(right===qs.length?" 你就是埃及小博士！🔺":" 再看看上面的内容吧～");reportQuiz(right,qs.length)}});
+  function reportQuiz(score,total){const payload={type:"quiz-result",topicId:"egypt",title:"古埃及",emoji:"🔺",score,total};if(window.parent&&window.parent!==window)window.parent.postMessage(payload,"*")}
+</script>
+</body>
+</html>

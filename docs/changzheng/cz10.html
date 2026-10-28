@@ -363,7 +363,7 @@
     cdTimer = setInterval(() => {
       n--;
       if (n > 0) { cdNum.textContent = n; }
-      else if (n === 0) { cdNum.textContent = "点火!"; cdNum.classList.add("go"); flame.classList.add("show"); cdMsg.textContent = "嗖——！长征十号飞上天啦！🌕🚀"; }
+      else if (n === 0) { cdNum.textContent = "点火!"; cdNum.classList.add("go"); flame.classList.add("show"); cdMsg.textContent = "嗖——！长征十号飞上天啦！🌕🚀"; playSound("launch"); }
       else { clearInterval(cdTimer); }
     }, 800);
   });
@@ -409,12 +409,13 @@
     slot.textContent = piece.textContent;
     piece.classList.add("placed");
     piece.setAttribute("draggable", "false");
+    playSound("build");
     checkBuild();
   }
   function checkBuild() {
     const done = slotsEl.querySelectorAll(".slot.filled").length;
     if (done === 5) {
-      buildMsg.textContent = "🎉 哇！你拼出一支长征十号啦！3、2、1——发射！🚀🌕";
+      buildMsg.textContent = "🎉 哇！你拼出一支长征十号啦！3、2、1——发射！🚀🌕"; playSound("launch");
       setTimeout(() => { buildMsg.textContent += " 🔥🔥🔥"; }, 400);
     } else {
       buildMsg.textContent = `已经放好 ${done} / 5 块，继续拼！${"🚀".repeat(done)}`;
@@ -431,6 +432,7 @@
         const ans = q.dataset.answer;
         q.querySelectorAll(".opt").forEach((b) => { if (b.dataset.v === ans) b.classList.add("correct"); });
         if (btn.dataset.v !== ans) btn.classList.add("wrong");
+        playSound(btn.dataset.v === ans ? "correct" : "wrong");
       });
     });
   });
@@ -443,6 +445,21 @@
       reportQuiz(right, qs.length);
     }
   });
+
+  /* 音效反馈（不依赖外部文件，用 Web Audio API 合成） */
+  let audioCtx = null;
+  function playSound(type) {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      if (type === "correct") { osc.frequency.value = 784; osc.type = "sine"; gain.gain.setValueAtTime(0.15, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3); osc.start(); osc.stop(audioCtx.currentTime + 0.3); }
+      else if (type === "wrong") { osc.frequency.value = 196; osc.type = "sawtooth"; gain.gain.setValueAtTime(0.08, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25); osc.start(); osc.stop(audioCtx.currentTime + 0.25); }
+      else if (type === "launch") { osc.frequency.setValueAtTime(120, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.6); osc.type = "triangle"; gain.gain.setValueAtTime(0.18, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.7); osc.start(); osc.stop(audioCtx.currentTime + 0.7); }
+      else if (type === "build") { osc.frequency.value = 1046; osc.type = "sine"; gain.gain.setValueAtTime(0.12, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.2); osc.start(); osc.stop(audioCtx.currentTime + 0.2); }
+    } catch (e) {}
+  }
 
   /* 上报成绩给门户 */
   function reportQuiz(score, total) {

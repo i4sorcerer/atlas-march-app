@@ -56,8 +56,8 @@ window.CATEGORIES = [
         emoji: "🇨🇳",
         topics: [
           { id: "cz10", title: "长征十号", emoji: "🚀", desc: "中国载人登月的大力士火箭", url: "../changzheng/cz10.html", ready: true },
-          { id: "cz5", title: "长征五号", emoji: "🚀", desc: "中国的大火箭胖五", url: "", ready: false },
-          { id: "cz2f", title: "长征二号F", emoji: "🚀", desc: "送神舟飞船上太空的火箭", url: "", ready: false }
+          { id: "cz5", title: "长征五号", emoji: "🚀", desc: "中国的大火箭胖五", url: "../changzheng/cz5.html", ready: true },
+          { id: "cz2f", title: "长征二号F", emoji: "🚀", desc: "送神舟飞船上太空的火箭", url: "../changzheng/cz2f.html", ready: true }
         ]
       },
       {
@@ -147,8 +147,8 @@ window.CATEGORIES = [
         name: "世界文明",
         emoji: "🌏",
         topics: [
-          { id: "egypt", title: "古埃及", emoji: "🔺", desc: "金字塔与法老的神秘国度", url: "", ready: false },
-          { id: "rome", title: "古罗马", emoji: "🏟️", desc: "斗兽场与角斗士的时代", url: "", ready: false }
+          { id: "egypt", title: "古埃及", emoji: "🔺", desc: "金字塔与法老的神秘国度", url: "../history-kids/egypt.html", ready: true },
+          { id: "rome", title: "古罗马", emoji: "🏟️", desc: "斗兽场与角斗士的时代", url: "../history-kids/rome.html", ready: true }
         ]
       },
       {
@@ -156,7 +156,7 @@ window.CATEGORIES = [
         name: "古代发明",
         emoji: "🧭",
         topics: [
-          { id: "four-inventions", title: "四大发明", emoji: "📜", desc: "造纸、印刷、火药、指南针", url: "", ready: false }
+          { id: "four-inventions", title: "四大发明", emoji: "📜", desc: "造纸、印刷、火药、指南针", url: "../history-kids/four-inventions.html", ready: true }
         ]
       }
     ]

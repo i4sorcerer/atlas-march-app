@@ -1,5 +1,19 @@
 // ============ 小测验 ============
 
+// ============ 小测验 ============
+
+let audioCtx = null;
+function playSound(type) {
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    if (type === "correct") { osc.frequency.value = 784; osc.type = "sine"; gain.gain.setValueAtTime(0.15, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.3); osc.start(); osc.stop(audioCtx.currentTime + 0.3); }
+    else if (type === "wrong") { osc.frequency.value = 196; osc.type = "sawtooth"; gain.gain.setValueAtTime(0.08, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25); osc.start(); osc.stop(audioCtx.currentTime + 0.25); }
+  } catch (e) {}
+}
+
 const QUIZ_BANK = [
   { q: "中国第一个王朝是哪个？", options: ["夏朝", "商朝", "周朝", "秦朝"], answer: 0, explain: "大禹的儿子启建立了中国第一个王朝——夏朝。" },
   { q: "兵马俑属于哪个朝代？", options: ["周朝", "秦朝", "汉朝", "唐朝"], answer: 1, explain: "兵马俑是秦始皇陵的一部分，距今 2000 多年。" },
@@ -163,6 +177,8 @@ function handleAnswer(choiceIdx) {
 
   if (isCorrect) quizState.score++;
 
+  playSound(isCorrect ? "correct" : "wrong");
+
   // 标记选项
   const opts = document.querySelectorAll('.quiz-option');
   opts.forEach((btn, i) => {
@@ -198,6 +214,11 @@ function showResult() {
   const resultText = document.getElementById('resultText');
 
   resultText.textContent = `你答对了 ${score}/${total} 题`;
+
+  // 上报成绩给门户
+  if (window.parent && window.parent !== window) {
+    window.parent.postMessage({ type: "quiz-result", topicId: "dynasties", title: "中华历史朝代", emoji: "🐉", score, total }, "*");
+  }
 
   if (score === 5) {
     resultIcon.textContent = '🏆';
