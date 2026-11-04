@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f2ead8">
+<title>你听过这些传说吗？ · Mario 的中华五千年</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&amp;family=Noto+Serif+SC:wght@400;600;700;900&amp;family=ZCOOL+KuaiLe&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/story.css">
+<link rel="stylesheet" href="../css/section-01.css">
+</head>
+<body class="story-page">
+
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mario-sprite" viewBox="0 0 180 270">
+      <ellipse cx="90" cy="250" rx="55" ry="12" fill="#20343a" opacity=".16"/>
+      <path d="M45 103 Q30 120 33 174 L62 178 L61 112Z" fill="#b9822d"/>
+      <path d="M44 128 Q35 142 37 164 L57 168 L57 126Z" fill="#e0b45c"/>
+      <path d="M66 188 L63 224" stroke="#d8aa7b" stroke-width="21" stroke-linecap="round"/>
+      <path d="M114 188 L118 224" stroke="#d8aa7b" stroke-width="21" stroke-linecap="round"/>
+      <path d="M44 224 Q60 218 78 224 L78 238 Q58 247 39 239Z" fill="#324f57"/>
+      <path d="M102 224 Q121 218 140 225 L141 239 Q121 248 101 239Z" fill="#324f57"/>
+      <path d="M46 103 Q90 88 134 103 L143 187 Q91 201 37 187Z" fill="#b64637"/>
+      <path d="M42 105 Q20 98 24 82 Q39 67 55 91 Q47 96 42 105Z" fill="#8e3028"/>
+      <path d="M50 112 Q29 145 30 177" fill="none" stroke="#a83b30" stroke-width="19" stroke-linecap="round"/>
+      <path d="M130 112 Q151 145 149 176" fill="none" stroke="#a83b30" stroke-width="19" stroke-linecap="round"/>
+      <circle cx="31" cy="180" r="11" fill="#e3b187"/>
+      <circle cx="149" cy="179" r="11" fill="#e3b187"/>
+      <path d="M61 188 Q91 197 120 188 L124 207 Q91 217 57 207Z" fill="#b6a16e"/>
+      <line x1="90" y1="101" x2="90" y2="187" stroke="#f0ce99" stroke-width="3"/>
+      <circle cx="90" cy="132" r="3.5" fill="#f6dfb3"/>
+      <circle cx="90" cy="158" r="3.5" fill="#f6dfb3"/>
+      <path d="M77 94 L77 78 L103 78 L103 94Z" fill="#deb087"/>
+      <circle cx="48" cy="72" r="12" fill="#e4b184"/>
+      <circle cx="132" cy="72" r="12" fill="#e4b184"/>
+      <ellipse cx="90" cy="69" rx="45" ry="47" fill="#e6b68a"/>
+      <path d="M43 69 Q39 14 91 13 Q143 16 138 71 Q131 50 122 38 Q91 53 58 38 Q49 50 43 69Z" fill="#222b2f"/>
+      <path d="M49 39 Q66 17 91 16 Q115 15 132 40 Q109 31 91 34 Q69 35 49 39Z" fill="#2d383c"/>
+      <path d="M55 75 Q66 69 77 75" fill="none" stroke="#3d3029" stroke-width="4" stroke-linecap="round"/>
+      <path d="M103 75 Q114 69 125 75" fill="none" stroke="#3d3029" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="70" cy="86" rx="5.5" ry="7" fill="#263338"/>
+      <ellipse cx="110" cy="86" rx="5.5" ry="7" fill="#263338"/>
+      <circle cx="71.5" cy="83.5" r="1.7" fill="#fff"/>
+      <circle cx="111.5" cy="83.5" r="1.7" fill="#fff"/>
+      <path d="M90 87 Q87 96 93 97" fill="none" stroke="#b3785d" stroke-width="3" stroke-linecap="round"/>
+      <path d="M76 105 Q90 117 105 104" fill="none" stroke="#964f45" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="60" cy="100" rx="10" ry="5" fill="#d9877b" opacity=".45"/>
+      <ellipse cx="120" cy="100" rx="10" ry="5" fill="#d9877b" opacity=".45"/>
+      <circle cx="149" cy="178" r="20" fill="#d9a945" stroke="#72511f" stroke-width="3"/>
+      <circle cx="149" cy="178" r="13" fill="#fff0bd" stroke="#8f6929" stroke-width="2"/>
+      <path d="M149 168 L153 177 L149 187 L145 177Z" fill="#b64234"/>
+      <circle cx="149" cy="178" r="3" fill="#5e6d60"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="paper-grain" aria-hidden="true"></div>
+
+<header class="book-bar">
+  <a class="book-home" href="../index.html" aria-label="回到故事地图">
+    <span>←</span>
+    <span class="book-home-text">故事地图</span>
+  </a>
+  <div class="book-heading">
+    <span>第一章 · 远古 / 第 1 节</span>
+    <b>你听过这些传说吗？</b>
+  </div>
+  <div class="book-tools">
+    <span class="star-meter" id="starCount" aria-label="已获得 0 颗探索星">🌟 0 / 7</span>
+    <button class="tool-button" id="soundToggle" type="button" aria-pressed="false" aria-label="打开朗读">🔇 朗读</button>
+    <button class="tool-button parent-button" id="parentButton" type="button">家长指南</button>
+  </div>
+  <div class="book-progress" aria-hidden="true"><i id="progressBar"></i></div>
+</header>
+
+<main class="book" id="book">
+
+  <!-- 0. 封面 -->
+  <section class="scene scene-cover active" data-scene="cover" data-narration="Mario 在书架旁发现了一只发光的黄铜罗盘。罗盘说：历史不是一条只能看不能走的路。Mario，转动我，我们出发吧。">
+    <div class="scene-art cover-art">
+      <svg class="cover-svg" viewBox="0 0 760 620" role="img" aria-label="夜晚的房间里，Mario 发现一只发光的黄铜时空罗盘">
+        <defs>
+          <linearGradient id="coverWall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#183b46"/>
+            <stop offset="100%" stop-color="#2b5960"/>
+          </linearGradient>
+          <linearGradient id="coverDesk" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#9b6735"/>
+            <stop offset="100%" stop-color="#5f3d25"/>
+          </linearGradient>
+          <radialGradient id="compassLight">
+            <stop offset="0%" stop-color="#fff8d7" stop-opacity=".98"/>
+            <stop offset="50%" stop-color="#e7bb60" stop-opacity=".58"/>
+            <stop offset="100%" stop-color="#d39d39" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="760" height="620" fill="url(#coverWall)"/>
+        <path d="M0 501 Q168 460 352 503 T760 492 V620 H0Z" fill="#17343b"/>
+        <circle cx="611" cy="112" r="67" fill="#f4df9d" opacity=".9"/>
+        <circle cx="635" cy="95" r="67" fill="url(#coverWall)"/>
+        <g fill="#f6e6ad">
+          <circle cx="92" cy="92" r="2.5"/><circle cx="189" cy="133" r="2"/>
+          <circle cx="274" cy="62" r="3"/><circle cx="388" cy="113" r="2"/>
+          <circle cx="491" cy="55" r="2.5"/><circle cx="699" cy="209" r="2"/>
+          <circle cx="567" cy="197" r="2.4"/><circle cx="121" cy="215" r="1.8"/>
+        </g>
+        <rect x="68" y="138" width="190" height="220" rx="5" fill="#0c222d" stroke="#9a7445" stroke-width="8"/>
+        <path d="M163 138V358M68 248H258" stroke="#9a7445" stroke-width="5"/>
+        <rect x="482" y="264" width="201" height="18" rx="4" fill="#7c542f"/>
+        <g>
+          <rect x="500" y="220" width="18" height="44" rx="2" fill="#b74638"/>
+          <rect x="521" y="228" width="15" height="36" rx="2" fill="#d7a642"/>
+          <rect x="539" y="211" width="23" height="53" rx="2" fill="#476f69"/>
+          <rect x="566" y="230" width="17" height="34" rx="2" fill="#efe0b9"/>
+          <path d="M624 229 l12 -20 12 20z" fill="#c99a43"/>
+          <rect x="632" y="226" width="8" height="38" fill="#6c4b29"/>
+        </g>
+        <path d="M433 404 Q532 367 676 398 L709 475 Q566 502 405 470Z" fill="url(#coverDesk)"/>
+        <path d="M495 392 Q572 379 650 392" fill="none" stroke="#bc8c54" stroke-width="3" opacity=".55"/>
+        <circle cx="565" cy="375" r="95" fill="url(#compassLight)" class="cover-compass-glow"/>
+        <g class="cover-compass" transform="translate(565 375)">
+          <circle r="46" fill="#d8a644" stroke="#704b20" stroke-width="5"/>
+          <circle r="34" fill="#fff0bc" stroke="#9b702d" stroke-width="2"/>
+          <path d="M0 -27 L9 0 L0 29 L-9 0Z" fill="#b44435"/>
+          <circle r="5" fill="#365b56"/>
+          <path d="M0 -59V-51M0 51V59M-59 0H-51M51 0H59" stroke="#e5bd67" stroke-width="4"/>
+        </g>
+        <use href="#mario-sprite" x="273" y="242" width="190" height="285"/>
+        <path d="M329 434 Q449 393 507 391" fill="none" stroke="#f1cb73" stroke-width="2" stroke-dasharray="3 9" opacity=".65"/>
+        <g fill="none" stroke="#f2d884" stroke-width="2" opacity=".6">
+          <path d="M238 326 q28 -42 66 -19"/>
+          <path d="M230 350 q22 20 46 4"/>
+        </g>
+        <text x="93" y="527" fill="#f5e6bd" font-size="17" font-family="Noto Serif SC, serif" opacity=".85">有些东西变了，</text>
+        <text x="93" y="553" fill="#f5e6bd" font-size="17" font-family="Noto Serif SC, serif" opacity=".85">有些东西一直没有变。</text>
+      </svg>
+      <div class="cover-sticker">罗盘亮了！</div>
+    </div>
+    <div class="scene-copy cover-copy">
+      <p class="eyebrow">第一章 · 远古 · 第 1 节</p>
+      <h1>你听过<br><em>这些传说</em>吗？</h1>
+      <p class="story-lead">
+        夜里，Mario 的书架旁忽然亮起一圈金光。一只小小的黄铜罗盘，正在等他。
+      </p>
+      <blockquote class="compass-speech">
+        “历史不是一条只能看、不能走的路。Mario，转动我，我们出发吧。”
+      </blockquote>
+      <button class="btn btn-primary start-button" id="startButton" type="button">
+        转动时空罗盘 <span>↻</span>
+      </button>
+      <p class="micro-hint">建议和爸爸妈妈一起读 · 一次约 8–12 分钟</p>
+    </div>
+  </section>
+
+  <!-- 1. 天地大鸡蛋 -->
+  <section class="scene scene-egg" data-scene="egg" data-task="egg" data-narration="Mario 来到了很久很久以前。古人想象，天地还没有分开的时候，宇宙像一颗黑黑的大鸡蛋。这里面没有声音，也没有光。这是传说，是古人想象出来的故事。敲一敲大鸡蛋，看看会发生什么。">
+    <div class="scene-art egg-art" aria-hidden="true">
+      <div class="star-field">
+        <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+      </div>
+      <div class="egg-mario">
+        <svg viewBox="0 0 180 270"><use href="#mario-sprite"/></svg>
+      </div>
+      <div class="cosmic-egg" id="cosmicEgg" data-crack="0">
+        <span class="egg-aura"></span>
+        <span class="egg-shine"></span>
+        <svg class="egg-cracks" viewBox="0 0 260 340">
+          <path class="crack crack-one" d="M137 15 L121 73 L146 109 L123 151 L149 190"/>
+          <path class="crack crack-two" d="M145 51 L191 81 L174 117 L214 142"/>
+          <path class="crack crack-three" d="M116 126 L72 156 L91 195 L52 219"/>
+        </svg>
+        <span class="egg-word egg-word-sky">轻 → 天</span>
+        <span class="egg-word egg-word-earth">重 → 地</span>
+      </div>
+      <div class="egg-spark spark-a"></div>
+      <div class="egg-spark spark-b"></div>
+      <div class="egg-spark spark-c"></div>
+    </div>
+    <div class="scene-copy">
+      <p class="eyebrow">第一站 · 古人的想象</p>
+      <h2>天地，<br>像一颗黑黑的大鸡蛋</h2>
+      <p>
+        很久很久以前，古人想：世界一开始是什么样子呢？
+        他们讲了一个故事：天地还没分开，宇宙就像一颗安静的大鸡蛋。
+      </p>
+      <div class="story-insight">
+        <span class="insight-mark">传说</span>
+        <p>这不是考古学家找到的历史事实，而是古人用想象解释世界的故事。</p>
+      </div>
+      <div class="interaction-panel">
+        <button class="action-button egg-button" id="eggTap" type="button">
+          <span>🥚</span> 敲一敲大鸡蛋
+        </button>
+        <div class="tap-meter" aria-label="敲鸡蛋进度">
+          <i></i><i></i><i></i>
+        </div>
+        <p class="action-hint" id="eggHint">轻轻敲 3 下，听听里面有什么声音。</p>
+      </div>
+      <p class="fact-line" id="eggReveal" aria-live="polite">
+        咔嚓——轻的东西往上飘，慢慢变成天；重的东西往下沉，慢慢变成地。
+      </p>
+    </div>
+  </section>
+
+  <!-- 2. 盘古撑天 -->
+  <section class="scene scene-pangu" data-scene="pangu" data-task="pangu" data-narration="传说里，盘古在天地之间醒来了。他用手托住天，用脚踩住地，一天又一天，天越来越高，地越来越厚。点五下，和盘古一起把天托起来。">
+    <div class="scene-art pangu-art" id="panguArt" aria-hidden="true">
+      <svg viewBox="0 0 760 650" class="pangu-svg">
+        <defs>
+          <linearGradient id="panguSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#183c4b"/>
+            <stop offset="50%" stop-color="#638b91"/>
+            <stop offset="100%" stop-color="#d6c38f"/>
+          </linearGradient>
+          <linearGradient id="panguEarth" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7c7450"/>
+            <stop offset="100%" stop-color="#2f403b"/>
+          </linearGradient>
+          <radialGradient id="panguAura">
+            <stop offset="0%" stop-color="#f8e7ad" stop-opacity=".8"/>
+            <stop offset="60%" stop-color="#e3b95f" stop-opacity=".28"/>
+            <stop offset="100%" stop-color="#e3b95f" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="760" height="650" fill="url(#panguSky)"/>
+        <g class="pangu-sky-layer">
+          <circle cx="593" cy="103" r="56" fill="#f3dc95" opacity=".82"/>
+          <circle cx="622" cy="83" r="56" fill="#2d5967" opacity=".42"/>
+          <path d="M0 180 Q116 139 226 184 T477 174 T760 191 V0 H0Z" fill="#0f2e3c" opacity=".38"/>
+          <g fill="#f4e5b2" opacity=".55">
+            <circle cx="105" cy="92" r="2"/><circle cx="196" cy="145" r="2.5"/>
+            <circle cx="286" cy="73" r="2"/><circle cx="474" cy="129" r="2.4"/>
+            <circle cx="691" cy="186" r="2"/>
+          </g>
+        </g>
+        <circle cx="380" cy="292" r="238" fill="url(#panguAura)"/>
+        <g class="pangu-figure">
+          <path d="M318 374 Q294 279 335 221 Q368 175 380 169 Q392 175 425 221 Q466 279 442 374 L469 503 Q380 532 291 503Z" fill="#234b4d"/>
+          <path d="M336 229 Q282 178 245 108" fill="none" stroke="#234b4d" stroke-width="42" stroke-linecap="round"/>
+          <path d="M424 229 Q478 178 515 108" fill="none" stroke="#234b4d" stroke-width="42" stroke-linecap="round"/>
+          <path d="M245 108 Q230 94 224 77" fill="none" stroke="#234b4d" stroke-width="29" stroke-linecap="round"/>
+          <path d="M515 108 Q530 94 536 77" fill="none" stroke="#234b4d" stroke-width="29" stroke-linecap="round"/>
+          <path d="M342 350 L310 492" fill="none" stroke="#234b4d" stroke-width="54" stroke-linecap="round"/>
+          <path d="M418 350 L450 492" fill="none" stroke="#234b4d" stroke-width="54" stroke-linecap="round"/>
+          <ellipse cx="380" cy="158" rx="56" ry="62" fill="#2a5756"/>
+          <path d="M326 152 Q326 81 380 76 Q438 78 437 151 Q415 139 397 119 Q365 138 326 152Z" fill="#1b3e42"/>
+          <path d="M342 211 Q380 236 418 211" fill="none" stroke="#6d8d73" stroke-width="4" opacity=".65"/>
+          <path d="M354 159 Q366 153 378 159" fill="none" stroke="#e6d59d" stroke-width="3" stroke-linecap="round"/>
+          <path d="M384 159 Q396 153 408 159" fill="none" stroke="#e6d59d" stroke-width="3" stroke-linecap="round"/>
+          <path d="M369 183 Q380 190 392 182" fill="none" stroke="#c4a76b" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <g class="pangu-earth-layer">
+          <path d="M0 510 Q128 466 261 508 T527 500 T760 512 V650 H0Z" fill="url(#panguEarth)"/>
+          <path d="M0 558 Q161 525 310 558 T625 551 T760 563 V650 H0Z" fill="#263c38" opacity=".75"/>
+          <path d="M97 540 l45 -40 38 41zM619 540 l56 -50 48 50z" fill="#536250" opacity=".65"/>
+        </g>
+        <g class="pangu-words" fill="#fff2c6" font-family="ZCOOL KuaiLe, sans-serif" font-size="16" opacity="0">
+          <text x="115" y="136">云</text><text x="632" y="154">风</text>
+          <text x="98" y="433">山</text><text x="642" y="463">河</text>
+        </g>
+      </svg>
+      <div class="pangu-counter">天和地分开啦！</div>
+    </div>
+    <div class="scene-copy">
+      <p class="eyebrow">传说 · 盘古开天</p>
+      <h2>盘古把天，<br>一天天撑高</h2>
+      <p>
+        传说里，盘古在天地之间醒来。他托住天、踩住地，
+        天每天升高，地每天变厚。很久以后，天地终于分开了。
+      </p>
+      <div class="interaction-panel">
+        <button class="action-button sky-button" id="liftSky" type="button">
+          <span>🙌</span> 点一下，帮盘古撑住天
+        </button>
+        <div class="hold-progress"><i id="panguProgress"></i></div>
+        <p class="action-hint" id="panguHint">还差 5 下，天就会更高一点。</p>
+      </div>
+      <div class="myth-notes" id="panguNotes" aria-live="polite">
+        <span>呼出的气 → 风云</span>
+        <span>左眼 → 太阳</span>
+        <span>右眼 → 月亮</span>
+        <span>身体 → 山川</span>
+      </div>
+      <p class="fact-line compact">
+        这是古人的想象。它回答的是：世界可能从哪里来？
+      </p>
+    </div>
+  </section>
+
+  <!-- 3. 女娲造人 -->
+  <section class="scene scene-nuwa" data-scene="nuwa" data-task="nuwa" data-narration="传说里，女娲来到河边。她看见大地很美，却只有她一个人。于是她挖起黄泥，加了水，揉成团，捏出小人，再轻轻吹一口气。小泥人活了。点五下黄泥，和女娲一起捏一个小人。">
+    <div class="scene-art nuwa-art" aria-hidden="true">
+      <svg viewBox="0 0 760 650" class="nuwa-svg">
+        <defs>
+          <linearGradient id="nuwaSky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#eee0b7"/>
+            <stop offset="55%" stop-color="#d5c48f"/>
+            <stop offset="100%" stop-color="#a7b69b"/>
+          </linearGradient>
+          <linearGradient id="nuwaRiver" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#527d7b"/>
+            <stop offset="100%" stop-color="#b6c5ae"/>
+          </linearGradient>
+        </defs>
+        <rect width="760" height="650" fill="url(#nuwaSky)"/>
+        <circle cx="621" cy="100" r="65" fill="#f6d987" opacity=".78"/>
+        <path d="M0 348 Q104 256 226 347 Q340 258 462 344 Q581 262 760 338 V650 H0Z" fill="#718a78" opacity=".66"/>
+        <path d="M0 424 Q128 365 272 428 T525 420 T760 435 V650 H0Z" fill="#465f57" opacity=".74"/>
+        <path d="M0 492 Q136 454 305 500 T593 489 T760 502 V650 H0Z" fill="url(#nuwaRiver)" opacity=".82"/>
+        <path d="M0 527 Q160 504 302 531 T569 525 T760 540" fill="none" stroke="#d9dcb5" stroke-width="3" opacity=".4"/>
+        <g class="nuwa-figure">
+          <path d="M426 223 Q397 243 373 292 L306 487 Q384 532 528 490 L478 292 Q452 244 426 223Z" fill="#a54034"/>
+          <path d="M364 302 Q310 333 290 383" fill="none" stroke="#b64a3a" stroke-width="34" stroke-linecap="round"/>
+          <path d="M474 303 Q528 327 551 373" fill="none" stroke="#b64a3a" stroke-width="34" stroke-linecap="round"/>
+          <circle cx="426" cy="175" r="51" fill="#e7b78d"/>
+          <path d="M376 171 Q374 103 428 98 Q483 100 477 176 Q456 153 440 130 Q410 151 376 171Z" fill="#303235"/>
+          <path d="M376 166 Q350 205 361 258 Q379 251 392 223" fill="#303235"/>
+          <path d="M477 166 Q503 207 493 258 Q475 252 462 223" fill="#303235"/>
+          <path d="M404 171 Q414 166 424 171" fill="none" stroke="#6b4939" stroke-width="3" stroke-linecap="round"/>
+          <path d="M433 171 Q443 166 453 171" fill="none" stroke="#6b4939" stroke-width="3" stroke-linecap="round"/>
+          <path d="M417 197 Q428 204 441 196" fill="none" stroke="#a75a4c" stroke-width="3" stroke-linecap="round"/>
+          <path d="M344 255 Q275 267 244 324 Q303 348 365 295" fill="#c45c4b" opacity=".72"/>
+          <path d="M502 258 Q570 270 598 326 Q530 355 482 300" fill="#d1a14d" opacity=".55"/>
+          <path d="M390 332 Q426 360 466 331" fill="none" stroke="#e4b55d" stroke-width="7" opacity=".8"/>
+        </g>
+        <g fill="#6d7b61" opacity=".7">
+          <path d="M104 498 l31 -69 27 68zM172 510 l26 -52 23 52zM613 503 l30 -62 25 62z"/>
+        </g>
+        <g class="river-sparkles" fill="#ecdfac">
+          <circle cx="165" cy="558" r="3"/><circle cx="301" cy="585" r="2.5"/>
+          <circle cx="508" cy="563" r="3"/><circle cx="648" cy="590" r="2"/>
+        </g>
+      </svg>
+      <div class="clay-work" id="clayWork" data-stage="0">
+        <span class="clay-head"></span>
+        <span class="clay-body"></span>
+        <span class="clay-arm clay-arm-left"></span>
+        <span class="clay-arm clay-arm-right"></span>
+        <span class="clay-leg clay-leg-left"></span>
+        <span class="clay-leg clay-leg-right"></span>
+        <span class="clay-sheen"></span>
+        <span class="clay-babies">🧡 🧡 🧡</span>
+      </div>
+      <div class="nuwa-caption">黄泥 + 水 + 一口气</div>
+    </div>
+    <div class="scene-copy">
+      <p class="eyebrow">传说 · 女娲造人</p>
+      <h2>女娲捏出<br>第一批小人</h2>
+      <p>
+        女娲来到河边，挖起黄泥，加上水，揉一揉、捏一捏，
+        捏出一个个小人儿。她轻轻吹一口气，小泥人竟然活了。
+      </p>
+      <div class="interaction-panel">
+        <button class="action-button clay-button" id="clayTap" type="button">
+          <span>🤲</span> 点一下，捏捏黄泥
+        </button>
+        <div class="clay-dots" aria-label="捏泥人进度">
+          <i></i><i></i><i></i><i></i><i></i>
+        </div>
+        <p class="action-hint" id="nuwaHint">第 1 步：先加一点水。</p>
+      </div>
+      <div class="story-insight">
+        <span class="insight-mark">传说</span>
+        <p>女娲造人也在回答一个大问题：我们从哪里来？</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 传说还是考古线索 -->
+  <section class="scene scene-detective" data-scene="detective" data-task="sort" data-narration="Mario，传说很好听，可是历史侦探还要问一句：这是故事，还是我们真的找到了什么？桌上还有四张卡片，请你把它们分进两个抽屉：传说，和考古线索。">
+    <div class="detective-board">
+      <div class="detective-copy">
+        <p class="eyebrow">互动关卡 · 传说侦探局</p>
+        <h2>这是故事，<br>还是土里的线索？</h2>
+        <p>
+          传说帮古人解释世界；考古学家则在地层里寻找真实留下的东西。
+          读一读卡片，把它送进正确的抽屉。
+        </p>
+        <div class="case-counter">
+          <span>线索卡</span>
+          <b id="sortCount">1 / 4</b>
+        </div>
+      </div>
+
+      <div class="sort-game">
+        <div class="case-card" id="sortCard">
+          <span class="case-stamp">案件 Card</span>
+          <span class="case-icon" id="sortIcon">🥚</span>
+          <p id="sortText">盘古把天地分开，身体变成了山川日月。</p>
+        </div>
+        <div class="sort-actions">
+          <button class="sort-button myth" type="button" data-sort="myth">
+            <span>📜</span>
+            <b>这是传说</b>
+            <small>古人想象、讲出来的故事</small>
+          </button>
+          <button class="sort-button evidence" type="button" data-sort="evidence">
+            <span>🔎</span>
+            <b>这是考古线索</b>
+            <small>土里真正找到的东西</small>
+          </button>
+        </div>
+        <p class="sort-feedback" id="sortFeedback" aria-live="polite">选一个抽屉吧。</p>
+      </div>
+
+      <aside class="detective-note">
+        <span class="note-tape" aria-hidden="true"></span>
+        <h3>侦探小口诀</h3>
+        <p><b>传说</b>：古人用想象力解释世界的故事。</p>
+        <p><b>考古线索</b>：从土里挖出来、能摸到、能测量的真实东西。</p>
+        <div class="note-rule"></div>
+        <p class="note-small">分清楚以后，故事还是可以喜欢；只是心里要记得：这是传说。</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- 5. 山洞考古 -->
+  <section class="scene scene-cave" data-scene="cave" data-task="cave" data-narration="罗盘又转了一圈。Mario 跟着考古学家来到山洞。这里没有文字，可是土地会留下线索。点亮三个发光的小点，找一找古人留下的东西。">
+    <div class="scene-art cave-art">
+      <svg viewBox="0 0 760 650" class="cave-svg" role="img" aria-label="山洞里的篝火、灰烬、骨针和石器">
+        <defs>
+          <radialGradient id="caveGlow" cx="50%" cy="58%" r="50%">
+            <stop offset="0%" stop-color="#f3bd5d" stop-opacity=".85"/>
+            <stop offset="46%" stop-color="#b96a32" stop-opacity=".35"/>
+            <stop offset="100%" stop-color="#10242b" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="caveWall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#10242d"/>
+            <stop offset="100%" stop-color="#263e3c"/>
+          </linearGradient>
+        </defs>
+        <rect width="760" height="650" fill="url(#caveWall)"/>
+        <path d="M0 0 H760 V181 Q683 154 631 210 Q558 129 489 207 Q397 111 297 208 Q217 141 133 227 Q57 181 0 211Z" fill="#091a22"/>
+        <path d="M0 173 Q86 129 158 217 Q235 150 301 228 Q390 142 465 224 Q551 145 622 218 Q690 168 760 183 V650 H0Z" fill="#142d33"/>
+        <path d="M0 505 Q120 477 234 515 Q361 474 489 513 Q601 478 760 516 V650 H0Z" fill="#213a38"/>
+        <ellipse cx="380" cy="466" rx="337" ry="218" fill="url(#caveGlow)"/>
+        <g class="cave-fire">
+          <ellipse cx="370" cy="490" rx="86" ry="20" fill="#0b1c20" opacity=".65"/>
+          <path d="M304 485 l125 -25 114 26 -28 23 -194 2z" fill="#5b3b27"/>
+          <path d="M343 469 Q326 420 356 384 Q356 430 382 447 Q387 399 415 375 Q421 434 448 466 Q416 491 383 489 Q355 488 343 469Z" fill="#e48a37"/>
+          <path d="M363 469 Q354 435 378 411 Q379 448 397 462 Q405 431 423 417 Q431 455 433 469 Q412 483 392 481 Q373 480 363 469Z" fill="#f4c85e"/>
+          <path d="M378 472 Q383 447 400 438 Q413 461 407 474 Q393 482 378 472Z" fill="#fff0aa"/>
+        </g>
+        <g class="ash-layer">
+          <ellipse cx="229" cy="507" rx="95" ry="32" fill="#4a4940" opacity=".8"/>
+          <ellipse cx="229" cy="501" rx="67" ry="19" fill="#8b8170" opacity=".5"/>
+          <g fill="#c5b89b" opacity=".65">
+            <circle cx="192" cy="501" r="3"/><circle cx="244" cy="493" r="2"/>
+            <circle cx="273" cy="506" r="2.5"/><circle cx="211" cy="514" r="2"/>
+          </g>
+          <path d="M169 492 l22 -11 13 12 -20 10z" fill="#d7c6a2" opacity=".62"/>
+        </g>
+        <g class="bone-needle" transform="translate(505 488) rotate(-17)">
+          <path d="M-45 0 Q0 -14 45 0 Q0 14 -45 0Z" fill="#e0d2ae"/>
+          <circle cx="23" cy="0" r="4" fill="#7a6550"/>
+          <path d="M-45 0 L-58 0" stroke="#e0d2ae" stroke-width="4" stroke-linecap="round"/>
+        </g>
+        <g class="stone-tool" transform="translate(618 534) rotate(12)">
+          <path d="M-47 3 Q-29 -31 8 -38 Q45 -18 42 14 Q13 38 -27 28Z" fill="#71837d"/>
+          <path d="M-17 -32 L5 22M7 -36 L22 20" stroke="#a9b5a7" stroke-width="2" opacity=".55"/>
+        </g>
+        <g class="cave-mario">
+          <svg x="56" y="270" width="135" height="202" viewBox="0 0 180 270"><use href="#mario-sprite"/></svg>
+        </g>
+        <g fill="#b9b69a" opacity=".35">
+          <path d="M91 153 l18 -24 17 25zM641 237 l21 -31 20 31z"/>
+          <circle cx="187" cy="287" r="3"/><circle cx="530" cy="235" r="2.5"/>
+        </g>
+      </svg>
+      <button class="hotspot hotspot-ash" type="button" data-find="ash" aria-label="查看灰烬线索">
+        <span>🔥</span><i>灰烬</i>
+      </button>
+      <button class="hotspot hotspot-bone" type="button" data-find="bone" aria-label="查看骨针线索">
+        <span>🦴</span><i>骨针</i>
+      </button>
+      <button class="hotspot hotspot-stone" type="button" data-find="stone" aria-label="查看石器线索">
+        <span>🪨</span><i>石器</i>
+      </button>
+      <div class="cave-instruction" id="caveInstruction">点亮 3 个线索</div>
+    </div>
+    <div class="scene-copy cave-copy">
+      <p class="eyebrow">第二站 · 从想象走进证据</p>
+      <h2>山洞里，<br>土地会写日记</h2>
+      <p>
+        考古学家不靠猜，他们一层一层挖土，记录每件东西的位置。
+        灰烬、骨头磨成的针、打过的石头，都在告诉我们古人怎样生活。
+      </p>
+      <div class="find-list" id="findList">
+        <div class="find-row" data-find-row="ash">
+          <span>🔥</span>
+          <div><b>厚厚的灰烬</b><p>这里烧过火。古人可能用火取暖、照明、吓跑野兽。</p></div>
+        </div>
+        <div class="find-row" data-find-row="bone">
+          <span>🦴</span>
+          <div><b>磨尖的骨针</b><p>骨针可以缝兽皮。古人会做很细致的工具。</p></div>
+        </div>
+        <div class="find-row" data-find-row="stone">
+          <span>🪨</span>
+          <div><b>打制的石器</b><p>把石头敲出锋利的边，可以切东西、挖东西。</p></div>
+        </div>
+      </div>
+      <p class="fact-line compact">
+        北京人遗址发现过用火痕迹；山顶洞人遗址发现过骨针和装饰品。
+        这些都是考古证据，不是传说。
+      </p>
+    </div>
+  </section>
+
+  <!-- 6. 回到今天 -->
+  <section class="scene scene-home" data-scene="home" data-task="home" data-narration="罗盘把 Mario 送回了家。晚饭已经做好了。看看桌上的灯、勺子和小绘本，它们和很久以前的古人，有什么悄悄的联系？">
+    <div class="scene-art home-art">
+      <svg viewBox="0 0 760 650" class="home-svg" role="img" aria-label="Mario 回到家，桌上有灯、汤、勺子和绘本">
+        <defs>
+          <linearGradient id="homeWall" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#395d5d"/>
+            <stop offset="100%" stop-color="#c6b07c"/>
+          </linearGradient>
+          <linearGradient id="homeTable" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#a66a3b"/>
+            <stop offset="100%" stop-color="#724728"/>
+          </linearGradient>
+          <radialGradient id="lampLight">
+            <stop offset="0%" stop-color="#ffe5a1" stop-opacity=".85"/>
+            <stop offset="100%" stop-color="#ffe5a1" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="760" height="650" fill="url(#homeWall)"/>
+        <rect x="80" y="84" width="194" height="186" rx="6" fill="#132d39" stroke="#7a5631" stroke-width="8"/>
+        <circle cx="223" cy="146" r="44" fill="#f2d98f"/>
+        <circle cx="242" cy="130" r="44" fill="#203e47"/>
+        <g fill="#f4e2aa"><circle cx="117" cy="135" r="2"/><circle cx="157" cy="207" r="2.5"/><circle cx="206" cy="226" r="2"/></g>
+        <path d="M80 270H274M177 84V270" stroke="#7a5631" stroke-width="5"/>
+        <rect x="506" y="150" width="168" height="14" rx="4" fill="#76502e"/>
+        <rect x="530" y="104" width="25" height="46" rx="2" fill="#b94c3d"/>
+        <rect x="559" y="113" width="18" height="37" rx="2" fill="#e0b552"/>
+        <rect x="582" y="94" width="30" height="56" rx="2" fill="#4f776e"/>
+        <rect x="617" y="118" width="21" height="32" rx="2" fill="#e8d9b6"/>
+        <ellipse cx="360" cy="349" rx="220" ry="210" fill="url(#lampLight)"/>
+        <path d="M0 475 Q156 438 320 471 T760 462 V650 H0Z" fill="#294b4e" opacity=".8"/>
+        <path d="M72 453 Q381 409 693 455 L759 650 H0Z" fill="url(#homeTable)"/>
+        <path d="M100 470 Q383 430 669 471" fill="none" stroke="#d09b5d" stroke-width="4" opacity=".5"/>
+        <g class="home-lamp">
+          <path d="M370 268 Q343 257 346 230 H394 Q397 257 370 268Z" fill="#d4a64d"/>
+          <rect x="365" y="265" width="10" height="47" fill="#5c4329"/>
+          <ellipse cx="370" cy="316" rx="30" ry="7" fill="#5c4329"/>
+          <path d="M330 229 Q370 190 410 229Z" fill="#f0cf7a"/>
+        </g>
+        <g class="home-bowl">
+          <ellipse cx="245" cy="515" rx="92" ry="36" fill="#ecd8a9"/>
+          <path d="M156 510 Q245 604 334 510Z" fill="#c6a45f"/>
+          <ellipse cx="245" cy="511" rx="72" ry="22" fill="#db8e4b"/>
+          <path d="M206 510 Q238 495 270 510" fill="none" stroke="#91b080" stroke-width="5" stroke-linecap="round"/>
+        </g>
+        <g class="home-spoon" transform="translate(451 508) rotate(20)">
+          <path d="M0 -7 Q25 -30 47 -6 Q35 20 5 15Z" fill="#d8d0b5"/>
+          <rect x="31" y="4" width="74" height="9" rx="4" fill="#bdb598"/>
+        </g>
+        <g class="home-book" transform="translate(556 499) rotate(-8)">
+          <path d="M0 0 Q44 -16 84 0 V65 Q44 50 0 65Z" fill="#f0dfb0"/>
+          <path d="M8 7 Q44 -5 76 7 V54 Q44 44 8 54Z" fill="#b94839"/>
+          <path d="M22 19H62M22 31H58M22 43H52" stroke="#f5e5bd" stroke-width="3" opacity=".75"/>
+        </g>
+        <use href="#mario-sprite" x="40" y="234" width="183" height="274"/>
+        <g class="home-parent" opacity=".55">
+          <circle cx="624" cy="349" r="39" fill="#d5a77e"/>
+          <path d="M560 481 Q570 380 624 375 Q682 381 690 481Z" fill="#3d6b65"/>
+        </g>
+        <g fill="#f8eab9" opacity=".7">
+          <circle cx="278" cy="295" r="2.5"/><circle cx="473" cy="318" r="2"/>
+          <circle cx="318" cy="374" r="2"/><circle cx="430" cy="391" r="2.5"/>
+        </g>
+      </svg>
+      <button class="home-hotspot home-lamp-button" type="button" data-home="fire" aria-label="看看灯和火的关系">
+        <span>🔥</span><i>灯火</i>
+      </button>
+      <button class="home-hotspot home-spoon-button" type="button" data-home="tool" aria-label="看看勺子和工具的关系">
+        <span>🥄</span><i>勺子</i>
+      </button>
+      <button class="home-hotspot home-book-button" type="button" data-home="story" aria-label="看看绘本和故事的关系">
+        <span>📖</span><i>绘本</i>
+      </button>
+      <div class="home-caption">今天的晚饭，也连着很久很久以前。</div>
+    </div>
+    <div class="scene-copy home-copy">
+      <p class="eyebrow">第三站 · 回到今天</p>
+      <h2>什么变了？<br>什么一直没变？</h2>
+      <p>
+        罗盘一转，Mario 又回到了晚饭桌旁。可这一次，他发现了几条细细的线，
+        把今天和很久以前连在了一起。
+      </p>
+      <div class="connection-list" id="connectionList">
+        <button class="connection-row" type="button" data-home="fire">
+          <span class="connection-icon">💡</span>
+          <span><b>电灯 ← 火</b><small>古人学会用火照明，我们今天用电灯。</small></span>
+          <i>找一找</i>
+        </button>
+        <button class="connection-row" type="button" data-home="tool">
+          <span class="connection-icon">🥄</span>
+          <span><b>勺子 ← 工具</b><small>工具越来越方便，但一直是手的帮手。</small></span>
+          <i>找一找</i>
+        </button>
+        <button class="connection-row" type="button" data-home="story">
+          <span class="connection-icon">📖</span>
+          <span><b>绘本 ← 故事</b><small>从篝火边讲到床边，大家一直爱听故事。</small></span>
+          <i>找一找</i>
+        </button>
+      </div>
+      <div class="change-pair" id="changePair" aria-live="polite">
+        <div><span>变了</span><b>房子、衣服、灯火、工具</b></div>
+        <div><span>没变</span><b>吃饭、取暖、做工具、讲故事、和家人在一起</b></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 小测验 -->
+  <section class="scene scene-quiz" data-scene="quiz" data-task="quiz" data-narration="最后一关。Mario，用你自己的话把发现讲出来吧。答对几题都可以，重要的是知道自己为什么这样想。">
+    <div class="quiz-layout">
+      <aside class="quiz-guide">
+        <div class="quiz-mascot">
+          <svg viewBox="0 0 180 270"><use href="#mario-sprite"/></svg>
+          <span>最后一关！</span>
+        </div>
+        <p>不用背答案。<br>想一想，再选。</p>
+        <div class="quiz-dots" aria-label="测验进度">
+          <i></i><i></i><i></i>
+        </div>
+      </aside>
+      <div class="quiz-main" id="quizMain">
+        <p class="eyebrow">小侦探通关题 · <span id="questionNumber">第 1 题</span></p>
+        <h2 id="questionText">盘古开天、女娲造人，它们是什么？</h2>
+        <div class="answer-list" id="answerList"></div>
+        <p class="quiz-feedback" id="quizFeedback" aria-live="polite"></p>
+        <button class="quiz-next" id="quizNext" type="button" hidden>下一题 →</button>
+      </div>
+      <div class="quiz-result" id="quizResult" hidden>
+        <span class="result-star">🌟</span>
+        <p class="eyebrow">挑战完成</p>
+        <h2>你答对了 <b id="quizScore">0</b> / 3 题</h2>
+        <p id="quizResultText">你已经能分清传说和考古线索了。</p>
+        <div class="result-badge-mini">🏅 小小寻史家</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. 徽章 -->
+  <section class="scene scene-final" data-scene="final" data-narration="恭喜 Mario，获得小小寻史家徽章。今天你发现：传说，是古人想象世界的故事；考古，是我们在土里找证据。火、工具和故事，从很久以前一直陪我们到今天。把这句话讲给爸爸妈妈听吧。">
+    <div class="final-layout">
+      <div class="badge-stage">
+        <div class="badge-ribbon ribbon-left">第一章</div>
+        <div class="badge-ribbon ribbon-right">第 1 节</div>
+        <div class="badge-medal">
+          <div class="badge-rings" aria-hidden="true"></div>
+          <span class="badge-compass">🧭</span>
+          <b>小小寻史家</b>
+          <small>传说 · 证据 · 生活</small>
+        </div>
+        <div class="confetti" id="confetti" aria-hidden="true"></div>
+      </div>
+      <div class="final-copy">
+        <p class="eyebrow">本节完成 · 徽章已收藏</p>
+        <h2>Mario，<br>你把历史讲活了</h2>
+        <div class="tell-parent">
+          <span>讲给爸爸妈妈听</span>
+          <p>“传说，是古人想象世界的故事；考古，是我们在土里找证据。火、工具和故事，从很久以前一直陪我们到今天。”</p>
+        </div>
+        <div class="final-stats">
+          <div><b id="finalStars">7 / 7</b><span>探索星</span></div>
+          <div><b id="finalScore">3 / 3</b><span>通关题</span></div>
+          <div><b>01.01</b><span>故事编号</span></div>
+        </div>
+        <div class="final-actions">
+          <button class="btn btn-primary" id="readSummary" type="button">🔊 再听一遍我的发现</button>
+          <a class="btn btn-quiet" href="../index.html">回到故事地图</a>
+          <button class="btn btn-text" id="restartButton" type="button">从头再读一次</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="book-nav" aria-label="绘本翻页">
+  <button class="page-button prev" id="prevButton" type="button" disabled>← 上一页</button>
+  <div class="page-status">
+    <span id="pageNow">封面</span>
+    <div class="page-dots" id="pageDots" aria-hidden="true"></div>
+  </div>
+  <button class="page-button next" id="nextButton" type="button">下一页 →</button>
+</nav>
+
+<div class="parent-modal" id="parentModal" hidden>
+  <div class="parent-sheet" role="dialog" aria-modal="true" aria-labelledby="parentTitle">
+    <button class="parent-close" id="parentClose" type="button" aria-label="关闭家长指南">×</button>
+    <p class="eyebrow">给爸爸妈妈</p>
+    <h2 id="parentTitle">陪读指南 · 第 1 节</h2>
+    <div class="parent-grid">
+      <section>
+        <h3>本节目标</h3>
+        <p>孩子能说出：盘古开天、女娲造人是传说；考古学家在土里找到的东西是证据。</p>
+      </section>
+      <section>
+        <h3>史实边界</h3>
+        <p>本节的盘古、女娲内容属于神话传说，不作为历史事实。山洞线索涉及北京人、山顶洞人等考古发现；它们比“五千年”更久远。</p>
+      </section>
+      <section>
+        <h3>读后可以问</h3>
+        <p>1. 盘古和女娲的故事，是传说还是考古证据？<br>2. 山洞里的灰烬告诉我们什么？<br>3. 我们今天还在用火、工具和故事吗？</p>
+      </section>
+      <section>
+        <h3>给孩子的关键句</h3>
+        <p>传说回答“古人怎么想”；考古回答“我们真的找到了什么”。两句话都重要，但不能混在一起。</p>
+      </section>
+    </div>
+    <div class="parent-source">
+      <b>蓝本说明</b>
+      <p>
+        故事结构与时代顺序参考狐狸家《中国简史（绘本版）》第一册第一节。
+        本页文字、角色、插画和互动为原创儿童改编，非官方授权版本，也不替代原书阅读。
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="../js/section-01.js"></script>
+</body>
+</html>

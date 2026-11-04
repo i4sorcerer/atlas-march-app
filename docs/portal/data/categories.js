@@ -133,6 +133,15 @@ window.CATEGORIES = [
     desc: "穿越时空，看看古人的故事！",
     subs: [
       {
+        id: "mario-time-travel",
+        name: "Mario 时空绘本",
+        emoji: "🧭",
+        refs: { title: "Mario 的中华五千年", emoji: "🗺️", desc: "黄铜时空罗盘 · 按时间线更新的互动历史绘本", url: "../history-adventures/index.html" },
+        topics: [
+          { id: "mario-history-01-01", title: "你听过这些传说吗？", emoji: "🥚", desc: "第一章第 1 节：盘古开天 · 女娲造人 · 传说与考古线索", url: "../history-adventures/chapter-01/section-01.html", ready: true }
+        ]
+      },
+      {
         id: "china-dynasty",
         name: "中华朝代",
         emoji: "🐉",
