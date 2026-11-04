@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🌈 好奇星球 · 探索星图（原型 · 方案A）</title>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/portal.css" />
+<style>
+  .hub-wrap { max-width: 1000px; margin: calc(var(--hh) + 24px) auto 40px; padding: 0 16px; }
+  .hub-head { text-align: center; margin-bottom: 8px; }
+  .hub-head h1 { font-size: 26px; color: var(--ink); margin: 0; }
+  .hub-head p { color: var(--ink-soft); font-size: 15px; margin: 6px 0 0; }
+
+  .stage { position: relative; }
+  svg#hub { width: 100%; height: auto; display: block; overflow: visible; transition: opacity .3s ease; }
+  .hub-wrap.focused #hub { opacity: .12; pointer-events: none; }
+
+  .ring { fill: none; stroke: rgba(91,124,250,.22); stroke-width: 1.5; stroke-dasharray: 3 10; animation: dash 30s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset: -260; } }
+  .link { stroke: rgba(91,124,250,.16); stroke-width: 1.4; stroke-dasharray: 2 9; }
+
+  .planet { stroke: #fff; stroke-width: 3; transition: stroke-width .18s ease, filter .18s ease; }
+  .branch { cursor: grab; -webkit-user-select: none; user-select: none; touch-action: none; }
+  .branch.dragging { cursor: grabbing; }
+  .branch:hover .planet, .branch.hot .planet { stroke-width: 4; filter: drop-shadow(0 6px 14px rgba(91,124,250,.5)); }
+  .emo { font-size: 32px; text-anchor: middle; dominant-baseline: central; fill: #fff; pointer-events: none; }
+  .nm  { font-size: 16px; text-anchor: middle; dominant-baseline: central; fill: var(--ink); pointer-events: none; font-family: inherit; font-weight: 700; }
+  .core { stroke: #fff; stroke-width: 4; cursor: pointer; animation: coreGlow 2.6s ease-in-out infinite; }
+  .hub { cursor: pointer; }
+
+  @keyframes coreGlow { 0%,100% { filter: drop-shadow(0 0 0 rgba(31,94,201,0)); } 50% { filter: drop-shadow(0 7px 18px rgba(31,94,201,.55)); } }
+  @media (prefers-reduced-motion: reduce) { .core, .ring { animation: none; } }
+
+  #tip {
+    position: fixed; display: none; z-index: 50; max-width: 250px;
+    background: #fff; border: 1px solid rgba(91,124,250,.3); border-radius: 14px;
+    box-shadow: var(--shadow); padding: 10px 14px; pointer-events: none; font-family: inherit;
+  }
+  #tip b { display: block; font-size: 16px; color: var(--ink); }
+  #tip span { display: block; font-size: 13px; color: var(--ink-soft); margin-top: 4px; line-height: 1.5; }
+  #tip .ct { color: var(--blue); font-weight: 700; }
+
+  /* 二级详情面板：可滚动卡片网格，避免径向拥挤 */
+  .detail {
+    position: absolute; inset: 0; display: none; flex-direction: column;
+    background: rgba(255,255,255,.97); border-radius: 24px; padding: 16px 18px 22px; overflow: auto;
+  }
+  .detail.show { display: flex; animation: fadeIn .32s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: scale(1); } }
+  .detail-bar { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .detail-bar button {
+    border: none; cursor: pointer; font-family: inherit; font-size: 15px;
+    padding: 8px 16px; border-radius: 999px; background: var(--blue); color: #fff; box-shadow: var(--shadow);
+  }
+  .detail-bar button:hover { filter: brightness(1.05); }
+  .detail-title { font-size: 22px; color: var(--ink); margin: 0; }
+  .detail-title small { display: block; font-size: 13px; color: var(--ink-soft); font-weight: 400; margin-top: 2px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+  .card {
+    background: #fff; border: 1px solid rgba(91,124,250,.25); border-radius: 16px; padding: 14px;
+    cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; text-align: center;
+  }
+  .card:hover { box-shadow: var(--shadow); border-color: var(--blue); }
+  .card .ce { font-size: 30px; }
+  .card .cn { font-size: 15px; font-weight: 700; color: var(--ink); margin-top: 6px; }
+  .card .cd { font-size: 12px; color: var(--ink-soft); margin-top: 4px; }
+  .card.off { opacity: .55; cursor: default; }
+  .card.off:hover { transform: none; box-shadow: none; }
+  .empty { color: var(--ink-soft); font-size: 15px; padding: 20px; }
+</style>
+</head>
+<body>
+
+<div class="floaties" aria-hidden="true">
+  <span>⭐</span><span>🚀</span><span>🪐</span><span>🌈</span><span>🦖</span>
+  <span>🐋</span><span>🔬</span><span>💡</span><span>☁️</span><span>🌟</span>
+</div>
+
+<header class="topbar">
+  <a class="brand" href="#" id="homeBtn">
+    <span class="brand-logo">🌈</span>
+    <span class="brand-text">好奇星球</span>
+  </a>
+  <p class="brand-slogan">全科启蒙 · 一起探索世界的奥秘！</p>
+  <button class="history-btn" id="historyBtn">🏅 我的探索记录</button>
+</header>
+
+<div class="hub-wrap" id="hubWrap">
+  <div class="hub-head">
+    <h1>🧭 探索星图</h1>
+    <p>中心是「个人洞察」总览 · 悬停看详情 · 点击学科展开分支卡片</p>
+  </div>
+  <div class="stage">
+    <svg id="hub" viewBox="0 0 1000 660" role="img" aria-label="以个人洞察为中心的引力中枢星图">
+      <g id="scene">
+        <g id="content"></g>
+      </g>
+    </svg>
+    <div class="detail" id="detail">
+      <div class="detail-bar">
+        <button id="back">← 返回总览</button>
+        <h2 class="detail-title" id="detailTitle"></h2>
+      </div>
+      <div class="grid" id="detailGrid"></div>
+    </div>
+  </div>
+</div>
+
+<div id="tip"></div>
+
+<script src="data/categories.js"></script>
+<script>
+(function () {
+  var CX = 500, CY = 330, R = 250;
+  var svg = document.getElementById('hub');
+  var content = document.getElementById('content');
+  var tip = document.getElementById('tip');
+  var hubWrap = document.getElementById('hubWrap');
+  var detail = document.getElementById('detail');
+  var detailTitle = document.getElementById('detailTitle');
+  var detailGrid = document.getElementById('detailGrid');
+  var backBtn = document.getElementById('back');
+
+  var cats = window.CATEGORIES || [];
+  var center = cats.filter(function (c) { return c.id === 'insights'; })[0] || cats[0];
+  var branches = cats.filter(function (c) { return c !== center; });
+  var N = branches.length;
+
+  function countOf(c) {
+    if (c.subs) return c.subs.reduce(function (s, sub) {
+      return s + (sub.topics ? sub.topics.length : 0) + (sub.refs ? 1 : 0);
+    }, 0);
+    if (c.topics) return c.topics.length;
+    return 0;
+  }
+  function childrenOf(c) {
+    var items = [];
+    if (c.subs) {
+      c.subs.forEach(function (sub) {
+        if (sub.refs) items.push({ name: sub.refs.title, emoji: sub.refs.emoji, url: sub.refs.url, ready: true, desc: sub.refs.desc });
+        if (sub.topics) sub.topics.forEach(function (t) {
+          items.push({ name: t.title, emoji: t.emoji, url: t.url, ready: t.ready !== false, desc: t.desc });
+        });
+      });
+    } else if (c.topics) {
+      c.topics.forEach(function (t) {
+        items.push({ name: t.title, emoji: t.emoji, url: t.url, ready: t.ready !== false, desc: t.desc });
+      });
+    }
+    return items;
+  }
+
+  var orbitAngle = 0;
+  var parts = branches.map(function (c, i) {
+    var ang = (-90 + i * (360 / N)) * Math.PI / 180;
+    return { c: c, baseAng: ang, dx: 0, dy: 0, px: 0, py: 0, dragging: false, grabX: 0, grabY: 0, startX: 0, startY: 0, moved: 0 };
+  });
+
+  function orbitPos(p) {
+    var ang = p.baseAng + orbitAngle;
+    return { x: CX + R * Math.cos(ang), y: CY + R * Math.sin(ang) };
+  }
+
+  // 星图：环 + 连线（虚化）+ 节点（初始按当前公转角定位，避免首帧堆叠）
+  var s = '';
+  s += '<circle class="ring" cx="' + CX + '" cy="' + CY + '" r="' + R + '"/>';
+  s += '<g id="links">';
+  parts.forEach(function (p) {
+    var pos = orbitPos(p);
+    s += '<line class="link" x1="' + CX + '" y1="' + CY + '" x2="' + pos.x.toFixed(1) + '" y2="' + pos.y.toFixed(1) + '"/>';
+  });
+  s += '</g>';
+  parts.forEach(function (p, i) {
+    var c = p.c, pos = orbitPos(p);
+    p.px = pos.x; p.py = pos.y;
+    s += '<g class="branch" data-id="' + c.id + '" transform="translate(' + pos.x.toFixed(1) + ' ' + pos.y.toFixed(1) + ')">';
+    s += '<circle class="planet" r="38" fill="' + c.color + '"/>';
+    s += '<text class="emo" y="-2">' + c.emoji + '</text>';
+    s += '<text class="nm" y="60">' + c.name + '</text>';
+    s += '</g>';
+  });
+  s += '<g class="hub" data-id="' + center.id + '" transform="translate(' + CX + ' ' + CY + ')">';
+  s += '<circle class="core" r="64" fill="' + center.color + '"/>';
+  s += '<text class="emo" y="-6" style="font-size:34px">' + center.emoji + '</text>';
+  s += '<text class="nm" y="86">' + center.name + '</text>';
+  s += '</g>';
+  content.innerHTML = s;
+
+  var branchEls = parts.map(function (p) { return content.querySelector('.branch[data-id="' + p.c.id + '"]'); });
+  var lineEls = Array.prototype.slice.call(content.querySelectorAll('#links .link'));
+
+  function placeTip(el, c) {
+    var n = countOf(c);
+    tip.innerHTML = '<b>' + c.emoji + ' ' + c.name + '</b>' +
+      '<span>' + (c.desc || '') + '</span>' +
+      '<span class="ct">' + (n ? n + ' 个主题 · 点击展开' : '直达页面 · 点击打开') + '</span>';
+    tip.style.display = 'block';
+    var r = el.getBoundingClientRect();
+    var tw = tip.offsetWidth, th = tip.offsetHeight;
+    var left = r.left + r.width / 2 - tw / 2;
+    var top = r.top - th - 12;
+    if (top < 8) top = r.bottom + 12;
+    if (left < 8) left = 8;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+
+  // 公转动画参数
+  var omega = 0.03; // rad/s，约 3.5 分钟一圈，缓慢
+  var hovering = false, dragging = false;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) omega = 0;
+
+  function toSvg(evt) {
+    var pt = svg.createSVGPoint();
+    pt.x = evt.clientX; pt.y = evt.clientY;
+    var m = svg.getScreenCTM();
+    if (!m) return { x: CX, y: CY };
+    var p = pt.matrixTransform(m.inverse());
+    return { x: p.x, y: p.y };
+  }
+
+  branchEls.forEach(function (el, i) {
+    var p = parts[i], c = p.c;
+    el.addEventListener('mouseenter', function () { hovering = true; el.classList.add('hot'); placeTip(el, c); });
+    el.addEventListener('mouseleave', function () { hovering = false; el.classList.remove('hot'); tip.style.display = 'none'; });
+    el.addEventListener('click', function () {
+      if (el._suppress) { el._suppress = false; return; } // 拖拽后抑制误触
+      openBranch(c);
+    });
+    el.addEventListener('pointerdown', function (e) {
+      e.preventDefault();
+      var cur = orbitPos(p);
+      var curX = cur.x + p.dx, curY = cur.y + p.dy;
+      p.px = curX; p.py = curY; p.startX = curX; p.startY = curY;
+      var sp = toSvg(e);
+      p.grabX = sp.x - curX; p.grabY = sp.y - curY;
+      p.dragging = true; dragging = true; p.moved = 0;
+      el.classList.add('dragging');
+      try { el.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    el.addEventListener('pointermove', function (e) {
+      if (!p.dragging) return;
+      var sp = toSvg(e);
+      var nx = sp.x - p.grabX, ny = sp.y - p.grabY;
+      p.px = nx; p.py = ny;
+      var cur = orbitPos(p);
+      p.dx = nx - cur.x; p.dy = ny - cur.y;
+      p.moved = Math.hypot(nx - p.startX, ny - p.startY);
+    });
+    function endDrag(e) {
+      if (!p.dragging) return;
+      p.dragging = false; dragging = false;
+      el.classList.remove('dragging');
+      try { el.releasePointerCapture(e.pointerId); } catch (err) {}
+      if (p.moved > 5) el._suppress = true; // 视为拖拽，抑制随后的 click
+    }
+    el.addEventListener('pointerup', endDrag);
+    el.addEventListener('pointercancel', endDrag);
+  });
+  content.querySelector('.hub').addEventListener('click', function () { window.open(center.url, '_blank'); });
+
+  function openBranch(c) {
+    var kids = childrenOf(c);
+    if (!kids.length && c.url) { window.open(c.url, '_blank'); return; }
+    detailTitle.innerHTML = c.emoji + ' ' + c.name + ' <small>' + (c.desc || '') + '</small>';
+    var g = '';
+    if (!kids.length) {
+      g = '<div class="empty">这个主题暂时还没有可展开的内容，敬请期待～</div>';
+    } else {
+      kids.forEach(function (k) {
+        g += '<div class="card' + (k.ready ? '' : ' off') + '" data-url="' + (k.url || '') + '" data-ready="' + k.ready + '">';
+        g += '<div class="ce">' + (k.emoji || '📄') + '</div>';
+        g += '<div class="cn">' + k.name + '</div>';
+        g += '<div class="cd">' + (k.ready ? (k.desc || '点击打开') : '敬请期待') + '</div>';
+        g += '</div>';
+      });
+    }
+    detailGrid.innerHTML = g;
+    detailGrid.querySelectorAll('.card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var u = card.dataset.url;
+        if (u && card.dataset.ready === 'true') window.open(u, '_blank');
+      });
+    });
+    detail.classList.add('show');
+    hubWrap.classList.add('focused');
+  }
+
+  backBtn.addEventListener('click', function () {
+    detail.classList.remove('show');
+    hubWrap.classList.remove('focused');
+    tip.style.display = 'none';
+  });
+
+  // 动画循环：缓慢公转（悬停/拖拽时暂停）+ 拖拽后缓慢回弹归位
+  var lastT = performance.now();
+  function frame(now) {
+    var dt = Math.min(0.05, (now - lastT) / 1000); lastT = now;
+    var paused = hovering || dragging || reduced;
+    if (!paused) orbitAngle += omega * dt;
+    for (var i = 0; i < N; i++) {
+      var p = parts[i];
+      if (!p.dragging) {
+        var cur = orbitPos(p);
+        if (p.dx !== 0 || p.dy !== 0) {
+          var k = 1 - Math.exp(-2.6 * dt); // 指数衰减，缓慢归零
+          p.dx += (0 - p.dx) * k;
+          p.dy += (0 - p.dy) * k;
+          if (Math.abs(p.dx) < 0.4 && Math.abs(p.dy) < 0.4) { p.dx = 0; p.dy = 0; }
+          p.px = cur.x + p.dx; p.py = cur.y + p.dy;
+        } else {
+          p.px = cur.x; p.py = cur.y;
+        }
+      }
+      branchEls[i].setAttribute('transform', 'translate(' + p.px.toFixed(2) + ' ' + p.py.toFixed(2) + ')');
+      lineEls[i].setAttribute('x2', p.px.toFixed(2));
+      lineEls[i].setAttribute('y2', p.py.toFixed(2));
+    }
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

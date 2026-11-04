@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中国历史直升机闯关 · 科技发明</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;900&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html,body { height:100%; }
+    body { font-family:"ZCOOL KuaiLe",sans-serif; background:#151a2b; color:#fff; overflow:hidden; -webkit-tap-highlight-color:transparent; }
+    #game { display:block; touch-action:none; }
+    .screen { position:absolute; inset:0; z-index:6; display:flex; align-items:center; justify-content:center; padding:14px; background:radial-gradient(circle at 50% 35%, rgba(43,53,86,.92), rgba(10,13,26,.96)); overflow:auto; }
+    .screen.hidden { display:none; }
+    .panel { width:min(860px,100%); max-height:min(95vh,760px); overflow:auto; background:linear-gradient(180deg,#fff 0%,#f4f5ef 100%); color:#28324e; border-radius:24px; border:6px solid #212a47; box-shadow:0 20px 55px rgba(0,0,0,.42); padding:24px; }
+    .panel.compact { width:min(470px,100%); text-align:center; }
+    .head { display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+    h1 { font-family:"Noto Serif SC",serif; font-weight:900; font-size:29px; letter-spacing:1px; }
+    .pill { padding:6px 13px; border-radius:999px; background:#ece7d7; color:#5d4525; font-size:14px; box-shadow:inset 0 1px 3px rgba(0,0,0,.08); }
+    .sub { color:#656d8c; font-size:16px; line-height:1.6; margin-top:10px; }
+    .settings { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin-top:18px; }
+    .setting { background:#fffdf7; border:1px solid #e5dfcd; border-radius:16px; padding:14px; box-shadow:0 3px 10px rgba(88,80,60,.08); }
+    .setting-title { font-size:18px; margin-bottom:10px; }
+    .row { display:flex; align-items:center; gap:9px; }
+    input[type=range] { flex:1; accent-color:#9f4237; }
+    .label { min-width:66px; text-align:right; color:#6a7290; font-size:15px; }
+    .switch { display:flex; align-items:center; gap:8px; font-size:16px; cursor:pointer; margin-bottom:6px; }
+    .switch input { width:20px; height:20px; accent-color:#9f4237; }
+    .upload-row { display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-top:6px; }
+    .upload-btn,.mini-btn { font-family:inherit; font-size:14px; padding:7px 12px; border:0; cursor:pointer; border-radius:10px; color:#fff; background:#4b6b8f; margin:0; box-shadow:0 2px 0 #374e69; }
+    .mini-btn { background:#e6e8f2; color:#4b556f; box-shadow:0 2px 0 #cdd2e2; }
+    .preview { width:50px; height:50px; border-radius:12px; object-fit:cover; display:none; border:2px solid #fff; box-shadow:0 2px 7px rgba(0,0,0,.2); background:#e8eaf0; }
+    .preview.show { display:block; }
+    .levels { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; margin-top:9px; }
+    .level-chip { border:2px solid transparent; background:#fff; font-family:inherit; color:#3c4565; font-size:13px; padding:7px 4px; border-radius:12px; cursor:pointer; margin:0; box-shadow:0 2px 6px rgba(42,52,98,.1); }
+    .level-chip.active { border-color:#9f4237; color:#7b342b; background:#fff2ec; }
+    .start-btn { width:100%; margin-top:18px; padding:14px; font-size:22px; font-family:inherit; color:#fff; background:linear-gradient(135deg,#a13b30,#d5803f); border:0; cursor:pointer; border-radius:999px; box-shadow:0 5px 0 #6f2d24; }
+    .ghost-btn { width:100%; margin-top:10px; padding:11px; font-size:17px; font-family:inherit; color:#4b556f; background:#eceff9; border:0; cursor:pointer; border-radius:999px; }
+    .tip { color:#7a809d; font-size:14px; margin-top:9px; text-align:center; }
+    .items { display:flex; gap:6px; justify-content:center; flex-wrap:wrap; margin-top:12px; min-height:38px; }
+    .item { display:flex; gap:4px; align-items:center; background:#fff; border-radius:999px; padding:5px 9px; font-size:13px; color:#4b556f; box-shadow:0 1px 5px rgba(0,0,0,.1); }
+    .item.count { color:#8f3f32; font-weight:700; }
+    .score { font-size:20px; margin:8px 0 2px; }
+    #touch { position:absolute; inset:0; z-index:3; display:none; }
+    @media(pointer:coarse){ #touch{display:block;} }
+    @media(max-width:720px){ .settings{grid-template-columns:1fr;} .levels{grid-template-columns:repeat(2,minmax(0,1fr));} h1{font-size:24px;} .panel{padding:16px;} }
+  </style>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div id="touch"></div>
+
+  <div id="start" class="screen">
+    <div class="panel">
+      <div class="head"><div><h1>中国历史直升机闯关</h1><p class="sub">驾驶一台更真实的直升机穿越八处中国地标，收集青铜器、玉器、印章等文物，躲开建筑、山体、鸟群和炮弹。按住上升，松开下降。</p></div><div class="pill">速度 · 音效 · 头像 · 背景</div></div>
+      <div class="settings">
+        <div class="setting">
+          <div class="setting-title">🎛️ 拟真飞行设置</div>
+          <div class="row"><input id="speed" type="range" min="55" max="150" step="5" value="85"><span class="label" id="speedLabel">巡航</span></div>
+          <label class="switch" style="margin-top:9px;"><input id="realistic" type="checkbox">拟真飞行（惯性更强）</label>
+          <p class="tip" style="text-align:left;margin:4px 0 0;">建议先用 85；熟练后再提高到 120+。</p>
+        </div>
+        <div class="setting">
+          <div class="setting-title">🔊 真实音效</div>
+          <label class="switch"><input id="sound" type="checkbox" checked>打开直升机引擎与反馈音</label>
+          <label class="switch"><input id="narration" type="checkbox" checked>地标提示语音（系统语音）</label>
+          <p class="tip" style="text-align:left;margin:4px 0 0;">包含旋翼低速、桨叶拍击和真实俯仰变化。</p>
+        </div>
+        <div class="setting">
+          <div class="setting-title">🧑‍✈️ 自定义头像</div>
+          <div class="upload-row">
+            <img id="avatarPreview" class="preview" alt="头像预览">
+            <label class="upload-btn">上传头像<input id="avatarFile" type="file" accept="image/*" hidden></label>
+            <button id="clearAvatar" class="mini-btn">清除</button>
+          </div>
+          <p class="tip" style="text-align:left;margin:4px 0 0;">头像会映射到驾驶舱玻璃后，支持圆形裁剪。</p>
+        </div>
+        <div class="setting">
+          <div class="setting-title">🖼️ 自定义背景</div>
+          <div class="upload-row">
+            <img id="bgPreview" class="preview" alt="背景预览">
+            <label class="upload-btn">上传背景<input id="bgFile" type="file" accept="image/*" hidden></label>
+            <button id="clearBg" class="mini-btn">清除</button>
+          </div>
+          <p class="tip" style="text-align:left;margin:4px 0 0;">图片只保存在本机浏览器，不上传服务器。</p>
+        </div>
+        <div class="setting" style="grid-column:1/-1;">
+          <div class="setting-title">🏯 出发关卡</div>
+          <div id="levelChips" class="levels"></div>
+          <p class="level-flow sub" id="levelFlow" style="font-size:14px;"></p>
+        </div>
+      </div>
+      <button id="startBtn" class="start-btn">开始飞行</button>
+      <p class="tip" id="bestText">最高纪录：0 米</p>
+    </div>
+  </div>
+
+  <div id="over" class="screen hidden">
+    <div class="panel compact">
+      <div style="font-size:52px;">🛠️</div>
+      <h2>任务暂停</h2>
+      <p class="score" id="overText"></p>
+      <p class="sub" id="overLevel"></p>
+      <div id="collected" class="items"></div>
+      <button id="retryBtn" class="start-btn">重新起飞</button>
+      <button id="settingBtn" class="ghost-btn">返回设置</button>
+    </div>
+  </div>
+
+  <div id="pause" class="screen hidden">
+    <div class="panel compact">
+      <div style="font-size:48px;">⏸️</div>
+      <h2>已暂停</h2>
+      <button id="resumeBtn" class="start-btn">继续飞行</button>
+      <button id="pauseSettingBtn" class="ghost-btn">返回设置</button>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    "use strict";
+    const canvas=document.getElementById("game"),ctx=canvas.getContext("2d");
+    const touchLayer=document.getElementById("touch"),startScreen=document.getElementById("start"),overScreen=document.getElementById("over"),pauseScreen=document.getElementById("pause");
+    const speedInput=document.getElementById("speed"),speedLabel=document.getElementById("speedLabel"),soundInput=document.getElementById("sound"),realisticInput=document.getElementById("realistic"),narrationInput=document.getElementById("narration");
+    const avatarFile=document.getElementById("avatarFile"),bgFile=document.getElementById("bgFile"),avatarPreview=document.getElementById("avatarPreview"),bgPreview=document.getElementById("bgPreview");
+    const levelChips=document.getElementById("levelChips"),levelFlow=document.getElementById("levelFlow"),bestText=document.getElementById("bestText");
+
+    const W=960,H=540,groundY=H-48,levelLength=1250;
+    const levels=[
+      {name:"万里长城",emoji:"🧱",kind:"wall",sky:["#9cc9ea","#e9e0c3"],ground:"#7d9a5a",ambient:"#4d6b36",fog:"#c3c6b4",narration:"第一站，万里长城。"},
+      {name:"北京故宫",emoji:"🏯",kind:"palace",sky:["#f0c98b","#f9e8c1"],ground:"#b26c4a",ambient:"#8c4a30",fog:"#e8cfa5",narration:"第二站，北京故宫。"},
+      {name:"秦陵兵马俑",emoji:"🗿",kind:"warrior",sky:["#c9bc9f","#eee2c7"],ground:"#a28a67",ambient:"#7a6a4a",fog:"#d8caa9",narration:"第三站，秦陵兵马俑。"},
+      {name:"桂林山水",emoji:"⛰️",kind:"mountain",sky:["#b9e6d5","#f7ffe8"],ground:"#5d9960",ambient:"#3f7343",fog:"#d5efd9",narration:"第四站，桂林山水。"},
+      {name:"布达拉宫",emoji:"🏔️",kind:"potala",sky:["#a9d7f6","#ffe9c5"],ground:"#8f7e69",ambient:"#6c5c47",fog:"#e6ddca",narration:"第五站，布达拉宫。"},
+      {name:"熊猫竹林",emoji:"🐼",kind:"bamboo",sky:["#c9f0d3","#f7ffe9"],ground:"#578a45",ambient:"#3a6b31",fog:"#dcf0dc",narration:"第六站，熊猫竹林。"},
+      {name:"悬空寺",emoji:"🛕",kind:"hanging",sky:["#c1d2f1","#ffeed6"],ground:"#89816f",ambient:"#5f5445",fog:"#e0d8c7",narration:"第七站，悬空寺。"},
+      {name:"上海天际线",emoji:"🌆",kind:"tower",sky:["#8fbdf1","#ffe7ef"],ground:"#59678a",ambient:"#3e4c6c",fog:"#cfd9ea",narration:"第八站，上海天际线。"}
+    ];
+    const itemTypes=[
+      {id:"bronze",name:"青铜器",emoji:"🏺",color:"#7d6743"},
+      {id:"jade",name:"玉器",emoji:"🟢",color:"#7ab88f"},
+      {id:"seal",name:"印章",emoji:"🧧",color:"#bb4137"},
+      {id:"ceramic",name:"瓷器",emoji:"🍶",color:"#9fb7c8"},
+      {id:"watch",name:"手表",emoji:"⌚",color:"#667e9c"},
+      {id:"scroll",name:"卷轴",emoji:"📜",color:"#d0aa6d"},
+      {id:"coin",name:"古钱",emoji:"🪙",color:"#c0a04c"},
+      {id:"lantern",name:"宫灯",emoji:"🏮",color:"#cd5a41"},
+      {id:"flag",name:"旗帜",emoji:"🚩",color:"#c4544a"}
+    ];
+
+    let dpr=1,scale=1,state="ready",last=0,held=false;
+    let worldDistance=0,runDistance=0,score=0,spawnGap=0,selectedLevel=0,lastLevelIndex=-1,nextMilestone=150;
+    let helicopter,obstacles,shells,items,particles,clouds,hills,bushes,birds,banner,dustTimer=0;
+    let avatarImage=null,backgroundImage=null,collectCount={};
+    let audio=null,masterGain=null,engineNoise=null,engineFilter=null,engineGain=null,bladeLfo=null,bladeOsc=null,bladeGain=null;
+
+    function resize(){
+      dpr=Math.min(window.devicePixelRatio||1,2);
+      scale=Math.min(window.innerWidth/W,window.innerHeight/H);
+      const w=Math.round(W*scale),h=Math.round(H*scale);
+      canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+      canvas.style.width=w+"px";canvas.style.height=h+"px";
+      canvas.style.position="absolute";
+      canvas.style.left=Math.round((window.innerWidth-w)/2)+"px";
+      canvas.style.top=Math.round((window.innerHeight-h)/2)+"px";
+    }
+    function speed(){return Number(speedInput.value);}
+    function speedText(){const v=speed();return v<=70?"慢速":v<=95?"巡航":v<=120?"训练":v<=135?"竞速":"极限";}
+    function currentLevel(){return levels[(lastLevelIndex<0?selectedLevel:lastLevelIndex)%levels.length];}
+
+    function reset(){
+      helicopter={x:230,y:200,vx:0,vy:0,rotor:0,pitch:0,roll:0};
+      obstacles=[];shells=[];items=[];particles=[];birds=[];
+      clouds=Array.from({length:8},()=>({x:Math.random()*W,y:20+Math.random()*160,s:.38+Math.random()*.45,v:5+Math.random()*8}));
+      hills=Array.from({length:12},(_,i)=>({x:i*92+Math.random()*35,s:.45+Math.random()*.6}));
+      bushes=Array.from({length:12},(_,i)=>({x:i*95+Math.random()*28,s:.55+Math.random()*.45}));
+      worldDistance=selectedLevel*levelLength;runDistance=score=spawnGap=0;lastLevelIndex=selectedLevel;nextMilestone=150;
+      collectCount={}; banner={text:`${levels[selectedLevel].emoji} ${levels[selectedLevel].name}`,t:1.6}; held=false;dustTimer=0;
+    }
+    function start(){reset();state="play";startScreen.classList.add("hidden");overScreen.classList.add("hidden");pauseScreen.classList.add("hidden");last=performance.now();ensureAudio();setEngine(true);speak(currentLevel().narration);}
+    function toSettings(){state="ready";setEngine(false);overScreen.classList.add("hidden");pauseScreen.classList.add("hidden");startScreen.classList.remove("hidden");reset();updateBest();}
+    function die(){
+      state="over";setEngine(false);
+      burst(helicopter.x,helicopter.y,46,["#ffe08a","#ff6b52","#ffffff","#7d5a3c","#e9e4d2"]);
+      const old=Number(localStorage.getItem("china-heli-best")||0);
+      if(score>old)localStorage.setItem("china-heli-best",String(score));
+      const reached=levels[Math.min(lastLevelIndex,levels.length-1)];
+      document.getElementById("overText").textContent=`本次 ${score} 米 · 最高纪录 ${Math.max(old,score)} 米`;
+      document.getElementById("overLevel").textContent=`任务到达：${reached.emoji} ${reached.name}`;
+      showCollected();overScreen.classList.remove("hidden");
+      reportQuiz(score,100,score>old);beep(180,.2,"sawtooth",.12);beep(96,.3,"sine",.1);
+    }
+    function reportQuiz(v,t,r){if(window.parent===window||!r)return;window.parent.postMessage({type:"quiz-result",topicId:"mario-helicopter",title:"中国历史直升机闯关",emoji:"🚁",score:v,total:t},"*");}
+    function updateBest(){bestText.textContent=`最高纪录：${Number(localStorage.getItem("china-heli-best")||0)} 米`;}
+    function showCollected(){
+      const got=Object.entries(collectCount).filter(([,n])=>n>0);
+      document.getElementById("collected").innerHTML=got.length?got.map(([id,n])=>{const x=itemTypes.find(i=>i.id===id);return `<span class="item">${x.emoji} ${x.name}<span class="item count">×${n}</span></span>`;}).join(""):"<span class=\"item\">本次没有收集到文物</span>";
+    }
+    function burst(x,y,n,colors){
+      for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,sp=35+Math.random()*165;particles.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-35,life:.45+Math.random()*.5,max:1,c:colors[Math.floor(Math.random()*colors.length)],s:2+Math.random()*4});}
+    }
+
+    function spawn(){
+      const lv=currentLevel();
+      const shape=Math.random();
+      let width=lv.kind==="bamboo"?18:lv.kind==="mountain"?68+Math.random()*35:44+Math.random()*28;
+      let height=62+Math.random()*105,y=72+Math.random()*Math.max(28,groundY-height-118);
+      if(shape<.14){width=670+Math.random()*110;height=38;y=76+Math.random()*180;}
+      else if(shape<.24){width=58;height=58;y=90+Math.random()*230;}
+      obstacles.push({x:W+35,y,w:width,h:height,kind:lv.kind,shape:shape<.14?"wide":shape<.24?"plate":0,pass:false});
+      if(Math.random()<.24)shells.push({x:W+24,y:95+Math.random()*265,vx:-(42+Math.random()*35),r:9,t:0});
+      if(Math.random()<.58){const type=itemTypes[Math.floor(Math.random()*itemTypes.length)];items.push({x:W+96,y:82+Math.random()*272,type,r:17,phase:Math.random()*6.3});}
+      if(Math.random()<.3)birds.push({x:W+55,y:88+Math.random()*225,vx:-(28+Math.random()*18),ph:Math.random()*6.3,s:.7+Math.random()*.4});
+    }
+    function overlap(box,x,y,w,h){return box.x<x+w&&box.x+box.w>x&&box.y<y+h&&box.y+box.h>y;}
+
+    function update(dt){
+      const move=speed()*dt;
+      clouds.forEach(c=>{c.x-=c.v*dt;if(c.x<-100){c.x=W+70;c.y=18+Math.random()*160;}});
+      hills.forEach(h=>{h.x-=move*.24;if(h.x<-130)h.x+=1104;});
+      bushes.forEach(b=>{b.x-=move*.44;if(b.x<-90)b.x+=1140;});
+      birds.forEach(b=>{b.x+=(b.vx-move*.35)*dt;b.ph+=dt*9;});
+      birds=birds.filter(b=>b.x>-55);
+      particles.forEach(p=>{p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=420*dt;p.life-=dt;});
+      particles=particles.filter(p=>p.life>0);
+      if(banner){banner.t-=dt;if(banner.t<=0)banner=null;}
+      if(state!=="play")return;
+
+      held=touchHeld||keys.has("Space")||keys.has("ArrowUp");
+      const accel=realisticInput.checked?510:790;
+      const lift=realisticInput.checked?-780:-1160;
+      const drag=realisticInput.checked?1.25:.95;
+      helicopter.vy+=(held?lift:accel)*dt;
+      helicopter.vy*=Math.pow(.16,dt*drag);
+      helicopter.vy=Math.max(realisticInput.checked?-170:-215,Math.min(realisticInput.checked?185:225,helicopter.vy));
+      helicopter.y+=helicopter.vy*dt;
+      const targetPitch=helicopter.vy/1450,targetRoll=(held?-.045:.035)+Math.sin(worldDistance*.012)*.012;
+      helicopter.pitch+=(targetPitch-helicopter.pitch)*Math.min(1,dt*6);
+      helicopter.roll+=(targetRoll-helicopter.roll)*Math.min(1,dt*5);
+      helicopter.rotor+=dt*(held?39:27);
+      dustTimer-=dt;
+      if(dustTimer<=0){dustTimer=.04;particles.push({x:helicopter.x-24,y:helicopter.y+14,vx:-35-Math.random()*20,vy:4+Math.random()*8,life:.3,max:.3,c:"rgba(220,214,197,.55)",s:2+Math.random()*2});}
+      if(engineGain&&audio){
+        engineGain.gain.setTargetAtTime(held?.075:.058,audio.currentTime,.11);
+        engineFilter.frequency.setTargetAtTime(held?910:690,audio.currentTime,.11);
+        bladeOsc.frequency.setTargetAtTime(held?42:31,audio.currentTime,.11);
+        bladeGain.gain.setTargetAtTime(held?.05:.035,audio.currentTime,.11);
+      }
+
+      worldDistance+=move;runDistance+=move;score=Math.floor(runDistance);
+      const idx=Math.floor(worldDistance/levelLength);
+      if(idx!==lastLevelIndex){
+        lastLevelIndex=idx;const lv=levels[idx%levels.length];
+        banner={text:idx%levels.length===0&&idx>0?"🎉 八大地标通关，继续循环":`${lv.emoji} ${lv.name}`,t:1.8};
+        speak(lv.narration);beep(620,.09,"triangle",.08);setTimeout(()=>beep(830,.11,"triangle",.07),95);
+      }
+      spawnGap-=move;
+      if(spawnGap<=0){spawn();spawnGap=530+Math.random()*240-Math.min(score*.42,115);}
+      obstacles.forEach(o=>{o.x-=move;});
+      shells.forEach(s=>{s.x+=s.vx*dt;s.y+=Math.sin(s.t+=dt*4.2)*16*dt;});
+      items.forEach(i=>{i.x-=move;i.phase+=dt*3;});
+      obstacles=obstacles.filter(o=>o.x+o.w>-40);shells=shells.filter(s=>s.x+s.r>-25);items=items.filter(i=>i.x+i.r>-25);
+
+      const hitBox={x:helicopter.x-15,y:helicopter.y-14,w:31,h:24};
+      const collectBox={x:helicopter.x-26,y:helicopter.y-26,w:52,h:52};
+      for(const o of obstacles){
+        if(overlap(box,o.x,o.y,o.w,o.h)){die();return;}
+        if(!o.pass&&o.x+o.w<helicopter.x){o.pass=true;score+=3;}
+      }
+      for(const s of shells)if(overlap(hitBox,s.x-s.r,s.y-s.r,s.r*2,s.r*2)){die();return;}
+      for(const i of items)if(overlap(collectBox,i.x-i.r,i.y-i.r,i.r*2,i.r*2)){i.x=-999;collectCount[i.type.id]=(collectCount[i.type.id]||0)+1;score+=7;burst(i.x,i.y,12,[i.type.color,"#fff","#ffd166"]);beep(880,.07,"square",.07);setTimeout(()=>beep(1180,.07,"square",.05),55);}
+      if(helicopter.y-22<0||helicopter.y+14>groundY){die();return;}
+      if(score>=nextMilestone){nextMilestone+=150;burst(helicopter.x+27,helicopter.y-10,14,["#ffd166","#fff","#7be0ad"]);beep(1040,.12,"triangle",.08);}
+    }
+
+    function roundRect(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+    function drawCover(img){const r=W/H,ir=img.width/img.height;let dw=W,dh=H;if(ir>r){dh=H;dw=H*ir;}else{dw=W;dh=W/ir;}ctx.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);}
+
+    function drawCloud(c){ctx.save();ctx.translate(c.x,c.y);ctx.scale(c.s,c.s);ctx.fillStyle="rgba(255,255,255,.82)";[[0,0,28],[-29,8,20],[29,8,20],[3,10,24]].forEach(([x,y,r])=>{ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();});ctx.fillRect(-30,6,60,15);ctx.restore();}
+    function drawBird(b){
+      ctx.save();ctx.translate(b.x,b.y);ctx.scale(b.s,b.s);ctx.strokeStyle="#4a4d57";ctx.lineWidth=2.4;ctx.lineCap="round";
+      const f=Math.sin(b.ph)*6;
+      ctx.beginPath();ctx.moveTo(-9,f);ctx.quadraticCurveTo(-4,-4-f*.4,0,0);ctx.quadraticCurveTo(4,-4-f*.4,9,f);ctx.stroke();ctx.restore();
+    }
+    function drawWall(o){
+      ctx.fillStyle="#a4977f";roundRect(o.x,o.y,o.w,o.h,3);ctx.fill();
+      ctx.fillStyle="#8a7d68";for(let x=o.x-10;x<o.x+o.w;x+=17)ctx.fillRect(x,o.y,o.w,7);
+      ctx.strokeStyle="rgba(72,58,42,.38)";ctx.lineWidth=1.5;for(let y=o.y+15;y<o.y+o.h;y+=15){ctx.beginPath();ctx.moveTo(o.x,y);ctx.lineTo(o.x+o.w,y);ctx.stroke();}
+      if(o.w>150){ctx.fillStyle="#d8493f";for(let x=o.x+18;x<o.x+o.w-24;x+=52){ctx.fillRect(x,o.y-18,2,18);ctx.fillRect(x+2,o.y-18,16,8);}}
+    }
+    function drawPalace(o){
+      ctx.fillStyle="#96342c";roundRect(o.x,o.y+19,o.w,o.h-19,2);ctx.fill();
+      ctx.fillStyle="#ffd05e";ctx.beginPath();ctx.moveTo(o.x-10,o.y+23);ctx.lineTo(o.x+o.w+10,o.y+23);ctx.lineTo(o.x+o.w-6,o.y+1);ctx.lineTo(o.x+6,o.y+1);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#8a2c26";ctx.fillRect(o.x-10,o.y+20,o.w+20,4);
+      ctx.fillStyle="#ffdcab";for(let x=o.x+8;x<o.x+o.w-10;x+=13)ctx.fillRect(x,o.y+33,5,11);
+      ctx.fillStyle="#c6a15a";ctx.fillRect(o.x-3,o.y+o.h-2,4,10);ctx.fillRect(o.x+o.w-1,o.y+o.h-2,4,10);
+    }
+    function drawWarrior(o){
+      ctx.fillStyle="#a39174";roundRect(o.x+3,o.y+18,o.w-6,o.h-18,4);ctx.fill();
+      ctx.fillStyle="#84755a";roundRect(o.x+6,o.y+3,o.w-12,19,7);ctx.fill();
+      ctx.fillStyle="#655a42";ctx.fillRect(o.x+8,o.y+8,o.w-16,4);ctx.fillStyle="#4f452d";ctx.fillRect(o.x+o.w/2-8,o.y+o.h-8,16,7);
+      ctx.fillStyle="rgba(60,50,34,.25)";ctx.fillRect(o.x+10,o.y+31,o.w-20,3);
+    }
+    function drawMountain(o){
+      ctx.fillStyle="#629b63";ctx.beginPath();ctx.moveTo(o.x-10,o.y+o.h);ctx.lineTo(o.x+o.w/2,o.y);ctx.lineTo(o.x+o.w+10,o.y+o.h);ctx.closePath();ctx.fill();
+      ctx.fillStyle="#8bc187";ctx.beginPath();ctx.moveTo(o.x+o.w*.31,o.y+18);ctx.lineTo(o.x+o.w/2,o.y);ctx.lineTo(o.x+o.w*.69,o.y+18);ctx.closePath();ctx.fill();
+      ctx.fillStyle="rgba(255,255,255,.8)";ctx.beginPath();ctx.moveTo(o.x+o.w*.42,o.y+7);ctx.lineTo(o.x+o.w/2,o.y);ctx.lineTo(o.x+o.w*.58,o.y+7);ctx.closePath();ctx.fill();
+    }
+    function drawPotala(o){
+      ctx.fillStyle="#f6f0e2";roundRect(o.x,o.y+22,o.w,o.h-22,3);ctx.fill();
+      ctx.fillStyle="#a83c33";ctx.fillRect(o.x,o.y+22,o.w,19);ctx.fillStyle="#6c5942";
+      for(let y=o.y+50;y<o.y+o.h-10;y+=17)for(let x=o.x+7;x<o.x+o.w-10;x+=13)ctx.fillRect(x,y,5,8);
+      ctx.fillStyle="#e3b64f";ctx.fillRect(o.x+o.w/2-4,o.y-14,8,14);
+    }
+    function drawBamboo(o){
+      ctx.fillStyle="#4d8c42";roundRect(o.x+4,o.y,o.w-8,o.h,5);ctx.fill();
+      ctx.strokeStyle="rgba(25,66,22,.45)";ctx.lineWidth=2;for(let y=o.y+13;y<o.y+o.h;y+=18){ctx.beginPath();ctx.moveTo(o.x+4,y);ctx.lineTo(o.x+o.w-4,y);ctx.stroke();}
+      ctx.fillStyle="#69b459";ctx.beginPath();ctx.ellipse(o.x+o.w+8,o.y+13,12,4,-.6,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(o.x-8,o.y+31,11,4,.6,0,Math.PI*2);ctx.fill();
+    }
+    function drawHanging(o){
+      ctx.fillStyle="#6e5132";ctx.fillRect(o.x,o.y+22,o.w,o.h-22);ctx.fillStyle="#8b653c";roundRect(o.x-5,o.y+13,o.w+10,15,3);ctx.fill();
+      ctx.strokeStyle="#553d25";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(o.x+4,o.y+38);ctx.lineTo(o.x-6,o.y+o.h);ctx.stroke();ctx.beginPath();ctx.moveTo(o.x+o.w-4,o.y+38);ctx.lineTo(o.x+o.w+6,o.y+o.h);ctx.stroke();ctx.fillStyle="#ffdfae";ctx.fillRect(o.x+o.w/2-5,o.y+46,10,8);
+    }
+    function drawTower(o){
+      const g=ctx.createLinearGradient(o.x,o.y,o.x+o.w,o.y+o.h);g.addColorStop(0,"#8fd8ff");g.addColorStop(1,"#3b6dc4");ctx.fillStyle=g;roundRect(o.x,o.y,o.w,o.h,4);ctx.fill();
+      ctx.fillStyle="rgba(255,255,255,.52)";for(let y=o.y+10;y<o.y+o.h;y+=13)ctx.fillRect(o.x+4,y,o.w-8,3);
+      ctx.strokeStyle="#e6eefb";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(o.x+o.w/2,o.y);ctx.lineTo(o.x+o.w/2,o.y-17);ctx.stroke();
+    }
+    function drawPlate(o){
+      ctx.fillStyle="#8e8a80";roundRect(o.x,o.y,o.w,o.h,4);ctx.fill();
+      ctx.fillStyle="rgba(255,255,255,.14)";roundRect(o.x+4,o.y+4,o.w-8,5,2);ctx.fill();
+      ctx.strokeStyle="rgba(60,60,60,.3)";ctx.lineWidth=1;for(let x=o.x+7;x<o.x+o.w-6;x+=10){ctx.beginPath();ctx.moveTo(x,o.y+8);ctx.lineTo(x,o.y+o.h-5);ctx.stroke();}
+    }
+    function drawObstacle(o){if(o.shape==="plate"){drawPlate(o);return;}if(o.kind==="wall")drawWall(o);else if(o.kind==="palace")drawPalace(o);else if(o.kind==="warrior")drawWarrior(o);else if(o.kind==="mountain")drawMountain(o);else if(o.kind==="potala")drawPotala(o);else if(o.kind==="bamboo")drawBamboo(o);else if(o.kind==="hanging")drawHanging(o);else drawTower(o);}
+
+    function drawItem(i){
+      ctx.save();ctx.translate(i.x,i.y+Math.sin(i.phase)*3);
+      ctx.fillStyle="rgba(255,255,255,.65)";ctx.beginPath();ctx.arc(0,0,17,0,Math.PI*2);ctx.fill();
+      ctx.strokeStyle=i.type.color;ctx.lineWidth=2;ctx.stroke();
+      ctx.font="18px serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(i.type.emoji,0,1);ctx.restore();
+    }
+    function drawShell(s){ctx.save();ctx.translate(s.x,s.y);ctx.fillStyle="#2b303c";ctx.beginPath();ctx.arc(0,0,9,0,Math.PI*2);ctx.fill();ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(-2,-2,3,0,Math.PI*2);ctx.fill();ctx.restore();}
+
+    function drawAvatar(x,y,r){
+      ctx.save();ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.clip();
+      if(avatarImage)ctx.drawImage(avatarImage,x-r,y-r,r*2,r*2);
+      else{ctx.fillStyle="#ffd6a5";ctx.fillRect(x-r,y-r,r*2,r*2);ctx.fillStyle="#b8433a";ctx.fillRect(x-r,y-r,r*2,r*.58);ctx.fillStyle="#4a3222";ctx.beginPath();ctx.arc(x,y+r*.16,r*.64,0,Math.PI*2);ctx.fill();}
+      ctx.restore();
+      ctx.strokeStyle="rgba(255,255,255,.68)";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.stroke();
+    }
+
+    function drawHelicopter(){
+      const h=helicopter;ctx.save();ctx.translate(h.x,h.y);ctx.rotate(h.pitch+h.roll*.5);
+      ctx.fillStyle="rgba(24,31,48,.18)";roundRect(-24,-14,39,31,12);ctx.fill();
+      const body=ctx.createLinearGradient(0,-16,0,22);body.addColorStop(0,"#e1544a");body.addColorStop(.58,"#c43c33");body.addColorStop(1,"#903027");
+      ctx.fillStyle=body;roundRect(-24,-14,39,31,12);ctx.fill();
+      ctx.fillStyle="#5a6a7d";roundRect(-18,-11,31,7,3);ctx.fill();
+      ctx.fillStyle="#b9c4d1";roundRect(-17,-10,29,2,1);ctx.fill();
+      ctx.fillStyle="rgba(34,45,70,.9)";roundRect(-17,-6,25,18,8);ctx.fill();
+      drawAvatar(-5,2,8);
+      const glass=ctx.createLinearGradient(-17,-6,8,12);glass.addColorStop(0,"rgba(226,245,255,.28)");glass.addColorStop(1,"rgba(151,186,209,.07)");
+      ctx.fillStyle=glass;roundRect(-17,-6,25,18,8);ctx.fill();
+      ctx.strokeStyle="rgba(240,248,255,.42)";ctx.lineWidth=1.2;roundRect(-17,-6,25,18,8);ctx.stroke();
+      ctx.fillStyle="#a92e26";roundRect(-47,-8,25,12,5);ctx.fill();ctx.fillStyle="#7f231d";roundRect(-50,-4,10,4,2);ctx.fill();
+      ctx.fillStyle="#a88453";roundRect(-8,13,21,4,2);ctx.fill();
+      ctx.fillStyle="#e0b063";roundRect(-9,15,7,5,2);ctx.fill();
+      ctx.strokeStyle="#4b566b";ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(-1,-14);ctx.lineTo(-1,-23);ctx.stroke();
+      ctx.strokeStyle="rgba(235,241,250,.88)";ctx.lineWidth=3.5;ctx.lineCap="round";
+      const r1=Math.sin(h.rotor)*3,r2=Math.cos(h.rotor)*1.6;
+      ctx.beginPath();ctx.moveTo(-31,-24-r1);ctx.lineTo(31,-24+r1);ctx.stroke();
+      ctx.globalAlpha=.55;ctx.beginPath();ctx.moveTo(-26,-23-r2);ctx.lineTo(26,-23+r2);ctx.stroke();ctx.globalAlpha=1;
+      ctx.strokeStyle="#4b566b";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(21,-2);ctx.lineTo(31,-1);ctx.stroke();
+      ctx.fillStyle="rgba(235,241,250,.85)";roundRect(29,-5,8,8,2);ctx.fill();
+      ctx.restore();
+    }
+
+    function render(){
+      ctx.setTransform(dpr*scale,0,0,dpr*scale,0,0);
+      const lv=currentLevel();
+      if(backgroundImage){drawCover(backgroundImage);ctx.fillStyle="rgba(250,250,245,.32)";ctx.fillRect(0,0,W,H);}
+      else{const sky=ctx.createLinearGradient(0,0,0,H);sky.addColorStop(0,lv.sky[0]);sky.addColorStop(.72,lv.sky[1]);sky.addColorStop(1,lv.fog);ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);}
+      ctx.save();ctx.globalAlpha=.32;ctx.fillStyle=lv.fog;ctx.beginPath();ctx.ellipse(W*.35,190,390,70,0,0,Math.PI*2);ctx.fill();ctx.restore();
+      clouds.forEach(drawCloud);
+      ctx.save();ctx.globalAlpha=.24;ctx.fillStyle=lv.ambient;
+      hills.forEach(h=>{ctx.beginPath();ctx.ellipse(h.x,groundY+14,105*h.s,48*h.s,0,Math.PI,0);ctx.fill();});
+      ctx.restore();
+      obstacles.forEach(drawObstacle);items.forEach(drawItem);shells.forEach(drawShell);birds.forEach(drawBird);
+      ctx.fillStyle=lv.ground;ctx.fillRect(0,groundY,W,H-groundY);ctx.fillStyle="rgba(0,0,0,.18)";ctx.fillRect(0,groundY,W,5);
+      bushes.forEach(b=>{ctx.save();ctx.translate(b.x,groundY);ctx.scale(b.s,b.s);ctx.fillStyle="rgba(0,0,0,.14)";[[0,-6,18],[-15,0,13],[15,0,13]].forEach(([x,y,r])=>{ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill();});ctx.fillRect(-22,0,44,8);ctx.restore();});
+      particles.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life/p.max);ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);});ctx.globalAlpha=1;
+      if(state!=="over")drawHelicopter();
+      ctx.textBaseline="top";ctx.textAlign="left";ctx.font="700 24px 'ZCOOL KuaiLe',sans-serif";ctx.lineWidth=5;ctx.strokeStyle="rgba(21,30,54,.72)";ctx.fillStyle="#fff";
+      ctx.strokeText(`${score} 米`,20,17);ctx.fillText(`${score} 米`,20,17);
+      const collected=Object.values(collectCount).reduce((a,b)=>a+b,0);
+      ctx.font="17px 'ZCOOL KuaiLe',sans-serif";ctx.strokeText(`文物 ${collected}`,20,46);ctx.fillText(`文物 ${collected}`,20,46);
+      ctx.font="17px 'ZCOOL KuaiLe',sans-serif";ctx.strokeText(`${lv.emoji} ${lv.name}`,W/2-52,18);ctx.fillText(`${lv.emoji} ${lv.name}`,W/2-52,18);
+      if(state==="play"){ctx.font="14px 'ZCOOL KuaiLe',sans-serif";ctx.strokeText("按住 = 上升",W-104,21);ctx.fillText("按住 = 上升",W-104,21);}
+      if(banner){ctx.globalAlpha=Math.min(1,banner.t*1.6);ctx.fillStyle="rgba(255,255,255,.94)";roundRect(W/2-132,70,264,44,22);ctx.fill();ctx.fillStyle="#253053";ctx.textAlign="center";ctx.font="700 21px 'Noto Serif SC',serif";ctx.fillText(banner.text,W/2,83);ctx.globalAlpha=1;}
+    }
+
+    function loop(t){const dt=Math.min((t-last)/1000||0,1/30);last=t;update(dt);render();requestAnimationFrame(loop);}
+    function ensureAudio(){
+      if(audio||!soundInput.checked)return;
+      const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+      audio=new AC();masterGain=audio.createGain();masterGain.gain.value=.9;masterGain.connect(audio.destination);
+      engineNoise=audio.createBufferSource();const len=audio.sampleRate*2,buffer=audio.createBuffer(1,len,audio.sampleRate),data=buffer.getChannelData(0);
+      let lastNoise=0;for(let i=0;i<len;i++){const white=Math.random()*2-1;lastNoise=(lastNoise+.03*white)/1.03;data[i]=lastNoise*4.2;}
+      engineNoise.buffer=buffer;engineNoise.loop=true;
+      engineFilter=audio.createBiquadFilter();engineFilter.type="lowpass";engineFilter.frequency.value=720;
+      engineGain=audio.createGain();engineGain.gain.value=0;
+      engineNoise.connect(engineFilter).connect(engineGain).connect(masterGain);engineNoise.start();
+      bladeOsc=audio.createOscillator();bladeOsc.type="sawtooth";bladeOsc.frequency.value=31;
+      bladeGain=audio.createGain();bladeGain.gain.value=0;
+      const bladeFilter=audio.createBiquadFilter();bladeFilter.type="lowpass";bladeFilter.frequency.value=260;
+      bladeOsc.connect(bladeGain).connect(bladeFilter).connect(masterGain);bladeOsc.start();
+    }
+    function beep(freq,dur=.1,type="square",vol=.07){if(!soundInput.checked||!audio)return;const o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(vol,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+dur);o.connect(g).connect(masterGain);o.start();o.stop(audio.currentTime+dur);}
+    function setEngine(on){
+      if(!audio)ensureAudio();if(!audio)return;
+      if(on){engineGain.gain.cancelScheduledValues(audio.currentTime);engineGain.gain.setTargetAtTime(.058,audio.currentTime,.22);bladeGain.gain.setTargetAtTime(.035,audio.currentTime,.22);}
+      else{engineGain?.gain.setTargetAtTime(0,audio.currentTime,.12);bladeGain?.gain.setTargetAtTime(0,audio.currentTime,.12);}
+    }
+    function speak(text){
+      if(!narrationInput.checked||!window.speechSynthesis)return;
+      try{const u=new SpeechSynthesisUtterance(text);u.lang="zh-CN";u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}
+    }
+    function loadImage(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=rej;i.src=src;});}
+    function readFileImage(file,max){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const i=new Image();i.onload=()=>{const c=document.createElement("canvas"),s=Math.min(1,max/Math.max(i.width,i.height));c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);c.getContext("2d").drawImage(i,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.87));};i.onerror=rej;i.src=fr.result;};fr.onerror=rej;fr.readAsDataURL(file);});}
+    async function setImage(kind,file){
+      try{const data=await readFileImage(file,kind==="bg"?1300:300),img=await loadImage(data);
+        if(kind==="avatar"){avatarImage=img;avatarPreview.src=data;avatarPreview.classList.add("show");}
+        else{backgroundImage=img;bgPreview.src=data;bgPreview.classList.add("show");}
+        localStorage.setItem(kind==="avatar"?"china-heli-avatar":"china-heli-bg",data);
+      }catch(e){alert("这张图片读取失败，请换一张试试。");}
+    }
+    function clearImage(kind){localStorage.removeItem(kind==="avatar"?"china-heli-avatar":"china-heli-bg");if(kind==="avatar"){avatarImage=null;avatarPreview.classList.remove("show");}else{backgroundImage=null;bgPreview.classList.remove("show");}}
+    function renderLevelChips(){
+      levelChips.innerHTML=levels.map((lv,i)=>`<button class="level-chip ${i===selectedLevel?"active":""}" data-i="${i}">${i+1}. ${lv.name}</button>`).join("");
+      levelChips.querySelectorAll("button").forEach(btn=>btn.addEventListener("click",()=>{selectedLevel=+btn.dataset.i;renderLevelChips();}));
+      levelFlow.textContent="顺序："+levels.map(l=>`${l.emoji}${l.name}`).join(" → ")+" → 循环";
+    }
+
+    const keys=new Set();let touchHeld=false;
+    window.addEventListener("keydown",e=>{
+      if(e.code==="Space"||e.code==="ArrowUp")e.preventDefault();keys.add(e.code);
+      if((e.code==="Space"||e.code==="Enter")&&state==="ready")start();
+      if(e.code==="Escape"&&state==="play"){state="paused";setEngine(false);pauseScreen.classList.remove("hidden");}
+    });
+    window.addEventListener("keyup",e=>keys.delete(e.code));
+    touchLayer.addEventListener("pointerdown",()=>{touchHeld=true;});
+    ["pointerup","pointercancel","pointerleave"].forEach(ev=>touchLayer.addEventListener(ev,()=>{touchHeld=false;}));
+    document.getElementById("startBtn").addEventListener("click",start);
+    document.getElementById("retryBtn").addEventListener("click",start);
+    document.getElementById("settingBtn").addEventListener("click",toSettings);
+    document.getElementById("resumeBtn").addEventListener("click",()=>{state="play";pauseScreen.classList.add("hidden");last=performance.now();setEngine(true);});
+    document.getElementById("pauseSettingBtn").addEventListener("click",toSettings);
+    speedInput.addEventListener("input",()=>{speedLabel.textContent=speedText();localStorage.setItem("china-heli-speed",speedInput.value);});
+    soundInput.addEventListener("change",()=>{localStorage.setItem("china-heli-sound",soundInput.checked?"1":"0");if(soundInput.checked){ensureAudio();if(state==="play")setEngine(true);}else setEngine(false);});
+    realisticInput.addEventListener("change",()=>localStorage.setItem("china-heli-realistic",realisticInput.checked?"1":"0"));
+    narrationInput.addEventListener("change",()=>localStorage.setItem("china-heli-narration",narrationInput.checked?"1":"0"));
+    avatarFile.addEventListener("change",e=>{if(e.target.files[0])setImage("avatar",e.target.files[0]);});
+    bgFile.addEventListener("change",e=>{if(e.target.files[0])setImage("bg",e.target.files[0]);});
+    document.getElementById("clearAvatar").addEventListener("click",()=>clearImage("avatar"));
+    document.getElementById("clearBg").addEventListener("click",()=>clearImage("bg"));
+    window.addEventListener("resize",resize);
+    window.addEventListener("blur",()=>{keys.clear();touchHeld=false;if(state==="play"){state="paused";setEngine(false);pauseScreen.classList.remove("hidden");}});
+    async function loadStoredImages(){
+      try{const a=localStorage.getItem("china-heli-avatar");if(a){avatarImage=await loadImage(a);avatarPreview.src=a;avatarPreview.classList.add("show");}
+      const b=localStorage.getItem("china-heli-bg");if(b){backgroundImage=await loadImage(b);bgPreview.src=b;bgPreview.classList.add("show");}}catch(e){}
+    }
+    speedInput.value=localStorage.getItem("china-heli-speed")||"85";speedLabel.textContent=speedText();
+    soundInput.checked=localStorage.getItem("china-heli-sound")!=="0";
+    realisticInput.checked=localStorage.getItem("china-heli-realistic")==="1";
+    narrationInput.checked=localStorage.getItem("china-heli-narration")!=="0";
+    renderLevelChips();updateBest();resize();reset();loadStoredImages();last=performance.now();requestAnimationFrame(loop);
+  })();
+  </script>
+</body>
+</html>

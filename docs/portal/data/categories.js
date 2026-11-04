@@ -338,7 +338,8 @@ window.CATEGORIES = [
         emoji: "🚗",
         topics: [
           { id: "train", title: "高铁", emoji: "🚄", desc: "跑得飞快的地面火箭", url: "", ready: false },
-          { id: "plane", title: "飞机", emoji: "✈️", desc: "在天上飞的大铁鸟", url: "", ready: false }
+          { id: "plane", title: "飞机", emoji: "✈️", desc: "在天上飞的大铁鸟", url: "", ready: false },
+          { id: "mario-helicopter", title: "马里奥直升机", emoji: "🚁", desc: "按住上升，躲开砖块和炮弹", url: "../tech/mario-helicopter.html", ready: true }
         ]
       },
       {
