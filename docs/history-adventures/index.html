@@ -74,22 +74,22 @@
 <main>
   <section class="hub-hero">
     <div class="hero-copy">
-      <p class="eyebrow">一只黄铜罗盘，一条五千年长河</p>
-      <h1>Mario，<br><span>一起走进历史吧！</span></h1>
+      <p class="eyebrow">一只黄铜罗盘，一条从远古走到今天的长河</p>
+      <h1>Mario，<br><span>把五千年走一遍！</span></h1>
       <p class="hero-lead">
-        罗盘一转，Mario 会遇见开天地的盘古、捏泥人的女娲，
-        也会跟着考古学家走进山洞。历史不只是很远的故事，
-        它还藏在今天的火、工具和晚饭里。
+        罗盘一转，Mario 会遇见开天地的盘古、治水的大禹、写诗的李白，
+        也会登上郑和的宝船，坐进今天的高铁。每一站都动手玩，
+        再用自己的话把历史讲出来。
       </p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="chapter-01/section-01.html">
-          打开第一章 · 第 1 节 <span>🚪</span>
+          从第一章第 1 节出发 <span>🚪</span>
         </a>
-        <a class="btn btn-quiet" href="#roadmap">先看故事地图</a>
+        <a class="btn btn-quiet" href="#roadmap">查看 13 节故事地图</a>
       </div>
       <div class="hero-meta" aria-label="绘本特点">
-        <span><b>8–12</b> 分钟</span>
-        <span><b>7</b> 个互动</span>
+        <span><b>13</b> 节完整时间线</span>
+        <span><b>4–7</b> 个互动 / 节</span>
         <span><b>5</b> 岁可陪读</span>
       </div>
     </div>
@@ -162,7 +162,7 @@
     <div class="section-heading">
       <p class="eyebrow">故事地图</p>
       <h2>从一颗黑鸡蛋，走到今天的中国</h2>
-      <p>先走完第一章。后面的时代会沿着这条时间线继续长大。</p>
+      <p>从远古传说、夏商周，一路走到秦汉、隋唐、宋元明清和今天。每节都有游戏、生活卡、小测验和一枚徽章。</p>
     </div>
     <div class="roadmap" id="chapterList" aria-live="polite"></div>
   </section>
@@ -190,7 +190,7 @@
 
 <footer class="hub-footer">
   <span>🧭 Mario 的中华五千年</span>
-  <span>第一章正在更新 · 先从一个传说开始</span>
+  <span>完整时间线已开放 · 从远古走到今天</span>
 </footer>
 
 <script src="data/curriculum.js"></script>
@@ -227,7 +227,7 @@
           <div class="road-topline">
             <span class="road-index">第 ${chapter.id} 章</span>
             <span class="road-years">${chapter.years}</span>
-            <span class="road-state">${isActive ? "正在探索" : "即将开放"}</span>
+            <span class="road-state">${isActive ? (chapter.id === "01" ? "完整开放" : "可以阅读") : "即将开放"}</span>
           </div>
           <h3>${chapter.era}<small>${chapter.title}</small></h3>
           <p>${chapter.summary}</p>

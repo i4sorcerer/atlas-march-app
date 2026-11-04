@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f2ead8">
+<title>Mario 的中华五千年 · 互动绘本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&amp;family=Noto+Serif+SC:wght@400;600;700;900&amp;family=ZCOOL+KuaiLe&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/story.css">
+<link rel="stylesheet" href="css/episode.css">
+</head>
+<body class="story-page episode-page">
+
+<svg class="svg-defs" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="mario-sprite" viewBox="0 0 180 270">
+      <ellipse cx="90" cy="250" rx="55" ry="12" fill="#20343a" opacity=".16"/>
+      <path d="M45 103 Q30 120 33 174 L62 178 L61 112Z" fill="#b9822d"/>
+      <path d="M44 128 Q35 142 37 164 L57 168 L57 126Z" fill="#e0b45c"/>
+      <path d="M66 188 L63 224" stroke="#d8aa7b" stroke-width="21" stroke-linecap="round"/>
+      <path d="M114 188 L118 224" stroke="#d8aa7b" stroke-width="21" stroke-linecap="round"/>
+      <path d="M44 224 Q60 218 78 224 L78 238 Q58 247 39 239Z" fill="#324f57"/>
+      <path d="M102 224 Q121 218 140 225 L141 239 Q121 248 101 239Z" fill="#324f57"/>
+      <path d="M46 103 Q90 88 134 103 L143 187 Q91 201 37 187Z" fill="#b64637"/>
+      <path d="M42 105 Q20 98 24 82 Q39 67 55 91 Q47 96 42 105Z" fill="#8e3028"/>
+      <path d="M50 112 Q29 145 30 177" fill="none" stroke="#a83b30" stroke-width="19" stroke-linecap="round"/>
+      <path d="M130 112 Q151 145 149 176" fill="none" stroke="#a83b30" stroke-width="19" stroke-linecap="round"/>
+      <circle cx="31" cy="180" r="11" fill="#e3b187"/>
+      <circle cx="149" cy="179" r="11" fill="#e3b187"/>
+      <path d="M61 188 Q91 197 120 188 L124 207 Q91 217 57 207Z" fill="#b6a16e"/>
+      <line x1="90" y1="101" x2="90" y2="187" stroke="#f0ce99" stroke-width="3"/>
+      <circle cx="90" cy="132" r="3.5" fill="#f6dfb3"/>
+      <circle cx="90" cy="158" r="3.5" fill="#f6dfb3"/>
+      <path d="M77 94 L77 78 L103 78 L103 94Z" fill="#deb087"/>
+      <circle cx="48" cy="72" r="12" fill="#e4b184"/>
+      <circle cx="132" cy="72" r="12" fill="#e4b184"/>
+      <ellipse cx="90" cy="69" rx="45" ry="47" fill="#e6b68a"/>
+      <path d="M43 69 Q39 14 91 13 Q143 16 138 71 Q131 50 122 38 Q91 53 58 38 Q49 50 43 69Z" fill="#222b2f"/>
+      <path d="M49 39 Q66 17 91 16 Q115 15 132 40 Q109 31 91 34 Q69 35 49 39Z" fill="#2d383c"/>
+      <path d="M55 75 Q66 69 77 75" fill="none" stroke="#3d3029" stroke-width="4" stroke-linecap="round"/>
+      <path d="M103 75 Q114 69 125 75" fill="none" stroke="#3d3029" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="70" cy="86" rx="5.5" ry="7" fill="#263338"/>
+      <ellipse cx="110" cy="86" rx="5.5" ry="7" fill="#263338"/>
+      <circle cx="71.5" cy="83.5" r="1.7" fill="#fff"/>
+      <circle cx="111.5" cy="83.5" r="1.7" fill="#fff"/>
+      <path d="M90 87 Q87 96 93 97" fill="none" stroke="#b3785d" stroke-width="3" stroke-linecap="round"/>
+      <path d="M76 105 Q90 117 105 104" fill="none" stroke="#964f45" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="60" cy="100" rx="10" ry="5" fill="#d9877b" opacity=".45"/>
+      <ellipse cx="120" cy="100" rx="10" ry="5" fill="#d9877b" opacity=".45"/>
+      <g class="mario-compass">
+        <circle cx="149" cy="178" r="20" fill="#d9a945" stroke="#72511f" stroke-width="3"/>
+        <circle cx="149" cy="178" r="13" fill="#fff0bd" stroke="#8f6929" stroke-width="2"/>
+        <path d="M149 168 L153 177 L149 187 L145 177Z" fill="#b64234"/>
+        <circle cx="149" cy="178" r="3" fill="#5e6d60"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="paper-grain" aria-hidden="true"></div>
+
+<header class="book-bar episode-bar">
+  <a class="book-home" href="index.html" aria-label="回到故事地图">
+    <span>←</span>
+    <span class="book-home-text">故事地图</span>
+  </a>
+  <div class="book-heading">
+    <span id="headerLabel">Mario 的中华五千年</span>
+    <b id="headerTitle">正在打开罗盘…</b>
+  </div>
+  <div class="book-tools">
+    <span class="star-meter" id="starCount" aria-label="已获得 0 颗探索星">🌟 0 / 4</span>
+    <button class="tool-button" id="soundToggle" type="button" aria-pressed="false" aria-label="打开朗读">🔇 朗读</button>
+    <button class="tool-button parent-button" id="parentButton" type="button">家长指南</button>
+  </div>
+  <div class="book-progress" aria-hidden="true"><i id="progressBar"></i></div>
+</header>
+
+<main class="book episode-book" id="book">
+
+  <section class="scene episode-scene scene-cover active" data-scene="cover" id="scene-cover">
+    <div class="scene-art episode-cover-art">
+      <div class="episode-cover-frame">
+        <div id="coverArt" class="scene-illustration"></div>
+        <div class="cover-portal-ring" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+        <div class="cover-mario" aria-hidden="true">
+          <svg viewBox="0 0 180 270"><use href="#mario-sprite"/></svg>
+        </div>
+        <div class="episode-cover-stamp" id="coverStamp">时空罗盘</div>
+      </div>
+    </div>
+    <div class="scene-copy cover-copy">
+      <p class="eyebrow" id="coverLabel">正在定位时间…</p>
+      <h1><span id="coverEra">历史</span><br><em id="coverTitle">冒险</em></h1>
+      <p class="story-lead" id="coverSubtitle"></p>
+      <blockquote class="compass-speech" id="coverNarration"></blockquote>
+      <button class="btn btn-primary start-button" id="startButton" type="button">
+        转动罗盘，进入这一站 <span>↻</span>
+      </button>
+      <p class="micro-hint" id="coverYears">建议和爸爸妈妈一起读 · 一次约 8–10 分钟</p>
+    </div>
+  </section>
+
+  <section class="scene episode-scene" data-scene="story" id="scene-story">
+    <div class="scene-art story-art-panel">
+      <div class="story-scene-card">
+        <div id="storyArt" class="scene-illustration"></div>
+        <div class="story-map-strip" aria-hidden="true">
+          <span></span><i></i><span></span><i></i><span></span>
+        </div>
+      </div>
+    </div>
+    <div class="scene-copy story-copy">
+      <p class="eyebrow" id="storyEyebrow"></p>
+      <h2 id="storyTitle"></h2>
+      <div class="story-paragraphs" id="storyText"></div>
+      <div class="story-insight episode-fact">
+        <span class="insight-mark">记住这一点</span>
+        <p id="storyFact"></p>
+      </div>
+      <button class="narration-button" id="readStoryButton" type="button">
+        <span>🔊</span> 听罗盘讲一遍
+      </button>
+    </div>
+  </section>
+
+  <section class="scene episode-scene" data-scene="game" data-task="game" id="scene-game">
+    <div class="scene-art game-art-wrap">
+      <div id="gameStage" class="game-stage"></div>
+      <div class="game-mario" aria-hidden="true">
+        <svg viewBox="0 0 180 270"><use href="#mario-sprite"/></svg>
+      </div>
+    </div>
+    <div class="scene-copy game-copy">
+      <p class="eyebrow">动手探索 · 第 1 个挑战</p>
+      <h2 id="gameTitle"></h2>
+      <p id="gameIntro"></p>
+      <div class="game-panel" id="gamePanel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="scene episode-scene" data-scene="life" data-task="life" id="scene-life">
+    <div class="scene-copy wide-copy">
+      <p class="eyebrow">走进古人的生活 · 第 2 个挑战</p>
+      <h2 id="lifeTitle"></h2>
+      <p id="lifeIntro"></p>
+      <div class="reveal-grid" id="lifeCards"></div>
+      <p class="action-hint" id="lifeHint">点开 3 张小卡，看看古人的一天。</p>
+    </div>
+    <div class="scene-art daily-life-art">
+      <div class="daily-sun" aria-hidden="true"></div>
+      <div class="daily-house" aria-hidden="true">
+        <span class="roof"></span><span class="wall"></span><span class="door"></span>
+      </div>
+      <div class="daily-path" aria-hidden="true"></div>
+      <div class="daily-token token-one" aria-hidden="true">🍚</div>
+      <div class="daily-token token-two" aria-hidden="true">🏮</div>
+      <div class="daily-token token-three" aria-hidden="true">📖</div>
+    </div>
+  </section>
+
+  <section class="scene episode-scene" data-scene="change" data-task="change" id="scene-change">
+    <div class="scene-art time-river-art" aria-hidden="true">
+      <div class="time-moon"></div>
+      <div class="time-orbit orbit-a"></div>
+      <div class="time-orbit orbit-b"></div>
+      <div class="time-compass">
+        <span>今</span>
+        <i></i>
+        <span>古</span>
+      </div>
+      <div class="time-thread"></div>
+    </div>
+    <div class="scene-copy wide-copy">
+      <p class="eyebrow">时间的连续线 · 第 3 个挑战</p>
+      <h2 id="changeTitle"></h2>
+      <p id="changeIntro"></p>
+      <div class="change-list" id="changeCards"></div>
+      <p class="action-hint" id="changeHint">点开 3 组对照，找到变了和没变的事。</p>
+    </div>
+  </section>
+
+  <section class="scene episode-scene scene-quiz" data-scene="quiz" data-task="quiz" id="scene-quiz">
+    <div class="quiz-guide">
+      <div class="quiz-mascot" aria-hidden="true">
+        <svg viewBox="0 0 180 270"><use href="#mario-sprite"/></svg>
+        <span>讲给我听！</span>
+      </div>
+      <p>最后一关：3 个小问题，看看你能不能把这一站讲出来。</p>
+      <div class="quiz-dots" id="quizDots" aria-hidden="true"></div>
+    </div>
+    <div class="quiz-main" id="quizMain">
+      <p class="eyebrow" id="questionNumber">第 1 题</p>
+      <h2 id="questionText"></h2>
+      <div class="answer-list" id="answerList"></div>
+      <p class="quiz-feedback" id="quizFeedback">选一个你心里的答案。</p>
+      <button class="btn btn-primary quiz-next" id="quizNext" type="button" hidden>下一题 →</button>
+    </div>
+    <div class="quiz-result" id="quizResult" hidden>
+      <span class="result-compass" aria-hidden="true">🧭</span>
+      <p class="eyebrow">挑战完成</p>
+      <h2>答对 <b id="quizScore">0</b> / 3 题</h2>
+      <p id="quizResultText"></p>
+      <button class="btn btn-primary" id="toBadgeButton" type="button">领取我的徽章 →</button>
+    </div>
+  </section>
+
+  <section class="scene episode-scene scene-final" data-scene="final" id="scene-final">
+    <div class="badge-stage">
+      <div class="confetti" id="confetti" aria-hidden="true"></div>
+      <div class="badge-medal">
+        <div class="badge-rays"></div>
+        <div class="badge-compass" id="badgeIcon">🧭</div>
+        <span class="badge-ribbon ribbon-left"></span>
+        <span class="badge-ribbon ribbon-right"></span>
+      </div>
+      <div class="badge-caption" id="badgeName">历史小探险家</div>
+    </div>
+    <div class="final-copy">
+      <p class="eyebrow">这一站，完成了</p>
+      <h2>Mario，<br>你把历史带回来了！</h2>
+      <p id="finalTakeaway"></p>
+      <div class="final-stats">
+        <div><b id="finalStars">0 / 4</b><span>探索星</span></div>
+        <div><b id="finalScore">0 / 3</b><span>小测成绩</span></div>
+      </div>
+      <div class="final-actions">
+        <a class="btn btn-primary" id="nextEpisodeButton" href="index.html">下一站 →</a>
+        <a class="btn btn-quiet" href="index.html">回到故事地图</a>
+      </div>
+      <button class="again-button" id="againButton" type="button">↻ 再读一遍</button>
+    </div>
+  </section>
+
+  <section class="episode-error" id="episodeError" hidden>
+    <span>🧭</span>
+    <h1>罗盘没有找到这一站</h1>
+    <p>链接里的故事编号不正确。回到故事地图，重新选择一章吧。</p>
+    <a class="btn btn-primary" href="index.html">回到故事地图</a>
+  </section>
+</main>
+
+<nav class="book-nav episode-nav" id="bookNav" aria-label="翻页">
+  <button class="page-button prev" id="prevButton" type="button" disabled>← 上一页</button>
+  <div class="page-status">
+    <span id="pageNow">封面</span>
+    <div class="page-dots" id="pageDots"></div>
+  </div>
+  <button class="page-button next" id="nextButton" type="button">下一页 →</button>
+</nav>
+
+<div class="parent-modal" id="parentModal" hidden>
+  <div class="parent-sheet" role="dialog" aria-modal="true" aria-labelledby="parentTitle">
+    <button class="parent-close" id="parentClose" type="button" aria-label="关闭家长指南">×</button>
+    <p class="eyebrow">给爸爸妈妈</p>
+    <h2 id="parentTitle">陪读指南</h2>
+    <div class="parent-grid">
+      <section>
+        <h3>这一站的重点</h3>
+        <p id="parentCore"></p>
+      </section>
+      <section>
+        <h3>可以这样问</h3>
+        <p id="parentQuestions"></p>
+      </section>
+      <section>
+        <h3>分清传说与证据</h3>
+        <p id="parentEvidence"></p>
+      </section>
+      <section>
+        <h3>读完再聊一分钟</h3>
+        <p id="parentLife"></p>
+      </section>
+    </div>
+    <div class="parent-source">
+      <b>蓝本说明</b>
+      <p>故事结构与时代顺序参考狐狸家《中国简史（绘本版）》。本页文字、角色与互动均为原创儿童改编，非官方授权版本，也不替代原书阅读。</p>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="data/episodes.js"></script>
+<script src="js/episode.js"></script>
+</body>
+</html>

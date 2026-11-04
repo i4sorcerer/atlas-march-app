@@ -138,7 +138,19 @@ window.CATEGORIES = [
         emoji: "🧭",
         refs: { title: "Mario 的中华五千年", emoji: "🗺️", desc: "黄铜时空罗盘 · 按时间线更新的互动历史绘本", url: "../history-adventures/index.html" },
         topics: [
-          { id: "mario-history-01-01", title: "你听过这些传说吗？", emoji: "🥚", desc: "第一章第 1 节：盘古开天 · 女娲造人 · 传说与考古线索", url: "../history-adventures/chapter-01/section-01.html", ready: true }
+          { id: "mario-history-01-01", title: "你听过这些传说吗？", emoji: "🥚", desc: "第一章第 1 节：盘古开天 · 女娲造人 · 传说与考古线索", url: "../history-adventures/chapter-01/section-01.html", ready: true },
+          { id: "mario-history-01-02", title: "涿鹿之战", emoji: "🔥", desc: "第一章第 2 节：炎帝、黄帝和蚩尤的传说 · 炎黄子孙", url: "../history-adventures/episode.html?id=01-02", ready: true },
+          { id: "mario-history-01-03", title: "大禹治水", emoji: "🌊", desc: "第一章第 3 节：观察水流 · 开渠疏导 · 治水传说", url: "../history-adventures/episode.html?id=01-03", ready: true },
+          { id: "mario-history-02-01", title: "青铜与礼乐", emoji: "🏺", desc: "第二章：甲骨文 · 青铜器 · 夏商西周", url: "../history-adventures/episode.html?id=02-01", ready: true },
+          { id: "mario-history-03-01", title: "百家争鸣", emoji: "📜", desc: "第三章：铁器牛耕 · 都江堰 · 孔子、老子和墨子", url: "../history-adventures/episode.html?id=03-01", ready: true },
+          { id: "mario-history-04-01", title: "大一统", emoji: "🐉", desc: "第四章：秦的统一 · 丝绸之路 · 造纸术", url: "../history-adventures/episode.html?id=04-01", ready: true },
+          { id: "mario-history-05-01", title: "分裂与交融", emoji: "🪷", desc: "第五章：石窟艺术 · 胡床与胡饼 · 文化交流", url: "../history-adventures/episode.html?id=05-01", ready: true },
+          { id: "mario-history-06-01", title: "盛世长安", emoji: "🏯", desc: "第六章：大运河 · 科举 · 唐诗", url: "../history-adventures/episode.html?id=06-01", ready: true },
+          { id: "mario-history-07-01", title: "风雅与发明", emoji: "🍵", desc: "第七章：活字印刷 · 指南针 · 交子与夜市", url: "../history-adventures/episode.html?id=07-01", ready: true },
+          { id: "mario-history-08-01", title: "辽阔的交流", emoji: "🐎", desc: "第八章：大都 · 驿站 · 元曲与棉布", url: "../history-adventures/episode.html?id=08-01", ready: true },
+          { id: "mario-history-09-01", title: "远航与市井", emoji: "⛵", desc: "第九章：郑和下西洋 · 紫禁城 · 城市阅读", url: "../history-adventures/episode.html?id=09-01", ready: true },
+          { id: "mario-history-10-01", title: "最后一个王朝", emoji: "🏮", desc: "第十章：康乾时期 · 鸦片战争 · 帝制结束", url: "../history-adventures/episode.html?id=10-01", ready: true },
+          { id: "mario-history-11-01", title: "历史还在继续", emoji: "🚄", desc: "尾声：从近代到今天 · 五千年里什么变了、什么没变", url: "../history-adventures/episode.html?id=11-01", ready: true }
         ]
       },
       {
