@@ -55,6 +55,7 @@
   const lifeCards = document.getElementById("lifeCards");
   const changeCards = document.getElementById("changeCards");
   const quizDots = document.getElementById("quizDots");
+  const narration = window.MarioNarration || null;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -1073,51 +1074,73 @@
 
   /* ---------------- 朗读 ---------------- */
 
-  function chooseChineseVoice() {
-    if (!("speechSynthesis" in window)) return null;
-    const voices = window.speechSynthesis.getVoices();
-    return voices.find((voice) => /^zh|chinese|mandarin|中文|普通话/i.test(voice.lang + " " + voice.name)) || null;
-  }
-
   function speakText(text, force) {
     if (!text || (!force && !state.soundOn)) return;
-    if (!("speechSynthesis" in window)) {
+    if (!narration || !narration.isSupported()) {
       showToast("这个浏览器暂时不能朗读，可以请爸爸妈妈读给你听。");
-      return;
+      return false;
     }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voice = chooseChineseVoice();
-    if (voice) utterance.voice = voice;
-    utterance.lang = "zh-CN";
-    utterance.rate = .9;
-    utterance.pitch = 1.06;
-    window.speechSynthesis.speak(utterance);
+    const started = narration.speak(text, { force: Boolean(force) });
+    if (started && force && !state.soundOn) showToast("正在朗读这一页…");
+    return started;
   }
 
   function speakCurrentScene(force) {
     const scene = scenes[state.current];
-    if (!scene) return;
-    speakText(scene.dataset.narration || "", force);
+    if (!scene) return false;
+    return speakText(scene.dataset.narration || "", force);
   }
 
   function stopSpeaking() {
-    if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+    if (narration) narration.stop();
   }
+
+  function updateSoundButton(label) {
+    if (!soundToggle) return;
+    soundToggle.setAttribute("aria-pressed", String(state.soundOn));
+    soundToggle.setAttribute("aria-label", state.soundOn ? "关闭朗读" : "打开朗读");
+    soundToggle.textContent = label || (state.soundOn ? "🔊 朗读开" : "🔇 朗读");
+  }
+
+  function setupNarration() {
+    if (!narration) return;
+    narration.configure({
+      onStateChange(event) {
+        if (event.status === "started") {
+          if (state.soundOn) updateSoundButton("🔊 朗读中");
+          return;
+        }
+        if (event.status === "ended") {
+          if (state.soundOn) updateSoundButton("🔊 朗读开");
+          return;
+        }
+        if (event.status === "error" || event.status === "blocked" || event.status === "unsupported") {
+          if (state.soundOn) {
+            state.soundOn = false;
+            narration.setEnabled(false);
+            updateSoundButton("🔇 朗读");
+          }
+          showToast(event.message || "朗读没有启动，请再试一次。");
+        }
+      }
+    });
+    narration.setEnabled(false);
+  }
+
+  setupNarration();
 
   if (soundToggle) {
     soundToggle.addEventListener("click", () => {
-      if (!("speechSynthesis" in window)) {
+      if (!narration || !narration.isSupported()) {
         showToast("这个浏览器暂时不能朗读，可以请爸爸妈妈读给你听。");
         return;
       }
       state.soundOn = !state.soundOn;
-      soundToggle.setAttribute("aria-pressed", String(state.soundOn));
-      soundToggle.setAttribute("aria-label", state.soundOn ? "关闭朗读" : "打开朗读");
-      soundToggle.textContent = state.soundOn ? "🔊 朗读开" : "🔇 朗读";
+      narration.setEnabled(state.soundOn);
+      updateSoundButton(state.soundOn ? "🔊 准备中" : "🔇 朗读");
       if (state.soundOn) {
         speakCurrentScene(true);
-        showToast("朗读已打开，翻页时会读这一页。");
+        showToast("朗读已打开，正在准备中文语音…");
       } else {
         stopSpeaking();
         showToast("朗读已关闭。");
