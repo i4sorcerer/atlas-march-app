@@ -170,17 +170,14 @@
 
   /* ---------------- 朗读 ---------------- */
 
-  function speakText(text, force, audioSrc) {
+  function speakText(text, force) {
     if (!text) return;
     if (!force && !state.soundOn) return;
     if (!narration || !narration.isSupported()) {
       showToast("这个浏览器暂时不能朗读，可以请爸爸妈妈读给你听。");
       return false;
     }
-    const started = narration.speak(text, {
-      force: Boolean(force),
-      audioSrc: audioSrc || ""
-    });
+    const started = narration.speak(text, { force: Boolean(force) });
     if (started && force && !state.soundOn) showToast("正在朗读这一页…");
     return started;
   }
@@ -188,7 +185,7 @@
   function speakCurrentScene(force) {
     const scene = scenes[state.current];
     if (!scene) return false;
-    return speakText(scene.dataset.narration || "", force, scene.dataset.audio || "");
+    return speakText(scene.dataset.narration || "", force);
   }
 
   function stopSpeaking() {

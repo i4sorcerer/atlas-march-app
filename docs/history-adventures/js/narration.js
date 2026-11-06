@@ -9,6 +9,9 @@
   const synth = window.speechSynthesis;
   const speechSupported = Boolean(synth && window.SpeechSynthesisUtterance);
   const audioSupported = typeof window.Audio === "function";
+  const audioBaseUrl = document.currentScript && document.currentScript.src
+    ? new URL("../", document.currentScript.src)
+    : new URL("./", window.location.href);
   let enabled = false;
   let preferredVoice = null;
   let activeUtterances = [];
@@ -22,6 +25,35 @@
 
   function emit(status, detail) {
     onStateChange(Object.assign({ status }, detail || {}));
+  }
+
+  function normalizeText(text) {
+    return String(text || "").replace(/\s+/g, " ").trim();
+  }
+
+  function hashText(input) {
+    const text = normalizeText(input);
+    let h1 = 0x811c9dc5;
+    let h2 = 0x9e3779b9;
+    for (let index = 0; index < text.length; index += 1) {
+      const code = text.charCodeAt(index);
+      h1 = Math.imul(h1 ^ code, 0x01000193) >>> 0;
+      h2 = Math.imul(h2 ^ code, 0x85ebca6b) >>> 0;
+      h2 = (h2 + 0x9e3779b9) >>> 0;
+    }
+    return h1.toString(16).padStart(8, "0") + h2.toString(16).padStart(8, "0");
+  }
+
+  function getManifestAudio(text) {
+    const manifest = window.MARIO_NARRATION_AUDIO;
+    if (!manifest) return "";
+    const file = manifest[hashText(text)];
+    if (!file) return "";
+    try {
+      return new URL(file, audioBaseUrl).href;
+    } catch (error) {
+      return file;
+    }
   }
 
   function pickChineseVoice(voices) {
@@ -212,7 +244,7 @@
 
   function speak(text, options) {
     const opts = options || {};
-    const clean = String(text || "").replace(/\s+/g, " ").trim();
+    const clean = normalizeText(text);
     if (!clean) return false;
     if (!enabled && !opts.force) return false;
     if (!audioSupported && !speechSupported) {
@@ -226,8 +258,9 @@
     audioFailedToken = 0;
     pauseAudio();
 
-    if (opts.audioSrc && audioSupported) {
-      playAudio(token, clean, opts.audioSrc);
+    const audioSrc = opts.audioSrc || getManifestAudio(clean);
+    if (audioSrc && audioSupported) {
+      playAudio(token, clean, audioSrc);
       return true;
     }
 
@@ -264,6 +297,7 @@
     isEnabled: () => enabled,
     speak,
     stop,
+    getAudioKey: hashText,
     getVoices: () => (speechSupported ? synth.getVoices() : [])
   };
 })();
