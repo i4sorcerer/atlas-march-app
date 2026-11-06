@@ -52,7 +52,7 @@
   footer { text-align: center; padding: 40px 20px; background: var(--red); color: #fff; font-size: 15px; }
 </style>
 </head>
-<body>
+<body data-mario-greeting="我是 Mario！今天我要去看看四大发明，听说它们改变了整个世界！">
 <nav>
   <span class="logo">📜</span>
   <a href="#hero">出发</a><a href="#four">四大发明</a><a href="#paper">造纸</a><a href="#quiz">考考你</a>
@@ -62,7 +62,7 @@
   <span class="scroll-big" id="scrollBig">📜</span>
   <h1>四大发明</h1>
   <div class="tag">改变世界的中国智慧</div>
-  <p class="lead">造纸术、印刷术、火药、指南针——这四样东西改变了中国，也改变了全世界！来认识一下它们吧。</p>
+  <p class="lead">我是 Mario！造纸术、印刷术、火药、指南针——这四样东西改变了中国，也改变了全世界，来认识一下它们吧。</p>
 </header>
 <section class="block">
   <div class="card">
@@ -128,5 +128,6 @@ let audioCtx=null;function playSound(t){try{audioCtx=audioCtx||new(window.AudioC
   document.addEventListener("click",()=>{if(document.querySelectorAll('.quiz-q[data-done="1"]').length===qs.length){let right=0;qs.forEach(q=>{if(!q.querySelector(".opt.wrong"))right++});const r=document.getElementById("quizResult");r.textContent=`🏅 你答对 ${right} / ${qs.length} 题！`+(right===qs.length?" 你就是发明小博士！📜":" 再看看上面的内容吧～");reportQuiz(right,qs.length)}});
   function reportQuiz(score,total){const payload={type:"quiz-result",topicId:"four-inventions",title:"四大发明",emoji:"📜",score,total};if(window.parent&&window.parent!==window)window.parent.postMessage(payload,"*")}
 </script>
+  <script src="../shared/mario-inject.js" defer></script>
 </body>
 </html>

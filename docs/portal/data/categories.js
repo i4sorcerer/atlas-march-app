@@ -110,9 +110,9 @@ window.CATEGORIES = [
         name: "太阳系",
         emoji: "🪐",
         topics: [
-          { id: "planets", title: "八大行星", emoji: "🌍", desc: "太阳系里的行星兄弟们", url: "", ready: false },
-          { id: "sun", title: "太阳", emoji: "☀️", desc: "给我们光和热的大火球", url: "", ready: false },
-          { id: "moon", title: "月球", emoji: "🌕", desc: "地球最亲密的小伙伴", url: "", ready: false }
+          { id: "planets", title: "八大行星", emoji: "🌍", desc: "太阳系里的行星兄弟们", url: "../topics/topic.html?id=planets", ready: true },
+          { id: "sun", title: "太阳", emoji: "☀️", desc: "给我们光和热的大火球", url: "../topics/topic.html?id=sun", ready: true },
+          { id: "moon", title: "月球", emoji: "🌕", desc: "地球最亲密的小伙伴", url: "../topics/topic.html?id=moon", ready: true }
         ]
       },
       {
@@ -120,7 +120,7 @@ window.CATEGORIES = [
         name: "空间站",
         emoji: "🛰️",
         topics: [
-          { id: "tiangong", title: "天宫空间站", emoji: "🛰️", desc: "航天员在太空里的家", url: "", ready: false }
+          { id: "tiangong", title: "天宫空间站", emoji: "🛰️", desc: "航天员在太空里的家", url: "../topics/topic.html?id=tiangong", ready: true }
         ]
       }
     ]
@@ -194,8 +194,8 @@ window.CATEGORIES = [
         name: "陆地动物",
         emoji: "🐘",
         topics: [
-          { id: "lion", title: "狮子", emoji: "🦁", desc: "草原之王", url: "", ready: false },
-          { id: "elephant", title: "大象", emoji: "🐘", desc: "陆地上最大的动物", url: "", ready: false }
+          { id: "lion", title: "狮子", emoji: "🦁", desc: "草原之王", url: "../topics/topic.html?id=lion", ready: true },
+          { id: "elephant", title: "大象", emoji: "🐘", desc: "陆地上最大的动物", url: "../topics/topic.html?id=elephant", ready: true }
         ]
       },
       {
@@ -203,8 +203,8 @@ window.CATEGORIES = [
         name: "海洋动物",
         emoji: "🐋",
         topics: [
-          { id: "whale", title: "鲸鱼", emoji: "🐋", desc: "海里的巨无霸", url: "", ready: false },
-          { id: "dolphin", title: "海豚", emoji: "🐬", desc: "聪明的海洋精灵", url: "", ready: false }
+          { id: "whale", title: "鲸鱼", emoji: "🐋", desc: "海里的巨无霸", url: "../topics/topic.html?id=whale", ready: true },
+          { id: "dolphin", title: "海豚", emoji: "🐬", desc: "聪明的海洋精灵", url: "../topics/topic.html?id=dolphin", ready: true }
         ]
       },
       {
@@ -212,8 +212,8 @@ window.CATEGORIES = [
         name: "恐龙",
         emoji: "🦖",
         topics: [
-          { id: "trex", title: "霸王龙", emoji: "🦖", desc: "远古最凶猛的猎手", url: "", ready: false },
-          { id: "triceratops", title: "三角龙", emoji: "🦕", desc: "头上有三只角的恐龙", url: "", ready: false }
+          { id: "trex", title: "霸王龙", emoji: "🦖", desc: "远古最凶猛的猎手", url: "../topics/topic.html?id=trex", ready: true },
+          { id: "triceratops", title: "三角龙", emoji: "🦕", desc: "头上有三只角的恐龙", url: "../topics/topic.html?id=triceratops", ready: true }
         ]
       }
     ]
@@ -230,8 +230,8 @@ window.CATEGORIES = [
         name: "物理现象",
         emoji: "🔭",
         topics: [
-          { id: "magnet", title: "磁铁的秘密", emoji: "🧲", desc: "为什么磁铁能吸东西", url: "", ready: false },
-          { id: "light", title: "光和影子", emoji: "🌈", desc: "彩虹是怎么来的", url: "", ready: false }
+          { id: "magnet", title: "磁铁的秘密", emoji: "🧲", desc: "为什么磁铁能吸东西", url: "../topics/topic.html?id=magnet", ready: true },
+          { id: "light", title: "光和影子", emoji: "🌈", desc: "彩虹是怎么来的", url: "../topics/topic.html?id=light", ready: true }
         ]
       },
       {
@@ -239,7 +239,7 @@ window.CATEGORIES = [
         name: "化学反应",
         emoji: "⚗️",
         topics: [
-          { id: "volcano", title: "小苏打火山", emoji: "🌋", desc: "厨房里的化学魔法", url: "", ready: false }
+          { id: "volcano", title: "小苏打火山", emoji: "🌋", desc: "厨房里的化学魔法", url: "../topics/topic.html?id=volcano", ready: true }
         ]
       },
       {
@@ -247,8 +247,8 @@ window.CATEGORIES = [
         name: "天气气象",
         emoji: "🌦️",
         topics: [
-          { id: "rain", title: "下雨的秘密", emoji: "🌧️", desc: "水的旅行故事", url: "", ready: false },
-          { id: "rainbow", title: "彩虹", emoji: "🌈", desc: "天空中的七色桥", url: "", ready: false }
+          { id: "rain", title: "下雨的秘密", emoji: "🌧️", desc: "水的旅行故事", url: "../topics/topic.html?id=rain", ready: true },
+          { id: "rainbow", title: "彩虹", emoji: "🌈", desc: "天空中的七色桥", url: "../topics/topic.html?id=rainbow", ready: true }
         ]
       }
     ]
@@ -265,8 +265,8 @@ window.CATEGORIES = [
         name: "身体器官",
         emoji: "❤️",
         topics: [
-          { id: "heart", title: "心脏", emoji: "❤️", desc: "身体里不停工作的小马达", url: "", ready: false },
-          { id: "brain", title: "大脑", emoji: "🧠", desc: "指挥全身的总司令", url: "", ready: false }
+          { id: "heart", title: "心脏", emoji: "❤️", desc: "身体里不停工作的小马达", url: "../topics/topic.html?id=heart", ready: true },
+          { id: "brain", title: "大脑", emoji: "🧠", desc: "指挥全身的总司令", url: "../topics/topic.html?id=brain", ready: true }
         ]
       },
       {
@@ -274,7 +274,7 @@ window.CATEGORIES = [
         name: "五种感觉",
         emoji: "👁️",
         topics: [
-          { id: "eyes", title: "眼睛", emoji: "👁️", desc: "我们怎么看见东西", url: "", ready: false }
+          { id: "eyes", title: "眼睛", emoji: "👁️", desc: "我们怎么看见东西", url: "../topics/topic.html?id=eyes", ready: true }
         ]
       },
       {
@@ -282,7 +282,7 @@ window.CATEGORIES = [
         name: "健康习惯",
         emoji: "🦷",
         topics: [
-          { id: "teeth", title: "刷牙的学问", emoji: "🦷", desc: "怎么保护小牙齿", url: "", ready: false }
+          { id: "teeth", title: "刷牙的学问", emoji: "🦷", desc: "怎么保护小牙齿", url: "../topics/topic.html?id=teeth", ready: true }
         ]
       }
     ]
@@ -299,7 +299,7 @@ window.CATEGORIES = [
         name: "地理地貌",
         emoji: "⛰️",
         topics: [
-          { id: "mountain", title: "高山", emoji: "⛰️", desc: "世界最高的山在哪里", url: "", ready: false }
+          { id: "mountain", title: "高山", emoji: "⛰️", desc: "世界最高的山在哪里", url: "../topics/topic.html?id=mountain", ready: true }
         ]
       },
       {
@@ -307,7 +307,7 @@ window.CATEGORIES = [
         name: "海洋",
         emoji: "🌊",
         topics: [
-          { id: "sea", title: "神奇的大海", emoji: "🌊", desc: "海水为什么是咸的", url: "", ready: false }
+          { id: "sea", title: "神奇的大海", emoji: "🌊", desc: "海水为什么是咸的", url: "../topics/topic.html?id=sea", ready: true }
         ]
       },
       {
@@ -315,7 +315,7 @@ window.CATEGORIES = [
         name: "火山地震",
         emoji: "💥",
         topics: [
-          { id: "earthquake", title: "地震", emoji: "🌐", desc: "大地为什么会摇晃", url: "", ready: false }
+          { id: "earthquake", title: "地震", emoji: "🌐", desc: "大地为什么会摇晃", url: "../topics/topic.html?id=earthquake", ready: true }
         ]
       }
     ]
@@ -332,8 +332,8 @@ window.CATEGORIES = [
         name: "数与形",
         emoji: "📐",
         topics: [
-          { id: "counting", title: "有趣的数数", emoji: "🔢", desc: "从1数到无穷大", url: "", ready: false },
-          { id: "shapes", title: "认识图形", emoji: "🔷", desc: "圆形方形三角形", url: "", ready: false }
+          { id: "counting", title: "有趣的数数", emoji: "🔢", desc: "从1数到无穷大", url: "../topics/topic.html?id=counting", ready: true },
+          { id: "shapes", title: "认识图形", emoji: "🔷", desc: "圆形方形三角形", url: "../topics/topic.html?id=shapes", ready: true }
         ]
       },
       {
@@ -341,7 +341,7 @@ window.CATEGORIES = [
         name: "逻辑推理",
         emoji: "🧩",
         topics: [
-          { id: "puzzle", title: "找规律", emoji: "🧩", desc: "训练小小侦探脑", url: "", ready: false }
+          { id: "puzzle", title: "找规律", emoji: "🧩", desc: "训练小小侦探脑", url: "../topics/topic.html?id=puzzle", ready: true }
         ]
       }
     ]
@@ -358,8 +358,8 @@ window.CATEGORIES = [
         name: "交通工具",
         emoji: "🚗",
         topics: [
-          { id: "train", title: "高铁", emoji: "🚄", desc: "跑得飞快的地面火箭", url: "", ready: false },
-          { id: "plane", title: "飞机", emoji: "✈️", desc: "在天上飞的大铁鸟", url: "", ready: false },
+          { id: "train", title: "高铁", emoji: "🚄", desc: "跑得飞快的地面火箭", url: "../topics/topic.html?id=train", ready: true },
+          { id: "plane", title: "飞机", emoji: "✈️", desc: "在天上飞的大铁鸟", url: "../topics/topic.html?id=plane", ready: true },
           { id: "mario-helicopter", title: "马里奥直升机", emoji: "🚁", desc: "按住上升，躲开砖块和炮弹", url: "../tech/mario-helicopter.html", ready: true }
         ]
       },
@@ -377,7 +377,7 @@ window.CATEGORIES = [
         name: "机器人与AI",
         emoji: "🤖",
         topics: [
-          { id: "robot-basic", title: "机器人", emoji: "🤖", desc: "会帮人干活的机器朋友", url: "", ready: false }
+          { id: "robot-basic", title: "机器人", emoji: "🤖", desc: "会帮人干活的机器朋友", url: "../topics/topic.html?id=robot-basic", ready: true }
         ]
       },
       {
@@ -385,7 +385,7 @@ window.CATEGORIES = [
         name: "日常发明",
         emoji: "💡",
         topics: [
-          { id: "electricity", title: "电从哪里来", emoji: "⚡", desc: "点亮灯泡的神奇力量", url: "", ready: false }
+          { id: "electricity", title: "电从哪里来", emoji: "⚡", desc: "点亮灯泡的神奇力量", url: "../topics/topic.html?id=electricity", ready: true }
         ]
       }
     ]
@@ -404,7 +404,7 @@ window.CATEGORIES = [
         refs: { title: "参考资源库", emoji: "📚", desc: "手搓小车教程 / 开源项目 / 社群 / 飞控进阶", url: "../balance-car/resources.html" },
         topics: [
           { id: "balance-car", title: "手搓平衡小车", emoji: "⚖️", desc: "父子车库计划：方案 / 路线图 / 采购清单", url: "../balance-car/index.html", ready: true },
-          { id: "race-car", title: "手搓竞速小车", emoji: "🏎️", desc: "用纸盒和橡皮筋做的风火轮", url: "", ready: false }
+          { id: "race-car", title: "手搓竞速小车", emoji: "🏎️", desc: "用纸盒和橡皮筋做的风火轮", url: "../topics/topic.html?id=race-car", ready: true }
         ]
       },
       {
@@ -412,8 +412,8 @@ window.CATEGORIES = [
         name: "手搓机器人",
         emoji: "🤖",
         topics: [
-          { id: "robot-arm", title: "手搓机械臂", emoji: "🦾", desc: "能抓东西的小机械手", url: "", ready: false },
-          { id: "walking-robot", title: "手搓行走机器人", emoji: "🚶", desc: "会自己走路的小机器人", url: "", ready: false }
+          { id: "robot-arm", title: "手搓机械臂", emoji: "🦾", desc: "能抓东西的小机械手", url: "../topics/topic.html?id=robot-arm", ready: true },
+          { id: "walking-robot", title: "手搓行走机器人", emoji: "🚶", desc: "会自己走路的小机器人", url: "../topics/topic.html?id=walking-robot", ready: true }
         ]
       },
       {
@@ -421,8 +421,8 @@ window.CATEGORIES = [
         name: "手搓火箭",
         emoji: "🚀",
         topics: [
-          { id: "water-rocket", title: "手搓水火箭", emoji: "💦", desc: "用饮料瓶和打气筒做能飞上天的火箭", url: "", ready: false },
-          { id: "solid-rocket", title: "手搓模型火箭", emoji: "🎆", desc: "用纸筒和回收材料做的小火箭模型", url: "", ready: false }
+          { id: "water-rocket", title: "手搓水火箭", emoji: "💦", desc: "用饮料瓶和打气筒做能飞上天的火箭", url: "../topics/topic.html?id=water-rocket", ready: true },
+          { id: "solid-rocket", title: "手搓模型火箭", emoji: "🎆", desc: "用纸筒和回收材料做的小火箭模型", url: "../topics/topic.html?id=solid-rocket", ready: true }
         ]
       },
       {
@@ -430,9 +430,9 @@ window.CATEGORIES = [
         name: "创客工具箱",
         emoji: "🧰",
         topics: [
-          { id: "arduino", title: "认识 Arduino", emoji: "🔌", desc: "小创客都爱的迷你电脑板", url: "", ready: false },
-          { id: "esp32", title: "认识 ESP32", emoji: "📡", desc: "能连 WiFi 和蓝牙的迷你电脑板", url: "", ready: false },
-          { id: "safety", title: "安全小课堂", emoji: "⚠️", desc: "用剪刀、胶枪、电池的安全守则", url: "", ready: false }
+          { id: "arduino", title: "认识 Arduino", emoji: "🔌", desc: "小创客都爱的迷你电脑板", url: "../topics/topic.html?id=arduino", ready: true },
+          { id: "esp32", title: "认识 ESP32", emoji: "📡", desc: "能连 WiFi 和蓝牙的迷你电脑板", url: "../topics/topic.html?id=esp32", ready: true },
+          { id: "safety", title: "安全小课堂", emoji: "⚠️", desc: "用剪刀、胶枪、电池的安全守则", url: "../topics/topic.html?id=safety", ready: true }
         ]
       }
     ]
@@ -457,9 +457,9 @@ window.CATEGORIES = [
         name: "基础词汇",
         emoji: "🔡",
         topics: [
-          { id: "animals-en", title: "动物单词", emoji: "🐶", desc: "cat, dog, lion…", url: "", ready: false },
-          { id: "colors-en", title: "颜色单词", emoji: "🌈", desc: "red, blue, green…", url: "", ready: false },
-          { id: "numbers-en", title: "数字单词", emoji: "🔢", desc: "one, two, three…", url: "", ready: false }
+          { id: "animals-en", title: "动物单词", emoji: "🐶", desc: "cat, dog, lion…", url: "../topics/topic.html?id=animals-en", ready: true },
+          { id: "colors-en", title: "颜色单词", emoji: "🌈", desc: "red, blue, green…", url: "../topics/topic.html?id=colors-en", ready: true },
+          { id: "numbers-en", title: "数字单词", emoji: "🔢", desc: "one, two, three…", url: "../topics/topic.html?id=numbers-en", ready: true }
         ]
       },
       {
@@ -467,7 +467,7 @@ window.CATEGORIES = [
         name: "自然拼读",
         emoji: "🔠",
         topics: [
-          { id: "abc", title: "字母 A–Z", emoji: "🔤", desc: "字母发音启蒙", url: "", ready: false }
+          { id: "abc", title: "字母 A–Z", emoji: "🔤", desc: "字母发音启蒙", url: "../topics/topic.html?id=abc", ready: true }
         ]
       },
       {
@@ -475,7 +475,7 @@ window.CATEGORIES = [
         name: "儿歌童谣",
         emoji: "🎵",
         topics: [
-          { id: "nursery", title: "英文儿歌", emoji: "🎶", desc: "Twinkle Twinkle…", url: "", ready: false }
+          { id: "nursery", title: "英文儿歌", emoji: "🎶", desc: "Twinkle Twinkle…", url: "../topics/topic.html?id=nursery", ready: true }
         ]
       },
       {
@@ -483,7 +483,7 @@ window.CATEGORIES = [
         name: "日常对话",
         emoji: "💬",
         topics: [
-          { id: "greet", title: "问候用语", emoji: "👋", desc: "Hello! Thank you!", url: "", ready: false }
+          { id: "greet", title: "问候用语", emoji: "👋", desc: "Hello! Thank you!", url: "../topics/topic.html?id=greet", ready: true }
         ]
       }
     ]

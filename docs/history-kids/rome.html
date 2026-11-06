@@ -65,7 +65,7 @@
   footer { text-align: center; padding: 40px 20px; background: var(--wine); color: #fff; font-size: 15px; }
 </style>
 </head>
-<body>
+<body data-mario-greeting="我是 Mario！我们到古罗马了，听，斗兽场那边好像很热闹！">
 <nav>
   <span class="logo">🏟️</span>
   <a href="#hero">出发</a><a href="#facts">数字</a><a href="#people">人物</a><a href="#inv">发明</a><a href="#arch">搭拱门</a><a href="#quiz">考考你</a>
@@ -75,7 +75,7 @@
   <span class="colosseum" id="colosseumBig">🏟️</span>
   <h1>古罗马</h1>
   <div class="tag">斗兽场与角斗士的时代</div>
-  <p class="lead">古罗马人特别会盖房子、修路，还建立了一个横跨三大洲的大帝国。来认识一下他们吧！</p>
+  <p class="lead">我是 Mario！古罗马人特别会盖房子、修路，还建立了一个横跨三大洲的大帝国。来认识一下他们吧！</p>
 </header>
 <section class="block">
   <div class="card">
@@ -173,5 +173,6 @@ let audioCtx=null;function playSound(t){try{audioCtx=audioCtx||new(window.AudioC
   document.addEventListener("click",()=>{if(document.querySelectorAll('.quiz-q[data-done="1"]').length===qs.length){let right=0;qs.forEach(q=>{if(!q.querySelector(".opt.wrong"))right++});const r=document.getElementById("quizResult");r.textContent=`🏅 你答对 ${right} / ${qs.length} 题！`+(right===qs.length?" 你就是罗马小博士！🏟️":" 再看看上面的内容吧～");reportQuiz(right,qs.length)}});
   function reportQuiz(score,total){const payload={type:"quiz-result",topicId:"rome",title:"古罗马",emoji:"🏟️",score,total};if(window.parent&&window.parent!==window)window.parent.postMessage(payload,"*")}
 </script>
+  <script src="../shared/mario-inject.js" defer></script>
 </body>
 </html>

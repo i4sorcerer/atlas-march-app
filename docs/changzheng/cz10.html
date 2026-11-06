@@ -113,7 +113,7 @@
   .toolbar a { color:#ffd166; text-decoration:none; font-size: 15px; background: rgba(255,255,255,.08); padding:6px 14px; border-radius:999px; }
 </style>
 </head>
-<body>
+<body data-mario-greeting="我是 Mario！长征十号要带我们去月球，我们一起去发射场看看吧！">
 <div class="stars" id="stars" aria-hidden="true"></div>
 
 <div class="wrap">
@@ -131,7 +131,7 @@
     <span class="rocket-big" id="rocketBig" title="点我点火！">🚀</span>
     <h1>长征十号</h1>
     <div class="tag">中国载人登月的大力士火箭 🇨🇳</div>
-    <p class="lead">它又高又壮，将来要坐着它，把航天员送到月亮上去！点上面的火箭，它会“嗖——”飞一下哦～</p>
+    <p class="lead">我是 Mario！它又高又壮，将来要坐着它，把航天员送到月亮上去！点上面的火箭，它会“嗖——”飞一下哦～</p>
   </section>
 
   <!-- 是什么 -->
@@ -467,5 +467,6 @@
     if (window.parent && window.parent !== window) window.parent.postMessage(payload, "*");
   }
 </script>
+  <script src="../shared/mario-inject.js" defer></script>
 </body>
 </html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mario 探索 · 好奇星球</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../shared/mario.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--m-font);
+    color: var(--m-ink);
+    line-height: 1.75;
+    background: var(--bg, #ffe9c9);
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(255,255,255,.85), transparent 42%),
+      radial-gradient(circle at 88% 22%, rgba(255,255,255,.55), transparent 38%),
+      linear-gradient(180deg, transparent 55%, rgba(255,255,255,.55));
+    pointer-events: none;
+    z-index: 0;
+  }
+  .floating { position: fixed; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
+  .floating span {
+    position: absolute;
+    font-size: clamp(22px, 3.4vw, 40px);
+    opacity: .5;
+    animation: drift 9s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translateY(0) rotate(-6deg); }
+    50%      { transform: translateY(-22px) rotate(8deg); }
+  }
+
+  /* 顶栏 */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px clamp(12px, 3vw, 26px);
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(14px);
+    border-bottom: 2px solid rgba(255,255,255,.9);
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: var(--m-ink);
+    font-size: 14px;
+    font-weight: 700;
+    background: #fff;
+    border: 2px solid var(--m-line);
+    padding: 7px 14px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .back:hover { border-color: var(--m-blue); color: var(--m-blue); }
+  .top-title {
+    flex: 1;
+    min-width: 0;
+    font-size: 16px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .top-title small { display: block; font-size: 11px; color: var(--m-ink-soft); font-weight: 400; }
+
+  .wrap { position: relative; z-index: 2; max-width: 920px; margin: 0 auto; padding: 20px 16px 70px; }
+
+  /* Hero */
+  .hero { display: flex; align-items: flex-end; gap: 14px; margin: 10px 0 24px; }
+  .hero .mario-figure { --mario-size: 150px; flex: 0 0 auto; }
+  .hero-copy { flex: 1; min-width: 0; padding-bottom: 10px; }
+  .hero h1 {
+    font-size: clamp(28px, 5.4vw, 44px);
+    line-height: 1.15;
+    margin-bottom: 6px;
+  }
+  .hero h1 .emoji { font-size: .95em; }
+  .hero-sub { font-size: 15px; color: var(--m-ink-soft); margin-bottom: 12px; }
+  .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* 章节 */
+  .sec { margin-bottom: 22px; }
+  .sec-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .sec-head h2 { font-size: clamp(20px, 3.2vw, 25px); }
+  .sec-head .tts-btn { margin-left: auto; }
+
+  /* 数字卡 */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+  }
+  .stat {
+    background: #fff;
+    border-radius: 18px;
+    padding: 16px 10px;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(70,80,160,.12);
+    border: 3px solid transparent;
+    transition: transform .18s cubic-bezier(.34,1.56,.64,1), border-color .18s;
+  }
+  .stat:hover, .stat.is-active { transform: translateY(-5px) scale(1.04); border-color: var(--m-sun); }
+  .stat .n { font-size: 24px; font-weight: 900; color: var(--cat, var(--m-blue)); line-height: 1.2; }
+  .stat .l { font-size: 12px; color: var(--m-ink-soft); margin-top: 4px; }
+  .stat-note {
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.85);
+    border: 2px dashed var(--m-sun);
+    font-size: 15px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* 卡点详情 */
+  .tile-detail {
+    display: none;
+    margin-top: 16px;
+    background: #fff;
+    border-radius: 18px;
+    padding: 18px 20px;
+    border-left: 6px solid var(--cat, var(--m-blue));
+    box-shadow: var(--m-shadow);
+    animation: pop .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes pop { from { transform: scale(.96); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  /* 小知识 */
+  .fact-list { display: grid; gap: 12px; }
+  .fact {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 16px;
+    padding: 14px 18px;
+    box-shadow: 0 4px 14px rgba(70,80,160,.1);
+  }
+  .fact .fi { font-size: 26px; line-height: 1.2; flex: 0 0 auto; }
+  .fact p { margin: 0; font-size: 16px; }
+
+  /* 结束语 */
+  .outro {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #fff;
+    border-radius: 22px;
+    padding: 18px 20px;
+    box-shadow: var(--m-shadow);
+  }
+  .outro .mario-figure { --mario-size: 92px; }
+  .outro p { margin: 0; font-size: 16px; }
+
+  .m-quiz-result {
+    display: none;
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 14px;
+    background: #fff8dd;
+    border: 2px dashed var(--m-sun);
+    font-size: 17px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .footer { text-align: center; margin-top: 30px; font-size: 13px; color: var(--m-ink-soft); }
+
+  @media (max-width: 620px) {
+    .hero { flex-direction: column; align-items: center; text-align: center; }
+    .hero .mario-figure { --mario-size: 120px; }
+    .hero-actions { justify-content: center; }
+    .sec-head .tts-btn { margin-left: 0; }
+    .mario-bubble::before, .mario-bubble::after { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="floating" id="floating" aria-hidden="true"></div>
+
+<div class="topbar">
+  <a class="back" href="../portal/index.html" target="_top">← 回星球</a>
+  <div class="top-title">
+    <span id="topTitle">Mario 探索</span>
+    <small id="topSub">好奇星球 · 全科启蒙</small>
+  </div>
+  <button class="tts-btn" id="readAll" type="button"><span class="tts-icon">🔊</span> 全部读给我听</button>
+</div>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="mario-figure" role="img" aria-label="Mario 小朋友"></div>
+    <div class="hero-copy">
+      <h1><span class="emoji" id="heroEmoji">🌟</span> <span id="heroTitle">Mario 探索</span></h1>
+      <p class="hero-sub" id="heroSub">让我们一起玩着学！</p>
+      <div class="hero-actions">
+        <button class="tts-btn" data-read-target="#intro" type="button">🔊 听我讲讲</button>
+        <a class="m-btn ghost" href="#quiz">🎮 先做小测验</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="m-card mario-bubble no-tail" id="intro"></div>
+  </section>
+
+  <section class="sec" id="statsSec">
+    <div class="sec-head"><h2>📏 数字看世界</h2></div>
+    <div class="stat-row" id="stats"></div>
+    <div class="stat-note" id="statNote">👆 点一个数字，我告诉你它有多厉害！</div>
+  </section>
+
+  <section class="sec" id="storySec">
+    <div class="sec-head">
+      <h2>📖 我看到的秘密</h2>
+      <button class="tts-btn" data-read-target="#story" type="button">🔊 朗读</button>
+    </div>
+    <div id="story"></div>
+  </section>
+
+  <section class="sec" id="tilesSec">
+    <div class="sec-head">
+      <h2>👆 点一点，玩一玩</h2>
+    </div>
+    <div class="m-grid" id="tiles" data-tile-group="#tileDetail"></div>
+    <div class="tile-detail" id="tileDetail"></div>
+  </section>
+
+  <section class="sec" id="factsSec">
+    <div class="sec-head">
+      <h2>🤓 小朋友会喜欢</h2>
+      <button class="tts-btn" data-read-target="#facts" type="button">🔊 朗读</button>
+    </div>
+    <div class="fact-list" id="facts"></div>
+  </section>
+
+  <section class="sec" id="quiz">
+    <div class="sec-head"><h2>🎮 考考你</h2></div>
+    <div class="m-card m-quiz" id="quizBox">
+      <div id="quizBody"></div>
+      <div class="m-quiz-result"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="outro">
+      <div class="mario-figure" aria-hidden="true"></div>
+      <p class="mario-bubble no-tail" id="outroText"></p>
+    </div>
+  </section>
+
+  <p class="footer">🌈 好奇星球 · Mario 陪你玩着学</p>
+</main>
+
+<script src="../shared/mario.js"></script>
+<script src="./topic-data.js"></script>
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var id = params.get("id") || "";
+  var data = (window.TOPICS || {})[id];
+
+  if (!data) {
+    document.getElementById("heroTitle").textContent = "这里还在准备中";
+    document.getElementById("intro").innerHTML =
+      "<p>咦？我还没找到这个主题的秘密。先回星球看看别的地方吧～</p>";
+    document.getElementById("statsSec").style.display = "none";
+    document.getElementById("storySec").style.display = "none";
+    document.getElementById("tilesSec").style.display = "none";
+    document.getElementById("factsSec").style.display = "none";
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("outroText").textContent = "我们下次再出发！🚀";
+    return;
+  }
+
+  document.title = data.emoji + " " + data.title + " · Mario 探索";
+  document.documentElement.style.setProperty("--cat", data.color || "#5b7cfa");
+  document.body.style.setProperty("--bg", data.bg || "#ffe9c9");
+
+  document.getElementById("topTitle").textContent = data.emoji + " " + data.title;
+  document.getElementById("topSub").textContent = "好奇星球 · " + (data.subject || "全科启蒙");
+  document.getElementById("heroEmoji").textContent = data.emoji;
+  document.getElementById("heroTitle").textContent = data.title;
+  document.getElementById("heroSub").textContent = data.subtitle || "";
+  document.getElementById("intro").innerHTML = "<p>" + data.intro + "</p>";
+  document.getElementById("outroText").textContent = data.outro || "今天又学到新东西啦，我们下次再出发！🌟";
+
+  // 数字卡
+  var stats = data.stats || [];
+  document.getElementById("stats").innerHTML = stats.map(function (s) {
+    return '<div class="stat" data-note="' + esc(s.note) + '">' +
+      '<div class="n">' + esc(s.value) + '</div>' +
+      '<div class="l">' + esc(s.label) + '</div></div>';
+  }).join("");
+  document.getElementById("stats").addEventListener("click", function (e) {
+    var el = e.target.closest(".stat");
+    if (!el) return;
+    document.querySelectorAll(".stat").forEach(function (s) { s.classList.remove("is-active"); });
+    el.classList.add("is-active");
+    document.getElementById("statNote").textContent = "💡 " + el.dataset.note;
+    window.Mario.speak(el.dataset.note, { rate: 0.92 });
+  });
+  if (!stats.length) document.getElementById("statsSec").style.display = "none";
+
+  // 章节
+  document.getElementById("story").innerHTML = (data.sections || []).map(function (s) {
+    return '<div class="m-card"><h2>' + s.icon + " " + esc(s.title) + '</h2>' +
+      s.body.map(function (p) { return "<p>" + p + "</p>"; }).join("") + "</div>";
+  }).join("");
+  if (!(data.sections || []).length) document.getElementById("storySec").style.display = "none";
+
+  // 互动格子
+  var tiles = data.tiles || [];
+  document.getElementById("tiles").innerHTML = tiles.map(function (t, i) {
+    return '<button class="m-tile" data-tile="' + esc(t.detail) + '" data-say="' + esc(t.say || t.detail) + '">' +
+      '<span class="m-emoji">' + t.emoji + '</span>' +
+      '<span class="m-name">' + esc(t.name) + '</span>' +
+      '<span class="m-desc">' + esc(t.desc || "") + '</span></button>';
+  }).join("");
+  if (!tiles.length) document.getElementById("tilesSec").style.display = "none";
+
+  // 小知识
+  document.getElementById("facts").innerHTML = (data.facts || []).map(function (f) {
+    return '<div class="fact"><div class="fi">' + f.icon + '</div><p>' + f.text + '</p></div>';
+  }).join("");
+  if (!(data.facts || []).length) document.getElementById("factsSec").style.display = "none";
+
+  // 测验
+  var quiz = data.quiz || [];
+  var quizBox = document.getElementById("quizBox");
+  quizBox.dataset.topicId = id;
+  quizBox.dataset.topicTitle = data.title;
+  quizBox.dataset.topicEmoji = data.emoji;
+  document.getElementById("quizBody").innerHTML = quiz.map(function (q, qi) {
+    return '<div class="m-quiz-q" data-answer="' + "abcd"[q.answer] + '">' +
+      "<p>" + (qi + 1) + ". " + esc(q.q) + "</p>" +
+      q.options.map(function (o, oi) {
+        return '<button class="m-opt" data-v="' + "abcd"[oi] + '">' +
+          "ABCD"[oi] + ". " + esc(o) + "</button>";
+      }).join("") + "</div>";
+  }).join("");
+  if (!quiz.length) document.getElementById("quiz").style.display = "none";
+
+  // 全部朗读
+  var readAll = document.getElementById("readAll");
+  readAll.addEventListener("click", function () {
+    if (readAll.classList.contains("is-speaking")) { window.Mario.stop(); return; }
+    var text = data.title + "。" + stripTags(data.intro) + "。" +
+      (data.sections || []).map(function (s) {
+        return s.title + "。" + s.body.map(stripTags).join("。");
+      }).join("。") + "。" +
+      (data.facts || []).map(function (f) { return stripTags(f.text); }).join("。");
+    window.Mario.speak(text, { button: readAll, rate: 0.88 });
+  });
+
+  // 装饰
+  var deco = data.deco || ["✨", "⭐", "🌈"];
+  var box = document.getElementById("floating");
+  for (var i = 0; i < 10; i++) {
+    var s = document.createElement("span");
+    s.textContent = deco[i % deco.length];
+    s.style.left = (4 + Math.random() * 90) + "%";
+    s.style.top = (6 + Math.random() * 82) + "%";
+    s.style.animationDelay = (Math.random() * 4).toFixed(1) + "s";
+    box.appendChild(s);
+  }
+
+  window.Mario.init(document);
+
+  function esc(str) {
+    return String(str == null ? "" : str)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function stripTags(html) {
+    return String(html || "").replace(/<[^>]+>/g, "");
+  }
+})();
+</script>
+</body>
+</html>

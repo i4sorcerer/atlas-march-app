@@ -67,7 +67,7 @@
   footer { text-align: center; padding: 40px 20px; background: var(--gold); color: var(--dark); font-size: 15px; }
 </style>
 </head>
-<body>
+<body data-mario-greeting="我是 Mario！我们坐骆驼去埃及啦，前面就是金字塔，你准备好探险了吗？">
 <nav>
   <span class="logo">🔺</span>
   <a href="#hero">出发</a><a href="#facts">数字</a><a href="#gods">神明</a><a href="#hiero">象形字</a><a href="#pyramid">拼金字塔</a><a href="#quiz">考考你</a>
@@ -77,7 +77,7 @@
   <span class="pyramid" id="pyramidBig" title="点我！">🔺</span>
   <h1>古埃及</h1>
   <div class="tag">尼罗河边的神秘国度</div>
-  <p class="lead">这里有巨大的金字塔、神奇的神明，还有让人猜不透的象形文字。跟着我一起去看看吧！</p>
+  <p class="lead">我是 Mario！这里有巨大的金字塔、神奇的神明，还有让人猜不透的象形文字。跟着我一起去看看吧！</p>
 </header>
 <section class="block">
   <div class="card">
@@ -162,5 +162,6 @@ let audioCtx=null;function playSound(t){try{audioCtx=audioCtx||new(window.AudioC
   document.addEventListener("click",()=>{if(document.querySelectorAll('.quiz-q[data-done="1"]').length===qs.length){let right=0;qs.forEach(q=>{if(!q.querySelector(".opt.wrong"))right++});const r=document.getElementById("quizResult");r.textContent=`🏅 你答对 ${right} / ${qs.length} 题！`+(right===qs.length?" 你就是埃及小博士！🔺":" 再看看上面的内容吧～");reportQuiz(right,qs.length)}});
   function reportQuiz(score,total){const payload={type:"quiz-result",topicId:"egypt",title:"古埃及",emoji:"🔺",score,total};if(window.parent&&window.parent!==window)window.parent.postMessage(payload,"*")}
 </script>
+  <script src="../shared/mario-inject.js" defer></script>
 </body>
 </html>

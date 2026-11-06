@@ -7,7 +7,7 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="stylesheet" href="css/main.css">
 </head>
-<body>
+<body data-mario-greeting="我是 Mario！我听说这条时间河能一路走回五千年前，我们一起出发好不好？">
 
 <!-- 顶部导航 -->
 <nav class="topnav">
@@ -32,6 +32,10 @@
 <!-- Hero -->
 <section id="hero" class="hero">
   <div class="hero-content">
+    <div class="mario-hero">
+      <span class="mario-figure" style="--mario-size:104px" aria-hidden="true"></span>
+      <span class="mario-hello">我是 Mario！我们一起穿越回五千年前看看好不好？</span>
+    </div>
     <h1>穿越<span class="highlight">五千年</span>中华历史</h1>
     <p class="subtitle">从夏商周到现代中国 · 点一点、拖一拖、玩着学</p>
 
@@ -231,5 +235,6 @@
 <script src="js/quiz.js"></script>
 <script src="js/hero.js"></script>
 <script src="js/main.js"></script>
+  <script src="../shared/mario-inject.js" defer></script>
 </body>
 </html>

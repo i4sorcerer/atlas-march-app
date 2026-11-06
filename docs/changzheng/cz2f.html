@@ -67,7 +67,7 @@
   .fun-fact { background: linear-gradient(135deg, rgba(255,209,102,.15), rgba(239,71,111,.1)); border: 2px dashed rgba(255,209,102,.4); border-radius: 18px; padding: 16px; margin-top: 16px; font-size: 16px; }
 </style>
 </head>
-<body>
+<body data-mario-greeting="我是 Mario！这是送航天员上天的长征二号F，我们快去看看吧！">
 <div class="stars" id="stars" aria-hidden="true"></div>
 <div class="wrap">
   <div class="toolbar">
@@ -77,7 +77,7 @@
     <span class="rocket-big" id="rocketBig" title="点我！">🚀</span>
     <h1>长征二号F</h1>
     <div class="tag">航天员的"神舟专车" 🇨🇳</div>
-    <p class="lead">它有个重要任务：每次都稳稳地把航天员叔叔阿姨送上天！是宇宙飞船的专属座驾～</p>
+    <p class="lead">我是 Mario！它有个重要任务：每次都稳稳地把航天员叔叔阿姨送上天，是宇宙飞船的专属座驾～</p>
   </section>
   <section class="block">
     <h2>🌟 它是谁？</h2>
@@ -169,5 +169,6 @@
   document.addEventListener("click",()=>{if(document.querySelectorAll('.quiz-q[data-done="1"]').length===qs.length){let right=0;qs.forEach(q=>{if(!q.querySelector(".opt.wrong"))right++});const r=document.getElementById("quizResult");r.textContent=`🏅 你答对 ${right} / ${qs.length} 题！`+(right===qs.length?" 你就是航天小达人！🚀":" 再看看上面的内容吧～");reportQuiz(right,qs.length)}});
   function reportQuiz(score,total){const payload={type:"quiz-result",topicId:"cz2f",title:"长征二号F",emoji:"🚀",score,total};if(window.parent&&window.parent!==window)window.parent.postMessage(payload,"*")}
 </script>
+  <script src="../shared/mario-inject.js" defer></script>
 </body>
 </html>

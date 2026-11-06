@@ -33,6 +33,12 @@
     browse.innerHTML = `
       <div class="hub-stage">
         <div class="hub-head">
+          <div class="mario-hub">
+            <span class="mario-figure" style="--mario-size:72px" aria-hidden="true"></span>
+            <div class="mario-bubble no-tail">
+              <b>我是 Mario！</b>点一颗星球，我们就一起出发去探险～
+            </div>
+          </div>
           <h1>🧭 探索星图</h1>
           <p>中心是「个人洞察」总览 · 悬停暂停公转 · 拖动卡片松手会慢慢回位 · 点击学科展开分支</p>
         </div>

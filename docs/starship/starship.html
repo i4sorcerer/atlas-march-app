@@ -101,7 +101,7 @@
     @media (max-width: 620px) { .nav-links a { margin-left: 8px; font-size: 13px; } .topbar { padding: 10px 14px; } .rocket-stage { width: 260px; height: 560px; } .tl-item { grid-template-columns: 82px 1fr; gap: 10px; } }
   </style>
 </head>
-<body>
+<body data-mario-greeting="我是 Mario！今天星舰第一次真正进入地球轨道，我们一起去看看这场大冒险吧！">
   <canvas id="starfield"></canvas>
 
   <nav class="topbar">
@@ -418,5 +418,6 @@
 
   updateLang();
   </script>
+<script src="../shared/mario-inject.js" defer></script>
 </body>
 </html>
