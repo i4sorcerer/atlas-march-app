@@ -1,16 +1,21 @@
 /* =========================================================================
  * Mario 的中华五千年 · 中文朗读器
- * 处理首次播放、语音加载、Chrome cancel 竞态和无声失败重试。
+ * 优先播放预生成故事音频，失败时回退到浏览器中文语音。
  * ========================================================================= */
 
 (function () {
   "use strict";
 
   const synth = window.speechSynthesis;
-  const supported = Boolean(synth && window.SpeechSynthesisUtterance);
+  const speechSupported = Boolean(synth && window.SpeechSynthesisUtterance);
+  const audioSupported = typeof window.Audio === "function";
   let enabled = false;
   let preferredVoice = null;
   let activeUtterances = [];
+  let audioPlayer = null;
+  let audioPlayToken = 0;
+  let audioPlayText = "";
+  let audioFailedToken = 0;
   let onStateChange = function () {};
   let requestToken = 0;
   let startTimer = 0;
@@ -37,7 +42,7 @@
   }
 
   function loadVoices() {
-    if (!supported) return null;
+    if (!speechSupported) return null;
     const voices = synth.getVoices();
     if (!voices.length) return preferredVoice;
     preferredVoice = pickChineseVoice(voices) || preferredVoice;
@@ -49,18 +54,100 @@
     startTimer = 0;
   }
 
+  function pauseAudio() {
+    if (!audioPlayer) return;
+    try {
+      audioPlayer.pause();
+    } catch (error) {
+      // Ignore pause failures while switching audio sources.
+    }
+  }
+
+  function ensureAudioPlayer() {
+    if (!audioSupported) return null;
+    if (audioPlayer) return audioPlayer;
+
+    audioPlayer = new Audio();
+    audioPlayer.preload = "auto";
+    audioPlayer.setAttribute("playsinline", "");
+    audioPlayer.addEventListener("ended", () => {
+      if (audioPlayToken === requestToken) emit("ended");
+    });
+    audioPlayer.addEventListener("error", () => {
+      if (audioPlayToken === requestToken) {
+        fallbackToSpeech(audioPlayToken, audioPlayText);
+      }
+    });
+    return audioPlayer;
+  }
+
   function stop() {
     requestToken += 1;
+    audioPlayToken = 0;
     clearStartTimer();
     activeUtterances = [];
-    if (supported && (synth.speaking || synth.pending || synth.paused)) {
+    pauseAudio();
+    if (speechSupported && (synth.speaking || synth.pending || synth.paused)) {
       synth.cancel();
     }
     emit("stopped");
   }
 
+  function fallbackToSpeech(token, text) {
+    if (token !== requestToken || audioFailedToken === token) return;
+    audioFailedToken = token;
+    audioPlayToken = 0;
+    clearStartTimer();
+    pauseAudio();
+
+    if (!speechSupported) {
+      emit("error", {
+        code: "audio-failed",
+        message: "故事音频加载失败，请刷新页面再试一次。"
+      });
+      return;
+    }
+
+    emit("fallback", { message: "故事音频加载失败，已改用系统朗读。" });
+    speakNow(token, text, false);
+  }
+
+  function playAudio(token, text, src) {
+    const player = ensureAudioPlayer();
+    if (!player) {
+      fallbackToSpeech(token, text);
+      return;
+    }
+
+    audioPlayToken = token;
+    audioPlayText = text;
+    pauseAudio();
+
+    try {
+      if (player.dataset.src !== src) {
+        player.dataset.src = src;
+        player.src = src;
+        player.load();
+      } else {
+        player.currentTime = 0;
+      }
+    } catch (error) {
+      fallbackToSpeech(token, text);
+      return;
+    }
+
+    player.play().then(() => {
+      if (token !== requestToken) return;
+      clearStartTimer();
+      emit("started");
+    }).catch(() => {
+      if (token !== requestToken) return;
+      fallbackToSpeech(token, text);
+    });
+  }
+
   function speakNow(token, text, retried) {
-    if (!supported || token !== requestToken) return;
+    if (!speechSupported || token !== requestToken) return;
     loadVoices();
     if (synth.paused) synth.resume();
 
@@ -128,7 +215,7 @@
     const clean = String(text || "").replace(/\s+/g, " ").trim();
     if (!clean) return false;
     if (!enabled && !opts.force) return false;
-    if (!supported) {
+    if (!audioSupported && !speechSupported) {
       emit("unsupported", { message: "这个浏览器不支持中文朗读。" });
       return false;
     }
@@ -136,6 +223,18 @@
     const token = ++requestToken;
     clearStartTimer();
     activeUtterances = [];
+    audioFailedToken = 0;
+    pauseAudio();
+
+    if (opts.audioSrc && audioSupported) {
+      playAudio(token, clean, opts.audioSrc);
+      return true;
+    }
+
+    if (!speechSupported) {
+      emit("unsupported", { message: "这个浏览器不支持中文朗读。" });
+      return false;
+    }
 
     // 首次播放不要先 cancel；部分 Chrome 会把紧接着的 speak 一起取消。
     const needsCancel = synth.speaking || synth.pending || synth.paused;
@@ -152,7 +251,7 @@
     if (options && typeof options.onStateChange === "function") {
       onStateChange = options.onStateChange;
     }
-    if (supported) {
+    if (speechSupported) {
       loadVoices();
       synth.addEventListener("voiceschanged", loadVoices);
     }
@@ -160,11 +259,11 @@
 
   window.MarioNarration = {
     configure,
-    isSupported: () => supported,
+    isSupported: () => audioSupported || speechSupported,
     setEnabled: (value) => { enabled = Boolean(value); },
     isEnabled: () => enabled,
     speak,
     stop,
-    getVoices: () => (supported ? synth.getVoices() : [])
+    getVoices: () => (speechSupported ? synth.getVoices() : [])
   };
 })();

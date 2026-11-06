@@ -1114,6 +1114,10 @@
           if (state.soundOn) updateSoundButton("🔊 朗读开");
           return;
         }
+        if (event.status === "fallback") {
+          showToast(event.message || "故事音频加载失败，已改用系统朗读。");
+          return;
+        }
         if (event.status === "error" || event.status === "blocked" || event.status === "unsupported") {
           if (state.soundOn) {
             state.soundOn = false;

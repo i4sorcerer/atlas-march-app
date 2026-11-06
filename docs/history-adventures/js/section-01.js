@@ -170,14 +170,17 @@
 
   /* ---------------- 朗读 ---------------- */
 
-  function speakText(text, force) {
+  function speakText(text, force, audioSrc) {
     if (!text) return;
     if (!force && !state.soundOn) return;
     if (!narration || !narration.isSupported()) {
       showToast("这个浏览器暂时不能朗读，可以请爸爸妈妈读给你听。");
       return false;
     }
-    const started = narration.speak(text, { force: Boolean(force) });
+    const started = narration.speak(text, {
+      force: Boolean(force),
+      audioSrc: audioSrc || ""
+    });
     if (started && force && !state.soundOn) showToast("正在朗读这一页…");
     return started;
   }
@@ -185,7 +188,7 @@
   function speakCurrentScene(force) {
     const scene = scenes[state.current];
     if (!scene) return false;
-    return speakText(scene.dataset.narration || "", force);
+    return speakText(scene.dataset.narration || "", force, scene.dataset.audio || "");
   }
 
   function stopSpeaking() {
@@ -209,6 +212,10 @@
         }
         if (event.status === "ended") {
           if (state.soundOn) updateSoundButton("🔊 朗读开");
+          return;
+        }
+        if (event.status === "fallback") {
+          showToast(event.message || "故事音频加载失败，已改用系统朗读。");
           return;
         }
         if (event.status === "error" || event.status === "blocked" || event.status === "unsupported") {
