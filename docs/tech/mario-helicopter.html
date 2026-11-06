@@ -264,7 +264,7 @@
       const hitBox={x:helicopter.x-15,y:helicopter.y-14,w:31,h:24};
       const collectBox={x:helicopter.x-26,y:helicopter.y-26,w:52,h:52};
       for(const o of obstacles){
-        if(overlap(box,o.x,o.y,o.w,o.h)){die();return;}
+        if(overlap(hitBox,o.x,o.y,o.w,o.h)){die();return;}
         if(!o.pass&&o.x+o.w<helicopter.x){o.pass=true;score+=3;}
       }
       for(const s of shells)if(overlap(hitBox,s.x-s.r,s.y-s.r,s.r*2,s.r*2)){die();return;}
