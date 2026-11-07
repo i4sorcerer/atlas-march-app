@@ -453,6 +453,15 @@ window.CATEGORIES = [
         ]
       },
       {
+        id: "english-series",
+        name: "英文系列",
+        emoji: "📚",
+        topics: [
+          { id: "dragon-masters-series", title: "驯龙大师 · 30册故事图谱", emoji: "🐉", desc: "完整30册书库 / 六个故事阶段 / 人物与龙档案 / 知识图谱 / 配对游戏 / 双语朗读", url: "../english/dragon-masters-series.html", ready: true },
+          { id: "dragon-masters-01-01", title: "驯龙大师 · 第一册互动绘本", emoji: "📖", desc: "第一册第1章 To the Castle · 互动绘本 / 双语朗读 / 人物与龙档案 / 知识图谱", url: "../english/dragon-masters.html", ready: true }
+        ]
+      },
+      {
         id: "basics",
         name: "基础词汇",
         emoji: "🔡",

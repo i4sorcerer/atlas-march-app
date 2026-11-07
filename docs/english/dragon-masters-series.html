@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fff6e3" />
+  <meta name="description" content="A connected, bilingual interactive atlas for all 30 Dragon Masters books by Tracey West." />
+  <title>Dragon Masters Atlas · 30-Book Interactive Series</title>
+  <link rel="icon" href="../shared/mario-avatar.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Nunito+Sans:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../shared/mario.css" />
+  <link rel="stylesheet" href="dragon-masters.css" />
+  <link rel="stylesheet" href="dragon-masters-series.css" />
+</head>
+<body class="dm-page dms-page lang-en" data-mario-greeting="Welcome to the Dragon Masters Atlas! Explore all thirty books, meet the keepers and dragons, and follow the story trail.">
+  <div class="reading-progress" aria-hidden="true"><span id="seriesProgress"></span></div>
+
+  <header class="dm-topbar dms-topbar">
+    <a class="dm-brand" href="../portal/index.html">
+      <span class="brand-seal">DM</span>
+      <span class="brand-copy">
+        <b>Dragon Masters Atlas</b>
+        <small>English series · 30 books</small>
+      </span>
+    </a>
+    <nav class="dms-nav" aria-label="Series page sections">
+      <a href="#library"><span class="t-en">Bookshelf</span><span class="t-zh">书库</span></a>
+      <a href="#archive"><span class="t-en">Archive</span><span class="t-zh">档案</span></a>
+      <a href="#graph"><span class="t-en">Story map</span><span class="t-zh">故事图谱</span></a>
+      <a href="#play"><span class="t-en">Play</span><span class="t-zh">互动</span></a>
+    </nav>
+    <div class="lang-toggle" id="langToggle" role="group" aria-label="Language mode">
+      <button class="lang-btn" data-lang="en" type="button" aria-pressed="true">English</button>
+      <button class="lang-btn" data-lang="zh" type="button" aria-pressed="false">中文</button>
+      <button class="lang-btn" data-lang="both" type="button" aria-pressed="false">双语</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="dms-hero" aria-labelledby="seriesTitle">
+      <div class="dms-hero-copy">
+        <div class="series-ribbon">
+          <span>ENGLISH SERIES</span>
+          <i></i>
+          <span>30-BOOK STORY ATLAS</span>
+        </div>
+        <p class="dms-kicker">TRACEY WEST · SCHOLASTIC BRANCHES</p>
+        <h1 id="seriesTitle">
+          <span class="t-en">One dragon. One stone. Thirty connected adventures.</span>
+          <span class="t-zh">一条龙，一块龙石，三十段彼此相连的冒险。</span>
+        </h1>
+        <p class="dms-hero-deck">
+          <span class="t-en">Walk the whole series like a story map: open a book, follow a character, discover a dragon, and see how every arc links together.</span>
+          <span class="t-zh">像展开一张故事地图一样走完整套书：打开一本书，追踪人物与龙，看看六个故事阶段怎样连成一条线。</span>
+        </p>
+
+        <div class="dms-stats" aria-label="Series atlas contents">
+          <span><b>30</b><small><span class="t-en">books</span><span class="t-zh">册图书</span></small></span>
+          <span><b id="heroDossierCount">87</b><small><span class="t-en">archive cards</span><span class="t-zh">份档案</span></small></span>
+          <span><b>6</b><small><span class="t-en">story arcs</span><span class="t-zh">个故事阶段</span></small></span>
+          <span><b>1</b><small><span class="t-en">full chapter reader</span><span class="t-zh">章互动阅读样板</span></small></span>
+        </div>
+
+        <div class="dms-hero-actions">
+          <button class="dms-primary-action" id="continueReading" type="button">
+            <span class="continue-icon" aria-hidden="true">📖</span>
+            <span>
+              <small id="continueEyebrow">CONTINUE EXPLORING</small>
+              <b id="continueLabel">Book 1 · Rise of the Earth Dragon</b>
+            </span>
+            <span aria-hidden="true">→</span>
+          </button>
+          <a class="dms-secondary-action" href="#library">
+            <span class="t-en">Browse all 30 books</span>
+            <span class="t-zh">浏览全部 30 册</span>
+          </a>
+        </div>
+
+        <div class="dms-progress-note">
+          <span class="progress-ring" id="exploredRing" aria-hidden="true"><i></i></span>
+          <div>
+            <b id="exploredCount">0 of 30 books explored</b>
+            <small>
+              <span class="t-en">Your progress is saved only on this device.</span>
+              <span class="t-zh">阅读进度只保存在这台设备上。</span>
+            </small>
+          </div>
+        </div>
+        <p class="voice-note">
+          <span class="voice-dot" id="voiceDot" aria-hidden="true"></span>
+          <span id="voiceNote">Native device voice · tap any listen button</span>
+        </p>
+      </div>
+
+      <div class="dms-hero-map" aria-label="Interactive six-stage story map">
+        <div class="map-caption">
+          <span>THE DRAGON MASTERS FLIGHT MAP</span>
+          <b><span class="t-en">Tap a glowing stop</span><span class="t-zh">点击发光的旅程站点</span></b>
+        </div>
+        <svg class="atlas-sky" viewBox="0 0 760 760" role="img" aria-label="A star map with a flying dragon above a winding trail">
+          <defs>
+            <radialGradient id="mapGlow" cx="50%" cy="45%" r="58%">
+              <stop offset="0%" stop-color="#fff9e9" />
+              <stop offset="65%" stop-color="#eaf4e9" />
+              <stop offset="100%" stop-color="#cce3dc" />
+            </radialGradient>
+            <linearGradient id="mapTrail" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#e55b45" />
+              <stop offset="45%" stop-color="#f4bd4f" />
+              <stop offset="100%" stop-color="#2f827a" />
+            </linearGradient>
+            <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="blur" />
+              <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+          </defs>
+          <circle cx="380" cy="380" r="344" fill="url(#mapGlow)" />
+          <circle cx="380" cy="380" r="305" fill="none" stroke="#2f827a" stroke-opacity=".13" stroke-width="2" stroke-dasharray="3 12" />
+          <circle cx="380" cy="380" r="236" fill="none" stroke="#2f827a" stroke-opacity=".1" stroke-width="2" />
+          <g fill="#fff" opacity=".8">
+            <circle cx="135" cy="155" r="4" /><circle cx="654" cy="140" r="5" /><circle cx="618" cy="589" r="4" />
+            <circle cx="165" cy="595" r="5" /><circle cx="95" cy="381" r="3" /><circle cx="678" cy="381" r="3" />
+          </g>
+          <path d="M141 536 C204 475 233 437 306 421 C392 401 406 329 355 280 C297 224 332 148 430 143 C509 139 569 209 543 284 C521 349 456 384 506 447 C548 500 609 520 650 553" fill="none" stroke="url(#mapTrail)" stroke-width="6" stroke-linecap="round" stroke-dasharray="4 14" opacity=".8" />
+          <g transform="translate(450 350)">
+          <g class="map-dragon" filter="url(#softGlow)">
+            <path d="M-78 20 C-135 -31 -161 -92 -149 -153 C-91 -120 -45 -78 -18 -28Z" fill="#2f827a" opacity=".92" />
+            <path d="M76 13 C127 -39 151 -95 141 -151 C88 -119 44 -78 18 -31Z" fill="#44a093" opacity=".88" />
+            <ellipse cx="0" cy="42" rx="66" ry="94" fill="#e55b45" />
+            <ellipse cx="0" cy="57" rx="38" ry="61" fill="#ffd994" opacity=".95" />
+            <circle cx="0" cy="-13" r="52" fill="#e55b45" />
+            <circle cx="-18" cy="-18" r="7" fill="#263b35" />
+            <circle cx="18" cy="-18" r="7" fill="#263b35" />
+            <circle cx="-16" cy="-21" r="2.2" fill="#fff" />
+            <circle cx="20" cy="-21" r="2.2" fill="#fff" />
+            <path d="M-19 8 C-5 20 10 20 23 7" fill="none" stroke="#96392f" stroke-width="4" stroke-linecap="round" />
+            <path d="M-36 -52 C-58 -87 -48 -120 -23 -138 C-19 -108 -8 -82 9 -62" fill="none" stroke="#f4bd4f" stroke-width="9" stroke-linecap="round" />
+            <path d="M34 -52 C57 -86 48 -121 23 -139 C19 -108 7 -81 -10 -61" fill="none" stroke="#f4bd4f" stroke-width="9" stroke-linecap="round" />
+            <path d="M67 108 C134 93 176 132 162 184 C150 226 108 234 88 199" fill="none" stroke="#d94b3d" stroke-width="21" stroke-linecap="round" />
+            <path d="M151 177 L181 148 L171 191 L205 193 L168 222Z" fill="#f4bd4f" />
+            <path d="M-61 100 C-104 119 -111 156 -84 177" fill="none" stroke="#d94b3d" stroke-width="17" stroke-linecap="round" />
+          </g>
+          </g>
+          <g fill="#f4bd4f" opacity=".9">
+            <circle cx="171" cy="218" r="5" /><circle cx="595" cy="267" r="6" /><circle cx="194" cy="497" r="4" />
+          </g>
+        </svg>
+        <div class="hero-arc-nodes" id="heroArcNodes"></div>
+        <div class="hero-map-tip">
+          <span aria-hidden="true">✦</span>
+          <span class="t-en">Six stages · one connected adventure</span>
+          <span class="t-zh">六个阶段 · 一段连续冒险</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="journey-section" id="journey" aria-labelledby="journeyTitle">
+      <div class="dms-section-head">
+        <div>
+          <p class="eyebrow">THE STORY TRAIL · 故事旅程</p>
+          <h2 id="journeyTitle">
+            <span class="t-en">Follow the whole series from first flight to chaos.</span>
+            <span class="t-zh">从第一次起飞，一路走到混沌终局。</span>
+          </h2>
+          <p class="dms-section-intro">
+            <span class="t-en">Each stop groups the books by the conflict and discoveries that connect them.</span>
+            <span class="t-zh">每个旅程站点都按相互关联的冲突与发现，把图书分成一个故事阶段。</span>
+          </p>
+        </div>
+        <div class="trail-key">
+          <span><i class="key-line"></i><span class="t-en">Tap an arc to filter the shelf</span><span class="t-zh">点击阶段即可筛选书库</span></span>
+        </div>
+      </div>
+      <div class="arc-rail" id="arcRail"></div>
+      <div class="arc-focus" id="arcFocus"></div>
+    </section>
+
+    <section class="library-section" id="library" aria-labelledby="libraryTitle">
+      <div class="dms-section-head library-heading">
+        <div>
+          <p class="eyebrow">THE 30-BOOK SHELF · 三十册书库</p>
+          <h2 id="libraryTitle">
+            <span class="t-en">Choose a book. Open its field notes.</span>
+            <span class="t-zh">选一本书，打开它的冒险档案。</span>
+          </h2>
+          <p class="dms-section-intro">
+            <span class="t-en">Search titles, characters, dragons, places, and themes. Every card opens into a connected reading dossier.</span>
+            <span class="t-zh">可搜索书名、人物、龙、地点与主题。每张卡都会打开一份相互关联的阅读档案。</span>
+          </p>
+        </div>
+        <div class="library-count"><b id="libraryCount">30</b><span class="t-en">books shown</span><span class="t-zh">册正在显示</span></div>
+      </div>
+
+      <div class="library-tools">
+        <label class="dms-search">
+          <span aria-hidden="true">⌕</span>
+          <input id="librarySearch" type="search" autocomplete="off" placeholder="Search books, characters, dragons…" aria-label="Search the series" />
+          <button id="clearSearch" type="button" aria-label="Clear search" hidden>×</button>
+        </label>
+        <div class="arc-filter-row" id="arcFilters" role="group" aria-label="Filter by story arc"></div>
+        <div class="status-filter-row" id="statusFilters" role="group" aria-label="Filter by source status">
+          <button class="filter-chip active" data-status="all" type="button"><span class="t-en">All sources</span><span class="t-zh">全部资料</span></button>
+          <button class="filter-chip" data-status="chapter-guide" type="button"><span class="t-en">Chapter guide</span><span class="t-zh">章节导览</span></button>
+          <button class="filter-chip" data-status="summary-only" type="button"><span class="t-en">Book summary</span><span class="t-zh">书籍简介</span></button>
+        </div>
+      </div>
+
+      <div class="shelf-grid" id="libraryGrid"></div>
+      <div class="shelf-empty" id="shelfEmpty" hidden>
+        <span aria-hidden="true">🐉</span>
+        <h3><span class="t-en">No books match that trail yet.</span><span class="t-zh">还没有图书匹配这条线索。</span></h3>
+        <button id="resetLibrary" type="button"><span class="t-en">Show all 30 books</span><span class="t-zh">显示全部 30 册</span></button>
+      </div>
+    </section>
+
+    <section class="archive-section dms-archive-section" id="archive" aria-labelledby="archiveTitle">
+      <div class="dms-section-head">
+        <div>
+          <p class="eyebrow">KEEPER & DRAGON ARCHIVE · 人物与龙档案库</p>
+          <h2 id="archiveTitle">
+            <span class="t-en">Every known keeper, dragon, place, and object.</span>
+            <span class="t-zh">所有已知人物、龙、地点与物件。</span>
+          </h2>
+          <p class="dms-section-intro">
+            <span class="t-en">Open a card for the verified role, story links, and the books where that thread appears.</span>
+            <span class="t-zh">打开卡片，查看已核实的身份、关系，以及这条线索出现的图书。</span>
+          </p>
+        </div>
+        <span class="archive-stamp">SERIES<br><b id="dossierStampCount">87 CARDS</b></span>
+      </div>
+
+      <div class="archive-tools">
+        <label class="dms-search compact">
+          <span aria-hidden="true">⌕</span>
+          <input id="archiveSearch" type="search" autocomplete="off" placeholder="Search the archive…" aria-label="Search archive" />
+        </label>
+        <div class="archive-filter-row" id="archiveFilters" role="group" aria-label="Archive filters">
+          <button class="filter-chip active" data-archive-type="all" type="button">✦ <span class="t-en">All</span><span class="t-zh">全部</span> <span id="archiveAllCount">87</span></button>
+          <button class="filter-chip" data-archive-type="person" type="button">👤 <span class="t-en">People</span><span class="t-zh">人物</span> <span id="archivePersonCount">0</span></button>
+          <button class="filter-chip" data-archive-type="dragon" type="button">🐉 <span class="t-en">Dragons</span><span class="t-zh">龙族</span> <span id="archiveDragonCount">0</span></button>
+          <button class="filter-chip" data-archive-type="place" type="button">🗺️ <span class="t-en">Places</span><span class="t-zh">地点</span> <span id="archivePlaceCount">0</span></button>
+          <button class="filter-chip" data-archive-type="artifact" type="button">🔮 <span class="t-en">Objects</span><span class="t-zh">物件</span> <span id="archiveArtifactCount">0</span></button>
+        </div>
+      </div>
+      <div class="dms-dossier-grid" id="dossierGrid"></div>
+      <p class="archive-note">
+        <span aria-hidden="true">i</span>
+        <span class="t-en">Book-level archive entries use publisher summaries. Chapter-level facts are shown only where verified.</span>
+        <span class="t-zh">书籍级档案依据出版社简介整理；只有已核实的章节事实才会标为章节资料。</span>
+      </p>
+    </section>
+
+    <section class="graph-section dms-graph-section" id="graph" aria-labelledby="graphTitle">
+      <div class="dms-section-head">
+        <div>
+          <p class="eyebrow">CONNECTED STORY GRAPH · 故事知识图谱</p>
+          <h2 id="graphTitle">
+            <span class="t-en">See the people, dragons, and powers pulling the series together.</span>
+            <span class="t-zh">看见人物、龙与力量如何把整套书连在一起。</span>
+          </h2>
+          <p class="dms-section-intro">
+            <span class="t-en">Tap a node to reveal its role and every direct connection. The graph follows the main 30-book storyline.</span>
+            <span class="t-zh">点击节点查看角色与全部直接关系。图谱聚焦已核实的 30 册主线。</span>
+          </p>
+        </div>
+        <button class="trace-button" id="traceGraph" type="button">
+          <span aria-hidden="true">✦</span>
+          <span class="t-en">Trace Drake's core path</span>
+          <span class="t-zh">追踪德雷克核心路线</span>
+        </button>
+      </div>
+
+      <div class="graph-toolbar" id="graphFilters" role="group" aria-label="Graph filters">
+        <button class="filter-chip active" data-graph-type="all" type="button"><span class="t-en">All</span><span class="t-zh">全部</span></button>
+        <button class="filter-chip" data-graph-type="person" type="button"><span class="t-en">People</span><span class="t-zh">人物</span></button>
+        <button class="filter-chip" data-graph-type="dragon" type="button"><span class="t-en">Dragons</span><span class="t-zh">龙</span></button>
+        <button class="filter-chip" data-graph-type="artifact" type="button"><span class="t-en">Objects</span><span class="t-zh">物件</span></button>
+      </div>
+
+      <div class="graph-layout dms-graph-layout">
+        <div class="graph-scroll">
+          <svg id="seriesGraph" viewBox="0 0 1000 700" role="img" aria-label="Interactive knowledge graph of the Dragon Masters series"></svg>
+          <p class="graph-pan-hint">
+            <span class="t-en">On a phone? Swipe sideways to explore the graph.</span>
+            <span class="t-zh">手机上可以左右滑动查看完整图谱。</span>
+          </p>
+        </div>
+        <aside class="graph-inspector dms-graph-inspector" id="graphInspector" aria-live="polite">
+          <span class="inspector-icon">🗺️</span>
+          <h3><span class="t-en">Pick a node</span><span class="t-zh">选择一个节点</span></h3>
+          <p><span class="t-en">Tap any person, dragon, or object to see how it connects to the wider story.</span><span class="t-zh">点击人物、龙或物件，看看它如何连接更大的故事。</span></p>
+        </aside>
+      </div>
+      <div class="graph-legend" aria-label="Graph legend">
+        <span><i class="legend-dot person"></i><span class="t-en">People</span><span class="t-zh">人物</span></span>
+        <span><i class="legend-dot dragon"></i><span class="t-en">Dragons</span><span class="t-zh">龙</span></span>
+        <span><i class="legend-dot artifact"></i><span class="t-en">Objects</span><span class="t-zh">物件</span></span>
+      </div>
+    </section>
+
+    <section class="story-lab dms-play-section" id="play" aria-labelledby="playTitle">
+      <div class="dms-section-head">
+        <div>
+          <p class="eyebrow">THE DRAGON MASTERS PLAYROOM · 互动游乐场</p>
+          <h2 id="playTitle">
+            <span class="t-en">Play with the whole series.</span>
+            <span class="t-zh">和整套故事一起玩。</span>
+          </h2>
+          <p class="dms-section-intro">
+            <span class="t-en">Four optional activities for recalling, connecting, listening, and bringing the story into everyday life.</span>
+            <span class="t-zh">四个可选活动，分别练习回忆、联结、倾听，以及把故事带进现实生活。</span>
+          </p>
+        </div>
+        <span class="play-badge">PLAY<br><b>NOT A TEST</b></span>
+      </div>
+
+      <div class="lab-tabs play-tabs" id="gameTabs" role="tablist" aria-label="Series activities">
+        <button class="lab-tab active" data-game-tab="pairs" type="button">🐉 <span class="t-en">Dragon match</span><span class="t-zh">龙与伙伴</span></button>
+        <button class="lab-tab" data-game-tab="trail" type="button">🧭 <span class="t-en">Story trail</span><span class="t-zh">故事路线</span></button>
+        <button class="lab-tab" data-game-tab="words" type="button">🗣️ <span class="t-en">Word cave</span><span class="t-zh">词语洞窟</span></button>
+        <button class="lab-tab" data-game-tab="life" type="button">🌱 <span class="t-en">Real life</span><span class="t-zh">现实挑战</span></button>
+      </div>
+
+      <div class="lab-panels dms-lab-panels">
+        <section class="lab-panel active" data-game-panel="pairs" aria-labelledby="pairsTitle">
+          <div class="lab-panel-head">
+            <div>
+              <p class="mini-label">MATCH THE BOND</p>
+              <h3 id="pairsTitle"><span class="t-en">Which keeper belongs with which dragon?</span><span class="t-zh">哪位驯龙师与哪条龙相连？</span></h3>
+              <p><span class="t-en">Tap a dragon, then tap its keeper. Correct matches stay linked.</span><span class="t-zh">先点一条龙，再点它的驯龙师。配对正确会保留联结。</span></p>
+            </div>
+            <div class="play-score"><b id="pairScore">0</b>/<span id="pairTotal">8</span></div>
+          </div>
+          <div class="pair-game" id="pairGame">
+            <div class="pair-column"><h4><span class="t-en">Dragons</span><span class="t-zh">龙</span></h4><div id="pairDragons"></div></div>
+            <div class="pair-center" aria-hidden="true"><span>✦</span><i></i></div>
+            <div class="pair-column"><h4><span class="t-en">Keepers</span><span class="t-zh">驯龙师</span></h4><div id="pairMasters"></div></div>
+          </div>
+          <div class="play-feedback" id="pairFeedback" aria-live="polite">
+            <span class="t-en">Choose a dragon to begin.</span>
+            <span class="t-zh">先选一条龙开始。</span>
+          </div>
+          <button class="reset-play" id="resetPairs" type="button"><span class="t-en">Shuffle again</span><span class="t-zh">重新打乱</span></button>
+        </section>
+
+        <section class="lab-panel" data-game-panel="trail" aria-labelledby="trailTitle" hidden>
+          <div class="lab-panel-head">
+            <div>
+              <p class="mini-label">SIX KEY STOPS</p>
+              <h3 id="trailTitle"><span class="t-en">Rebuild the series trail.</span><span class="t-zh">重建系列故事路线。</span></h3>
+              <p><span class="t-en">Tap these six milestones in chronological order.</span><span class="t-zh">按时间顺序点击六个关键里程碑。</span></p>
+            </div>
+            <div class="play-score"><b id="trailScore">0</b>/6</div>
+          </div>
+          <div class="trail-game" id="trailGame"></div>
+          <div class="play-feedback" id="trailFeedback" aria-live="polite">
+            <span class="t-en">Start with the first book.</span>
+            <span class="t-zh">从第一册开始。</span>
+          </div>
+          <button class="reset-play" id="resetTrail" type="button"><span class="t-en">Shuffle again</span><span class="t-zh">重新打乱</span></button>
+        </section>
+
+        <section class="lab-panel" data-game-panel="words" aria-labelledby="wordsTitle" hidden>
+          <div class="lab-panel-head">
+            <div>
+              <p class="mini-label">WORD CAVE</p>
+              <h3 id="wordsTitle"><span class="t-en">Hear a word inside its story.</span><span class="t-zh">在故事里听见一个词。</span></h3>
+              <p><span class="t-en">Tap once for the word, then hear the full sentence.</span><span class="t-zh">先听单词，再听完整例句。</span></p>
+            </div>
+          </div>
+          <div class="dms-vocab-grid" id="vocabGrid"></div>
+        </section>
+
+        <section class="lab-panel" data-game-panel="life" aria-labelledby="lifeTitle" hidden>
+          <div class="lab-panel-head">
+            <div>
+              <p class="mini-label">BRAVERY BADGES</p>
+              <h3 id="lifeTitle"><span class="t-en">Bring the story into real life.</span><span class="t-zh">把故事带进现实生活。</span></h3>
+              <p><span class="t-en">These situations are original activities, not events from the books.</span><span class="t-zh">这些是原创活动情景，不是书中的事件。</span></p>
+            </div>
+            <div class="play-score"><b id="missionScore">0</b>/<span id="missionTotal">0</span></div>
+          </div>
+          <div class="mission-grid" id="missionGrid"></div>
+        </section>
+      </div>
+    </section>
+
+    <section class="source-section" aria-labelledby="sourceTitle">
+      <div class="source-seal">DM<br><span>ARCHIVE</span></div>
+      <div>
+        <p class="eyebrow">SOURCE & READING NOTES · 资料来源</p>
+        <h2 id="sourceTitle">
+          <span class="t-en">A connected guide, not a replacement for the books.</span>
+          <span class="t-zh">这是一份连续导读，不替代原书阅读。</span>
+        </h2>
+        <p>
+          <span class="t-en">English titles, numbering, illustrators, and publisher-level story summaries are cross-checked against the official series pages. Chinese titles and all activity copy are original working translations. The first book opens into a full chapter-one interactive sample; other chapter details are added only when a reliable source has been checked.</span>
+          <span class="t-zh">英文书名、册号、插画师与出版社级故事简介均对照官方系列页面；中文书名、摘要与活动文案为原创教学翻译。第一册提供完整的第 1 章互动样板；其余章节只在可靠资料核对后补充。</span>
+        </p>
+        <div class="source-links" id="sourceLinks"></div>
+        <p class="source-disclaimer">
+          <span class="t-en">Original educational summaries, activities, illustrations, and interface. Not affiliated with the author or publisher. Dragon Masters © Tracey West · Scholastic.</span>
+          <span class="t-zh">本页摘要、活动、插画与界面均为原创教育内容，与作者及出版社无隶属关系。Dragon Masters © Tracey West · Scholastic。</span>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dm-footer dms-footer">
+    <p>
+      <span class="t-en">Dragon Masters Atlas · 30-book connected reading guide · Built for curious young readers.</span>
+      <span class="t-zh">驯龙大师互动图谱 · 30 册连续阅读指南 · 为好奇的小读者而做。</span>
+    </p>
+    <a href="dragon-masters.html">
+      <span class="t-en">Open the Book 1 chapter reader</span>
+      <span class="t-zh">打开第一册互动绘本</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </footer>
+
+  <dialog class="dms-book-dialog" id="bookDialog" aria-labelledby="bookDialogTitle">
+    <div class="dms-book-shell">
+      <button class="dms-dialog-close" id="bookDialogClose" type="button" aria-label="Close book dossier">×</button>
+      <div id="bookDialogBody"></div>
+    </div>
+  </dialog>
+
+  <dialog class="dossier-dialog dms-dossier-dialog" id="dossierDialog" aria-labelledby="dossierDialogTitle">
+    <div class="dossier-shell">
+      <button class="dialog-close" id="dossierDialogClose" type="button" aria-label="Close archive card">×</button>
+      <div id="dossierDialogBody"></div>
+    </div>
+  </dialog>
+
+  <script src="../shared/mario.js"></script>
+  <script src="dragon-masters-series-data.js"></script>
+  <script src="dragon-masters-series.js"></script>
+  <script src="../shared/mario-inject.js" defer></script>
+</body>
+</html>

@@ -28,8 +28,25 @@
   setTimeout(loadVoices, 300);
   setTimeout(loadVoices, 1200);
 
-  function pickVoice() {
+  function pickVoice(langHint) {
     if (!voices.length) loadVoices();
+    var normalized = normalizeLang(langHint);
+    var base = normalized.slice(0, 2).toLowerCase();
+
+    if (base === "en") {
+      var en = voices.filter(function (v) {
+        return /^en/i.test(v.lang || "") || /english|英语|英文/i.test(v.name || "");
+      });
+      if (!en.length) return null;
+      var preferEn = /Samantha|Ava|Allison|Susan|Google US English|Google UK English|Microsoft (Aria|Jenny|Guy|Zira)|Karen|Daniel|Alex|Fred/i;
+      en.sort(function (a, b) {
+        var pa = (preferEn.test(a.name) ? 2 : 0) + (a.localService ? 1 : 0);
+        var pb = (preferEn.test(b.name) ? 2 : 0) + (b.localService ? 1 : 0);
+        return pb - pa;
+      });
+      return en[0];
+    }
+
     var zh = voices.filter(function (v) {
       return /^zh/i.test(v.lang || "") || /chinese|中文|普通话|國語/i.test(v.name || "");
     });
@@ -44,17 +61,29 @@
     return zh[0];
   }
 
+  function normalizeLang(langHint) {
+    var hint = String(langHint || "").toLowerCase();
+    if (hint.indexOf("en") === 0) return "en-US";
+    return "zh-CN";
+  }
+
+  function detectLanguage(text) {
+    return /[\u3400-\u9fff]/.test(String(text || "")) ? "zh-CN" : "en-US";
+  }
+
   /* ---------------- 断句 ---------------- */
   function splitSentences(text) {
     return String(text || "")
       .replace(/\s+/g, " ")
-      .split(/(?<=[。！？!?；;])|\n+/)
+      .split(/(?<=[。！？!?；;.:])|\n+/)
       .map(function (s) { return s.trim(); })
       .filter(Boolean)
       .reduce(function (out, s) {
         // 太长的一句再按逗号切，避免一次读太久
         if (s.length <= 90) { out.push(s); return out; }
-        return out.concat(s.split(/(?<=[，,、])/).filter(Boolean));
+        return out.concat(s.split(/(?<=[，,、])/).filter(function (part) {
+          return part.trim();
+        }));
       }, []);
   }
 
@@ -106,7 +135,16 @@
     var sentences = el ? collectSentences(el) : splitSentences(source);
     if (!sentences.length) return;
 
-    var voice = pickVoice();
+    var langHint = opts.lang;
+    if (!langHint && el) {
+      langHint = el.getAttribute("lang") ||
+        (el.closest("[lang]") && el.closest("[lang]").getAttribute("lang")) ||
+        el.getAttribute("data-tts-lang");
+    }
+    if (!langHint) {
+      langHint = detectLanguage(sentences.map(function (item) { return item.text; }).join(" "));
+    }
+    var voice = pickVoice(langHint);
     var rate = typeof opts.rate === "number" ? opts.rate : 0.88;
     var pitch = typeof opts.pitch === "number" ? opts.pitch : 1.04;
     var btn = opts.button || null;
@@ -126,7 +164,7 @@
       if (i >= sentences.length) { finish(); return; }
       var item = sentences[i];
       var u = new SpeechSynthesisUtterance(item.text);
-      u.lang = voice ? (voice.lang || "zh-CN") : "zh-CN";
+      u.lang = voice ? (voice.lang || normalizeLang(langHint)) : normalizeLang(langHint);
       if (voice) u.voice = voice;
       u.rate = rate;
       u.pitch = pitch;
@@ -214,11 +252,12 @@
       btn.addEventListener("click", function () {
         if (btn.classList.contains("is-speaking")) { stop(); return; }
         var target = btn.dataset.readTarget;
+        var langHint = btn.getAttribute("data-tts-lang") || "";
         if (target) {
           var el = document.querySelector(target);
-          if (el) { speak(el, { button: btn }); return; }
+          if (el) { speak(el, { button: btn, lang: langHint || el.getAttribute("lang") || "" }); return; }
         }
-        speak(btn.dataset.tts || btn.dataset.readTargetText || "", { button: btn });
+        speak(btn.dataset.tts || btn.dataset.readTargetText || "", { button: btn, lang: langHint });
       });
     });
   }
@@ -358,7 +397,8 @@
     confetti: confetti,
     beep: beep,
     reportQuiz: reportQuiz,
-    get voice() { return pickVoice(); },
+    get voice() { return pickVoice("zh-CN"); },
+    getVoice: pickVoice,
     get supported() { return supported; }
   };
 })();

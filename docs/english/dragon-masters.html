@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#fff6e3" />
+  <title>Dragon Masters · Interactive Storybook · Chapter 1</title>
+  <link rel="icon" href="../shared/mario-avatar.svg" type="image/svg+xml" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Nunito+Sans:wght@400;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../shared/mario.css" />
+  <link rel="stylesheet" href="dragon-masters.css" />
+</head>
+<body class="dm-page lang-en" data-mario-greeting="Hi, I'm Mario! This is an interactive storybook. Turn the pages, tap hidden clues, and explore the dragon archive!">
+  <div class="reading-progress" aria-hidden="true"><span id="readingProgress"></span></div>
+
+  <header class="dm-topbar">
+    <a class="dm-brand" href="../portal/index.html">
+      <span class="brand-seal">DM</span>
+      <span class="brand-copy">
+        <b>Storybook Atlas</b>
+        <small>Dragon Masters · Book 1</small>
+      </span>
+    </a>
+    <a class="reader-atlas-link" href="dragon-masters-series.html">
+      <span aria-hidden="true">←</span>
+      <span class="t-en">30-book atlas</span>
+      <span class="t-zh">30 册图谱</span>
+    </a>
+    <div class="lang-toggle" id="langToggle" role="group" aria-label="Language mode">
+      <button class="lang-btn" data-lang="en" type="button" aria-pressed="true">English</button>
+      <button class="lang-btn" data-lang="zh" type="button" aria-pressed="false">中文</button>
+      <button class="lang-btn" data-lang="both" type="button" aria-pressed="false">双语</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="dm-hero" aria-labelledby="chapterTitle">
+      <div class="hero-copy">
+        <div class="series-ribbon">
+          <span>ENGLISH SERIES</span>
+          <i></i>
+          <span>BOOK 01 · CHAPTER 01</span>
+        </div>
+        <p class="book-line">
+          <span class="t-en">Rise of the Earth Dragon</span>
+          <span class="t-zh">地龙的崛起</span>
+          <span class="book-author">by Tracey West</span>
+        </p>
+        <h1 id="chapterTitle">
+          <span class="t-en">To the Castle</span>
+          <span class="t-zh">前往城堡</span>
+        </h1>
+        <p class="hero-deck">
+          <span class="t-en">An ordinary onion field. A royal summons. And a stone door hiding one very big surprise.</span>
+          <span class="t-zh">平常的洋葱田，突如其来的国王召唤，还有一扇藏着了不起秘密的石门。</span>
+        </p>
+        <div class="hero-stats" aria-label="Storybook contents">
+          <span><b>4</b> <span class="t-en">story pages</span><span class="t-zh">个故事页</span></span>
+          <span><b>12</b> <span class="t-en">dossiers</span><span class="t-zh">份档案</span></span>
+          <span><b>1</b> <span class="t-en">knowledge graph</span><span class="t-zh">张知识图谱</span></span>
+        </div>
+        <div class="hero-actions">
+          <a class="primary-action" href="#storybook">
+            <span class="t-en">Open the storybook</span>
+            <span class="t-zh">打开互动绘本</span>
+            <span aria-hidden="true">↓</span>
+          </a>
+          <a class="secondary-action" href="#archive">
+            <span class="t-en">Explore the archive</span>
+            <span class="t-zh">探索档案库</span>
+          </a>
+        </div>
+        <p class="voice-note">
+          <span class="voice-dot" id="voiceDot" aria-hidden="true"></span>
+          <span id="voiceNote">Native device voice · tap any listen button</span>
+        </p>
+      </div>
+
+      <div class="hero-art">
+        <span class="floating-tag tag-one">🐉 <span class="t-en">1 dragon sighted</span><span class="t-zh">红龙现身</span></span>
+        <span class="floating-tag tag-two">🗺️ <span class="t-en">4 story places</span><span class="t-zh">4 个故事地点</span></span>
+        <span class="floating-tag tag-three">🔎 <span class="t-en">10 story clues</span><span class="t-zh">10 条故事线索</span></span>
+        <svg class="hero-illustration" viewBox="0 0 720 650" role="img" aria-label="A friendly red dragon peeking over an open storybook">
+          <defs>
+            <linearGradient id="heroSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e7f6f1" />
+              <stop offset="100%" stop-color="#fff2d3" />
+            </linearGradient>
+            <linearGradient id="dragonBody" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ff8a66" />
+              <stop offset="100%" stop-color="#d94b3d" />
+            </linearGradient>
+            <linearGradient id="dragonBelly" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffe2a7" />
+              <stop offset="100%" stop-color="#f3bd62" />
+            </linearGradient>
+            <linearGradient id="pagePaper" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#fffdf5" />
+              <stop offset="100%" stop-color="#f4e7c9" />
+            </linearGradient>
+          </defs>
+          <circle cx="360" cy="320" r="276" fill="url(#heroSky)" />
+          <circle cx="540" cy="150" r="62" fill="#ffd36c" opacity=".72" />
+          <g fill="#fff" opacity=".85">
+            <ellipse cx="150" cy="140" rx="62" ry="23" />
+            <ellipse cx="195" cy="126" rx="43" ry="20" />
+            <ellipse cx="115" cy="130" rx="37" ry="17" />
+            <ellipse cx="562" cy="270" rx="54" ry="19" />
+            <ellipse cx="605" cy="259" rx="35" ry="15" />
+          </g>
+          <path d="M118 402 C190 356 257 385 310 349 C390 298 500 311 608 375 L608 588 L118 588Z" fill="#cde8d4" />
+          <path d="M80 456 C195 403 280 451 382 410 C493 365 585 397 660 438 L660 605 L80 605Z" fill="#a9d7bd" />
+
+          <g class="hero-dragon">
+            <path d="M275 299 C205 244 172 175 190 107 C256 135 314 179 347 231Z" fill="#82c9bd" />
+            <path d="M465 297 C530 239 557 170 539 103 C476 138 420 181 389 232Z" fill="#73bcb0" />
+            <ellipse cx="365" cy="389" rx="134" ry="153" fill="url(#dragonBody)" />
+            <ellipse cx="365" cy="417" rx="79" ry="105" fill="url(#dragonBelly)" opacity=".95" />
+            <path d="M303 231 C303 174 329 139 366 139 C403 139 429 174 429 231 L429 309 L303 309Z" fill="url(#dragonBody)" />
+            <path d="M315 155 C294 119 302 88 330 63 C333 101 345 126 365 145" fill="none" stroke="#b84035" stroke-width="14" stroke-linecap="round" />
+            <path d="M416 155 C438 119 430 88 402 63 C398 101 387 126 366 145" fill="none" stroke="#b84035" stroke-width="14" stroke-linecap="round" />
+            <ellipse cx="365" cy="220" rx="92" ry="70" fill="url(#dragonBody)" />
+            <path d="M322 209 C337 194 353 194 365 208 C378 194 395 196 408 211" fill="none" stroke="#8f2f2b" stroke-width="6" stroke-linecap="round" />
+            <circle cx="333" cy="221" r="9" fill="#24332f" />
+            <circle cx="397" cy="221" r="9" fill="#24332f" />
+            <circle cx="336" cy="218" r="3" fill="#fff" />
+            <circle cx="400" cy="218" r="3" fill="#fff" />
+            <ellipse cx="365" cy="246" rx="39" ry="27" fill="#ffd78f" />
+            <circle cx="350" cy="243" r="4" fill="#7e3b2b" />
+            <circle cx="380" cy="243" r="4" fill="#7e3b2b" />
+            <path d="M341 258 C354 272 377 272 389 258" fill="none" stroke="#8f2f2b" stroke-width="4" stroke-linecap="round" />
+            <path d="M476 386 C551 367 585 410 569 472 C554 529 501 537 478 493" fill="none" stroke="#d94b3d" stroke-width="28" stroke-linecap="round" />
+            <path d="M553 471 L588 443 L573 494 L611 497 L568 533Z" fill="#f3bd62" />
+            <path d="M268 386 C219 414 223 469 269 489" fill="none" stroke="#d94b3d" stroke-width="25" stroke-linecap="round" />
+          </g>
+
+          <g class="hero-book">
+            <path d="M88 459 C213 417 319 444 360 488 L360 602 C290 558 194 548 88 574Z" fill="url(#pagePaper)" stroke="#c79a52" stroke-width="3" />
+            <path d="M632 459 C507 417 401 444 360 488 L360 602 C430 558 526 548 632 574Z" fill="url(#pagePaper)" stroke="#c79a52" stroke-width="3" />
+            <path d="M360 488 L360 602" fill="none" stroke="#d7b575" stroke-width="3" />
+            <g stroke="#e0c89d" stroke-width="3" stroke-linecap="round" opacity=".7">
+              <path d="M148 493 C227 476 294 486 327 512" />
+              <path d="M148 520 C223 504 291 514 325 538" />
+              <path d="M148 547 C214 532 273 541 308 562" />
+              <path d="M572 493 C493 476 426 486 393 512" />
+              <path d="M572 520 C497 504 429 514 395 538" />
+              <path d="M572 547 C506 532 447 541 412 562" />
+            </g>
+          </g>
+          <g fill="#f5b942">
+            <circle cx="120" cy="302" r="7" />
+            <circle cx="612" cy="344" r="8" />
+            <circle cx="640" cy="205" r="5" />
+            <circle cx="91" cy="226" r="5" />
+          </g>
+        </svg>
+        <button class="dragon-tap" id="dragonTap" type="button">
+          <span aria-hidden="true">👆</span>
+          <span class="t-en">Tap the dragon</span>
+          <span class="t-zh">点点红龙</span>
+        </button>
+        <div class="dragon-speech" id="dragonSpeech" hidden>
+          <button type="button" id="dragonSpeechClose" aria-label="Close">×</button>
+          <div id="dragonSpeechMessage" aria-live="polite">
+            <span class="t-en">Psst! There are hidden clues in this story. Can you find them?</span>
+            <span class="t-zh">嘘！这个故事里藏着一些线索，你能找到吗？</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="storybook-section" id="storybook" aria-labelledby="storybookTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">INTERACTIVE PICTURE BOOK · 互动绘本</p>
+          <h2 id="storybookTitle">
+            <span class="t-en">Turn the page. Find the clues.</span>
+            <span class="t-zh">翻一页，找一条线索。</span>
+          </h2>
+          <p class="section-intro">
+            <span class="t-en">Tap the glowing dots in the picture, then read the story page beside it.</span>
+            <span class="t-zh">点击画面里发光的圆点，再读旁边的故事页。</span>
+          </p>
+        </div>
+        <div class="discovery-badge">
+          <span aria-hidden="true">🔎</span>
+          <div><b id="discoveryCount">0 / 10</b><small><span class="t-en">story clues discovered</span><span class="t-zh">条线索已发现</span></small></div>
+        </div>
+      </div>
+
+      <div class="chapter-tabs" id="sceneTabs" role="tablist" aria-label="Story pages"></div>
+
+      <div class="book-frame">
+        <div class="book-spread" id="bookSpread">
+          <div class="art-page">
+            <div class="scene-art" id="sceneArt" aria-hidden="true"></div>
+            <div class="hotspot-layer" id="hotspotLayer"></div>
+            <div class="hotspot-note" id="hotspotNote" hidden>
+              <button class="note-close" id="hotspotClose" type="button" aria-label="Close story note">×</button>
+              <span class="note-kicker" id="hotspotType">STORY CLUE</span>
+              <h3 id="hotspotTitle"></h3>
+              <p id="hotspotText"></p>
+              <button class="note-link" id="hotspotDossier" type="button">
+                <span class="t-en">Open the full dossier</span>
+                <span class="t-zh">打开完整档案</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+            <div class="art-caption">
+              <span class="t-en">Tap the glowing dots</span>
+              <span class="t-zh">点击发光圆点</span>
+            </div>
+          </div>
+
+          <article class="text-page" aria-live="polite">
+            <div class="page-meta">
+              <span id="pageCounter">PAGE 1 / 4</span>
+              <span id="pagePlace">THE ONION FIELD</span>
+            </div>
+            <h3 id="pageTitle">A Morning Surprise</h3>
+            <div class="page-copy" id="pageNarrationEn" lang="en"></div>
+            <div class="page-copy page-copy-zh" id="pageNarrationZh" lang="zh-CN"></div>
+            <div class="page-clues" id="pageClues"></div>
+            <div class="page-audio">
+              <button class="listen-pill english" type="button" data-read-target="#pageNarrationEn" data-tts-lang="en-US">
+                <span aria-hidden="true">🔊</span>
+                <span class="t-en">English narration</span>
+                <span class="t-zh">英文朗读</span>
+              </button>
+              <button class="listen-pill chinese" type="button" data-read-target="#pageNarrationZh" data-tts-lang="zh-CN">
+                <span aria-hidden="true">🔊</span>
+                <span class="t-en">Chinese narration</span>
+                <span class="t-zh">中文朗读</span>
+              </button>
+            </div>
+            <div class="page-controls">
+              <button class="page-arrow" id="prevPage" type="button">
+                <span aria-hidden="true">←</span>
+                <span class="t-en">Previous</span>
+                <span class="t-zh">上一页</span>
+              </button>
+              <div class="page-dots" id="pageDots" aria-label="Page progress"></div>
+              <button class="page-arrow next" id="nextPage" type="button">
+                <span class="t-en">Next page</span>
+                <span class="t-zh">下一页</span>
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="archive-section" id="archive" aria-labelledby="archiveTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">DRAGON KEEPER ARCHIVE · 驯龙师档案库</p>
+          <h2 id="archiveTitle">
+            <span class="t-en">Everyone and everything from Chapter 1</span>
+            <span class="t-zh">第一章的人物、龙、地点与线索档案</span>
+          </h2>
+          <p class="section-intro">
+            <span class="t-en">Open a card to see what is known, where the character first appears, and how everything connects.</span>
+            <span class="t-zh">打开卡片，查看已知事实、首次出现的位置，以及它们之间的关系。</span>
+          </p>
+        </div>
+        <span class="archive-stamp">CHAPTER 1<br><b>VERIFIED</b></span>
+      </div>
+
+      <div class="archive-toolbar" id="archiveFilters" role="group" aria-label="Archive filters">
+        <button class="filter-chip active" data-archive-filter="all" type="button">✦ All <span>12</span></button>
+        <button class="filter-chip" data-archive-filter="person" type="button">👤 People <span>3</span></button>
+        <button class="filter-chip" data-archive-filter="dragon" type="button">🐉 Dragons <span>2</span></button>
+        <button class="filter-chip" data-archive-filter="place" type="button">🗺️ Places <span>4</span></button>
+        <button class="filter-chip" data-archive-filter="clue" type="button">🔎 Story clues <span>3</span></button>
+      </div>
+      <div class="archive-grid" id="archiveGrid"></div>
+    </section>
+
+    <section class="graph-section" id="knowledge-graph" aria-labelledby="graphTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">STORY KNOWLEDGE GRAPH · 故事知识图谱</p>
+          <h2 id="graphTitle">
+            <span class="t-en">See how the whole chapter connects</span>
+            <span class="t-zh">把整章人物、地点和事件连起来</span>
+          </h2>
+          <p class="section-intro">
+            <span class="t-en">Tap a node to reveal its links. Or follow Drake's path from the onion field to the dragon.</span>
+            <span class="t-zh">点击节点查看关系，也可以沿着德雷克的路线从洋葱田走到红龙面前。</span>
+          </p>
+        </div>
+        <button class="trace-button" id="tracePathBtn" type="button">
+          <span aria-hidden="true">✦</span>
+          <span class="t-en">Trace Drake's path</span>
+          <span class="t-zh">追踪德雷克路线</span>
+        </button>
+      </div>
+
+      <div class="graph-toolbar" id="graphFilters" role="group" aria-label="Graph filters">
+        <button class="filter-chip active" data-graph-filter="all" type="button">All</button>
+        <button class="filter-chip" data-graph-filter="person" type="button">People</button>
+        <button class="filter-chip" data-graph-filter="dragon" type="button">Dragons</button>
+        <button class="filter-chip" data-graph-filter="place" type="button">Places</button>
+        <button class="filter-chip" data-graph-filter="clue" type="button">Clues</button>
+      </div>
+
+      <div class="graph-layout">
+        <div class="graph-scroll">
+          <svg id="knowledgeSvg" viewBox="0 0 1000 610" role="img" aria-label="Interactive knowledge graph of Chapter 1"></svg>
+          <p class="graph-pan-hint">
+            <span class="t-en">On a phone? Swipe sideways to explore the graph.</span>
+            <span class="t-zh">手机上可以左右滑动查看完整图谱。</span>
+          </p>
+        </div>
+        <aside class="graph-inspector" id="graphInspector" aria-live="polite">
+          <span class="inspector-icon">🗺️</span>
+          <h3>Pick a node</h3>
+          <p>Tap any person, dragon, place, or clue to see its connections here.</p>
+        </aside>
+      </div>
+      <div class="graph-legend" aria-label="Graph legend">
+        <span><i class="legend-dot person"></i>People</span>
+        <span><i class="legend-dot dragon"></i>Dragons</span>
+        <span><i class="legend-dot place"></i>Places</span>
+        <span><i class="legend-dot clue"></i>Clues</span>
+      </div>
+    </section>
+
+    <section class="story-lab" id="story-lab" aria-labelledby="labTitle">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">STORY PLAYGROUND · 故事游乐场</p>
+          <h2 id="labTitle">
+            <span class="t-en">Play with the story</span>
+            <span class="t-zh">和故事一起玩</span>
+          </h2>
+          <p class="section-intro">
+            <span class="t-en">These are optional story games. You can explore them in any order.</span>
+            <span class="t-zh">这些是可选的互动游戏，可以按喜欢的顺序玩。</span>
+          </p>
+        </div>
+        <span class="play-badge">PLAY<br><b>NOT A TEST</b></span>
+      </div>
+
+      <div class="lab-tabs" id="labTabs" role="tablist" aria-label="Story activities">
+        <button class="lab-tab active" data-lab-tab="path" type="button">🧩 <span class="t-en">Story path</span><span class="t-zh">故事路线</span></button>
+        <button class="lab-tab" data-lab-tab="words" type="button">🗣️ <span class="t-en">Word cave</span><span class="t-zh">词语洞窟</span></button>
+        <button class="lab-tab" data-lab-tab="life" type="button">🌱 <span class="t-en">Real life</span><span class="t-zh">现实挑战</span></button>
+        <button class="lab-tab" data-lab-tab="detective" type="button">🕵️ <span class="t-en">Story detective</span><span class="t-zh">故事侦探</span></button>
+      </div>
+
+      <div class="lab-panels">
+        <section class="lab-panel active" data-lab-panel="path" aria-labelledby="pathTitle">
+          <div class="lab-panel-head">
+            <div>
+              <p class="mini-label">STORY ORDER</p>
+              <h3 id="pathTitle"><span class="t-en">Rebuild Drake's morning</span><span class="t-zh">重排德雷克的清晨</span></h3>
+              <p><span class="t-en">Tap the cards in the order the events happen.</span><span class="t-zh">按照事情发生的顺序点击卡片。</span></p>
+            </div>
+            <span class="mini-score"><b id="sequenceScore">0</b>/5</span>
+          </div>
+          <div class="story-path-board" id="sequenceBoard"></div>
+          <div class="lab-feedback" id="sequenceFeedback" aria-live="polite">Start with what happened first.</div>
+        </section>
+
+        <section class="lab-panel" data-lab-panel="words" aria-labelledby="wordsTitle" hidden>
+          <div class="lab-panel-head">
+            <div>
+              <p class="mini-label">WORD CAVE</p>
+              <h3 id="wordsTitle"><span class="t-en">Tap a word. Hear it twice.</span><span class="t-zh">点一个词，听两遍。</span></h3>
+              <p><span class="t-en">First tap: the word. Second tap: the sentence.</span><span class="t-zh">第一次听单词，第二次听例句。</span></p>
+            </div>
+          </div>
+          <div class="vocab-grid" id="vocabGrid"></div>
+        </section>
+
+        <section class="lab-panel" data-lab-panel="life" aria-labelledby="lifeTitle" hidden>
+          <div class="lab-panel-head">
+            <div>
+              <p class="mini-label">BRAVERY BADGES</p>
+              <h3 id="lifeTitle"><span class="t-en">Use the story in real life</span><span class="t-zh">把故事用到生活里</span></h3>
+              <p><span class="t-en">These situations are not from the book. Choose a safe, curious move.</span><span class="t-zh">这些情景不是书里的内容。选一个安全又好奇的做法。</span></p>
+            </div>
+          </div>
+          <div class="life-grid" id="lifeMissions"></div>
+        </section>
+
+        <section class="lab-panel" data-lab-panel="detective" aria-labelledby="detectiveTitle" hidden>
+          <div class="lab-panel-head">
+            <div>
+              <p class="mini-label">OPTIONAL MYSTERY</p>
+              <h3 id="detectiveTitle"><span class="t-en">Story detective</span><span class="t-zh">故事小侦探</span></h3>
+              <p><span class="t-en">Five quick clues. This is a game, not a grade.</span><span class="t-zh">五条快速线索。这是游戏，不是考试。</span></p>
+            </div>
+            <span class="mini-score"><b id="quizScore">0</b>/5</span>
+          </div>
+          <div class="quiz-board" id="quizBoard" data-topic-id="dragon-masters-01-01" data-topic-title="Dragon Masters #1 · Chapter 1"></div>
+          <div class="quiz-complete" id="quizComplete" aria-live="polite" hidden></div>
+          <button class="reset-quiz" id="resetQuiz" type="button">Play again</button>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="dm-footer">
+    <p>
+      Original interactive retelling and educational material inspired by
+      <i>Dragon Masters #1: Rise of the Earth Dragon</i> by Tracey West.
+      Story facts follow Chapter 1, “To the Castle.” This page is not an excerpt
+      and is not affiliated with the publisher.
+    </p>
+    <p>Dragon Masters © Tracey West · Scholastic</p>
+  </footer>
+
+  <dialog class="dossier-dialog" id="dossierDialog" aria-labelledby="dossierName">
+    <div class="dossier-shell">
+      <button class="dialog-close" id="dossierClose" type="button" aria-label="Close dossier">×</button>
+      <div id="dossierBody"></div>
+    </div>
+  </dialog>
+
+  <script src="../shared/mario.js"></script>
+  <script src="dragon-masters-data.js"></script>
+  <script src="dragon-masters.js"></script>
+  <script src="../shared/mario-inject.js" defer></script>
+</body>
+</html>
